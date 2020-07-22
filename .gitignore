@@ -1,0 +1,64 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# CodeBlocks Project Files
+*.cbp
+*.layout
+*.depend
+*.mk
+*.project
+*.workspace
+Makefile
+
+# Visual Studio Project Files
+.vs/
+Debug/
+Release/
+*.sln
+*.suo
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Visual Studio Compile Files
+*.exp
+*.iobj
+*.ipdb
+*.pdb
+*.res
+*.sdf
+
+# Visual Studio Log Files
+*.log
+*.tlog
+*.vcxproj.FileListAbsolute.txt
