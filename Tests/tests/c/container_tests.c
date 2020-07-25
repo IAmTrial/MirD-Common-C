@@ -27,23 +27,12 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
-
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
-
 #include "container_tests.h"
-#include "std_tests.h"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+#include "container/map_tests.h"
+#include "container/pair_tests.h"
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-
-  return 0;
+void Mdc_Container_RunTests(void) {
+  Mdc_Pair_RunTests();
+  // Mdc_Map_RunTests();
 }

@@ -27,23 +27,37 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
+#define MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include <c/container/pair.h>
 
-#include "container_tests.h"
-#include "std_tests.h"
+char** Mdc_String_InitCopy(
+    char** dest,
+    const char* const* src
+);
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+int* Mdc_Int_InitCopy(
+    int* dest,
+    const int* src
+);
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
+void Mdc_String_Deinit(char** str);
 
-  return 0;
-}
+void Mdc_Int_Deinit(int* integer);
+
+int Mdc_String_Compare(
+    const char* const* str1,
+    const char* const* str2
+);
+
+int Mdc_Int_Compare(
+    const int* integer1,
+    const int* integer2
+);
+
+struct Mdc_PairMetadata* Mdc_PairStringIntMetadata_Init(
+    struct Mdc_PairMetadata* metadata
+);
+
+#endif /* MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_ */
