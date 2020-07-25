@@ -127,7 +127,7 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   init_metadata = Mdc_PairStringIntMetadata_Init(&metadata);
   assert(init_metadata == &metadata);
 
-  init_pair = Mdc_Pair_InitFirstSecondCopy(
+  init_pair = Mdc_Pair_InitFirstCopySecondCopy(
       &pair,
       &metadata,
       &kFirstSrc,
@@ -168,14 +168,14 @@ static void Mdc_Pair_AssertCompareFirst(void) {
 
   Mdc_PairStringIntMetadata_Init(&metadata);
 
-  Mdc_Pair_InitFirstSecondCopy(
+  Mdc_Pair_InitFirstCopySecondCopy(
       &pair1,
       &metadata,
       &kFirstSrc1,
       &kSecondSrc
   );
 
-  Mdc_Pair_InitFirstSecondCopy(
+  Mdc_Pair_InitFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc2,
@@ -229,14 +229,14 @@ static void Mdc_Pair_AssertCompareSecond(void) {
 
   Mdc_PairStringIntMetadata_Init(&metadata);
 
-  Mdc_Pair_InitFirstSecondCopy(
+  Mdc_Pair_InitFirstCopySecondCopy(
       &pair1,
       &metadata,
       &kFirstSrc,
       &kSecondSrc1
   );
 
-  Mdc_Pair_InitFirstSecondCopy(
+  Mdc_Pair_InitFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc,

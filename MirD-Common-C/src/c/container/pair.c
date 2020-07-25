@@ -38,7 +38,7 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
     void* second
 ) {
   /* Copy the pair metadata. */
-  pair->metadata = (struct Mdc_PairMetadata*) malloc(sizeof(*pair->metadata));
+  pair->metadata = malloc(sizeof(*pair->metadata));
 
   if (pair->metadata == NULL) {
     goto return_bad;
@@ -212,10 +212,16 @@ return_bad:
 }
 
 void Mdc_Pair_Deinit(struct Mdc_Pair* pair) {
-  pair->metadata->functions.second_functions.deinit(pair->second);
+  const struct Mdc_PairMetadata* const metadata = pair->metadata;
+  const struct Mdc_PairFirstFunctions* const first_functions =
+      &metadata->functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const second_functions =
+      &metadata->functions.second_functions;
+
+  second_functions->deinit(pair->second);
   free(pair->second);
 
-  pair->metadata->functions.first_functions.deinit(pair->first);
+  first_functions->deinit(pair->first);
   free(pair->first);
 
   free(pair->metadata);
@@ -225,8 +231,8 @@ int Mdc_Pair_Compare(
     const struct Mdc_Pair* pair1,
     const struct Mdc_Pair* pair2
 ) {
-  struct Mdc_PairFirstFunctions* first_functions;
-  struct Mdc_PairSecondFunctions* second_functions;
+  const struct Mdc_PairFirstFunctions* first_functions;
+  const struct Mdc_PairSecondFunctions* second_functions;
 
   int first_compare_result;
   int second_compare_result;
