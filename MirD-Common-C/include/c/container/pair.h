@@ -38,7 +38,7 @@ extern "C" {
 
 struct Mdc_PairFirstFunctions {
   /**
-   * Initializes the destination object using the source object.
+   * Initializes the destination object by copying the source object.
    */
   void* (*init_copy)(void* dest, const void* src);
 
@@ -58,7 +58,7 @@ struct Mdc_PairFirstFunctions {
 
 struct Mdc_PairSecondFunctions {
   /**
-   * Initializes the destination object using the source object.
+   * Initializes the destination object by copying the source object.
    */
   void* (*init_copy)(void*, const void*);
 
@@ -103,6 +103,12 @@ struct Mdc_Pair {
  * information. The first and second are move-assigned into the pair.
  * The first and second must be allocated outside of this function,
  * where after initialization, they will be managed by the pair.
+ *
+ * @param[in, out] pair this pair
+ * @param[in] metadata the metadata to copy
+ * @param[in] first the first to move-assign
+ * @param[in] second the second to move-assign
+ * @return this pair if successful, otherwise NULL
  */
 struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
     struct Mdc_Pair* pair,
@@ -118,6 +124,12 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
  *
  * Requires:
  * Mdc_PairSecondFunctions.init_copy
+ *
+ * @param[in, out] pair this pair
+ * @param[in] metadata the metadata to copy
+ * @param[in] first the first to move-assign
+ * @param[in] second the second to copy-assign
+ * @return this pair if successful, otherwise NULL
  */
 struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
     struct Mdc_Pair* pair,
@@ -133,6 +145,12 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
  *
  * Requires:
  * Mdc_PairFirstFunctions.init_copy
+ *
+ * @param[in, out] pair this pair
+ * @param[in] metadata the metadata to copy
+ * @param[in] first the first to copy-assign
+ * @param[in] second the second to move-assign
+ * @return this pair if successful, otherwise NULL
  */
 struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
     struct Mdc_Pair* pair,
@@ -149,6 +167,12 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
  * Requires:
  * Mdc_PairFirstFunctions.init_copy
  * Mdc_PairSecondFunctions.init_copy
+ *
+ * @param[in, out] pair this pair
+ * @param[in] metadata the metadata to copy
+ * @param[in] first the first to copy-assign
+ * @param[in] second the second to copy-assign
+ * @return this pair if successful, otherwise NULL
  */
 struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
     struct Mdc_Pair* pair,
@@ -163,6 +187,10 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
  * Requires:
  * Mdc_PairFirstFunctions.init_copy
  * Mdc_PairSecondFunctions.init_copy
+ *
+ * @param[in, out] dest destination pair
+ * @param[in] src source pair
+ * @return dest if successful, otherwise NULL
  */
 struct Mdc_Pair* Mdc_Pair_InitCopy(
     struct Mdc_Pair* dest,
@@ -175,6 +203,8 @@ struct Mdc_Pair* Mdc_Pair_InitCopy(
  * Requires:
  * Mdc_PairFirstFunctions.deinit
  * Mdc_PairSecondFunctions.deinit
+ *
+ * @param[in, out] pair this pair
  */
 void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
 
@@ -189,6 +219,10 @@ void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
  * Requires:
  * Mdc_PairFirstFunctions.compare
  * Mdc_PairSecondFunctions.compare
+ *
+ * @param[in] pair1 first pair to compare
+ * @param[in] pair2 second pair to compare
+ * @return 0 if equal, < 0 if pair1 < pair2, > 0 if pair1 > pair2
  */
 int Mdc_Pair_Compare(
     const struct Mdc_Pair* pair1,
