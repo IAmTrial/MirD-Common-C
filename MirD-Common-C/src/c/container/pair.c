@@ -37,6 +37,14 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
     void* first,
     void* second
 ) {
+  const struct Mdc_PairFirstFunctions* const first_functions =
+      &metadata->functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const second_functions =
+      &metadata->functions.second_functions;
+
+  const void* init_first_move;
+  const void* init_second_move;
+
   /* Copy the pair metadata. */
   pair->metadata = malloc(sizeof(*pair->metadata));
 
@@ -46,11 +54,48 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
 
   *pair->metadata = *metadata;
 
-  /* Move-assign the first and second. */
-  pair->first = first;
-  pair->second = second;
+  /* Move-assign the first. */
+  pair->first = malloc(metadata->size.first_size);
+
+  if (pair->first == NULL) {
+    goto free_metadata_copy;
+  }
+
+  init_first_move = first_functions->init_move(pair->first, first);
+
+  if (init_first_move != pair->first) {
+    goto free_first_move;
+  }
+
+  /* Move-assign the second. */
+  pair->second = malloc(metadata->size.second_size);
+
+  if (pair->second == NULL) {
+    goto deinit_first_move;
+  }
+
+  init_second_move = second_functions->init_move(pair->second, second);
+
+  if (init_second_move != pair->second) {
+    goto free_second_move;
+  }
 
   return pair;
+
+free_second_move:
+  free(pair->second);
+  pair->second = NULL;
+
+deinit_first_move:
+  first_functions->deinit(pair->first);
+
+free_first_move:
+  free(pair->first);
+  pair->first = NULL;
+
+free_metadata_copy:
+  free(pair->metadata);
+  pair->metadata = NULL;
 
 return_bad:
   return NULL;
@@ -62,11 +107,16 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
     void* first,
     const void* second
 ) {
+  const struct Mdc_PairFirstFunctions* const first_functions =
+      &metadata->functions.first_functions;
   const struct Mdc_PairSecondFunctions* const second_functions =
       &metadata->functions.second_functions;
 
+  const void* init_first_move;
+  const void* init_second_copy;
+
   /* Copy the pair metadata. */
-  pair->metadata = (struct Mdc_PairMetadata*) malloc(sizeof(*pair->metadata));
+  pair->metadata = malloc(sizeof(*pair->metadata));
 
   if (pair->metadata == NULL) {
     goto return_bad;
@@ -75,21 +125,47 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
   *pair->metadata = *metadata;
 
   /* Move-assign the first. */
-  pair->first = first;
+  pair->first = malloc(metadata->size.first_size);
+
+  if (pair->first == NULL) {
+    goto free_metadata_copy;
+  }
+
+  init_first_move = first_functions->init_move(pair->first, first);
+
+  if (init_first_move != pair->first) {
+    goto free_first_move;
+  }
 
   /* Copy-assign the second. */
   pair->second = malloc(metadata->size.second_size);
 
   if (pair->second == NULL) {
-    goto free_metadata;
+    goto deinit_first_move;
   }
 
-  second_functions->init_copy(pair->second, second);
+  init_second_copy = second_functions->init_copy(pair->second, second);
+
+  if (init_second_copy != pair->second) {
+    goto free_second_copy;
+  }
 
   return pair;
 
-free_metadata:
-  free(metadata);
+free_second_copy:
+  free(pair->second);
+  pair->second = NULL;
+
+deinit_first_move:
+  first_functions->deinit(pair->first);
+
+free_first_move:
+  free(pair->first);
+  pair->first = NULL;
+
+free_metadata_copy:
+  free(pair->metadata);
+  pair->metadata = NULL;
 
 return_bad:
   return NULL;
@@ -103,9 +179,14 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
 ) {
   const struct Mdc_PairFirstFunctions* const first_functions =
       &metadata->functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const second_functions =
+      &metadata->functions.second_functions;
+
+  const void* init_first_copy;
+  const void* init_second_move;
 
   /* Copy the pair metadata. */
-  pair->metadata = (struct Mdc_PairMetadata*) malloc(sizeof(*pair->metadata));
+  pair->metadata = malloc(sizeof(*pair->metadata));
 
   if (pair->metadata == NULL) {
     goto return_bad;
@@ -117,18 +198,44 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
   pair->first = malloc(metadata->size.first_size);
 
   if (pair->first == NULL) {
-    goto free_metadata;
+    goto free_metadata_copy;
   }
 
-  first_functions->init_copy(pair->first, first);
+  init_first_copy = first_functions->init_copy(pair->first, first);
+
+  if (init_first_copy != pair->first) {
+    goto free_first_copy;
+  }
 
   /* Move-assign the second. */
-  pair->second = second;
+  pair->second = malloc(metadata->size.second_size);
+
+  if (pair->second == NULL) {
+    goto deinit_first_copy;
+  }
+
+  init_second_move = second_functions->init_move(pair->second, second);
+
+  if (init_second_move != pair->second) {
+    goto free_second_move;
+  }
 
   return pair;
 
-free_metadata:
-  free(metadata);
+free_second_move:
+  free(pair->second);
+  pair->second = NULL;
+
+deinit_first_copy:
+  first_functions->deinit(pair->first);
+
+free_first_copy:
+  free(pair->first);
+  pair->first = NULL;
+
+free_metadata_copy:
+  free(pair->metadata);
+  pair->metadata = NULL;
 
 return_bad:
   return NULL;
@@ -140,75 +247,80 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
     const void* first,
     const void* second
 ) {
-  const struct Mdc_Pair src = {
-    (struct Mdc_PairMetadata*) metadata,
-    (void*) first,
-    (void*) second
-  };
+  const struct Mdc_PairFirstFunctions* const first_functions =
+      &metadata->functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const second_functions =
+      &metadata->functions.second_functions;
 
-  return Mdc_Pair_InitCopy(pair, &src);
+  const void* init_first_copy;
+  const void* init_second_copy;
+
+  /* Copy the pair metadata. */
+  pair->metadata = malloc(sizeof(*pair->metadata));
+
+  if (pair->metadata == NULL) {
+    goto return_bad;
+  }
+
+  *pair->metadata = *metadata;
+
+  /* Copy-assign the first. */
+  pair->first = malloc(metadata->size.first_size);
+
+  if (pair->first == NULL) {
+    goto free_metadata_copy;
+  }
+
+  init_first_copy = first_functions->init_copy(pair->first, first);
+
+  if (init_first_copy != pair->first) {
+    goto free_first_copy;
+  }
+
+  /* Copy-assign the second. */
+  pair->second = malloc(metadata->size.second_size);
+
+  if (pair->second == NULL) {
+    goto deinit_first_copy;
+  }
+
+  init_second_copy = second_functions->init_copy(pair->second, second);
+
+  if (init_second_copy != pair->second) {
+    goto free_second_copy;
+  }
+
+  return pair;
+
+free_second_copy:
+  free(pair->second);
+  pair->second = NULL;
+
+deinit_first_copy:
+  first_functions->deinit(pair->first);
+
+free_first_copy:
+  free(pair->first);
+  pair->first = NULL;
+
+free_metadata_copy:
+  free(pair->metadata);
+  pair->metadata = NULL;
+
+return_bad:
+  return NULL;
 }
 
 struct Mdc_Pair* Mdc_Pair_InitCopy(
     struct Mdc_Pair* dest,
     const struct Mdc_Pair* src
 ) {
-  const struct Mdc_PairFunctions* pair_functions;
-  const struct Mdc_PairSize* pair_size;
-
-  /* Copy the pair metadata. */
-  dest->metadata = (struct Mdc_PairMetadata*) malloc(sizeof(*dest->metadata));
-
-  if (dest->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *dest->metadata = *src->metadata;
-
-  /* Set aliases for pair metadata. */
-  pair_functions = &dest->metadata->functions;
-  pair_size = &dest->metadata->size;
-
-  /* Copy the first from the source pair. */
-  dest->first = malloc(pair_size->first_size);
-
-  if (dest->first == NULL) {
-    goto free_metadata;
-  }
-
-  pair_functions->first_functions.init_copy(dest->first, src->first);
-
-  /* Copy the second from the source pair. */
-  dest->second = malloc(pair_size->second_size);
-
-  if (dest->second == NULL) {
-    goto deinit_first;
-  }
-
-  pair_functions->second_functions.init_copy(
-      dest->second,
+  return Mdc_Pair_InitFirstCopySecondCopy(
+      dest,
+      src->metadata,
+      src->first,
       src->second
   );
-
-  return dest;
-
-deinit_second:
-  pair_functions->second_functions.deinit(dest->second);
-
-free_second:
-  free(dest->second);
-
-deinit_first:
-  pair_functions->first_functions.deinit(dest->first);
-
-free_first:
-  free(dest->first);
-
-free_metadata:
-  free(dest->metadata);
-
-return_bad:
-  return NULL;
 }
 
 struct Mdc_Pair* Mdc_Pair_InitMove(
@@ -232,25 +344,27 @@ void Mdc_Pair_Deinit(struct Mdc_Pair* pair) {
 
   second_functions->deinit(pair->second);
   free(pair->second);
+  pair->second = NULL;
 
   first_functions->deinit(pair->first);
   free(pair->first);
+  pair->first = NULL;
 
   free(pair->metadata);
+  pair->metadata = NULL;
 }
 
 int Mdc_Pair_Compare(
     const struct Mdc_Pair* pair1,
     const struct Mdc_Pair* pair2
 ) {
-  const struct Mdc_PairFirstFunctions* first_functions;
-  const struct Mdc_PairSecondFunctions* second_functions;
+  const struct Mdc_PairFirstFunctions* const first_functions =
+      &pair1->metadata->functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const second_functions =
+      &pair1->metadata->functions.second_functions;
 
   int first_compare_result;
   int second_compare_result;
-
-  first_functions = &pair1->metadata->functions.first_functions;
-  second_functions = &pair1->metadata->functions.second_functions;
 
   first_compare_result = first_functions->compare(
       pair1->first,
