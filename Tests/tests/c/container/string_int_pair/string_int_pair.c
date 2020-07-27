@@ -37,18 +37,20 @@
  * Static functions
  */
 
-static void* Mdc_String_InitCopyAsVoid(
-    void* dest,
-    const void* src
-) {
+static void* Mdc_String_InitCopyAsVoid(void* dest, const void* src) {
   return Mdc_String_InitCopy(dest, src);
 }
 
-static int* Mdc_Int_InitCopyAsVoid(
-    void* dest,
-    const void* src
-) {
+static int* Mdc_Int_InitCopyAsVoid(void* dest, const void* src) {
   return Mdc_Int_InitCopy(dest, src);
+}
+
+static void* Mdc_String_InitMoveAsVoid(void* dest, void* src) {
+  return Mdc_String_InitMove(dest, src);
+}
+
+static int* Mdc_Int_InitMoveAsVoid(void* dest, void* src) {
+  return Mdc_Int_InitMove(dest, src);
 }
 
 static void Mdc_String_DeinitAsVoid(void* str) {
@@ -59,10 +61,7 @@ static void Mdc_Int_DeinitAsVoid(void* integer) {
   Mdc_Int_Deinit(integer);
 }
 
-static int Mdc_String_CompareAsVoid(
-    const void* str1,
-    const void* str2
-) {
+static int Mdc_String_CompareAsVoid(const void* str1, const void* str2) {
   return Mdc_String_Compare(str1, str2);
 }
 
@@ -77,6 +76,7 @@ static struct Mdc_PairFirstFunctions* Mdc_PairStringIntFirstFunctions_Init(
     struct Mdc_PairFirstFunctions* first_functions
 ) {
   first_functions->init_copy = &Mdc_String_InitCopyAsVoid;
+  first_functions->init_move = &Mdc_String_InitMoveAsVoid;
   first_functions->deinit = &Mdc_String_DeinitAsVoid;
   first_functions->compare = &Mdc_String_CompareAsVoid;
 
@@ -87,6 +87,7 @@ static struct Mdc_PairSecondFunctions* Mdc_PairStringIntSecondFunctions_Init(
     struct Mdc_PairSecondFunctions* second_functions
 ) {
   second_functions->init_copy = &Mdc_Int_InitCopyAsVoid;
+  second_functions->init_move = &Mdc_Int_InitMoveAsVoid;
   second_functions->deinit = &Mdc_Int_DeinitAsVoid;
   second_functions->compare = &Mdc_Int_CompareAsVoid;
 
@@ -123,6 +124,26 @@ int* Mdc_Int_InitCopy(
     const int* src
 ) {
   *dest = *src;
+
+  return dest;
+}
+
+char** Mdc_String_InitMove(
+    char** dest,
+    char** src
+) {
+  *dest = *src;
+  *src = NULL;
+
+  return dest;
+}
+
+int* Mdc_Int_InitMove(
+    int* dest,
+    int* src
+) {
+  *dest = *src;
+  src = 0;
 
   return dest;
 }

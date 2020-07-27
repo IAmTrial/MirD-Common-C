@@ -42,6 +42,16 @@ int* Mdc_Int_InitCopy(
     const int* src
 );
 
+char** Mdc_String_InitMove(
+    char** dest,
+    char** src
+);
+
+int* Mdc_Int_InitMove(
+    int* dest,
+    int* src
+);
+
 void Mdc_String_Deinit(char** str);
 
 void Mdc_Int_Deinit(int* integer);

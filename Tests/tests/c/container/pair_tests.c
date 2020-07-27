@@ -42,27 +42,13 @@
  * External functions
  */
 
-static const char* const kBasicExampleText[] = {
-    "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy",
-    "dog."
-};
+const char* const kFirstSrc1 = "Hello world";
+const int kSecondSrc1 = 42;
 
-static const char* const kRepeatingExampleText[] = {
-    "sort", "the", "sort", "table", "the", "way", "to", "sort",
-    "what", "the", "sort", "said"
-};
-
-enum FILE_SCOPE_CONSTANTS_08 {
-  kBasicExampleTextCount = sizeof(kBasicExampleText)
-      / sizeof(kBasicExampleText[0]),
-  kRepeatingExampleTextCount = sizeof(kRepeatingExampleText)
-      / sizeof(kRepeatingExampleText[0])
-};
+const char* const kFirstSrc2 = "Hello world!";
+const int kSecondSrc2 = 43;
 
 static void Mdc_Pair_AssertInitDeinit(void) {
-  const char* const kFirstSrc = "Hello world";
-  const int kSecondSrc = 42;
-
   struct Mdc_PairMetadata metadata;
   struct Mdc_PairMetadata* init_metadata;
 
@@ -71,6 +57,9 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   const struct Mdc_PairSecondFunctions* const second_functions =
       &metadata.functions.second_functions;
 
+  char* first;
+  int second;
+
   struct Mdc_Pair pair;
   struct Mdc_Pair* init_pair;
 
@@ -78,22 +67,18 @@ static void Mdc_Pair_AssertInitDeinit(void) {
 
   assert(init_metadata == &metadata);
 
-  char** first = malloc(sizeof(*first));
+  Mdc_String_InitCopy(&first, &kFirstSrc1);
   assert(first != NULL);
+  assert(strcmp(first, kFirstSrc1) == 0);
 
-  int* second = malloc(sizeof(*second));
-  assert(second != NULL);
-
-  *second = kSecondSrc;
-
-  Mdc_String_InitCopy(first, &kFirstSrc);
-  assert(*first != NULL);
+  Mdc_Int_InitCopy(&second, &kSecondSrc1);
+  assert(second == kSecondSrc1);
 
   init_pair = Mdc_Pair_InitFirstSecond(
       &pair,
       &metadata,
-      first,
-      second
+      &first,
+      &second
   );
   assert(init_pair == &pair);
 
@@ -101,18 +86,15 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   assert(memcmp(pair.metadata, &metadata, sizeof(*pair.metadata)) == 0);
 
   assert(pair.first != NULL);
-  assert(first_functions->compare(pair.first, &kFirstSrc) == 0);
+  assert(first_functions->compare(pair.first, &kFirstSrc1) == 0);
 
   assert(pair.second != NULL);
-  assert(second_functions->compare(pair.second, &kSecondSrc) == 0);
+  assert(second_functions->compare(pair.second, &kSecondSrc1) == 0);
 
   Mdc_Pair_Deinit(&pair);
 }
 
 static void Mdc_Pair_AssertInitCopyDeinit(void) {
-  const char* const kFirstSrc = "Hello world";
-  const int kSecondSrc = 42;
-
   struct Mdc_PairMetadata metadata;
   struct Mdc_PairMetadata* init_metadata;
 
@@ -130,8 +112,8 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   init_pair = Mdc_Pair_InitFirstCopySecondCopy(
       &pair,
       &metadata,
-      &kFirstSrc,
-      &kSecondSrc
+      &kFirstSrc1,
+      &kSecondSrc1
   );
   assert(init_pair == &pair);
 
@@ -139,20 +121,15 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   assert(memcmp(pair.metadata, &metadata, sizeof(*pair.metadata)) == 0);
 
   assert(pair.first != NULL);
-  assert(first_functions->compare(pair.first, &kFirstSrc) == 0);
+  assert(first_functions->compare(pair.first, &kFirstSrc1) == 0);
 
   assert(pair.second != NULL);
-  assert(second_functions->compare(pair.second, &kSecondSrc) == 0);
+  assert(second_functions->compare(pair.second, &kSecondSrc1) == 0);
 
   Mdc_Pair_Deinit(&pair);
 }
 
 static void Mdc_Pair_AssertCompareFirst(void) {
-  const char* const kFirstSrc1 = "Hello world";
-  const int kSecondSrc = 42;
-
-  const char* const kFirstSrc2 = "Hello world!";
-
   struct Mdc_PairMetadata metadata;
 
   const struct Mdc_PairFirstFunctions* const first_functions =
@@ -172,14 +149,14 @@ static void Mdc_Pair_AssertCompareFirst(void) {
       &pair1,
       &metadata,
       &kFirstSrc1,
-      &kSecondSrc
+      &kSecondSrc1
   );
 
   Mdc_Pair_InitFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc2,
-      &kSecondSrc
+      &kSecondSrc1
   );
 
   assert(Mdc_Pair_Compare(&pair1, &pair2) < 0);
@@ -194,7 +171,7 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   assert(first_functions->compare(pair1.first, &kFirstSrc1) == 0);
 
   assert(pair1.second != NULL);
-  assert(second_functions->compare(pair1.second, &kSecondSrc) == 0);
+  assert(second_functions->compare(pair1.second, &kSecondSrc1) == 0);
 
   assert(memcmp(pair2.metadata, &metadata, sizeof(*pair2.metadata)) == 0);
 
@@ -202,18 +179,13 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   assert(first_functions->compare(pair2.first, &kFirstSrc2) == 0);
 
   assert(pair2.second != NULL);
-  assert(second_functions->compare(pair2.second, &kSecondSrc) == 0);
+  assert(second_functions->compare(pair2.second, &kSecondSrc1) == 0);
 
   Mdc_Pair_Deinit(&pair2);
   Mdc_Pair_Deinit(&pair1);
 }
 
 static void Mdc_Pair_AssertCompareSecond(void) {
-  const char* const kFirstSrc = "Hello world";
-  const int kSecondSrc1 = 42;
-
-  const int kSecondSrc2 = 43;
-
   struct Mdc_PairMetadata metadata;
 
   const struct Mdc_PairFirstFunctions* const first_functions =
@@ -232,14 +204,14 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   Mdc_Pair_InitFirstCopySecondCopy(
       &pair1,
       &metadata,
-      &kFirstSrc,
+      &kFirstSrc1,
       &kSecondSrc1
   );
 
   Mdc_Pair_InitFirstCopySecondCopy(
       &pair2,
       &metadata,
-      &kFirstSrc,
+      &kFirstSrc1,
       &kSecondSrc2
   );
 
@@ -252,7 +224,7 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   assert(memcmp(pair1.metadata, &metadata, sizeof(*pair1.metadata)) == 0);
 
   assert(pair1.first != NULL);
-  assert(first_functions->compare(pair1.first, &kFirstSrc) == 0);
+  assert(first_functions->compare(pair1.first, &kFirstSrc1) == 0);
 
   assert(pair1.second != NULL);
   assert(second_functions->compare(pair1.second, &kSecondSrc1) == 0);
@@ -260,7 +232,7 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   assert(memcmp(pair2.metadata, &metadata, sizeof(*pair2.metadata)) == 0);
 
   assert(pair2.first != NULL);
-  assert(first_functions->compare(pair2.first, &kFirstSrc) == 0);
+  assert(first_functions->compare(pair2.first, &kFirstSrc1) == 0);
 
   assert(pair2.second != NULL);
   assert(second_functions->compare(pair2.second, &kSecondSrc2) == 0);
