@@ -30,7 +30,11 @@
 #ifndef MDC_C_STD_STDINT_H_
 #define MDC_C_STD_STDINT_H_
 
-#if !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+
+#include <stdint.h>
+
+#else
 
 typedef __int8 int8_t;
 typedef __int16 int16_t;
