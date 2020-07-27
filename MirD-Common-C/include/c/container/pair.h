@@ -43,6 +43,11 @@ struct Mdc_PairFirstFunctions {
   void* (*init_copy)(void* dest, const void* src);
 
   /**
+   * Initializes the destination object by moving the source object.
+   */
+  void* (*init_move)(void* dest, void* src);
+
+  /**
    * Deinitializes the specified object.
    */
   void (*deinit)(void* obj);
@@ -61,6 +66,11 @@ struct Mdc_PairSecondFunctions {
    * Initializes the destination object by copying the source object.
    */
   void* (*init_copy)(void*, const void*);
+
+  /**
+   * Initializes the destination object by moving the source object.
+   */
+  void* (*init_move)(void* dest, void* src);
 
   /**
    * Deinitializes the specified object.
@@ -195,6 +205,18 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
 struct Mdc_Pair* Mdc_Pair_InitCopy(
     struct Mdc_Pair* dest,
     const struct Mdc_Pair* src
+);
+
+/**
+ * Initializes the destination pair by moving the source pair.
+ *
+ * @param[in, out] dest destination pair
+ * @param[in] src source pair
+ * @return dest if successful, otherwise NULL
+ */
+struct Mdc_Pair* Mdc_Pair_InitMove(
+    struct Mdc_Pair* dest,
+    struct Mdc_Pair* src
 );
 
 /**

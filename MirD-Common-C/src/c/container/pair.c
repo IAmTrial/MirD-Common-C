@@ -211,6 +211,18 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Pair* Mdc_Pair_InitMove(
+    struct Mdc_Pair* dest,
+    struct Mdc_Pair* src
+) {
+  return Mdc_Pair_InitFirstSecond(
+      dest,
+      src->metadata,
+      src->first,
+      src->second
+  );
+}
+
 void Mdc_Pair_Deinit(struct Mdc_Pair* pair) {
   const struct Mdc_PairMetadata* const metadata = pair->metadata;
   const struct Mdc_PairFirstFunctions* const first_functions =
