@@ -27,12 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "container_tests.h"
+#ifndef MDC_TESTS_C_CONTAINER_MAP_TESTS_H_
+#define MDC_TESTS_C_CONTAINER_MAP_TESTS_H_
 
-#include "container/map_tests.h"
-#include "container/pair_tests.h"
+void Mdc_Map_RunTests(void);
 
-void Mdc_Container_RunTests(void) {
-  Mdc_Pair_RunTests();
-  Mdc_Map_RunTests();
-}
+#endif /* MDC_TESTS_C_CONTAINER_MAP_TESTS_H_ */
