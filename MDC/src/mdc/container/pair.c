@@ -392,4 +392,6 @@ void Mdc_Pair_Swap(
   Mdc_Pair_InitMove(&temp, pair1);
   Mdc_Pair_InitMove(pair1, pair2);
   Mdc_Pair_InitMove(pair2, &temp);
+
+  Mdc_Pair_Deinit(&temp);
 }
