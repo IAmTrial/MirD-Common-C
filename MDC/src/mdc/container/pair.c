@@ -31,6 +31,10 @@
 
 #include <stdlib.h>
 
+/**
+ * External functions
+ */
+
 struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
