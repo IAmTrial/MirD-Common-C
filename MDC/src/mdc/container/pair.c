@@ -405,3 +405,22 @@ void Mdc_Pair_Swap(
 
   Mdc_Pair_Deinit(&temp);
 }
+
+bool Mdc_PairMetadata_IsEqual(
+    const struct Mdc_PairMetadata* metadata1,
+    const struct Mdc_PairMetadata* metadata2
+) {
+  int metadata_compare_result;
+
+  if (metadata1 == metadata2) {
+    return true;
+  }
+
+  metadata_compare_result = memcmp(
+      metadata1,
+      metadata2,
+      sizeof(*metadata1)
+  );
+
+  return (metadata_compare_result == 0);
+}

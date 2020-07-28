@@ -32,6 +32,8 @@
 
 #include <stddef.h>
 
+#include "../../../include/mdc/std/stdbool.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -260,6 +262,17 @@ int Mdc_Pair_Compare(
 void Mdc_Pair_Swap(
     struct Mdc_Pair* pair1,
     struct Mdc_Pair* pair2
+);
+
+/**
+ * Compares two pair metadatas and returns whether they are equal.
+ *
+ * @param[in] metadata1 the first metadata to compare
+ * @param[in] metadata2 the second metadata to compare
+ */
+bool Mdc_PairMetadata_IsEqual(
+    const struct Mdc_PairMetadata* metadata1,
+    const struct Mdc_PairMetadata* metadata2
 );
 
 #ifdef __cplusplus
