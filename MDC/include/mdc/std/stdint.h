@@ -73,9 +73,9 @@ typedef unsigned __int32 uintptr_t;
 #define INT64_MAX 9223372036854775807L
 
 #if defined(_WIN64)
-#define INTPTR_MIN 9223372036854775807L
+#define INTPTR_MAX 9223372036854775807L
 #elif defined(_WIN32)
-#define INTPTR_MIN 2147483647
+#define INTPTR_MAX 2147483647
 #endif
 
 #define UINT8_MAX 255
