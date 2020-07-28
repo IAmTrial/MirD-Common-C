@@ -31,7 +31,7 @@
 
 #include <assert.h>
 
-#include <c/std/stdint.h>
+#include <mdc/std/stdint.h>
 
 void Mdc_Std_AssertInt8Size(void) {
   assert(sizeof(int8_t) == 1);

@@ -35,8 +35,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <c/container/map.h>
-#include <c/container/pair.h>
+#include <mdc/container/map.h>
+#include <mdc/container/pair.h>
 #include "string_int_pair/string_int_pair.h"
 
 static const char* const kBasicExampleText[] = {
@@ -110,7 +110,6 @@ static void Mdc_Map_AssertEmplace(void) {
   const struct Mdc_PairSecondFunctions* const value_functions =
       &pair_metadata->functions.second_functions;
 
-  char** actual_pair_key;
   int* actual_pair_value;
   const int* actual_pair_value_const;
 
@@ -118,6 +117,7 @@ static void Mdc_Map_AssertEmplace(void) {
   int value_compare_result;
 
   char* key_copy;
+  int zero_copy;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
@@ -129,11 +129,13 @@ static void Mdc_Map_AssertEmplace(void) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
       assert(Mdc_String_InitCopy(&key_copy, &kRepeatingText[i]) != NULL);
 
+      zero_copy = kZero;
+
       Mdc_Map_Emplace(
           &map,
           &key_copy,
           &Mdc_Int_InitCopy,
-          &kZero
+          &zero_copy
       );
     }
 
@@ -146,11 +148,11 @@ static void Mdc_Map_AssertEmplace(void) {
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
     assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
 
-    actual_pair_value = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
-    assert(actual_pair_value != NULL);
+    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    assert(actual_pair_value_const != NULL);
 
     value_compare_result = value_functions->compare(
-        actual_pair_value,
+        actual_pair_value_const,
         &kRepeatingTextCounts[i]
     );
     assert(value_compare_result == 0);
@@ -172,13 +174,13 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
   const struct Mdc_PairSecondFunctions* const value_functions =
       &pair_metadata->functions.second_functions;
 
-  struct Mdc_Pair pair;
-  char** actual_pair_key;
   int* actual_pair_value;
   const int* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
+
+  int zero_copy;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
@@ -188,11 +190,13 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
+      zero_copy = kZero;
+
       Mdc_Map_EmplaceKeyCopy(
           &map,
           &kRepeatingText[i],
           &Mdc_Int_InitCopy,
-          &kZero
+          &zero_copy
       );
     }
 
@@ -205,11 +209,11 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
     assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
 
-    actual_pair_value = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
-    assert(actual_pair_value != NULL);
+    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    assert(actual_pair_value_const != NULL);
 
     value_compare_result = value_functions->compare(
-        actual_pair_value,
+        actual_pair_value_const,
         &kRepeatingTextCounts[i]
     );
     assert(value_compare_result == 0);
@@ -232,7 +236,6 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
       &pair_metadata->functions.second_functions;
 
   struct Mdc_Pair pair;
-  char** actual_pair_key;
   int* actual_pair_value;
   const int* actual_pair_value_const;
 
@@ -266,11 +269,11 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
     assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
 
-    actual_pair_value = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
     assert(actual_pair_value != NULL);
 
     value_compare_result = value_functions->compare(
-        actual_pair_value,
+        actual_pair_value_const,
         &kRepeatingTextCounts[i]
     );
     assert(value_compare_result == 0);
@@ -293,7 +296,6 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
       &pair_metadata->functions.second_functions;
 
   struct Mdc_Pair pair;
-  char** actual_pair_key;
   int* actual_pair_value;
   const int* actual_pair_value_const;
 
@@ -327,11 +329,11 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
     assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
 
-    actual_pair_value = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
-    assert(actual_pair_value != NULL);
+    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    assert(actual_pair_value_const != NULL);
 
     value_compare_result = value_functions->compare(
-        actual_pair_value,
+        actual_pair_value_const,
         &kRepeatingTextCounts[i]
     );
     assert(value_compare_result == 0);
@@ -354,12 +356,9 @@ static void Mdc_Map_AssertClear(void) {
       &pair_metadata->functions.second_functions;
 
   struct Mdc_Pair pair;
-  char** actual_pair_key;
   int* actual_pair_value;
-  const int* actual_pair_value_const;
 
   size_t i;
-  int value_compare_result;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
@@ -406,12 +405,9 @@ static void Mdc_Map_AssertErase(void) {
       &pair_metadata->functions.second_functions;
 
   struct Mdc_Pair pair;
-  char** actual_pair_key;
   int* actual_pair_value;
-  const int* actual_pair_value_const;
 
   size_t i;
-  int value_compare_result;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);

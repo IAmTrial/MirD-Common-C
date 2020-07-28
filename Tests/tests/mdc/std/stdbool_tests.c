@@ -31,7 +31,7 @@
 
 #include <assert.h>
 
-#include <c/std/stdbool.h>
+#include <mdc/std/stdbool.h>
 
 void Mdc_Std_AssertFalseIsZero(void) {
   assert(false == 0);

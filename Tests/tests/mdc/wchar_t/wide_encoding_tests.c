@@ -33,7 +33,7 @@
 #include <string.h>
 #include <wchar.h>
 
-#include <c/wchar_t/wide_encoding.h>
+#include <mdc/wchar_t/wide_encoding.h>
 #include "example_text/example_text.h"
 
 static void Mdc_WideEncoding_AssertEncodeAscii(void) {

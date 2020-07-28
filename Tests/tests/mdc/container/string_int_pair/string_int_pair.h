@@ -30,7 +30,7 @@
 #ifndef MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
 #define MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
 
-#include <c/container/pair.h>
+#include <mdc/container/pair.h>
 
 char** Mdc_String_InitCopy(
     char** dest,
