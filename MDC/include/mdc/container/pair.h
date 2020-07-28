@@ -134,9 +134,6 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
  * information. The first is move-assigned into the pair. The second
  * is copy-assigned into the pair.
  *
- * Requires:
- * Mdc_PairSecondFunctions.init_copy
- *
  * @param[in, out] pair this pair
  * @param[in] metadata the metadata to copy
  * @param[in] first the first to move-assign
@@ -154,9 +151,6 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
  * Initializes the pair using the specified metadata for the type
  * information. The first is copy-assigned into the pair. The second
  * is move-assigned into the pair.
- *
- * Requires:
- * Mdc_PairFirstFunctions.init_copy
  *
  * @param[in, out] pair this pair
  * @param[in] metadata the metadata to copy
@@ -176,10 +170,6 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
  * information. The first is copy-assigned into the pair. The second
  * is copy-assigned into the pair.
  *
- * Requires:
- * Mdc_PairFirstFunctions.init_copy
- * Mdc_PairSecondFunctions.init_copy
- *
  * @param[in, out] pair this pair
  * @param[in] metadata the metadata to copy
  * @param[in] first the first to copy-assign
@@ -195,10 +185,6 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
 
 /**
  * Initializes the destination pair by copying the source pair.
- *
- * Requires:
- * Mdc_PairFirstFunctions.init_copy
- * Mdc_PairSecondFunctions.init_copy
  *
  * @param[in, out] dest destination pair
  * @param[in] src source pair
@@ -224,10 +210,6 @@ struct Mdc_Pair* Mdc_Pair_InitMove(
 /**
  * Deinitializes the pair.
  *
- * Requires:
- * Mdc_PairFirstFunctions.deinit
- * Mdc_PairSecondFunctions.deinit
- *
  * @param[in, out] pair this pair
  */
 void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
@@ -239,10 +221,6 @@ void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
  * the same, a negative value if the first pair is "less" than the
  * second pair, and a positive value if the first pair is "greater"
  * than the second pair.
- *
- * Requires:
- * Mdc_PairFirstFunctions.compare
- * Mdc_PairSecondFunctions.compare
  *
  * @param[in] pair1 first pair to compare
  * @param[in] pair2 second pair to compare
