@@ -346,16 +346,22 @@ void Mdc_Pair_Deinit(struct Mdc_Pair* pair) {
   const struct Mdc_PairSecondFunctions* const second_functions =
       &metadata->functions.second_functions;
 
-  second_functions->deinit(pair->second);
-  free(pair->second);
-  pair->second = NULL;
+  if (pair->second != NULL) {
+    second_functions->deinit(pair->second);
+    free(pair->second);
+    pair->second = NULL;
+  }
 
-  first_functions->deinit(pair->first);
-  free(pair->first);
-  pair->first = NULL;
+  if (pair->first != NULL) {
+    first_functions->deinit(pair->first);
+    free(pair->first);
+    pair->first = NULL;
+  }
 
-  free(pair->metadata);
-  pair->metadata = NULL;
+  if (pair->metadata != NULL) {
+    free(pair->metadata);
+    pair->metadata = NULL;
+  }
 }
 
 int Mdc_Pair_Compare(
