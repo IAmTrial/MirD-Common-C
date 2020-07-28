@@ -30,6 +30,7 @@
 #include "wide_encoding_tests.h"
 
 #include <assert.h>
+#include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
 
