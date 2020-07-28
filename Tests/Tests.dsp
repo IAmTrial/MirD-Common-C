@@ -48,8 +48,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 
 !ELSEIF  "$(CFG)" == "Tests - Win32 Debug"
 
@@ -62,17 +62,18 @@ LINK32=link.exe
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ  /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ  /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 MDCcD.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept /libpath:"D:\VS6\MDC\MDC\Debug"
 
 !ENDIF 
 
@@ -80,17 +81,129 @@ LINK32=link.exe
 
 # Name "Tests - Win32 Release"
 # Name "Tests - Win32 Debug"
-# Begin Group "Source Files"
+# Begin Group "Files"
 
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# PROP Default_Filter ""
+# Begin Group "tests"
+
+# PROP Default_Filter ""
+# Begin Group "mdc"
+
+# PROP Default_Filter ""
+# Begin Group "container"
+
+# PROP Default_Filter ""
+# Begin Group "string_int_pair"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\string_int_pair\string_int_pair.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\string_int_pair\string_int_pair.h
+# End Source File
 # End Group
-# Begin Group "Header Files"
+# Begin Source File
 
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
+SOURCE=.\tests\mdc\container\map_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\map_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\pair_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\pair_tests.h
+# End Source File
 # End Group
-# Begin Group "Resource Files"
+# Begin Group "std"
 
-# PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\std\stdbool_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std\stdbool_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std\stdint_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std\stdint_tests.h
+# End Source File
+# End Group
+# Begin Group "wchar_t"
+
+# PROP Default_Filter ""
+# Begin Group "example_text"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t\example_text\example_text.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t\example_text\example_text.h
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t\wide_decoding_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t\wide_decoding_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.h
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\tests\mdc\container_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\main.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t_tests.h
+# End Source File
+# End Group
+# End Group
 # End Group
 # End Target
 # End Project

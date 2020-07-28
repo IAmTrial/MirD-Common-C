@@ -49,7 +49,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"Release\MDCc.lib"
 
 !ELSEIF  "$(CFG)" == "MDC - Win32 Debug"
 
@@ -72,7 +72,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"Debug\MDCcD.lib"
 
 !ENDIF 
 
@@ -80,16 +80,16 @@ LIB32=link.exe -lib
 
 # Name "MDC - Win32 Release"
 # Name "MDC - Win32 Debug"
-# Begin Group "Source Files"
+# Begin Group "Files"
 
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# PROP Default_Filter ""
 # Begin Group "src"
 
 # PROP Default_Filter ""
-# Begin Group "mdc"
+# Begin Group "mdc_c"
 
 # PROP Default_Filter ""
-# Begin Group "container"
+# Begin Group "container_c"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -101,7 +101,7 @@ SOURCE=.\src\mdc\container\map.c
 SOURCE=.\src\mdc\container\pair.c
 # End Source File
 # End Group
-# Begin Group "wchar_t"
+# Begin Group "wchar_t_c"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -115,10 +115,54 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Group
 # End Group
 # End Group
-# End Group
-# Begin Group "Header Files"
+# Begin Group "include"
 
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
+# PROP Default_Filter ""
+# Begin Group "mdc_h"
+
+# PROP Default_Filter ""
+# Begin Group "container_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\container\map.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\container\pair.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\container\vector.h
+# End Source File
+# End Group
+# Begin Group "wchar_t_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\wchar_t\wide_decoding.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\wchar_t\wide_encoding.h
+# End Source File
+# End Group
+# Begin Group "std_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\std\stdbool.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\std\stdint.h
+# End Source File
+# End Group
+# End Group
+# End Group
 # End Group
 # End Target
 # End Project
