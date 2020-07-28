@@ -37,4 +37,4 @@ const wchar_t* const kAsciiExampleTextWide =
 
 const char* const kUtf8ExampleText = "\xc3\xbf";
 
-const wchar_t* const* kUtf8ExampleTextWide = L"\xff";
+const wchar_t* const kUtf8ExampleTextWide = L"\xff";
