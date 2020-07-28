@@ -728,3 +728,22 @@ free_value:
 return_bad:
   return;
 }
+
+bool Mdc_MapMetadata_IsEqual(
+    const struct Mdc_MapMetadata* metadata1,
+    const struct Mdc_MapMetadata* metadata2
+) {
+  int metadata_compare_result;
+
+  if (metadata1 == metadata2) {
+    return true;
+  }
+
+  metadata_compare_result = memcmp(
+      metadata1,
+      metadata2,
+      sizeof(*metadata1)
+  );
+
+  return (metadata_compare_result == 0);
+}

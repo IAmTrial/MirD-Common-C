@@ -242,4 +242,15 @@ void Mdc_Map_EmplaceKeyCopy(
     void* params
 );
 
+/**
+ * Compares two map metadatas and returns whether they are equal.
+ *
+ * @param[in] metadata1 the first metadata to compare
+ * @param[in] metadata2 the second metadata to compare
+ */
+bool Mdc_MapMetadata_IsEqual(
+    const struct Mdc_MapMetadata* metadata1,
+    const struct Mdc_MapMetadata* metadata2
+);
+
 #endif /* MDC_C_CONTAINER_MAP_H_ */
