@@ -94,7 +94,7 @@ return_bad:
   return NULL;
 }
 
-wchar_t* Mdc_Wide_EncodeAscii(const wchar_t* wide_str) {
+char* Mdc_Wide_EncodeAscii(const wchar_t* wide_str) {
   return Mdc_Wide_EncodeChar(wide_str, 20127);
 }
 

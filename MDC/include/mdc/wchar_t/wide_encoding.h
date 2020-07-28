@@ -41,7 +41,7 @@
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-wchar_t* Mdc_Wide_EncodeAscii(const wchar_t* ascii_str);
+char* Mdc_Wide_EncodeAscii(const wchar_t* ascii_str);
 
 /**
  * Creates a multibyte encoded copy of the specified wide string. The
