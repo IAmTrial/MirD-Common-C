@@ -11,12 +11,25 @@
 *.ipch
 *.idb
 *.ilk
+*.iobj
+*.ipdb
 *.pch
 *.pdb
+*.vcxproj.FileListAbsolute.txt
 
 # Logs
+*.log
 *.plg
+*.tlog
 
 # Thumbnails
 *.DS_STORE
 *.db
+
+# Visual Studio Solution / Project Files
+.vs
+
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
