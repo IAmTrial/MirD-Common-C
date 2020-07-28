@@ -345,21 +345,25 @@ struct Mdc_Map* Mdc_Map_InitMove(
 void Mdc_Map_Deinit(struct Mdc_Map* map) {
   size_t i;
 
-  for (i = 0; i < map->count; i += 1) {
-    Mdc_Pair_Deinit(map->pairs[i]);
-    free(map->pairs[i]);
-    map->pairs[i] = NULL;
+  if (map->pairs != NULL) {
+    for (i = 0; i < map->count; i += 1) {
+      Mdc_Pair_Deinit(map->pairs[i]);
+      free(map->pairs[i]);
+      map->pairs[i] = NULL;
+    }
+
+    map->count = 0;
+
+    free(map->pairs);
+    map->pairs = NULL;
   }
-
-  map->count = 0;
-
-  free(map->pairs);
-  map->pairs = NULL;
 
   map->capacity = 0;
 
-  free(map->metadata);
-  map->metadata = NULL;
+  if (map->metadata != NULL) {
+    free(map->metadata);
+    map->metadata = NULL;
+  }
 }
 
 void* Mdc_Map_At(struct Mdc_Map* map, const void* key) {
