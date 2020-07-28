@@ -30,6 +30,7 @@
 #include "../../../include/mdc/container/pair.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * External functions
