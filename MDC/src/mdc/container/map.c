@@ -338,6 +338,8 @@ struct Mdc_Map* Mdc_Map_InitMove(
   *dest = *src;
 
   memset(src, 0, sizeof(*src));
+
+  return dest;
 }
 
 void Mdc_Map_Deinit(struct Mdc_Map* map) {
