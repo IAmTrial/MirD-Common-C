@@ -269,7 +269,8 @@ struct Mdc_Map* Mdc_Map_InitCopy(
       &pair_metadata->functions.second_functions;
 
   size_t i;
-  size_t allocated_pairs;
+
+  const struct Mdc_Pair* init_pair_copy;
 
   /* Copy the metadata. */
   dest->metadata = malloc(sizeof(*dest->metadata));
@@ -289,29 +290,28 @@ struct Mdc_Map* Mdc_Map_InitCopy(
 
   dest->capacity = src->capacity;
 
-  allocated_pairs = 0;
-
   for (i = 0; i < src->count; i += 1, dest->count += 1) {
     dest->pairs[i] = malloc(sizeof(*dest->pairs[i]));
 
     if (dest->pairs[i] == NULL) {
-      goto free_pairs;
+      goto deinit_and_free_pairs;
     }
 
-    allocated_pairs += 1;
+    init_pair_copy = Mdc_Pair_InitCopy(dest->pairs[i], src->pairs[i]);
 
-    Mdc_Pair_InitCopy(dest->pairs[i], src->pairs[i]);
+    if (init_pair_copy != dest->pairs[i]) {
+      goto free_last_pair;
+    }
   }
 
   return dest;
 
-free_pairs:
-  if (allocated_pairs > dest->count) {
-    free(dest->pairs[dest->count]);
-    dest->pairs[dest->count] = NULL;
-  }
+free_last_pair:
+  free(dest->pairs[dest->count]);
+  dest->pairs[dest->count] = NULL;
 
-  for (i = 0; i < allocated_pairs; i += 1) {
+deinit_and_free_pairs:
+  for (i = 0; (i + 1) < dest->count; i += 1) {
     Mdc_Pair_Deinit(dest->pairs[i]);
     free(dest->pairs[i]);
     dest->pairs[i] = NULL;
