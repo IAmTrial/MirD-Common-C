@@ -27,25 +27,14 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#include "example_text.h"
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+const char* const kAsciiExampleText =
+    "The quick brown fox jumped over the lazy dog.";
 
-#include "container_tests.h"
-#include "std_tests.h"
-#include "wchar_t_tests.h"
+const wchar_t* const kAsciiExampleTextWide =
+    L"The quick brown fox jumped over the lazy dog.";
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+const char* const kUtf8ExampleText = "\xc3\xbf";
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_WChar_t_RunTests();
-
-  return 0;
-}
+const wchar_t* const* kUtf8ExampleTextWide = L"\xff";

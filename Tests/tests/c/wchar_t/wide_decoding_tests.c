@@ -27,25 +27,44 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#include "wide_decoding_tests.h"
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include <assert.h>
+#include <string.h>
+#include <wchar.h>
 
-#include "container_tests.h"
-#include "std_tests.h"
-#include "wchar_t_tests.h"
+#include <c/wchar_t/wide_decoding.h>
+#include "example_text/example_text.h"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+static void Mdc_WideDecoding_AssertDecodeAscii(void) {
+  wchar_t* wide_str;
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_WChar_t_RunTests();
+  wide_str = Mdc_Wide_DecodeAscii(kAsciiExampleText);
+  assert(wcscmp(wide_str, kAsciiExampleTextWide) == 0);
 
-  return 0;
+  free(wide_str);
+}
+
+static void Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii(void) {
+  wchar_t* wide_str;
+
+  wide_str = Mdc_Wide_DecodeDefaultMultibyte(kAsciiExampleText);
+  assert(wcscmp(wide_str, kAsciiExampleTextWide) == 0);
+
+  free(wide_str);
+}
+
+static void Mdc_WideDecoding_AssertDecodeUtf8(void) {
+  wchar_t* wide_str;
+
+  wide_str = Mdc_Wide_DecodeUtf8(kUtf8ExampleText);
+  assert(wcscmp(wide_str, kUtf8ExampleTextWide) == 0);
+
+  free(wide_str);
+}
+
+void Mdc_WideDecoding_RunTests(void) {
+  Mdc_WideDecoding_AssertDecodeAscii();
+  Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii();
+  Mdc_WideDecoding_AssertDecodeUtf8();
 }

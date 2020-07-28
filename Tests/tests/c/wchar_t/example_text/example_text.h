@@ -27,25 +27,14 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
+#define MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include <wchar.h>
 
-#include "container_tests.h"
-#include "std_tests.h"
-#include "wchar_t_tests.h"
+extern const char* const kAsciiExampleText;
+extern const wchar_t* const kAsciiExampleTextWide;
+extern const char* const kUtf8ExampleText;
+extern const wchar_t* const* kUtf8ExampleTextWide;
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
-
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_WChar_t_RunTests();
-
-  return 0;
-}
+#endif /* MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_ */
