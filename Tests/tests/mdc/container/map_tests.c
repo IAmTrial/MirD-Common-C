@@ -119,6 +119,8 @@ static void Mdc_Map_AssertEmplace(void) {
   char* key_copy;
   int zero_copy;
 
+  const char** init_key_copy;
+
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
 
@@ -127,7 +129,8 @@ static void Mdc_Map_AssertEmplace(void) {
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      assert(Mdc_String_InitCopy(&key_copy, &kRepeatingText[i]) != NULL);
+      init_key_copy = Mdc_String_InitCopy(&key_copy, &kRepeatingText[i]);
+      assert(init_key_copy == &key_copy);
 
       zero_copy = kZero;
 
@@ -137,6 +140,8 @@ static void Mdc_Map_AssertEmplace(void) {
           &Mdc_Int_InitCopy,
           &zero_copy
       );
+
+      Mdc_String_Deinit(&key_copy);
     }
 
     actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
@@ -242,6 +247,8 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   size_t i;
   int value_compare_result;
 
+  const struct Mdc_Pair* init_pair;
+
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
 
@@ -250,14 +257,17 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],
           &kZero
       );
+      assert(init_pair == &pair);
 
       Mdc_Map_InsertOrAssignPair(&map, &pair);
+
+      Mdc_Pair_Deinit(&pair);
     }
 
     actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
@@ -302,6 +312,8 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   size_t i;
   int value_compare_result;
 
+  const struct Mdc_Pair* init_pair;
+
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
 
@@ -310,14 +322,17 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],
           &kZero
       );
+      assert(init_pair == &pair);
 
       Mdc_Map_InsertOrAssignPairCopy(&map, &pair);
+
+      Mdc_Pair_Deinit(&pair);
     }
 
     actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
@@ -360,6 +375,8 @@ static void Mdc_Map_AssertClear(void) {
 
   size_t i;
 
+  const struct Mdc_Pair* init_pair;
+
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
 
@@ -368,14 +385,17 @@ static void Mdc_Map_AssertClear(void) {
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],
           &kZero
       );
+      assert(init_pair == &pair);
 
       Mdc_Map_InsertOrAssignPairCopy(&map, &pair);
+
+      Mdc_Pair_Deinit(&pair);
     }
 
     actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
@@ -409,6 +429,8 @@ static void Mdc_Map_AssertErase(void) {
 
   size_t i;
 
+  const struct Mdc_Pair* init_pair;
+
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
 
@@ -417,14 +439,17 @@ static void Mdc_Map_AssertErase(void) {
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],
           &kZero
       );
+      assert(init_pair == &pair);
 
       Mdc_Map_InsertOrAssignPairCopy(&map, &pair);
+
+      Mdc_Pair_Deinit(&pair);
     }
 
     actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
