@@ -251,6 +251,17 @@ int Mdc_Pair_Compare(
     const struct Mdc_Pair* pair2
 );
 
+/**
+ * Swaps two pairs.
+ *
+ * @param[in, out] pair1 the first pair to swap
+ * @param[in, out] pair2 the second pair to swap
+ */
+void Mdc_Pair_Swap(
+    struct Mdc_Pair* pair1,
+    struct Mdc_Pair* pair2
+);
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */

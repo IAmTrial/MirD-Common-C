@@ -382,3 +382,14 @@ int Mdc_Pair_Compare(
 
   return second_compare_result;
 }
+
+void Mdc_Pair_Swap(
+    struct Mdc_Pair* pair1,
+    struct Mdc_Pair* pair2
+) {
+  struct Mdc_Pair temp;
+
+  Mdc_Pair_InitMove(&temp, pair1);
+  Mdc_Pair_InitMove(pair1, pair2);
+  Mdc_Pair_InitMove(pair2, &temp);
+}
