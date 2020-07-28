@@ -140,24 +140,26 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   struct Mdc_Pair pair1;
   struct Mdc_Pair pair2;
 
-  struct Mdc_Pair* init_pair1;
-  struct Mdc_Pair* init_pair2;
+  const struct Mdc_Pair* init_pair1;
+  const struct Mdc_Pair* init_pair2;
 
   Mdc_PairStringIntMetadata_Init(&metadata);
 
-  Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair1 = Mdc_Pair_InitFirstCopySecondCopy(
       &pair1,
       &metadata,
       &kFirstSrc1,
       &kSecondSrc1
   );
+  assert(init_pair1 == &pair1);
 
-  Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair2 = Mdc_Pair_InitFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc2,
       &kSecondSrc1
   );
+  assert(init_pair2 == &pair2);
 
   assert(Mdc_Pair_Compare(&pair1, &pair2) < 0);
   assert(Mdc_Pair_Compare(&pair2, &pair1) > 0);
@@ -196,24 +198,26 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   struct Mdc_Pair pair1;
   struct Mdc_Pair pair2;
 
-  struct Mdc_Pair* init_pair1;
-  struct Mdc_Pair* init_pair2;
+  const struct Mdc_Pair* init_pair1;
+  const struct Mdc_Pair* init_pair2;
 
   Mdc_PairStringIntMetadata_Init(&metadata);
 
-  Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair1 = Mdc_Pair_InitFirstCopySecondCopy(
       &pair1,
       &metadata,
       &kFirstSrc1,
       &kSecondSrc1
   );
+  assert(init_pair1 == &pair1);
 
-  Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair2 = Mdc_Pair_InitFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc1,
       &kSecondSrc2
   );
+  assert(init_pair2 == &pair2);
 
   assert(Mdc_Pair_Compare(&pair1, &pair2) < 0);
   assert(Mdc_Pair_Compare(&pair2, &pair1) > 0);
