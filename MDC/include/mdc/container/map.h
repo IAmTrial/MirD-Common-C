@@ -72,7 +72,7 @@ struct Mdc_Map* Mdc_Map_InitCopy(
 );
 
 /**
- * Initializes the destination map by copying the source map.
+ * Initializes the destination map by moving the source map.
  *
  * @param[out] dest destination pair
  * @param[in] src source pair
