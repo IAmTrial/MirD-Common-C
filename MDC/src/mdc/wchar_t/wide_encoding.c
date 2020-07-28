@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../include/c/wchar_t/wide_encoding.h"
+#include "../../../include/mdc/wchar_t/wide_encoding.h"
 
 #include <stdlib.h>
 #include <stddef.h>

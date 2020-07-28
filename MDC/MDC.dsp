@@ -63,8 +63,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ  /c
+# ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -83,6 +83,38 @@ LIB32=link.exe -lib
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+# Begin Group "src"
+
+# PROP Default_Filter ""
+# Begin Group "mdc"
+
+# PROP Default_Filter ""
+# Begin Group "container"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\container\map.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\container\pair.c
+# End Source File
+# End Group
+# Begin Group "wchar_t"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\wchar_t\wide_decoding.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\wchar_t\wide_encoding.c
+# End Source File
+# End Group
+# End Group
+# End Group
 # End Group
 # Begin Group "Header Files"
 
