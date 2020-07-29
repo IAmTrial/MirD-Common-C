@@ -470,135 +470,6 @@ const struct Mdc_Pair** Mdc_Map_FindConst(
   return search_result;
 }
 
-bool Mdc_Map_Empty(const struct Mdc_Map* map) {
-  return Mdc_Map_Size(map) == 0;
-}
-
-bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key) {
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &map->metadata->pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
-
-  struct Mdc_Pair** find_pair_ptr;
-
-  /* Search for the pair with the matching key. */
-  find_pair_ptr = Mdc_Map_Find(map, key);
-
-  if (find_pair_ptr == NULL) {
-    return false;
-  }
-
-  Mdc_Pair_Deinit(*find_pair_ptr);
-  free(*find_pair_ptr);
-
-  *find_pair_ptr = map->pairs[map->count - 1];
-  map->pairs[map->count - 1] = NULL;
-
-  map->count -= 1;
-
-  qsort(
-      map->pairs,
-      map->count,
-      sizeof(map->pairs[0]),
-      &Mdc_Map_KeyCompareAsVoid
-  );
-
-  return true;
-}
-
-void Mdc_Map_InsertOrAssignPair(
-    struct Mdc_Map* map,
-    struct Mdc_Pair* new_pair
-) {
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &map->metadata->pair_metadata;
-  const struct Mdc_PairFunctions* const pair_functions =
-      &pair_metadata->functions;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_functions->first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_functions->second_functions;
-
-  const struct Mdc_Pair* init_pair_move;
-  struct Mdc_Pair** find_pair;
-
-  if (!Mdc_Map_IsPairMetadataEqual(map, new_pair)) {
-    return;
-  }
-
-  /* If element exists, move-assign value. Otherwise, insert into map. */
-  find_pair = Mdc_Map_Find(map, new_pair->first);
-
-  if (find_pair == NULL) {
-    Mdc_Map_InsertPair(map, new_pair);
-    return;
-  }
-
-  assert(*find_pair != NULL);
-
-  Mdc_Pair_Deinit(*find_pair);
-  init_pair_move = Mdc_Pair_InitMove(*find_pair, new_pair);
-
-  if (init_pair_move != *find_pair) {
-    goto return_bad;
-  }
-
-  return;
-
-return_bad:
-  return;
-}
-
-void Mdc_Map_InsertOrAssignPairCopy(
-    struct Mdc_Map* map,
-    const struct Mdc_Pair* new_pair
-) {
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &map->metadata->pair_metadata;
-  const struct Mdc_PairFunctions* const pair_functions =
-      &pair_metadata->functions;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_functions->first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_functions->second_functions;
-
-  struct Mdc_Pair** find_pair_ptr;
-  struct Mdc_Pair* init_pair_copy;
-
-  if (!Mdc_Map_IsPairMetadataEqual(map, new_pair)) {
-    goto return_bad;
-  }
-  
-  /* If element exists, copy-assign value. Otherwise, insert into map. */
-  find_pair_ptr = Mdc_Map_Find(map, new_pair->first);
-
-  if (find_pair_ptr == NULL) {
-    Mdc_Map_InsertPairCopy(map, new_pair);
-    return;
-  }
-
-  assert(*find_pair_ptr != NULL);
-
-  Mdc_Pair_Deinit(*find_pair_ptr);
-  init_pair_copy = Mdc_Pair_InitCopy(*find_pair_ptr, new_pair);
-
-  if (init_pair_copy != *find_pair_ptr) {
-    goto return_bad;
-  }
-
-  return;
-
-return_bad:
-  return;
-}
-
-size_t Mdc_Map_Size(const struct Mdc_Map* map) {
-  return map->count;
-}
-
 void Mdc_Map_Emplace(
     struct Mdc_Map* map,
     void* key,
@@ -731,6 +602,135 @@ free_value:
 
 return_bad:
   return;
+}
+
+bool Mdc_Map_Empty(const struct Mdc_Map* map) {
+  return Mdc_Map_Size(map) == 0;
+}
+
+bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key) {
+  const struct Mdc_PairMetadata* const pair_metadata =
+      &map->metadata->pair_metadata;
+  const struct Mdc_PairFirstFunctions* const key_functions =
+      &pair_metadata->functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const value_functions =
+      &pair_metadata->functions.second_functions;
+
+  struct Mdc_Pair** find_pair_ptr;
+
+  /* Search for the pair with the matching key. */
+  find_pair_ptr = Mdc_Map_Find(map, key);
+
+  if (find_pair_ptr == NULL) {
+    return false;
+  }
+
+  Mdc_Pair_Deinit(*find_pair_ptr);
+  free(*find_pair_ptr);
+
+  *find_pair_ptr = map->pairs[map->count - 1];
+  map->pairs[map->count - 1] = NULL;
+
+  map->count -= 1;
+
+  qsort(
+      map->pairs,
+      map->count,
+      sizeof(map->pairs[0]),
+      &Mdc_Map_KeyCompareAsVoid
+  );
+
+  return true;
+}
+
+void Mdc_Map_InsertOrAssignPair(
+    struct Mdc_Map* map,
+    struct Mdc_Pair* new_pair
+) {
+  const struct Mdc_PairMetadata* const pair_metadata =
+      &map->metadata->pair_metadata;
+  const struct Mdc_PairFunctions* const pair_functions =
+      &pair_metadata->functions;
+  const struct Mdc_PairFirstFunctions* const key_functions =
+      &pair_functions->first_functions;
+  const struct Mdc_PairSecondFunctions* const value_functions =
+      &pair_functions->second_functions;
+
+  const struct Mdc_Pair* init_pair_move;
+  struct Mdc_Pair** find_pair;
+
+  if (!Mdc_Map_IsPairMetadataEqual(map, new_pair)) {
+    return;
+  }
+
+  /* If element exists, move-assign value. Otherwise, insert into map. */
+  find_pair = Mdc_Map_Find(map, new_pair->first);
+
+  if (find_pair == NULL) {
+    Mdc_Map_InsertPair(map, new_pair);
+    return;
+  }
+
+  assert(*find_pair != NULL);
+
+  Mdc_Pair_Deinit(*find_pair);
+  init_pair_move = Mdc_Pair_InitMove(*find_pair, new_pair);
+
+  if (init_pair_move != *find_pair) {
+    goto return_bad;
+  }
+
+  return;
+
+return_bad:
+  return;
+}
+
+void Mdc_Map_InsertOrAssignPairCopy(
+    struct Mdc_Map* map,
+    const struct Mdc_Pair* new_pair
+) {
+  const struct Mdc_PairMetadata* const pair_metadata =
+      &map->metadata->pair_metadata;
+  const struct Mdc_PairFunctions* const pair_functions =
+      &pair_metadata->functions;
+  const struct Mdc_PairFirstFunctions* const key_functions =
+      &pair_functions->first_functions;
+  const struct Mdc_PairSecondFunctions* const value_functions =
+      &pair_functions->second_functions;
+
+  struct Mdc_Pair** find_pair_ptr;
+  struct Mdc_Pair* init_pair_copy;
+
+  if (!Mdc_Map_IsPairMetadataEqual(map, new_pair)) {
+    goto return_bad;
+  }
+
+  /* If element exists, copy-assign value. Otherwise, insert into map. */
+  find_pair_ptr = Mdc_Map_Find(map, new_pair->first);
+
+  if (find_pair_ptr == NULL) {
+    Mdc_Map_InsertPairCopy(map, new_pair);
+    return;
+  }
+
+  assert(*find_pair_ptr != NULL);
+
+  Mdc_Pair_Deinit(*find_pair_ptr);
+  init_pair_copy = Mdc_Pair_InitCopy(*find_pair_ptr, new_pair);
+
+  if (init_pair_copy != *find_pair_ptr) {
+    goto return_bad;
+  }
+
+  return;
+
+return_bad:
+  return;
+}
+
+size_t Mdc_Map_Size(const struct Mdc_Map* map) {
+  return map->count;
 }
 
 bool Mdc_MapMetadata_Equal(

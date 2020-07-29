@@ -127,6 +127,44 @@ void Mdc_Map_Clear(struct Mdc_Map* map);
 bool Mdc_Map_Contains(const struct Mdc_Map* map, const void* key);
 
 /**
+ * Emplaces a pair into the map. The emplaced pair is allocated by
+ * this function and its value is initialized by the specified
+ * function. The key is move-assigned to the emplaced pair. If the
+ * specified key is found in the map, this function does nothing.
+ *
+ * @param[in, out] map this map
+ * @param[in] key the key to emplace into a new pair
+ * @param[in] value_init_function the value initialization function
+ * @param[in] params the parameters to pass into the value
+ *    initialization function
+ */
+void Mdc_Map_Emplace(
+    struct Mdc_Map* map,
+    void* key,
+    void* (*value_init_function)(void*, void*),
+    void* params
+);
+
+/**
+ * Emplaces a pair into the map. The emplaced pair is allocated by
+ * this function and its value is initialized by the specified
+ * function. The key is copy-assigned to the emplaced pair. If the
+ * specified key is found in the map, this function does nothing.
+ *
+ * @param[in, out] map this map
+ * @param[in] key the key to emplace into a new pair
+ * @param[in] value_init_function the value initialization function
+ * @param[in] params the parameters to pass into the value
+ *    initialization function
+ */
+void Mdc_Map_EmplaceKeyCopy(
+    struct Mdc_Map* map,
+    const void* key,
+    void* (*value_init_function)(void*, void*),
+    void* params
+);
+
+/**
  * Returns whether the map contains any key-mappings.
  *
  * @param map this map
@@ -203,44 +241,6 @@ void Mdc_Map_InsertOrAssignPairCopy(
  * @return the number of keys in the map
  */
 size_t Mdc_Map_Size(const struct Mdc_Map* map);
-
-/**
- * Emplaces a pair into the map. The emplaced pair is allocated by
- * this function and its value is initialized by the specified
- * function. The key is move-assigned to the emplaced pair. If the
- * specified key is found in the map, this function does nothing.
- *
- * @param[in, out] map this map
- * @param[in] key the key to emplace into a new pair
- * @param[in] value_init_function the value initialization function
- * @param[in] params the parameters to pass into the value
- *    initialization function
- */
-void Mdc_Map_Emplace(
-    struct Mdc_Map* map,
-    void* key,
-    void* (*value_init_function)(void*, void*),
-    void* params
-);
-
-/**
- * Emplaces a pair into the map. The emplaced pair is allocated by
- * this function and its value is initialized by the specified
- * function. The key is copy-assigned to the emplaced pair. If the
- * specified key is found in the map, this function does nothing.
- *
- * @param[in, out] map this map
- * @param[in] key the key to emplace into a new pair
- * @param[in] value_init_function the value initialization function
- * @param[in] params the parameters to pass into the value
- *    initialization function
- */
-void Mdc_Map_EmplaceKeyCopy(
-    struct Mdc_Map* map,
-    const void* key,
-    void* (*value_init_function)(void*, void*),
-    void* params
-);
 
 /**
  * Compares two map metadatas and returns whether they are equal.
