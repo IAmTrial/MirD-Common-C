@@ -407,7 +407,7 @@ void Mdc_Pair_Swap(
   Mdc_Pair_Deinit(&temp);
 }
 
-bool Mdc_PairMetadata_IsEqual(
+bool Mdc_PairMetadata_Equal(
     const struct Mdc_PairMetadata* metadata1,
     const struct Mdc_PairMetadata* metadata2
 ) {

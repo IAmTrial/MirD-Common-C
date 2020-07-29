@@ -248,7 +248,7 @@ void Mdc_Pair_Swap(
  * @param[in] metadata1 the first metadata to compare
  * @param[in] metadata2 the second metadata to compare
  */
-bool Mdc_PairMetadata_IsEqual(
+bool Mdc_PairMetadata_Equal(
     const struct Mdc_PairMetadata* metadata1,
     const struct Mdc_PairMetadata* metadata2
 );

@@ -248,7 +248,7 @@ void Mdc_Map_EmplaceKeyCopy(
  * @param[in] metadata1 the first metadata to compare
  * @param[in] metadata2 the second metadata to compare
  */
-bool Mdc_MapMetadata_IsEqual(
+bool Mdc_MapMetadata_Equal(
     const struct Mdc_MapMetadata* metadata1,
     const struct Mdc_MapMetadata* metadata2
 );

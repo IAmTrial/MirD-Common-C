@@ -733,7 +733,7 @@ return_bad:
   return;
 }
 
-bool Mdc_MapMetadata_IsEqual(
+bool Mdc_MapMetadata_Equal(
     const struct Mdc_MapMetadata* metadata1,
     const struct Mdc_MapMetadata* metadata2
 ) {
