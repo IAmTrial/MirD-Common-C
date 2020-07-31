@@ -167,7 +167,7 @@ void Mdc_Map_EmplaceKeyCopy(
 /**
  * Returns whether the map contains any key-mappings.
  *
- * @param map this map
+ * @param[in] map this map
  * @return true if the map contains any key-mapping, otherwise false
  */
 bool Mdc_Map_Empty(const struct Mdc_Map* map);
