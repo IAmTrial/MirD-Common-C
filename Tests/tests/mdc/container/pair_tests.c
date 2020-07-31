@@ -245,9 +245,65 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   Mdc_Pair_Deinit(&pair1);
 }
 
+static void Mdc_Pair_AssertSwap() {
+  struct Mdc_PairMetadata metadata;
+
+  const struct Mdc_PairFirstFunctions* const first_functions =
+      &metadata.functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const second_functions =
+      &metadata.functions.second_functions;
+
+  struct Mdc_Pair pair1;
+  struct Mdc_Pair pair2;
+
+  const struct Mdc_Pair* init_pair1;
+  const struct Mdc_Pair* init_pair2;
+
+  Mdc_PairStringIntMetadata_Init(&metadata);
+
+  init_pair1 = Mdc_Pair_InitFirstCopySecondCopy(
+      &pair1,
+      &metadata,
+      &kFirstSrc1,
+      &kSecondSrc1
+  );
+  assert(init_pair1 == &pair1);
+
+  init_pair2 = Mdc_Pair_InitFirstCopySecondCopy(
+      &pair2,
+      &metadata,
+      &kFirstSrc2,
+      &kSecondSrc2
+  );
+  assert(init_pair2 == &pair2);
+
+  Mdc_Pair_Swap(&pair1, &pair2);
+
+  /* Check that the initialization completed correctly. */
+  assert(memcmp(pair1.metadata, &metadata, sizeof(*pair1.metadata)) == 0);
+
+  assert(pair1.first != NULL);
+  assert(first_functions->compare(pair1.first, &kFirstSrc2) == 0);
+
+  assert(pair1.second != NULL);
+  assert(second_functions->compare(pair1.second, &kSecondSrc2) == 0);
+
+  assert(memcmp(pair2.metadata, &metadata, sizeof(*pair2.metadata)) == 0);
+
+  assert(pair2.first != NULL);
+  assert(first_functions->compare(pair2.first, &kFirstSrc1) == 0);
+
+  assert(pair2.second != NULL);
+  assert(second_functions->compare(pair2.second, &kSecondSrc1) == 0);
+
+  Mdc_Pair_Deinit(&pair2);
+  Mdc_Pair_Deinit(&pair1);
+}
+
 void Mdc_Pair_RunTests(void) {
   Mdc_Pair_AssertInitDeinit();
   Mdc_Pair_AssertInitCopyDeinit();
   Mdc_Pair_AssertCompareFirst();
   Mdc_Pair_AssertCompareSecond();
+  Mdc_Pair_AssertSwap();
 }
