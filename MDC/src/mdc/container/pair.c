@@ -320,6 +320,10 @@ struct Mdc_Pair* Mdc_Pair_InitCopy(
     struct Mdc_Pair* dest,
     const struct Mdc_Pair* src
 ) {
+  if (dest == src) {
+    return dest;
+  }
+
   return Mdc_Pair_InitFirstCopySecondCopy(
       dest,
       src->metadata,
@@ -332,6 +336,10 @@ struct Mdc_Pair* Mdc_Pair_InitMove(
     struct Mdc_Pair* dest,
     struct Mdc_Pair* src
 ) {
+  if (dest == src) {
+    return dest;
+  }
+
   return Mdc_Pair_InitFirstSecond(
       dest,
       src->metadata,
@@ -432,6 +440,10 @@ struct Mdc_Pair* Mdc_Pair_ReinitMove(
   const struct Mdc_Pair* reinit_first_move;
   const struct Mdc_Pair* reinit_second_move;
 
+  if (dest == src) {
+    return dest;
+  }
+
   /* The metadata must match. */
   if (!Mdc_PairMetadata_Equal(dest->metadata, src->metadata)) {
     goto return_bad;
@@ -481,6 +493,10 @@ int Mdc_Pair_Compare(
   int first_compare_result;
   int second_compare_result;
 
+  if (pair1 == pair2) {
+    return 0;
+  }
+
   first_compare_result = first_functions->compare(
       pair1->first,
       pair2->first
@@ -503,6 +519,11 @@ void Mdc_Pair_Swap(
     struct Mdc_Pair* pair2
 ) {
   struct Mdc_Pair temp;
+
+  if (pair1 == pair2) {
+    return;
+  }
+
   Mdc_Pair_InitMove(&temp, pair1);
 
   Mdc_Pair_ReinitMove(pair1, pair2);
