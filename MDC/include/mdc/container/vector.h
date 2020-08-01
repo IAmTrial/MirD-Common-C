@@ -32,6 +32,8 @@
 
 #include <stddef.h>
 
+#include "../std/stdbool.h"
+
 struct Mdc_VectorElementSize {
   size_t size;
 };
@@ -51,18 +53,118 @@ struct Mdc_VectorElementFunctions {
    * Deinitializes the specified object.
    */
   void (*deinit)(void* obj);
+
+  /**
+   * Compares two objects. Returns 0 if they are the same, a negative
+   * value if the first object is "less" than the second object, and a
+   * positive value if the first object is "greater" than the second
+   * object.
+   */
+  int (*compare)(const void*, const void*);
 };
 
 struct Mdc_VectorMetadata {
-  struct Mdc_VectorElementFunctions;
+  struct Mdc_VectorElementSize size;
+  struct Mdc_VectorElementFunctions functions;
 };
 
 struct Mdc_Vector {
   struct Mdc_VectorMetadata* metadata;
 
+  void* elements;
   size_t count;
   size_t capacity;
-  void* elements;
 };
+
+/**
+ * Initializes the vector.
+ *
+ * @param[out] vector this vector
+ * @param[in] metadata the vector metadata
+ * @return this vector if successful, otherwise NULL
+ */
+struct Mdc_Vector* Mdc_Vector_Init(
+    struct Mdc_Vector* vector,
+    const struct Mdc_VectorMetadata* metadata
+);
+
+/**
+ * Initializes the destination vector by copying the source vector.
+ *
+ * @param[out] dest destination pair
+ * @param[in] src source pair
+ * @return dest if successful, otherwise NULL
+ */
+struct Mdc_Vector* Mdc_Vector_InitCopy(
+    struct Mdc_Vector* dest,
+    const struct Mdc_Vector* src
+);
+
+/**
+ * Initializes the destination vector by moving the source vector.
+ *
+ * @param[out] dest destination pair
+ * @param[in] src source pair
+ * @return dest if successful, otherwise NULL
+ */
+struct Mdc_Vector* Mdc_Vector_InitMove(
+    struct Mdc_Vector* dest,
+    struct Mdc_Vector* src
+);
+
+/**
+ * Deinitializes the vector.
+ *
+ * @param[in, out] vector this vector
+ */
+void Mdc_Vector_Deinit(struct Mdc_Vector* vector);
+
+/**
+ * Returns the pointer to the element at the specified position. If an
+ * out-of-bounds position is specified, then the null pointer is
+ * returned.
+ *
+ * @param[in] vector this vector
+ * @param[in] pos the position of the element
+ * @return the pointer to the element at the specified position,
+ *    otherwise NULL
+ */
+void* Mdc_Vector_At(struct Mdc_Vector* vector, size_t pos);
+
+/**
+ * Returns the pointer to the element at the specified position. If an
+ * out-of-bounds position is specified, then the null pointer is
+ * returned.
+ *
+ * @param[in] vector this vector
+ * @param[in] pos the position of the element
+ * @return the pointer to the element at the specified position,
+ *    otherwise NULL
+ */
+const void* Mdc_Vector_AtConst(const struct Mdc_Vector* vector, size_t pos);
+
+/**
+ * Returns the number of allocated spaces for elements in the vector.
+ *
+ * @param[in] vector this vector
+ * @return the number of allocated spaces in the vector
+ */
+size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector);
+
+/**
+ * Returns whether the map contains any key-mappings.
+ *
+ * @param[in] vector this vector
+ * @return true if the vector contains at least one element, otherwise false
+ */
+bool Mdc_Vector_Empty(const struct Mdc_Vector* vector);
+
+/**
+ * Returns the number of elements in the vector.
+ *
+ * @param[in] vector this vector
+ * @return the number of elements in the vector
+ */
+size_t Mdc_Vector_Size(const struct Mdc_Vector* vector);
 
 #endif /* MDC_C_CONTAINER_VECTOR_H_ */
