@@ -391,6 +391,8 @@ struct Mdc_Map* Mdc_Map_InitMove(
     goto return_bad;
   }
 
+  *dest->metadata = *src->metadata;
+
   dest->pairs = src->pairs;
   dest->count = src->count;
   dest->capacity = src->capacity;
