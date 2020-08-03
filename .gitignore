@@ -1,5 +1,8 @@
+# Visual C++ 6.0 Data Files
 *.ncb
 *.opt
+*.positions
+*.wwdb
 
 # Binaries
 *.dll
