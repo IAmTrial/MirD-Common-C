@@ -914,11 +914,9 @@ size_t Mdc_Map_Size(const struct Mdc_Map* map) {
 void Mdc_Map_Swap(struct Mdc_Map* map1, struct Mdc_Map* map2) {
   struct Mdc_Map temp;
 
-  Mdc_Map_InitMove(&temp, map1);
-  Mdc_Map_ReinitMove(map1, map2);
-  Mdc_Map_ReinitMove(map2, &temp);
-
-  Mdc_Map_Deinit(&temp);
+  temp = *map1;
+  *map1 = *map2;
+  *map2 = temp;
 }
 
 bool Mdc_MapMetadata_Equal(
