@@ -525,6 +525,9 @@ struct Mdc_Map* Mdc_Map_ReinitMove(
   return dest;
 
 return_bad:
+  return NULL;
+}
+
 void* Mdc_Map_At(struct Mdc_Map* map, const void* key) {
   return (void*) Mdc_Map_AtConst(map, key);
 }
@@ -880,6 +883,28 @@ void Mdc_Map_InsertOrAssignPairCopy(
 
 return_bad:
   return;
+}
+
+size_t Mdc_Map_MaxSize(const struct Mdc_Map* map) {
+  const struct Mdc_MapMetadata* const map_metadata = map->metadata;
+  const struct Mdc_PairMetadata* const pair_metadata =
+      &map_metadata->pair_metadata;
+
+  size_t non_elements_size;
+  size_t element_size;
+
+  non_elements_size = sizeof(map_metadata)
+      + sizeof(*map_metadata)
+      + sizeof(map->count)
+      + sizeof(map->capacity)
+      + sizeof(map->pairs);
+
+  element_size = sizeof(map->pairs[0])
+      + sizeof(*map->pairs[0])
+      + pair_metadata->size.first_size
+      + pair_metadata->size.second_size;
+
+  return (((size_t) -1) - non_elements_size) / element_size;
 }
 
 size_t Mdc_Map_Size(const struct Mdc_Map* map) {

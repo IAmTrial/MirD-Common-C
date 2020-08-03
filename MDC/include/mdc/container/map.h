@@ -261,6 +261,14 @@ void Mdc_Map_InsertOrAssignPairCopy(
 );
 
 /**
+ * Returns the maximum count of elements that can fit in one map.
+ *
+ * @param[in] map this map
+ * @return the maximum count of elements
+ */
+size_t Mdc_Map_MaxSize(const struct Mdc_Map* map);
+
+/**
  * Returns the number of keys in the map.
  *
  * @param map this map
