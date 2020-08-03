@@ -91,6 +91,32 @@ struct Mdc_Map* Mdc_Map_InitMove(
 void Mdc_Map_Deinit(struct Mdc_Map* map);
 
 /**
+ * Reinitializes an already initialized destination map by copying the
+ * source map.
+ *
+ * @param[in, out] dest destination map
+ * @param[in] src source map
+ * @return dest if successful, otherwise NULL
+ */
+struct Mdc_Map* Mdc_Map_ReinitCopy(
+    struct Mdc_Map* dest,
+    const struct Mdc_Map* src
+);
+
+/**
+ * Reinitializes an already initialized destination map by moving the
+ * source map.
+ *
+ * @param[in, out] dest destination map
+ * @param[in] src source map
+ * @return dest if successful, otherwise NULL
+ */
+struct Mdc_Map* Mdc_Map_ReinitMove(
+    struct Mdc_Map* dest,
+    struct Mdc_Map* src
+);
+
+/**
  * Returns the value mapped to the specified key. If no such key
  * mapping found, then the null pointer is returned.
  *
@@ -241,6 +267,14 @@ void Mdc_Map_InsertOrAssignPairCopy(
  * @return the number of keys in the map
  */
 size_t Mdc_Map_Size(const struct Mdc_Map* map);
+
+/**
+ * Swaps the contents of two maps.
+ *
+ * @param[in, out] map1 first map
+ * @param[in, out] map2 second map
+ */
+void Mdc_Map_Swap(struct Mdc_Map* map1, struct Mdc_Map* map2);
 
 /**
  * Compares two map metadatas and returns whether they are equal.

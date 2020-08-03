@@ -217,6 +217,56 @@ return_bad:
 }
 
 /**
+ * Deinits all elements in the map.
+ *
+ * @param[in, out] this map
+ */
+static void Mdc_Map_DeinitAllElements(struct Mdc_Map* map) {
+  const size_t elements_count = Mdc_Map_Size(map);
+
+  size_t i;
+
+  for (i = 0; i < elements_count; i += 1) {
+    Mdc_Pair_Deinit(map->pairs[i]);
+  }
+}
+
+/**
+ * Deinits the specified range of elements in the map, frees the
+ * memory used for the individual elements, sets the pointer to NULL.
+ * Sets the size after reordering the elements.
+ *
+ * @param[in, out] map this map
+ * @param[in] i_start start index
+ * @param[in] i_end end index (non-inclusive)
+ */
+static void Mdc_Map_DeinitAndFreeElements(
+    struct Mdc_Map* map,
+    size_t i_start,
+    size_t i_end
+) {
+  const size_t old_map_count = Mdc_Map_Size(map);
+  const size_t remove_count = i_end - i_start;
+
+  size_t i;
+
+  for (i = i_start; i < i_end; i += 1) {
+    Mdc_Pair_Deinit(map->pairs[i]);
+    free(map->pairs[i]);
+    map->pairs[i] = NULL;
+  }
+
+  assert(i == i_end);
+
+  for (; i < old_map_count; i += 1) {
+    map->pairs[i - remove_count] = map->pairs[i];
+    map->pairs[i] = NULL;
+  }
+
+  map->count = old_map_count - remove_count;
+}
+
+/**
  * External functions
  */
 
@@ -335,24 +385,29 @@ struct Mdc_Map* Mdc_Map_InitMove(
     struct Mdc_Map* dest,
     struct Mdc_Map* src
 ) {
-  *dest = *src;
+  dest->metadata = malloc(sizeof(*dest->metadata));
 
-  memset(src, 0, sizeof(*src));
+  if (dest->metadata == NULL) {
+    goto return_bad;
+  }
+
+  dest->pairs = src->pairs;
+  dest->count = src->count;
+  dest->capacity = src->capacity;
+
+  src->pairs = NULL;
+  src->count = 0;
+  src->capacity = 0;
 
   return dest;
+
+return_bad:
+  return NULL;
 }
 
 void Mdc_Map_Deinit(struct Mdc_Map* map) {
-  size_t i;
-
   if (map->pairs != NULL) {
-    for (i = 0; i < map->count; i += 1) {
-      Mdc_Pair_Deinit(map->pairs[i]);
-      free(map->pairs[i]);
-      map->pairs[i] = NULL;
-    }
-
-    map->count = 0;
+    Mdc_Map_DeinitAndFreeElements(map, 0, Mdc_Map_Size(map));
 
     free(map->pairs);
     map->pairs = NULL;
@@ -366,6 +421,110 @@ void Mdc_Map_Deinit(struct Mdc_Map* map) {
   }
 }
 
+struct Mdc_Map* Mdc_Map_ReinitCopy(
+    struct Mdc_Map* dest,
+    const struct Mdc_Map* src
+) {
+  const struct Mdc_MapMetadata* const map_metadata = dest->metadata;
+  const struct Mdc_PairMetadata* const pair_metadata =
+      &map_metadata->pair_metadata;
+  const struct Mdc_PairFirstFunctions* const key_functions =
+      &pair_metadata->functions.first_functions;
+  const struct Mdc_PairSecondFunctions* const value_function =
+      &pair_metadata->functions.second_functions;
+
+  const size_t old_count = Mdc_Map_Size(dest);
+  const size_t src_count = Mdc_Map_Size(src);
+  const size_t src_size = src->capacity * sizeof(src->pairs[0]);
+
+  struct Mdc_Pair** realloc_pairs;
+  const struct Mdc_Pair* reinit_pair_copy;
+
+  if (dest == src) {
+    return dest;
+  }
+
+  if (!Mdc_MapMetadata_Equal(dest->metadata, src->metadata)) {
+    goto return_bad;
+  }
+
+  /* Deallocate unnecessary resources. */
+  if (old_count > src_count) {
+    Mdc_Map_DeinitAndFreeElements(dest, src_count, old_count);
+
+    realloc_pairs = realloc(dest->pairs, src_size);
+
+    if (realloc_pairs == NULL) {
+      goto free_pairs;
+    }
+
+    dest->pairs = realloc_pairs;
+  }
+
+  /* Copy elements. */
+  for (dest->count = 0; dest->count < src_count; dest->count += 1) {
+    dest->pairs[dest->count] = malloc(sizeof(*dest->pairs[0]));
+
+    if (dest->pairs[dest->count] == NULL) {
+      goto deinit_and_free_elements;
+    }
+
+    reinit_pair_copy = Mdc_Pair_ReinitCopy(
+        dest->pairs[dest->count],
+        src->pairs[dest->count]
+    );
+
+    if (reinit_pair_copy != dest->pairs[dest->count]) {
+      goto free_last_element;
+    }
+  }
+
+  return dest;
+
+free_last_element:
+  free(dest->pairs[dest->count]);
+  dest->pairs[dest->count] = NULL;
+
+deinit_and_free_elements:
+  Mdc_Map_DeinitAndFreeElements(dest, 0, Mdc_Map_Size(dest));
+
+free_pairs:
+  free(dest->pairs);
+  dest->pairs = NULL;
+
+  free(dest->metadata);
+  dest->metadata = NULL;
+
+return_bad:
+  return NULL;
+}
+
+struct Mdc_Map* Mdc_Map_ReinitMove(
+    struct Mdc_Map* dest,
+    struct Mdc_Map* src
+) {
+  if (dest == src) {
+    return dest;
+  }
+
+  if (!Mdc_MapMetadata_Equal(dest->metadata, src->metadata)) {
+    goto return_bad;
+  }
+
+  Mdc_Map_DeinitAndFreeElements(dest, 0, dest->count);
+  free(dest->pairs);
+
+  dest->pairs = src->pairs;
+  dest->count = src->count;
+  dest->capacity = src->capacity;
+
+  src->pairs = NULL;
+  src->count = 0;
+  src->capacity = 0;
+
+  return dest;
+
+return_bad:
 void* Mdc_Map_At(struct Mdc_Map* map, const void* key) {
   return (void*) Mdc_Map_AtConst(map, key);
 }
@@ -386,7 +545,6 @@ const void* Mdc_Map_AtConst(
 }
 
 void Mdc_Map_Clear(struct Mdc_Map* map) {
-  size_t i;
   size_t new_pairs_size;
   struct Mdc_Pair** realloc_result;
 
@@ -394,13 +552,8 @@ void Mdc_Map_Clear(struct Mdc_Map* map) {
     return;
   }
 
-  /* Remove all the elements.  */
-  for (i = 0; i < map->count; i += 1) {
-    Mdc_Pair_Deinit(map->pairs[i]);
-    free(map->pairs[i]);
-  }
-
-  map->count = 0;
+  /* Remove all the elements. */
+  Mdc_Map_DeinitAndFreeElements(map, 0, Mdc_Map_Size(map));
 
   /* Skip resize on the smallest capacity. */
   if (map->capacity <= kInitialCapacity) {
@@ -731,6 +884,16 @@ return_bad:
 
 size_t Mdc_Map_Size(const struct Mdc_Map* map) {
   return map->count;
+}
+
+void Mdc_Map_Swap(struct Mdc_Map* map1, struct Mdc_Map* map2) {
+  struct Mdc_Map temp;
+
+  Mdc_Map_InitMove(&temp, map1);
+  Mdc_Map_ReinitMove(map1, map2);
+  Mdc_Map_ReinitMove(map2, &temp);
+
+  Mdc_Map_Deinit(&temp);
 }
 
 bool Mdc_MapMetadata_Equal(
