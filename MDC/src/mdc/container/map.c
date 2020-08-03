@@ -361,13 +361,7 @@ free_last_pair:
   dest->pairs[dest->count] = NULL;
 
 deinit_and_free_pairs:
-  for (i = 0; (i + 1) < dest->count; i += 1) {
-    Mdc_Pair_Deinit(dest->pairs[i]);
-    free(dest->pairs[i]);
-    dest->pairs[i] = NULL;
-  }
-
-  dest->count = 0;
+  Mdc_Map_DeinitAndFreeElements(dest, 0, dest->count);
 
   free(dest->pairs);
   dest->pairs = NULL;
