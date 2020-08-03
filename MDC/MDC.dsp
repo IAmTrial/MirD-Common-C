@@ -100,6 +100,10 @@ SOURCE=.\src\mdc\container\map.c
 
 SOURCE=.\src\mdc\container\pair.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\container\vector.c
+# End Source File
 # End Group
 # Begin Group "wchar_t_c"
 
