@@ -47,6 +47,8 @@ struct Mdc_Map {
   size_t capacity;
 };
 
+const struct Mdc_Map MDC_MAP_UNINIT;
+
 /**
  * Initializes the map.
  *

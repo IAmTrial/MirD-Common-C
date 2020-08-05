@@ -33,6 +33,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+const struct Mdc_Map MDC_MAP_UNINIT = { 0 };
+
 enum FILE_SCOPE_CONSTANTS_01 {
   kInitialCapacity = 2
 };
