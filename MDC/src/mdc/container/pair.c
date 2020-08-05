@@ -373,114 +373,6 @@ void Mdc_Pair_Deinit(struct Mdc_Pair* pair) {
   }
 }
 
-struct Mdc_Pair* Mdc_Pair_ReinitCopy(
-    struct Mdc_Pair* dest,
-    const struct Mdc_Pair* src
-) {
-  const struct Mdc_PairMetadata* const metadata = dest->metadata;
-  const struct Mdc_PairFirstFunctions* const first_functions =
-      &metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const second_functions =
-      &metadata->functions.second_functions;
-
-  const struct Mdc_Pair* reinit_first_copy;
-  const struct Mdc_Pair* reinit_second_copy;
-
-  if (dest == src) {
-    return dest;
-  }
-
-  /* The metadata must match. */
-  if (!Mdc_PairMetadata_Equal(dest->metadata, src->metadata)) {
-    goto return_bad;
-  }
-
-  /* Deinit the first and second. */
-  second_functions->deinit(dest->second);
-  first_functions->deinit(dest->first);
-
-  /* Copy-assign the first. */
-  reinit_first_copy = first_functions->init_copy(dest->first, src->first);
-
-  if (reinit_first_copy != dest->first) {
-    goto free_dest;
-  }
-
-  /* Copy-assign the second. */
-  reinit_second_copy = second_functions->init_copy(dest->second, src->second);
-
-  if (reinit_second_copy != dest->second) {
-    goto deinit_first;
-  }
-
-  return dest;
-
-deinit_first:
-  first_functions->deinit(dest->first);
-
-free_dest:
-  free(dest->second);
-  free(dest->first);
-  free(dest->metadata);
-
-return_bad:
-  return NULL;
-}
-
-struct Mdc_Pair* Mdc_Pair_ReinitMove(
-    struct Mdc_Pair* dest,
-    struct Mdc_Pair* src
-) {
-  const struct Mdc_PairMetadata* const metadata = dest->metadata;
-  const struct Mdc_PairFirstFunctions* const first_functions =
-      &metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const second_functions =
-      &metadata->functions.second_functions;
-
-  const struct Mdc_Pair* reinit_first_move;
-  const struct Mdc_Pair* reinit_second_move;
-
-  if (dest == src) {
-    return dest;
-  }
-
-  /* The metadata must match. */
-  if (!Mdc_PairMetadata_Equal(dest->metadata, src->metadata)) {
-    goto return_bad;
-  }
-
-  /* Deinit the first and second. */
-  second_functions->deinit(dest->second);
-  first_functions->deinit(dest->first);
-
-  /* Move-assign the first. */
-  reinit_first_move = first_functions->init_move(dest->first, src->first);
-
-  if (reinit_first_move != dest->first) {
-    goto free_dest;
-  }
-
-  /* Move-assign the second. */
-  reinit_second_move = second_functions->init_move(dest->second, src->second);
-
-  if (reinit_second_move != dest->second) {
-    goto deinit_first;
-  }
-
-  return dest;
-
-deinit_first:
-  first_functions->deinit(dest->first);
-
-free_dest:
-  free(dest->second);
-  free(dest->first);
-  free(dest->metadata);
-
-return_bad:
-  return NULL;
-}
-
 int Mdc_Pair_Compare(
     const struct Mdc_Pair* pair1,
     const struct Mdc_Pair* pair2
@@ -520,16 +412,48 @@ void Mdc_Pair_Swap(
 ) {
   struct Mdc_Pair temp;
 
+  const struct Mdc_Pair* init_temp_move;
+  const struct Mdc_Pair* init_pair1_move;
+  const struct Mdc_Pair* init_pair2_move;
+
   if (pair1 == pair2) {
     return;
   }
 
-  Mdc_Pair_InitMove(&temp, pair1);
+  init_temp_move = Mdc_Pair_InitMove(&temp, pair1);
 
-  Mdc_Pair_ReinitMove(pair1, pair2);
-  Mdc_Pair_ReinitMove(pair2, &temp);
+  if (init_temp_move != &temp) {
+    goto return_bad;
+  }
+
+  Mdc_Pair_Deinit(pair1);
+
+  init_pair1_move = Mdc_Pair_InitMove(pair1, pair2);
+
+  if (init_pair1_move != pair1) {
+    goto revert_temp_move;
+  }
+
+  Mdc_Pair_Deinit(pair2);
+
+  init_pair2_move = Mdc_Pair_InitMove(pair2, &temp);
+
+  if (init_pair2_move != pair2) {
+    goto revert_pair1_move;
+  }
 
   Mdc_Pair_Deinit(&temp);
+
+revert_pair1_move:
+  Mdc_Pair_InitMove(pair2, pair1);
+  Mdc_Pair_Deinit(pair1);
+
+revert_temp_move:
+  Mdc_Pair_InitMove(pair1, &temp);
+  Mdc_Pair_Deinit(&temp);
+
+return_bad:
+  return;
 }
 
 bool Mdc_PairMetadata_Equal(

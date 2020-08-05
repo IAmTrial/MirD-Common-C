@@ -215,32 +215,6 @@ struct Mdc_Pair* Mdc_Pair_InitMove(
 void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
 
 /**
- * Reinitializes an already initialized destination pair by copying
- * the source pair.
- *
- * @param[in, out] dest destination pair
- * @param[in] src source pair
- * @return dest if successful, otherwise NULL
- */
-struct Mdc_Pair* Mdc_Pair_ReinitCopy(
-    struct Mdc_Pair* dest,
-    const struct Mdc_Pair* src
-);
-
-/**
- * Reinitializes an already initialized destination pair by moving the
- * source pair.
- *
- * @param[in, out] dest destination pair
- * @param[in] src source pair
- * @return dest if successful, otherwise NULL
- */
-struct Mdc_Pair* Mdc_Pair_ReinitMove(
-    struct Mdc_Pair* dest,
-    struct Mdc_Pair* src
-);
-
-/**
  * Compares the two pairs by their first values, and returns a
  * non-zero value if they are different. Otherwise, return a value
  * resulting from comparing their second values. Returns 0 if they are
