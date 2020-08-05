@@ -29,6 +29,7 @@
 
 #include "../../../include/mdc/container/vector.h"
 
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -36,15 +37,108 @@ enum FILE_SCOPE_CONSTANTS_01 {
   kInitialCapacity = 4
 };
 
+const struct Mdc_Vector MDC_VECTOR_UNINIT = { 0 };
+
 /**
  * Static functions
  */
 
+/**
+ * Returns a pointer to the vector element located at the specified
+ * index. Safe to use in init and deinit functions.
+ *
+ * @param[in] elements the contiguous array containing the elements
+ * @param[in] element_size the size of each element
+ * @param[in] index the position of the element
+ */
+static void* Mdc_UnVector_Access(
+    void* elements,
+    size_t element_size,
+    size_t index
+) {
+  unsigned char* const elements_as_bytes = elements;
+  const size_t bytes_index = index * element_size;
+
+  return &elements_as_bytes[bytes_index];
+}
+
+/**
+ * Returns a pointer to the vector element located at the specified
+ * index. Safe to use in init and deinit functions.
+ *
+ * @param[in] elements the contiguous array containing the elements
+ * @param[in] element_size the size of each element
+ * @param[in] index the position of the element
+ */
+static const void* Mdc_UnVector_AccessConst(
+    const void* elements,
+    size_t element_size,
+    size_t index
+) {
+  const unsigned char* const elements_as_bytes = elements;
+  const size_t bytes_index = index * element_size;
+
+  return &elements_as_bytes[bytes_index];
+}
+
+/**
+ * Returns the bytes index for the specified vector and element
+ * index.
+ */
 static size_t Mdc_Vector_ElementIndexToByteIndex(
     const struct Mdc_Vector* vector,
     size_t index
 ) {
   return index * vector->metadata->size.size;
+}
+
+/**
+ * Removes the specified range of elements in the vector, frees the
+ * memory used for the individual elements, sets the pointer to NULL.
+ * Sets the size after reordering the elements.
+ *
+ * @param[in, out] map this map
+ * @param[in] i_start start index
+ * @param[in] i_end end index (non-inclusive)
+ */
+static void Mdc_Vector_DeinitIndexElements(
+    struct Mdc_Vector* vector,
+    size_t i_start,
+    size_t i_end
+) {
+  const struct Mdc_VectorElementFunctions* const functions =
+      &vector->metadata->functions;
+  const size_t element_size = vector->metadata->size.size;
+
+  const size_t d_start_end = i_end - i_start;
+
+  size_t i;
+  void* dest_element;
+  void* src_element;
+
+  for (i = i_start; i < i_end; i += 1) {
+    functions->deinit(
+        Mdc_UnVector_Access(vector->elements, element_size, i)
+    );
+  }
+
+  for (; i < vector->count; i += 1) {
+    dest_element = Mdc_UnVector_Access(
+        vector->elements,
+        element_size,
+        i - d_start_end
+    );
+
+    src_element = Mdc_UnVector_Access(
+        vector->elements,
+        element_size,
+        i
+    );
+
+    functions->init_move(dest_element, src_element);
+  }
+
+  vector->count -= d_start_end;
 }
 
 /**
@@ -200,7 +294,7 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
 deinit_elements:
   for (i = 0; i < dest->count; i += 1) {
     i_bytes = Mdc_Vector_ElementIndexToByteIndex(dest, i);
-    element_functions->deinit(dest_elements_as_bytes[i_bytes]);
+    element_functions->deinit(&dest_elements_as_bytes[i_bytes]);
   }
 
   dest->count = 0;
@@ -221,32 +315,51 @@ struct Mdc_Vector* Mdc_Vector_InitMove(
     struct Mdc_Vector* dest,
     struct Mdc_Vector* src
 ) {
-  *dest = *src;
+  dest->metadata = malloc(sizeof(*dest->metadata));
 
-  memset(src, 0, sizeof(*src));
+  if (dest->metadata == NULL) {
+    goto return_bad;
+  }
+
+  *dest->metadata = *src->metadata;
+
+  dest->elements = src->elements;
+  src->elements = NULL;
+
+  dest->count = src->count;
+  src->count = 0;
+
+  dest->capacity = src->capacity;
+  src->capacity = 0;
 
   return dest;
+
+return_bad:
+  return NULL;
 }
 
 void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
   const struct Mdc_VectorElementFunctions* const element_functions =
       &vector->metadata->functions;
-  const unsigned char* const elements_as_bytes = vector->elements;
+  unsigned char* const elements_as_bytes = vector->elements;
 
   size_t i;
   size_t i_bytes;
 
   for (i = 0; i < vector->count; i += 1) {
     i_bytes = Mdc_Vector_ElementIndexToByteIndex(vector, i);
-    element_functions->deinit(elements_as_bytes[i_bytes]);
+    element_functions->deinit(&elements_as_bytes[i_bytes]);
   }
 
   vector->count = 0;
 
   free(vector->elements);
+  vector->elements = NULL;
+
   vector->capacity = 0;
 
   free(vector->metadata);
+  vector->metadata = NULL;
 }
 
 void* Mdc_Vector_At(struct Mdc_Vector* vector, size_t pos) {
@@ -270,14 +383,57 @@ return_bad:
   return NULL;
 }
 
+void* Mdc_Vector_Back(struct Mdc_Vector* vector) {
+  return (void*) Mdc_Vector_BackConst(vector);
+}
+
+const void* Mdc_Vector_BackConst(const struct Mdc_Vector* vector) {
+  return Mdc_Vector_AtConst(vector, vector->count - 1);
+}
+
 size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector) {
   return vector->capacity;
+}
+
+void Mdc_Vector_Clear(struct Mdc_Vector* vector) {
+  Mdc_Vector_DeinitIndexElements(vector, 0, vector->count);
 }
 
 bool Mdc_Vector_Empty(const struct Mdc_Vector* vector) {
   return (Mdc_Vector_Size(vector) == 0);
 }
 
+void* Mdc_Vector_Front(struct Mdc_Vector* vector) {
+  return (void*) Mdc_Vector_FrontConst(vector);
+}
+
+const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector) {
+  return Mdc_Vector_AtConst(vector, 0);
+}
+
 size_t Mdc_Vector_Size(const struct Mdc_Vector* vector) {
   return vector->count;
+}
+
+void Mdc_Vector_Swap(struct Mdc_Vector* vector1, struct Mdc_Vector* vector2) {
+  struct Mdc_Vector temp;
+
+  temp = *vector1;
+  *vector1 = *vector2;
+  *vector2 = temp;
+}
+
+bool Mdc_VectorMetadata_Equal(
+    struct Mdc_VectorMetadata* metadata1,
+    struct Mdc_VectorMetadata* metadata2
+) {
+  int memcmp_result;
+
+  if (metadata1 == metadata2) {
+    return true;
+  }
+
+  memcmp_result = memcmp(metadata1, metadata2, sizeof(*metadata1));
+
+  return (memcmp == 0);
 }

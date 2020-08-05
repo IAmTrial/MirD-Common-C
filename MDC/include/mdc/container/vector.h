@@ -76,6 +76,8 @@ struct Mdc_Vector {
   size_t capacity;
 };
 
+const struct Mdc_Vector MDC_VECTOR_UNINIT;
+
 /**
  * Initializes the vector.
  *
@@ -144,12 +146,36 @@ void* Mdc_Vector_At(struct Mdc_Vector* vector, size_t pos);
 const void* Mdc_Vector_AtConst(const struct Mdc_Vector* vector, size_t pos);
 
 /**
+ * Returns the pointer to the last element in the vector.
+ *
+ * @param[in] vector this vector
+ * @return the last element in the vector
+ */
+void* Mdc_Vector_Back(struct Mdc_Vector* vector);
+
+/**
+ * Returns the pointer to the last element in the vector.
+ *
+ * @param[in] vector this vector
+ * @return the last element in the vector
+ */
+const void* Mdc_Vector_BackConst(const struct Mdc_Vector* vector);
+
+/**
  * Returns the number of allocated spaces for elements in the vector.
  *
  * @param[in] vector this vector
  * @return the number of allocated spaces in the vector
  */
 size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector);
+
+/**
+ * Removes all elements from the vector. Invalidates pointers
+ * and interators to elements.
+ *
+ * @param[in, out] vector this vector
+ */
+void Mdc_Vector_Clear(struct Mdc_Vector* vector);
 
 /**
  * Returns whether the map contains any key-mappings.
@@ -160,11 +186,46 @@ size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector);
 bool Mdc_Vector_Empty(const struct Mdc_Vector* vector);
 
 /**
+ * Returns the pointer to the first element in the vector.
+ *
+ * @param[in] vector this vector
+ * @return the first element in the vector
+ */
+void* Mdc_Vector_Front(struct Mdc_Vector* vector);
+
+/**
+ * Returns the pointer to the first element in the vector.
+ *
+ * @param[in] vector this vector
+ * @return the first element in the vector
+ */
+const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
+
+/**
  * Returns the number of elements in the vector.
  *
  * @param[in] vector this vector
  * @return the number of elements in the vector
  */
 size_t Mdc_Vector_Size(const struct Mdc_Vector* vector);
+
+/**
+ * Swaps the contents of two vectors.
+ *
+ * @param[in, out] vector1 first vector
+ * @param[in, out] vector2 second vector
+ */
+void Mdc_Vector_Swap(struct Mdc_Vector* vector1, struct Mdc_Vector* vector2);
+
+/**
+ * Compares two vector metadatas and returns whether they are equal.
+ *
+ * @param[in] metadata1 the first metadata to compare
+ * @param[in] metadata2 the second metadata to compare
+ */
+bool Mdc_VectorMetadata_Equal(
+    struct Mdc_VectorMetadata* metadata1,
+    struct Mdc_VectorMetadata* metadata2
+);
 
 #endif /* MDC_C_CONTAINER_VECTOR_H_ */
