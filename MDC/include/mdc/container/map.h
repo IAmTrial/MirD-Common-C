@@ -175,6 +175,15 @@ void Mdc_Map_EmplaceKeyCopy(
 bool Mdc_Map_Empty(const struct Mdc_Map* map);
 
 /**
+ * Returns whether two maps contains equivalent elements.
+ *
+ * @param[in] map1 the first map
+ * @param[in] map2 the second map
+ * @return true if the maps have equivalent values, false otherwise
+ */
+bool Mdc_Map_Equal(const struct Mdc_Map* map1, const struct Mdc_Map* map2);
+
+/**
  * Removes the pair that is mapped to the specified key.
  *
  * @param[in, out] map this map

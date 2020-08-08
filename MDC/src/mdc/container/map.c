@@ -655,6 +655,28 @@ bool Mdc_Map_Empty(const struct Mdc_Map* map) {
   return Mdc_Map_Size(map) == 0;
 }
 
+bool Mdc_Map_Equal(const struct Mdc_Map* map1, const struct Mdc_Map* map2) {
+  size_t map1_size = Mdc_Map_Size(map1);
+  size_t map2_size = Mdc_Map_Size(map2);
+
+  size_t i;
+  int compare_pair_result;
+
+  if (map1_size != map2_size) {
+    return false;
+  }
+
+  for (i = 0; i < map1_size; i += 1) {
+    compare_pair_result = Mdc_Pair_Compare(map1->pairs[i], map2->pairs[i]);
+
+    if (compare_pair_result != 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key) {
   const struct Mdc_PairMetadata* const pair_metadata =
       &map->metadata->pair_metadata;
