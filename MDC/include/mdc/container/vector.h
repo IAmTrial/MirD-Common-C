@@ -225,6 +225,16 @@ void* Mdc_Vector_Front(struct Mdc_Vector* vector);
 const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
 
 /**
+ * Increases the capacity of this vector. If the vector's capacity is
+ * larger than the specified new capacity, then the function does
+ * nothing.
+ *
+ * @param[in] vector this vector
+ * @param[in] new_capacity the desired new capacity for this vector
+ */
+void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity);
+
+/**
  * Returns the number of elements in the vector.
  *
  * @param[in] vector this vector

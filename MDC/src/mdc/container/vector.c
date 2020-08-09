@@ -458,6 +458,27 @@ const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector) {
   return Mdc_Vector_AccessConst(vector, 0);
 }
 
+void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
+  void* realloc_elements;
+  size_t new_elements_size;
+
+  if (vector->capacity >= new_capacity) {
+    return;
+  }
+
+  new_elements_size = vector->metadata->size.size * new_capacity;
+  realloc_elements = realloc(vector->elements, new_elements_size);
+
+  if (realloc_elements == NULL) {
+    goto return_bad;
+  }
+
+  vector->elements = realloc_elements;
+
+return_bad:
+  return;
+}
+
 size_t Mdc_Vector_Size(const struct Mdc_Vector* vector) {
   return vector->count;
 }
