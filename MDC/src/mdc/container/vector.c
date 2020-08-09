@@ -44,6 +44,20 @@ const struct Mdc_Vector MDC_VECTOR_UNINIT = { 0 };
  */
 
 /**
+ * Returns the bytes index for the specified vector and element
+ * index. Safe to use in init and deinit functions.
+ *
+ * @param[in] element_size the size of an element, in bytes
+ * @param[in] index the index of the element in the vector
+ */
+static size_t Mdc_UnVector_ElementIndexToByteIndex(
+    size_t element_size,
+    size_t index
+) {
+  return element_size * index;
+}
+
+/**
  * Returns a pointer to the vector element located at the specified
  * index. Safe to use in init and deinit functions.
  *
@@ -57,7 +71,9 @@ static void* Mdc_UnVector_Access(
     size_t index
 ) {
   unsigned char* const elements_as_bytes = elements;
-  const size_t bytes_index = index * element_size;
+  size_t bytes_index;
+
+  bytes_index = Mdc_UnVector_ElementIndexToByteIndex(element_size, index);
 
   return &elements_as_bytes[bytes_index];
 }
@@ -76,7 +92,9 @@ static const void* Mdc_UnVector_AccessConst(
     size_t index
 ) {
   const unsigned char* const elements_as_bytes = elements;
-  const size_t bytes_index = index * element_size;
+  size_t bytes_index;
+
+  bytes_index = Mdc_UnVector_ElementIndexToByteIndex(element_size, index);
 
   return &elements_as_bytes[bytes_index];
 }
@@ -84,12 +102,18 @@ static const void* Mdc_UnVector_AccessConst(
 /**
  * Returns the bytes index for the specified vector and element
  * index.
+ *
+ * @param[in] vector this vector
+ * @param[in] index the index of the element in the vector
  */
 static size_t Mdc_Vector_ElementIndexToByteIndex(
     const struct Mdc_Vector* vector,
     size_t index
 ) {
-  return index * vector->metadata->size.size;
+  return Mdc_UnVector_ElementIndexToByteIndex(
+      vector->metadata->size.size,
+      index
+  );
 }
 
 /**
