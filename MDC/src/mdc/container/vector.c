@@ -261,17 +261,17 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
     struct Mdc_Vector* dest,
     const struct Mdc_Vector* src
 ) {
+  const struct Mdc_VectorMetadata* const src_metadata = src->metadata;
   const struct Mdc_VectorElementFunctions* const element_functions =
-      &src->metadata->functions;
+      &src_metadata->functions;
 
   size_t i;
   size_t elements_size;
 
   const void* init_element_copy;
 
-  unsigned char* dest_elements_as_bytes;
-  unsigned char* src_elements_as_bytes;
-  size_t i_bytes;
+  void* dest_element;
+  const void* src_element;
 
   /* Copy the metadata. */
   dest->metadata = malloc(sizeof(*dest->metadata));
@@ -280,10 +280,10 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
     goto return_bad;
   }
 
-  *dest->metadata = *src->metadata;
+  *dest->metadata = *src_metadata;
 
   /* Copy the elements. */
-  elements_size = src->capacity * sizeof(dest->metadata->size.size);
+  elements_size = src->capacity * sizeof(src_metadata->size.size);
   dest->elements = malloc(elements_size);
 
   if (dest->elements == NULL) {
@@ -292,18 +292,25 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
 
   dest->capacity = src->capacity;
 
-  dest_elements_as_bytes = dest->elements;
-  src_elements_as_bytes = src->elements;
-
   for (dest->count = 0; dest->count < src->count; dest->count += 1) {
-    i_bytes = Mdc_Vector_ElementIndexToByteIndex(dest, dest->count);
-
-    init_element_copy = element_functions->init_copy(
-        &dest_elements_as_bytes[i_bytes],
-        &src_elements_as_bytes[i_bytes]
+    dest_element = Mdc_UnVector_Access(
+        dest->elements,
+        src_metadata->size.size,
+        dest->count
     );
 
-    if (init_element_copy != &dest_elements_as_bytes[i_bytes]) {
+    src_element = Mdc_UnVector_AccessConst(
+        src->elements,
+        src_metadata->size.size,
+        dest->count
+    );
+
+    init_element_copy = element_functions->init_copy(
+        dest_element,
+        src_element
+    );
+
+    if (init_element_copy != dest_element) {
       goto deinit_elements;
     }
   }
@@ -312,8 +319,13 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
 
 deinit_elements:
   for (i = 0; i < dest->count; i += 1) {
-    i_bytes = Mdc_Vector_ElementIndexToByteIndex(dest, i);
-    element_functions->deinit(&dest_elements_as_bytes[i_bytes]);
+    dest_element = Mdc_UnVector_Access(
+        dest->elements,
+        src_metadata->size.size,
+        dest->count
+    );
+
+    element_functions->deinit(dest_element);
   }
 
   dest->count = 0;
@@ -360,25 +372,32 @@ return_bad:
 void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
   const struct Mdc_VectorElementFunctions* const element_functions =
       &vector->metadata->functions;
-  unsigned char* const elements_as_bytes = vector->elements;
-
+  void* dest_element;
   size_t i;
-  size_t i_bytes;
 
-  for (i = 0; i < vector->count; i += 1) {
-    i_bytes = Mdc_Vector_ElementIndexToByteIndex(vector, i);
-    element_functions->deinit(&elements_as_bytes[i_bytes]);
+  if (vector->elements != NULL) {
+    for (i = 0; i < vector->count; i += 1) {
+      dest_element = Mdc_UnVector_Access(
+          vector->elements,
+          vector->metadata->size.size,
+          i
+      );
+
+      element_functions->deinit(dest_element);
+    }
+
+    vector->count = 0;
+
+    free(vector->elements);
+    vector->elements = NULL;
+
+    vector->capacity = 0;
   }
 
-  vector->count = 0;
-
-  free(vector->elements);
-  vector->elements = NULL;
-
-  vector->capacity = 0;
-
-  free(vector->metadata);
-  vector->metadata = NULL;
+  if (vector->metadata != NULL) {
+    free(vector->metadata);
+    vector->metadata = NULL;
+  }
 }
 
 void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos) {
@@ -416,7 +435,7 @@ void* Mdc_Vector_Back(struct Mdc_Vector* vector) {
 }
 
 const void* Mdc_Vector_BackConst(const struct Mdc_Vector* vector) {
-  return Mdc_Vector_AtConst(vector, vector->count - 1);
+  return Mdc_Vector_AccessConst(vector, vector->count - 1);
 }
 
 size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector) {
@@ -436,7 +455,7 @@ void* Mdc_Vector_Front(struct Mdc_Vector* vector) {
 }
 
 const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector) {
-  return Mdc_Vector_AtConst(vector, 0);
+  return Mdc_Vector_AccessConst(vector, 0);
 }
 
 size_t Mdc_Vector_Size(const struct Mdc_Vector* vector) {
