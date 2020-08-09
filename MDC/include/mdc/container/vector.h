@@ -122,6 +122,29 @@ struct Mdc_Vector* Mdc_Vector_InitMove(
 void Mdc_Vector_Deinit(struct Mdc_Vector* vector);
 
 /**
+ * Returns the pointer to the element at the specified position. No
+ * bounds checking is performed.
+ *
+ * @param[in] vector this vector
+ * @param[in] pos the position of the element
+ * @return the pointer to the element at the specified position
+ */
+void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos);
+
+/**
+ * Returns the pointer to the element at the specified position. No
+ * bounds checking is performed.
+ *
+ * @param[in] vector this vector
+ * @param[in] pos the position of the element
+ * @return the pointer to the element at the specified position
+ */
+const void* Mdc_Vector_AccessConst(
+    const struct Mdc_Vector* vector,
+    size_t pos
+);
+
+/**
  * Returns the pointer to the element at the specified position. If an
  * out-of-bounds position is specified, then the null pointer is
  * returned.

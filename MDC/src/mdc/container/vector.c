@@ -65,12 +65,12 @@ static size_t Mdc_UnVector_ElementIndexToByteIndex(
  * @param[in] element_size the size of each element
  * @param[in] index the position of the element
  */
-static void* Mdc_UnVector_Access(
-    void* elements,
+static const void* Mdc_UnVector_AccessConst(
+    const void* elements,
     size_t element_size,
     size_t index
 ) {
-  unsigned char* const elements_as_bytes = elements;
+  const unsigned char* const elements_as_bytes = elements;
   size_t bytes_index;
 
   bytes_index = Mdc_UnVector_ElementIndexToByteIndex(element_size, index);
@@ -86,17 +86,12 @@ static void* Mdc_UnVector_Access(
  * @param[in] element_size the size of each element
  * @param[in] index the position of the element
  */
-static const void* Mdc_UnVector_AccessConst(
-    const void* elements,
+static void* Mdc_UnVector_Access(
+    void* elements,
     size_t element_size,
     size_t index
 ) {
-  const unsigned char* const elements_as_bytes = elements;
-  size_t bytes_index;
-
-  bytes_index = Mdc_UnVector_ElementIndexToByteIndex(element_size, index);
-
-  return &elements_as_bytes[bytes_index];
+  return (void*) Mdc_UnVector_AccessConst(elements, element_size, index);
 }
 
 /**
@@ -386,22 +381,31 @@ void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
   vector->metadata = NULL;
 }
 
+void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos) {
+  return (void*) Mdc_Vector_AccessConst(vector, pos);
+}
+
+const void* Mdc_Vector_AccessConst(
+    const struct Mdc_Vector* vector,
+    size_t pos
+) {
+  return Mdc_UnVector_AccessConst(
+      vector->elements,
+      vector->metadata->size.size,
+      pos
+  );
+}
+
 void* Mdc_Vector_At(struct Mdc_Vector* vector, size_t pos) {
   return (void*) Mdc_Vector_AtConst(vector, pos);
 }
 
 const void* Mdc_Vector_AtConst(const struct Mdc_Vector* vector, size_t pos) {
-  const unsigned char* const elements_as_bytes = vector->elements;
-
-  size_t i_bytes;
-
   if (pos < 0 || pos >= vector->count) {
     goto return_bad;
   }
 
-  i_bytes = Mdc_Vector_ElementIndexToByteIndex(vector, pos);
-
-  return &elements_as_bytes[i_bytes];
+  return Mdc_Vector_AccessConst(vector, pos);
 
 return_bad:
   return NULL;
