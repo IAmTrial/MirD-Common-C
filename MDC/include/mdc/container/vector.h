@@ -225,6 +225,26 @@ void* Mdc_Vector_Front(struct Mdc_Vector* vector);
 const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
 
 /**
+ * Appends the value to the end of the vector via move-assignment. The
+ * end iterator is invalidated. If the new size is greater than
+ * capacity, then all iterators are invalidated.
+ *
+ * @param[in, out] vector this vector
+ * @param[in] value the value append
+ */
+void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value);
+
+/**
+ * Appends the value to the end of the vector via copy-assignment. The
+ * end iterator is invalidated. If the new size is greater than
+ * capacity, then all iterators are invalidated.
+ *
+ * @param[in] vector this vector
+ * @param[in] value the value append
+ */
+void Mdc_Vector_PushBackCopy(struct Mdc_Vector* vector, const void* value);
+
+/**
  * Increases the capacity of this vector. If the vector's capacity is
  * larger than the specified new capacity, then the function does
  * nothing.

@@ -215,6 +215,27 @@ static void Mdc_Vector_SetCapacityOnPolicy(
 }
 
 /**
+ * Doubles the capacity when the elements count reaches the capacity.
+ *
+ * @param vector this vector
+ */
+static void Mdc_Vector_ReserveOnPolicy(struct Mdc_Vector* vector) {
+  size_t vector_count;
+  size_t vector_capacity;
+
+  vector_count = Mdc_Vector_Size(vector);
+  vector_capacity = Mdc_Vector_Capacity(vector);
+
+  assert(vector_count <= vector_capacity);
+
+  if (vector_count != vector_capacity) {
+    return;
+  }
+
+  Mdc_Vector_Reserve(vector, vector_capacity * 2);
+}
+
+/**
  * External functions
  */
 
@@ -456,6 +477,72 @@ void* Mdc_Vector_Front(struct Mdc_Vector* vector) {
 
 const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector) {
   return Mdc_Vector_AccessConst(vector, 0);
+}
+
+void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value) {
+  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
+  const struct Mdc_VectorElementFunctions* const functions =
+      &metadata->functions;
+
+  void* insertion_element;
+  const void* init_insertion_element_move;
+
+  Mdc_Vector_ReserveOnPolicy(vector);
+
+  insertion_element = Mdc_UnVector_Access(
+      vector->elements,
+      vector->metadata->size.size,
+      vector->count
+  );
+
+  init_insertion_element_move = functions->init_move(
+      insertion_element,
+      value
+  );
+
+  if (init_insertion_element_move != insertion_element) {
+    goto return_bad;
+  }
+
+  vector->count += 1;
+
+  return;
+
+return_bad:
+  return;
+}
+
+void Mdc_Vector_PushBackCopy(struct Mdc_Vector* vector, const void* value) {
+  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
+  const struct Mdc_VectorElementFunctions* const functions =
+      &metadata->functions;
+
+  void* insertion_element;
+  const void* init_insertion_element_copy;
+
+  Mdc_Vector_ReserveOnPolicy(vector);
+
+  insertion_element = Mdc_UnVector_Access(
+      vector->elements,
+      vector->metadata->size.size,
+      vector->count
+  );
+
+  init_insertion_element_copy = functions->init_copy(
+      insertion_element,
+      value
+  );
+
+  if (init_insertion_element_copy != insertion_element) {
+    goto return_bad;
+  }
+
+  vector->count += 1;
+
+  return;
+
+return_bad:
+  return;
 }
 
 void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
