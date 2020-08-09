@@ -444,6 +444,8 @@ void Mdc_Pair_Swap(
 
   Mdc_Pair_Deinit(&temp);
 
+  return;
+
 revert_pair1_move:
   Mdc_Pair_InitMove(pair2, pair1);
   Mdc_Pair_Deinit(pair1);
