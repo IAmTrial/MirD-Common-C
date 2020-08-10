@@ -545,6 +545,51 @@ return_bad:
   return;
 }
 
+void Mdc_Vector_Resize(
+    struct Mdc_Vector* vector,
+    size_t count,
+    const void* value
+) {
+  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
+  const struct Mdc_VectorElementFunctions* const functions =
+      &metadata->functions;
+  const size_t old_count = Mdc_Vector_Size(vector);
+
+  void* element;
+  const void* init_element_copy;
+
+  if (vector->count == count) {
+    return;
+  }
+
+  if (vector->capacity < count) {
+    Mdc_Vector_Reserve(vector, count);
+  }
+
+  /* Init or deinit the additional elements in the vector. */
+  for (; vector->count > count; vector->count -= 1) {
+    element = Mdc_Vector_Access(vector, vector->count - 1);
+    functions->deinit(element);
+  }
+
+  for (; vector->count < count; vector->count += 1) {
+    element = Mdc_Vector_Access(vector, vector->count);
+    init_element_copy = functions->init_copy(element, value);
+
+    if (init_element_copy != element) {
+      goto return_bad;
+    }
+  }
+
+return_bad:
+  for (; vector->count > old_count; vector->count -= 1) {
+    element = Mdc_Vector_Access(vector, vector->count - 1);
+    functions->deinit(element);
+  }
+
+  return;
+}
+
 void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
   void* realloc_elements;
   size_t new_elements_size;

@@ -245,6 +245,22 @@ void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value);
 void Mdc_Vector_PushBackCopy(struct Mdc_Vector* vector, const void* value);
 
 /**
+ * Resizes the vector to contain a new count of elements. If the new
+ * count is greater, then multiple copies of the specified value are
+ * appended. If the new count is less, then any additional elements
+ * are removed from the vector.
+ *
+ * @param[in] vector this vector
+ * @param[in] count the new count of elements
+ * @param[in] value the value to copy into the vector if appended
+ */
+void Mdc_Vector_Resize(
+    struct Mdc_Vector* vector,
+    size_t count,
+    const void* value
+);
+
+/**
  * Increases the capacity of this vector. If the vector's capacity is
  * larger than the specified new capacity, then the function does
  * nothing.
