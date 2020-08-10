@@ -271,6 +271,14 @@ void Mdc_Vector_Resize(
 void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity);
 
 /**
+ * Requests for the vector's element capacity to shrink down to the
+ * vector's element count.
+ *
+ * @param[in] vector this vector
+ */
+void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector);
+
+/**
  * Returns the number of elements in the vector.
  *
  * @param[in] vector this vector

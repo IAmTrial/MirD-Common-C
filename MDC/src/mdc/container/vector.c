@@ -611,6 +611,72 @@ return_bad:
   return;
 }
 
+void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
+  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
+  const struct Mdc_VectorElementFunctions* const functions =
+      &metadata->functions;
+
+  void* realloc_elements;
+  size_t new_elements_size;
+
+  size_t i;
+  void* new_element;
+  void* old_element;
+  const void* init_element_move;
+
+  if (vector->capacity == vector->count) {
+    return;
+  }
+
+  new_elements_size = vector->count * metadata->size.size;
+  realloc_elements = malloc(new_elements_size);
+
+  if (realloc_elements == NULL) {
+    goto return_bad;
+  }
+
+  for (i = 0; i < vector->count; i += 1) {
+    new_element = Mdc_UnVector_Access(
+        realloc_elements,
+        metadata->size.size,
+        i
+    );
+
+    old_element = Mdc_Vector_Access(vector, i);
+
+    init_element_move = functions->init_move(new_element, old_element);
+
+    if (init_element_move != new_element) {
+      goto deinit_realloc_elements;
+    }
+
+    functions->deinit(old_element);
+  }
+
+  free(vector->elements);
+  vector->elements = realloc_elements;
+  vector->capacity = vector->count;
+
+  return;
+
+deinit_realloc_elements:
+  for (; i > 0; i -= 1) {
+    new_element = Mdc_UnVector_Access(
+        realloc_elements,
+        metadata->size.size,
+        i - 1
+    );
+
+    functions->deinit(new_element);
+  }
+
+  free(realloc_elements);
+  realloc_elements = NULL;
+
+return_bad:
+  return;
+}
+
 size_t Mdc_Vector_Size(const struct Mdc_Vector* vector) {
   return vector->count;
 }
