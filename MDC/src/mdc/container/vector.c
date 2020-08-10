@@ -195,26 +195,6 @@ static void Mdc_Vector_SetCapacity(
 }
 
 /**
- * Doubles the capacity when the elements count reaches the capacity,
- * and halves the capacity when the elements count reaches a quarter
- * of the capacity.
- */
-static void Mdc_Vector_SetCapacityOnPolicy(
-    struct Mdc_Vector* vector
-) {
-  assert(vector->count <= vector->capacity);
-
-  while (vector->count == vector->capacity) {
-    Mdc_Vector_SetCapacity(vector, vector->capacity * 2);
-  }
-
-  while (vector->count < vector->capacity / 4
-      && vector->capacity > kInitialCapacity) {
-    Mdc_Vector_SetCapacity(vector, vector->capacity / 2);
-  }
-}
-
-/**
  * Doubles the capacity when the elements count reaches the capacity.
  *
  * @param vector this vector
