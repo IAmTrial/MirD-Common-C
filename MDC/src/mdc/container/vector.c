@@ -499,6 +499,15 @@ const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector) {
   return Mdc_Vector_AccessConst(vector, 0);
 }
 
+void Mdc_Vector_PopBack(struct Mdc_Vector* vector) {
+  void* last_element;
+
+  last_element = Mdc_Vector_Back(vector);
+  vector->metadata->functions.deinit(last_element);
+
+  vector->count -= 1;
+}
+
 void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value) {
   const struct Mdc_VectorMetadata* const metadata = vector->metadata;
   const struct Mdc_VectorElementFunctions* const functions =

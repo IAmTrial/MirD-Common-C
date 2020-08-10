@@ -225,6 +225,15 @@ void* Mdc_Vector_Front(struct Mdc_Vector* vector);
 const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
 
 /**
+ * Removes the last element in the vector. If the vector is empty,
+ * then there is undefined behavior. Iterators and references to the
+ * last element are invalidated.
+ *
+ * @param[in] vector this vector
+ */
+void Mdc_Vector_PopBack(struct Mdc_Vector* vector);
+
+/**
  * Appends the value to the end of the vector via move-assignment. The
  * end iterator is invalidated. If the new size is greater than
  * capacity, then all iterators are invalidated.
