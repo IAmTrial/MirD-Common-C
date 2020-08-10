@@ -487,6 +487,14 @@ void Mdc_Vector_Clear(struct Mdc_Vector* vector) {
   Mdc_Vector_DeinitIndexElements(vector, 0, vector->count);
 }
 
+void* Mdc_Vector_Data(struct Mdc_Vector* vector) {
+  return (void*) Mdc_Vector_DataConst(vector);
+}
+
+const void* Mdc_Vector_DataConst(const struct Mdc_Vector* vector) {
+  return vector->elements;
+}
+
 bool Mdc_Vector_Empty(const struct Mdc_Vector* vector) {
   return (Mdc_Vector_Size(vector) == 0);
 }

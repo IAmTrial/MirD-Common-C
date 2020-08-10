@@ -201,6 +201,24 @@ size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector);
 void Mdc_Vector_Clear(struct Mdc_Vector* vector);
 
 /**
+ * Returns the pointer to the array of contiguous elements that is
+ * managed by this vector.
+ *
+ * @param[in] vector this vector
+ * @return the pointer to the array managed by this vector
+ */
+void* Mdc_Vector_Data(struct Mdc_Vector* vector);
+
+/**
+ * Returns the pointer to the array of contiguous elements that is
+ * managed by this vector.
+ *
+ * @param[in] vector this vector
+ * @return the pointer to the array managed by this vector
+ */
+const void* Mdc_Vector_DataConst(const struct Mdc_Vector* vector);
+
+/**
  * Returns whether the map contains any key-mappings.
  *
  * @param[in] vector this vector
