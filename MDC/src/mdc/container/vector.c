@@ -111,6 +111,46 @@ static size_t Mdc_Vector_ElementIndexToByteIndex(
   );
 }
 
+static void* Mdc_UnVector_InitMoveElements(
+    void* dest_elements,
+    const struct Mdc_VectorMetadata* metadata,
+    void* src_elements,
+    size_t count
+) {
+  const struct Mdc_VectorElementFunctions* const functions =
+      &metadata->functions;
+  const size_t element_size = metadata->size.size;
+
+  size_t i;
+  void* dest_element;
+  void* src_element;
+
+  const void* init_element_move;
+
+  for (i = 0; i < count; i += 1) {
+    dest_element = Mdc_UnVector_Access(dest_elements, element_size, i);
+    src_element = Mdc_UnVector_Access(dest_elements, element_size, i);
+
+    init_element_move = functions->init_move(dest_element, src_element);
+
+    if (init_element_move != dest_element) {
+      goto deinit_elements;
+    }
+
+    functions->deinit(src_element);
+  }
+
+  return dest_elements;
+
+deinit_elements:
+  for (; i > 0; i -= 1) {
+    dest_element = Mdc_UnVector_Access(dest_elements, element_size, i - 1);
+    functions->deinit(dest_element);
+  }
+
+  return NULL;
+}
+
 /**
  * Removes the specified range of elements in the vector, frees the
  * memory used for the individual elements, sets the pointer to NULL.
@@ -573,64 +613,70 @@ return_bad:
 void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
   void* realloc_elements;
   size_t new_elements_size;
+  const void* init_elements_move;
 
   if (vector->capacity >= new_capacity) {
     return;
   }
 
   new_elements_size = vector->metadata->size.size * new_capacity;
-  realloc_elements = realloc(vector->elements, new_elements_size);
-
-  if (realloc_elements == NULL) {
-    goto return_bad;
-  }
-
-  vector->elements = realloc_elements;
-
-return_bad:
-  return;
-}
-
-void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
-  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
-  const struct Mdc_VectorElementFunctions* const functions =
-      &metadata->functions;
-
-  void* realloc_elements;
-  size_t new_elements_size;
-
-  size_t i;
-  void* new_element;
-  void* old_element;
-  const void* init_element_move;
-
-  if (vector->capacity == vector->count) {
-    return;
-  }
-
-  new_elements_size = vector->count * metadata->size.size;
   realloc_elements = malloc(new_elements_size);
 
   if (realloc_elements == NULL) {
     goto return_bad;
   }
 
-  for (i = 0; i < vector->count; i += 1) {
-    new_element = Mdc_UnVector_Access(
-        realloc_elements,
-        metadata->size.size,
-        i
-    );
+  init_elements_move = Mdc_UnVector_InitMoveElements(
+      realloc_elements,
+      vector->metadata,
+      vector->elements,
+      vector->count
+  );
 
-    old_element = Mdc_Vector_Access(vector, i);
+  if (init_elements_move != realloc_elements) {
+    goto free_realloc_elements;
+  }
 
-    init_element_move = functions->init_move(new_element, old_element);
+  free(vector->elements);
+  vector->elements = realloc_elements;
+  vector->capacity = new_capacity;
 
-    if (init_element_move != new_element) {
-      goto deinit_realloc_elements;
-    }
+  return;
 
-    functions->deinit(old_element);
+free_realloc_elements:
+  free(realloc_elements);
+  realloc_elements = NULL;
+
+return_bad:
+  return;
+}
+
+void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
+  void* realloc_elements;
+  size_t new_elements_size;
+
+  const void* init_elements_move;
+
+  if (vector->capacity == vector->count) {
+    return;
+  }
+
+  new_elements_size = vector->count * vector->metadata->size.size;
+  realloc_elements = malloc(new_elements_size);
+
+  if (realloc_elements == NULL) {
+    goto return_bad;
+  }
+
+  init_elements_move = Mdc_UnVector_InitMoveElements(
+      realloc_elements,
+      vector->metadata,
+      vector->elements,
+      vector->count
+  );
+
+  if (init_elements_move != realloc_elements) {
+    goto free_realloc_elements;
   }
 
   free(vector->elements);
@@ -639,17 +685,7 @@ void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
 
   return;
 
-deinit_realloc_elements:
-  for (; i > 0; i -= 1) {
-    new_element = Mdc_UnVector_Access(
-        realloc_elements,
-        metadata->size.size,
-        i - 1
-    );
-
-    functions->deinit(new_element);
-  }
-
+free_realloc_elements:
   free(realloc_elements);
   realloc_elements = NULL;
 
