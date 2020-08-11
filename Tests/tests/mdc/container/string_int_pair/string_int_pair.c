@@ -71,7 +71,7 @@ static int Mdc_Integer_CompareAsVoid(
   return Mdc_Integer_Compare(integer1, integer2);
 }
 
-static struct Mdc_PairFirstFunctions* Mdc_PairStringIntFirstFunctions_Init(
+static struct Mdc_PairFirstFunctions* Mdc_PairCharCStringIntFirstFunctions_Init(
     struct Mdc_PairFirstFunctions* first_functions
 ) {
   first_functions->init_copy = &Mdc_CharCString_InitCopyAsVoid;
@@ -82,7 +82,7 @@ static struct Mdc_PairFirstFunctions* Mdc_PairStringIntFirstFunctions_Init(
   return first_functions;
 }
 
-static struct Mdc_PairSecondFunctions* Mdc_PairStringIntSecondFunctions_Init(
+static struct Mdc_PairSecondFunctions* Mdc_PairCharCStringIntSecondFunctions_Init(
     struct Mdc_PairSecondFunctions* second_functions
 ) {
   second_functions->init_copy = &Mdc_Integer_InitCopyAsVoid;
@@ -97,16 +97,16 @@ static struct Mdc_PairSecondFunctions* Mdc_PairStringIntSecondFunctions_Init(
  * External functions
  */
 
-struct Mdc_PairMetadata* Mdc_PairStringIntMetadata_Init(
+struct Mdc_PairMetadata* Mdc_PairCharCStringIntMetadata_Init(
     struct Mdc_PairMetadata* metadata
 ) {
-  metadata->size.first_size = sizeof(char*);
-  metadata->size.second_size = sizeof(int);
+  metadata->size.first_size = sizeof(struct CharCString);
+  metadata->size.second_size = sizeof(struct Integer);
 
-  Mdc_PairStringIntFirstFunctions_Init(
+  Mdc_PairCharCStringIntFirstFunctions_Init(
       &metadata->functions.first_functions
   );
-  Mdc_PairStringIntSecondFunctions_Init(
+  Mdc_PairCharCStringIntSecondFunctions_Init(
       &metadata->functions.second_functions
   );
 

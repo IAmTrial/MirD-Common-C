@@ -69,7 +69,7 @@ enum FILE_SCOPE_CONSTANTS_03 {
 static struct Mdc_MapMetadata* Mdc_WordCountMapMetadata_Init(
     struct Mdc_MapMetadata* metadata
 ) {
-  Mdc_PairStringIntMetadata_Init(&metadata->pair_metadata);
+  Mdc_PairCharCStringIntMetadata_Init(&metadata->pair_metadata);
 
   return metadata;
 }

@@ -35,7 +35,7 @@
 #include "../../../sample_types/char_cstring.h"
 #include "../../../sample_types/integer.h"
 
-struct Mdc_PairMetadata* Mdc_PairStringIntMetadata_Init(
+struct Mdc_PairMetadata* Mdc_PairCharCStringIntMetadata_Init(
     struct Mdc_PairMetadata* metadata
 );
 
