@@ -129,7 +129,7 @@ static void Mdc_Map_AssertEmplace(void) {
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      init_key_copy = Mdc_String_InitCopy(&key_copy, &kRepeatingText[i]);
+      init_key_copy = Mdc_CharCString_InitCopy(&key_copy, &kRepeatingText[i]);
       assert(init_key_copy == &key_copy);
 
       zero_copy = kZero;
@@ -141,7 +141,7 @@ static void Mdc_Map_AssertEmplace(void) {
           &zero_copy
       );
 
-      Mdc_String_Deinit(&key_copy);
+      Mdc_CharCString_Deinit(&key_copy);
     }
 
     actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);

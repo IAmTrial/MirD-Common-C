@@ -67,7 +67,7 @@ static void Mdc_Pair_AssertInitDeinit(void) {
 
   assert(init_metadata == &metadata);
 
-  Mdc_String_InitCopy(&first, &kFirstSrc1);
+  Mdc_CharCString_InitCopy(&first, &kFirstSrc1);
   assert(first != NULL);
   assert(strcmp(first, kFirstSrc1) == 0);
 

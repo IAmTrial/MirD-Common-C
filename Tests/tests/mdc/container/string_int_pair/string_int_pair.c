@@ -29,16 +29,15 @@
 
 #include "string_int_pair.h"
 
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
+#include "../../../sample_types/char_cstring.h"
+#include "../../../sample_types/integer.h"
 
 /**
  * Static functions
  */
 
 static void* Mdc_String_InitCopyAsVoid(void* dest, const void* src) {
-  return Mdc_String_InitCopy(dest, src);
+  return Mdc_CharCString_InitCopy(dest, src);
 }
 
 static int* Mdc_Int_InitCopyAsVoid(void* dest, const void* src) {
@@ -46,7 +45,7 @@ static int* Mdc_Int_InitCopyAsVoid(void* dest, const void* src) {
 }
 
 static void* Mdc_String_InitMoveAsVoid(void* dest, void* src) {
-  return Mdc_String_InitMove(dest, src);
+  return Mdc_CharCString_InitMove(dest, src);
 }
 
 static int* Mdc_Int_InitMoveAsVoid(void* dest, void* src) {
@@ -54,7 +53,7 @@ static int* Mdc_Int_InitMoveAsVoid(void* dest, void* src) {
 }
 
 static void Mdc_String_DeinitAsVoid(void* str) {
-  Mdc_String_Deinit(str);
+  Mdc_CharCString_Deinit(str);
 }
 
 static void Mdc_Int_DeinitAsVoid(void* integer) {
@@ -62,7 +61,7 @@ static void Mdc_Int_DeinitAsVoid(void* integer) {
 }
 
 static int Mdc_String_CompareAsVoid(const void* str1, const void* str2) {
-  return Mdc_String_Compare(str1, str2);
+  return Mdc_CharCString_Compare(str1, str2);
 }
 
 static int Mdc_Int_CompareAsVoid(
@@ -97,76 +96,6 @@ static struct Mdc_PairSecondFunctions* Mdc_PairStringIntSecondFunctions_Init(
 /**
  * External functions
  */
-
-char** Mdc_String_InitCopy(
-    char** dest,
-    const char* const* src
-) {
-  size_t src_len;
-  size_t src_size;
-
-  src_len = strlen(*src);
-  src_size = (src_len + 1) * sizeof(**src);
-
-  *dest = malloc(src_size);
-
-  if (*dest == NULL) {
-    return NULL;
-  }
-
-  strcpy(*dest, *src);
-
-  return dest;
-}
-
-int* Mdc_Int_InitCopy(
-    int* dest,
-    const int* src
-) {
-  *dest = *src;
-
-  return dest;
-}
-
-char** Mdc_String_InitMove(
-    char** dest,
-    char** src
-) {
-  *dest = *src;
-  *src = NULL;
-
-  return dest;
-}
-
-int* Mdc_Int_InitMove(
-    int* dest,
-    int* src
-) {
-  *dest = *src;
-  src = 0;
-
-  return dest;
-}
-
-void Mdc_String_Deinit(char** str) {
-}
-
-void Mdc_Int_Deinit(int* integer) {
-}
-
-int Mdc_String_Compare(
-    const char* const* str1,
-    const char* const* str2
-) {
-  return strcmp(*str1, *str2);
-}
-
-int Mdc_Int_Compare(
-    const int* integer1,
-    const int* integer2
-) {
-  return (*integer1) - (*integer2);
-}
 
 struct Mdc_PairMetadata* Mdc_PairStringIntMetadata_Init(
     struct Mdc_PairMetadata* metadata

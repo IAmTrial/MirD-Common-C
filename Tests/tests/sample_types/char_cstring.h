@@ -27,16 +27,24 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
-#define MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
+#ifndef MDC_TESTS_SAMPLE_TYPES_C_CHAR_CSTRING_H_
+#define MDC_TESTS_SAMPLE_TYPES_C_CHAR_CSTRING_H_
 
-#include <mdc/container/pair.h>
-
-#include "../../../sample_types/char_cstring.h"
-#include "../../../sample_types/integer.h"
-
-struct Mdc_PairMetadata* Mdc_PairStringIntMetadata_Init(
-    struct Mdc_PairMetadata* metadata
+char** Mdc_CharCString_InitCopy(
+    char** dest,
+    const char* const* src
 );
 
-#endif /* MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_ */
+char** Mdc_CharCString_InitMove(
+    char** dest,
+    char** src
+);
+
+void Mdc_CharCString_Deinit(char** str);
+
+int Mdc_CharCString_Compare(
+    const char* const* str1,
+    const char* const* str2
+);
+
+#endif /* MDC_TESTS_SAMPLE_TYPES_C_CHAR_CSTRING_H_ */

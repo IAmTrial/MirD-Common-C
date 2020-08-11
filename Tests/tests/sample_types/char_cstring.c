@@ -27,16 +27,47 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
-#define MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include <mdc/container/pair.h>
+char** Mdc_CharCString_InitCopy(
+    char** dest,
+    const char* const* src
+) {
+  size_t src_len;
+  size_t src_size;
 
-#include "../../../sample_types/char_cstring.h"
-#include "../../../sample_types/integer.h"
+  src_len = strlen(*src);
+  src_size = (src_len + 1) * sizeof(**src);
 
-struct Mdc_PairMetadata* Mdc_PairStringIntMetadata_Init(
-    struct Mdc_PairMetadata* metadata
-);
+  *dest = malloc(src_size);
 
-#endif /* MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_ */
+  if (*dest == NULL) {
+    return NULL;
+  }
+
+  strcpy(*dest, *src);
+
+  return dest;
+}
+
+char** Mdc_CharCString_InitMove(
+    char** dest,
+    char** src
+) {
+  *dest = *src;
+  *src = NULL;
+
+  return dest;
+}
+
+void Mdc_CharCString_Deinit(char** str) {
+}
+
+int Mdc_CharCString_Compare(
+    const char* const* str1,
+    const char* const* str2
+) {
+  return strcmp(*str1, *str2);
+}
