@@ -27,14 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "container_tests.h"
+#ifndef MDC_TESTS_C_CONTAINER_VECTOR_TESTS_H_
+#define MDC_TESTS_C_CONTAINER_VECTOR_TESTS_H_
 
-#include "container/map_tests.h"
-#include "container/pair_tests.h"
-#include "container/vector_tests.h"
+void Mdc_Vector_RunTests(void);
 
-void Mdc_Container_RunTests(void) {
-  Mdc_Pair_RunTests();
-  Mdc_Map_RunTests();
-  Mdc_Vector_RunTests();
-}
+#endif /* MDC_TESTS_C_CONTAINER_VECTOR_TESTS_H_ */
