@@ -36,48 +36,48 @@
  * Static functions
  */
 
-static void* Mdc_String_InitCopyAsVoid(void* dest, const void* src) {
+static void* Mdc_CharCString_InitCopyAsVoid(void* dest, const void* src) {
   return Mdc_CharCString_InitCopy(dest, src);
 }
 
-static int* Mdc_Int_InitCopyAsVoid(void* dest, const void* src) {
-  return Mdc_Int_InitCopy(dest, src);
+static void* Mdc_Integer_InitCopyAsVoid(void* dest, const void* src) {
+  return Mdc_Integer_InitCopy(dest, src);
 }
 
-static void* Mdc_String_InitMoveAsVoid(void* dest, void* src) {
+static void* Mdc_CharCString_InitMoveAsVoid(void* dest, void* src) {
   return Mdc_CharCString_InitMove(dest, src);
 }
 
-static int* Mdc_Int_InitMoveAsVoid(void* dest, void* src) {
-  return Mdc_Int_InitMove(dest, src);
+static void* Mdc_Integer_InitMoveAsVoid(void* dest, void* src) {
+  return Mdc_Integer_InitMove(dest, src);
 }
 
-static void Mdc_String_DeinitAsVoid(void* str) {
+static void Mdc_CharCString_DeinitAsVoid(void* str) {
   Mdc_CharCString_Deinit(str);
 }
 
-static void Mdc_Int_DeinitAsVoid(void* integer) {
-  Mdc_Int_Deinit(integer);
+static void Mdc_Integer_DeinitAsVoid(void* integer) {
+  Mdc_Integer_Deinit(integer);
 }
 
-static int Mdc_String_CompareAsVoid(const void* str1, const void* str2) {
+static int Mdc_CharCString_CompareAsVoid(const void* str1, const void* str2) {
   return Mdc_CharCString_Compare(str1, str2);
 }
 
-static int Mdc_Int_CompareAsVoid(
+static int Mdc_Integer_CompareAsVoid(
     const void* integer1,
     const void* integer2
 ) {
-  return Mdc_Int_Compare(integer1, integer2);
+  return Mdc_Integer_Compare(integer1, integer2);
 }
 
 static struct Mdc_PairFirstFunctions* Mdc_PairStringIntFirstFunctions_Init(
     struct Mdc_PairFirstFunctions* first_functions
 ) {
-  first_functions->init_copy = &Mdc_String_InitCopyAsVoid;
-  first_functions->init_move = &Mdc_String_InitMoveAsVoid;
-  first_functions->deinit = &Mdc_String_DeinitAsVoid;
-  first_functions->compare = &Mdc_String_CompareAsVoid;
+  first_functions->init_copy = &Mdc_CharCString_InitCopyAsVoid;
+  first_functions->init_move = &Mdc_CharCString_InitMoveAsVoid;
+  first_functions->deinit = &Mdc_CharCString_DeinitAsVoid;
+  first_functions->compare = &Mdc_CharCString_CompareAsVoid;
 
   return first_functions;
 }
@@ -85,10 +85,10 @@ static struct Mdc_PairFirstFunctions* Mdc_PairStringIntFirstFunctions_Init(
 static struct Mdc_PairSecondFunctions* Mdc_PairStringIntSecondFunctions_Init(
     struct Mdc_PairSecondFunctions* second_functions
 ) {
-  second_functions->init_copy = &Mdc_Int_InitCopyAsVoid;
-  second_functions->init_move = &Mdc_Int_InitMoveAsVoid;
-  second_functions->deinit = &Mdc_Int_DeinitAsVoid;
-  second_functions->compare = &Mdc_Int_CompareAsVoid;
+  second_functions->init_copy = &Mdc_Integer_InitCopyAsVoid;
+  second_functions->init_move = &Mdc_Integer_InitMoveAsVoid;
+  second_functions->deinit = &Mdc_Integer_DeinitAsVoid;
+  second_functions->compare = &Mdc_Integer_CompareAsVoid;
 
   return second_functions;
 }

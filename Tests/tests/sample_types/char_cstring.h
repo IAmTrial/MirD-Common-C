@@ -30,21 +30,30 @@
 #ifndef MDC_TESTS_SAMPLE_TYPES_C_CHAR_CSTRING_H_
 #define MDC_TESTS_SAMPLE_TYPES_C_CHAR_CSTRING_H_
 
-char** Mdc_CharCString_InitCopy(
-    char** dest,
-    const char* const* src
+struct CharCString {
+  char* cstring;
+};
+
+struct CharCString* Mdc_CharCString_Init(
+    struct CharCString* dest,
+    const char* src
 );
 
-char** Mdc_CharCString_InitMove(
-    char** dest,
-    char** src
+struct CharCString* Mdc_CharCString_InitCopy(
+    struct CharCString* dest,
+    const struct CharCString* src
 );
 
-void Mdc_CharCString_Deinit(char** str);
+struct CharCString* Mdc_CharCString_InitMove(
+    struct CharCString* dest,
+    struct CharCString* src
+);
+
+void Mdc_CharCString_Deinit(struct CharCString* str);
 
 int Mdc_CharCString_Compare(
-    const char* const* str1,
-    const char* const* str2
+    const struct CharCString* str1,
+    const struct CharCString* str2
 );
 
 #endif /* MDC_TESTS_SAMPLE_TYPES_C_CHAR_CSTRING_H_ */

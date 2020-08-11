@@ -30,20 +30,25 @@
 #ifndef MDC_TESTS_SAMPLE_TYPES_C_INTEGER_H_
 #define MDC_TESTS_SAMPLE_TYPES_C_INTEGER_H_
 
-int* Mdc_Int_InitCopy(
-    int* dest,
-    const int* src
-);
-int* Mdc_Int_InitMove(
-    int* dest,
-    int* src
+struct Integer {
+  int value;
+};
+
+struct Integer* Mdc_Integer_InitCopy(
+    struct Integer* dest,
+    const struct Integer* src
 );
 
-void Mdc_Int_Deinit(int* integer);
+struct Integer* Mdc_Integer_InitMove(
+    struct Integer* dest,
+    struct Integer* src
+);
 
-int Mdc_Int_Compare(
-    const int* integer1,
-    const int* integer2
+void Mdc_Integer_Deinit(struct Integer* integer);
+
+int Mdc_Integer_Compare(
+    const struct Integer* integer1,
+    const struct Integer* integer2
 );
 
 #endif /* MDC_TESTS_SAMPLE_TYPES_C_INTEGER_H_ */

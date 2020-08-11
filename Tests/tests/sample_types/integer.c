@@ -29,30 +29,30 @@
 
 #include "integer.h"
 
-int* Mdc_Int_InitCopy(
-    int* dest,
-    const int* src
+struct Integer* Mdc_Integer_InitCopy(
+    struct Integer* dest,
+    const struct Integer* src
 ) {
-  *dest = *src;
+  dest->value = src->value;
 
   return dest;
 }
 
-int* Mdc_Int_InitMove(
-    int* dest,
-    int* src
+struct Integer* Mdc_Integer_InitMove(
+    struct Integer* dest,
+    struct Integer* src
 ) {
-  *dest = *src;
+  dest->value = src->value;
 
   return dest;
 }
 
-void Mdc_Int_Deinit(int* integer) {
+void Mdc_Integer_Deinit(struct Integer* integer) {
 }
 
-int Mdc_Int_Compare(
-    const int* integer1,
-    const int* integer2
+int Mdc_Integer_Compare(
+    const struct Integer* integer1,
+    const struct Integer* integer2
 ) {
-  return (*integer1) - (*integer2);
+  return integer1->value - integer2->value;
 }

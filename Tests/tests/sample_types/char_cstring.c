@@ -31,43 +31,53 @@
 #include <stdlib.h>
 #include <string.h>
 
-char** Mdc_CharCString_InitCopy(
-    char** dest,
-    const char* const* src
+#include "char_cstring.h"
+
+struct CharCString* Mdc_CharCString_Init(
+    struct CharCString* dest,
+    const char* src
 ) {
   size_t src_len;
   size_t src_size;
 
-  src_len = strlen(*src);
-  src_size = (src_len + 1) * sizeof(**src);
+  src_len = strlen(src);
+  src_size = (src_len + 1) * sizeof(*src);
 
-  *dest = malloc(src_size);
+  dest->cstring = malloc(src_size);
 
-  if (*dest == NULL) {
+  if (dest->cstring == NULL) {
     return NULL;
   }
 
-  strcpy(*dest, *src);
+  strcpy(dest->cstring, src);
 
   return dest;
 }
 
-char** Mdc_CharCString_InitMove(
-    char** dest,
-    char** src
+struct CharCString* Mdc_CharCString_InitCopy(
+    struct CharCString* dest,
+    const struct CharCString* src
 ) {
-  *dest = *src;
-  *src = NULL;
+  return Mdc_CharCString_Init(dest, src->cstring);
+}
+
+struct CharCString* Mdc_CharCString_InitMove(
+    struct CharCString* dest,
+    struct CharCString* src
+) {
+  dest->cstring = src->cstring;
+  src->cstring = NULL;
 
   return dest;
 }
 
-void Mdc_CharCString_Deinit(char** str) {
+void Mdc_CharCString_Deinit(struct CharCString* str) {
+  free(str->cstring);
 }
 
 int Mdc_CharCString_Compare(
-    const char* const* str1,
-    const char* const* str2
+    const struct CharCString* str1,
+    const struct CharCString* str2
 ) {
-  return strcmp(*str1, *str2);
+  return strcmp(str1->cstring, str2->cstring);
 }

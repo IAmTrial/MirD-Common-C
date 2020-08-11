@@ -39,17 +39,17 @@
 #include <mdc/container/pair.h>
 #include "string_int_pair/string_int_pair.h"
 
-static const char* const kBasicExampleText[] = {
+static const struct CharCString kBasicExampleText[] = {
     "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy",
     "dog."
 };
 
-static const char* const kRepeatingText[] = {
+static const struct CharCString kRepeatingText[] = {
     "sort", "the", "sort", "map", "the", "way", "to", "sort",
     "what", "the", "sort", "said"
 };
 
-static const char* kRepeatingTextWords[] = {
+static const struct CharCString kRepeatingTextWords[] = {
   "map", "said", "sort", "the", "to", "way", "what"
 };
 
@@ -116,10 +116,10 @@ static void Mdc_Map_AssertEmplace(void) {
   size_t i;
   int value_compare_result;
 
-  char* key_copy;
+  struct CharCString key_copy;
   int zero_copy;
 
-  const char** init_key_copy;
+  const struct CharCString* init_key_copy;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
   Mdc_Map_Init(&map, &metadata_src);
@@ -137,7 +137,7 @@ static void Mdc_Map_AssertEmplace(void) {
       Mdc_Map_Emplace(
           &map,
           &key_copy,
-          &Mdc_Int_InitCopy,
+          &Mdc_Integer_InitCopy,
           &zero_copy
       );
 
@@ -200,7 +200,7 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
       Mdc_Map_EmplaceKeyCopy(
           &map,
           &kRepeatingText[i],
-          &Mdc_Int_InitCopy,
+          &Mdc_Integer_InitCopy,
           &zero_copy
       );
     }

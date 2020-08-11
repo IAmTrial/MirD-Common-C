@@ -42,11 +42,11 @@
  * External functions
  */
 
-const char* const kFirstSrc1 = "Hello world";
-const int kSecondSrc1 = 42;
+const struct CharCString kFirstSrc1 = { "Hello world" };
+const struct Integer kSecondSrc1 = { 42 };
 
-const char* const kFirstSrc2 = "Hello world!";
-const int kSecondSrc2 = 43;
+const struct CharCString kFirstSrc2 = { "Hello world!" };
+const struct Integer kSecondSrc2 = { 43 };
 
 static void Mdc_Pair_AssertInitDeinit(void) {
   struct Mdc_PairMetadata metadata;
@@ -57,8 +57,8 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   const struct Mdc_PairSecondFunctions* const second_functions =
       &metadata.functions.second_functions;
 
-  char* first;
-  int second;
+  struct CharCString first;
+  struct Integer second;
 
   struct Mdc_Pair pair;
   struct Mdc_Pair* init_pair;
@@ -68,11 +68,11 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   assert(init_metadata == &metadata);
 
   Mdc_CharCString_InitCopy(&first, &kFirstSrc1);
-  assert(first != NULL);
-  assert(strcmp(first, kFirstSrc1) == 0);
+  assert(first.cstring != NULL);
+  assert(strcmp(first.cstring, kFirstSrc1.cstring) == 0);
 
-  Mdc_Int_InitCopy(&second, &kSecondSrc1);
-  assert(second == kSecondSrc1);
+  Mdc_Integer_InitCopy(&second, &kSecondSrc1);
+  assert(second.value == kSecondSrc1.value);
 
   init_pair = Mdc_Pair_InitFirstSecond(
       &pair,
