@@ -27,63 +27,44 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STD_THREADS_H_
-#define MDC_C_STD_THREADS_H_
+#include "../../../../include/mdc/std/threads.h"
 
-#if __STDC_VERSION__ >= 201112L && !defined(__STDC_NO_THREADS__)
+#if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
-#include <threads.h>
+static void CallAsActiveThread(once_flag* flag, void (*func)(void)) {
+  flag->passive_thread_event_ = CreateEventA(NULL, TRUE, FALSE, NULL);
+  flag->is_event_init_ = TRUE;
 
-#else
+  func();
+  flag->is_finished_ = TRUE;
 
-#include <windows.h>
+  SetEvent(flag->passive_thread_event_);
+}
 
-enum {
-  thrd_success,
-  thrd_nomem,
-  thrd_timedout,
-  thrd_busy,
-  thrd_error
-};
+static void CallAsPassiveThread(once_flag* flag) {
+  while (!flag->is_event_init_) {
+    /* Spinlock due to uninited state */
+  }
 
-/**
- * Mutual exclusion
- */
+  WaitForSingleObject(flag->passive_thread_event_, INFINITE);
+}
 
-enum {
-  mtx_plain = 0x1,
-  mtx_recursive = 0x4,
-  mtx_timed = 0x3
-};
+void call_once(once_flag* flag, void (*func)(void)) {
+  LONG had_active_thread;
 
-typedef struct {
-  HANDLE mutex_;
-  int type_;
+  if (flag->is_finished_) {
+    return;
+  }
 
-  BOOL is_owned_;
-} mtx_t;
+  had_active_thread = InterlockedExchange(&flag->has_active_thread_, 1);
 
-int mtx_init(mtx_t* mutex, int type);
-void mtx_destroy(mtx_t* mutex);
-int mtx_lock(mtx_t* mutex);
-int mtx_trylock(mtx_t *mutex);
-int mtx_unlock(mtx_t *mutex);
+  if (had_active_thread == 0) {
+    /* This is the active thread. */
+    CallAsActiveThread(flag, func);
+  } else {
+    /* This is a passive thread. */
+    CallAsPassiveThread(flag);
+  }
+}
 
-typedef struct {
-  LONG has_active_thread_;
-
-  BOOL is_event_init_;
-  BOOL is_finished_;
-
-  HANDLE passive_thread_event_;
-
-  CRITICAL_SECTION critical_section_;
-} once_flag;
-
-#define ONCE_FLAG_INIT { 0 }
-
-void call_once(once_flag* flag, void (*func)(void));
-
-#endif
-
-#endif /* MDC_C_STD_THREADS_H_ */
+#endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */
