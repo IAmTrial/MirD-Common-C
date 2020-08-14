@@ -84,6 +84,23 @@ typedef struct {
 
 void call_once(once_flag* flag, void (*func)(void));
 
+/**
+ * Conditional variables
+ */
+
+typedef struct {
+  HANDLE waiter_event_;
+
+  BOOL is_broadcast;
+  LONG has_signal_pass;
+} cnd_t;
+
+int cnd_init(cnd_t* cond);
+void cnd_destroy(cnd_t* cond);
+int cnd_signal(cnd_t* cond);
+int cnd_broadcast(cnd_t* cond);
+int cnd_wait(cnd_t* cond, mtx_t* mutex);
+
 #endif
 
 #endif /* MDC_C_STD_THREADS_H_ */
