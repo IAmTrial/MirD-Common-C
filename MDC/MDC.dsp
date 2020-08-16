@@ -117,6 +117,30 @@ SOURCE=.\src\mdc\wchar_t\wide_decoding.c
 SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Source File
 # End Group
+# Begin Group "std_c"
+
+# PROP Default_Filter ""
+# Begin Group "threads_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\std\threads\call_once.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\threads\cond.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\threads\mutex.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\threads\threads.c
+# End Source File
+# End Group
+# End Group
 # End Group
 # End Group
 # Begin Group "include"
@@ -163,6 +187,10 @@ SOURCE=.\include\mdc\std\stdbool.h
 # Begin Source File
 
 SOURCE=.\include\mdc\std\stdint.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\std\threads.h
 # End Source File
 # End Group
 # End Group

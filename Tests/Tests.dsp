@@ -121,6 +121,14 @@ SOURCE=.\tests\mdc\container\pair_tests.c
 
 SOURCE=.\tests\mdc\container\pair_tests.h
 # End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\vector_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\vector_tests.h
+# End Source File
 # End Group
 # Begin Group "std"
 
@@ -140,6 +148,14 @@ SOURCE=.\tests\mdc\std\stdint_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\std\stdint_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std\threads_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std\threads_tests.h
 # End Source File
 # End Group
 # Begin Group "wchar_t"
@@ -201,6 +217,26 @@ SOURCE=.\tests\mdc\wchar_t_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\wchar_t_tests.h
+# End Source File
+# End Group
+# Begin Group "sample_types"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\sample_types\char_cstring.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\sample_types\char_cstring.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\sample_types\integer.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\sample_types\integer.h
 # End Source File
 # End Group
 # End Group
