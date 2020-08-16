@@ -135,6 +135,14 @@ SOURCE=.\tests\mdc\container\vector_tests.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\tests\mdc\std\assert_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std\assert_tests.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\tests\mdc\std\stdbool_tests.c
 # End Source File
 # Begin Source File

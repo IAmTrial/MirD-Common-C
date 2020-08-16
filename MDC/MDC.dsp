@@ -182,6 +182,10 @@ SOURCE=.\include\mdc\wchar_t\wide_encoding.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\include\mdc\std\assert.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\mdc\std\stdbool.h
 # End Source File
 # Begin Source File
