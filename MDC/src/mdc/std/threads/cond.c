@@ -90,25 +90,27 @@ return_bad:
 }
 
 int cnd_wait(cnd_t* cond, mtx_t* mutex) {
-  DWORD signal_and_wait_result;
+  DWORD wait_result;
   LONG has_signal_pass;
+  int mtx_unlock_result;
   int mtx_lock_result;
-
-  mutex->is_owned_ = FALSE;
 
   /*
   * Infinitely wait, breaking out on a broadcast, or being the
   * first thread to interlock after the signal.
   */
   do {
-    signal_and_wait_result = SignalObjectAndWait(
-        mutex->mutex_,
+    mtx_unlock_result = mtx_unlock(mutex);
+    if (mtx_unlock_result != thrd_success) {
+      goto return_bad;
+    }
+
+    wait_result = WaitForSingleObject(
         cond->waiter_event_,
-        INFINITE,
-        FALSE
+        INFINITE
     );
 
-    if (signal_and_wait_result == WAIT_FAILED) {
+    if (wait_result == WAIT_FAILED) {
       goto return_bad;
     }
 
