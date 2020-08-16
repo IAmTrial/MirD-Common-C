@@ -27,18 +27,16 @@
  *  to convey the resulting work.
  */
 
-#include "std_tests.h"
+#include "assert_tests.h"
 
-#include <stdio.h>
+#include <mdc/std/assert.h>
 
-#include "std/assert_tests.h"
-#include "std/stdbool_tests.h"
-#include "std/stdint_tests.h"
-#include "std/threads_tests.h"
+static void Mdc_Assert_StaticAssert(void) {
+  static_assert(0 == 0, "This cannot fail.");
+  static_assert(0 != 1, "This cannot fail.");
+  /* static_assert(1 == 0, "This will fail."); */
+}
 
-void Mdc_Std_RunTests(void) {
-  Mdc_Assert_RunTests();
-  Mdc_StdBool_RunTests();
-  Mdc_StdInt_RunTests();
-  Mdc_Threads_RunTests();
+void Mdc_Assert_RunTests(void) {
+  Mdc_Assert_StaticAssert();
 }

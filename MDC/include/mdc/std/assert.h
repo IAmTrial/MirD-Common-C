@@ -25,20 +25,25 @@
  *  libraries), containing parts covered by the terms of an incompatible
  *  license, the licensors of this Program grant you additional permission
  *  to convey the resulting work.
+ *
+ *  This file includes source code pasted from the following location:
+ *  https://stackoverflow.com/questions/3385515/static-assert-in-c
  */
 
-#include "std_tests.h"
+#ifndef MDC_C_STD_ASSERT_H_
+#define MDC_C_STD_ASSERT_H_
 
-#include <stdio.h>
+#include <assert.h>
 
-#include "std/assert_tests.h"
-#include "std/stdbool_tests.h"
-#include "std/stdint_tests.h"
-#include "std/threads_tests.h"
+#if __STDC_VERSION__ < 201112L && !defined(static_assert)
 
-void Mdc_Std_RunTests(void) {
-  Mdc_Assert_RunTests();
-  Mdc_StdBool_RunTests();
-  Mdc_StdInt_RunTests();
-  Mdc_Threads_RunTests();
-}
+/* Delivers an error if the assertion fails. The message isn't usable though. */
+#define MDC_UNDERLYING_STATIC_ASSERT(COND, MSG) \
+    typedef char static_assertion_##MSG[(!!(COND))*2-1]
+
+#define static_assert(expression, message) \
+    MDC_UNDERLYING_STATIC_ASSERT(expression, __LINE__)
+
+#endif /* __STDC_VERSION__ >= 201112L && !defined(static_assert) */
+
+#endif /* MDC_C_STD_ASSERT_H_ */
