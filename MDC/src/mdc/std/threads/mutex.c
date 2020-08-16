@@ -35,13 +35,16 @@ int mtx_init(mtx_t* mutex, int type) {
   mutex->mutex_ = CreateMutexA(NULL, FALSE, NULL);
 
   if (mutex->mutex_ == NULL) {
-    return thrd_error;
+    goto return_bad;
   }
 
   mutex->type_ = type;
   mutex->is_owned_ = FALSE;
 
   return thrd_success;
+
+return_bad:
+  return thrd_error;
 }
 
 void mtx_destroy(mtx_t* mutex) {
@@ -114,16 +117,23 @@ int mtx_trylock(mtx_t* mutex) {
 
 int mtx_unlock(mtx_t *mutex) {
   BOOL is_release_success;
+  BOOL was_owned;
 
-  is_release_success = ReleaseMutex(mutex);
-
-  if (!is_release_success) {
-    return thrd_error;
-  }
+  was_owned = mutex->is_owned_;
 
   mutex->is_owned_ = FALSE;
+  is_release_success = ReleaseMutex(mutex->mutex_);
+
+  if (!is_release_success) {
+    goto return_bad;
+  }
 
   return thrd_success;
+
+return_bad:
+  mutex->is_owned_ = was_owned;
+
+  return thrd_error;
 }
 
 #endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */
