@@ -63,9 +63,16 @@ int thrd_create(thrd_t* thrd, thrd_start_t func, void* arg) {
   args_wrapper->func_ = func;
   args_wrapper->arg_ = arg;
 
-  thrd = (HANDLE) _beginthreadex(NULL, 0, &RunThreadFuncShim, thrd, 0, NULL);
+  *thrd = (HANDLE) _beginthreadex(
+      NULL,
+      0,
+      &RunThreadFuncShim,
+      args_wrapper,
+      0,
+      NULL
+  );
 
-  if (thrd == NULL) {
+  if (*thrd == NULL) {
     free(args_wrapper);
 
     if (errno == EACCES) {
