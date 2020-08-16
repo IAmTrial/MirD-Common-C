@@ -73,7 +73,6 @@ return_bad:
 
 int cnd_broadcast(cnd_t* cond) {
   BOOL is_pulse_success;
-  DWORD wait_result;
 
   cond->is_broadcast = TRUE;
   cond->has_signal_pass = FALSE;
