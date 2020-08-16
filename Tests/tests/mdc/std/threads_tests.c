@@ -39,6 +39,12 @@ struct MutexedValue {
   int value;
 };
 
+enum {
+  kOnceTargetValue = 42
+};
+
+static int once_value = 0;
+
 static int Increment(void* value) {
   int* actual_value = (int*) value;
   int temp;
@@ -65,6 +71,29 @@ static int MutexedIncrement(void* arg) {
 
   mtx_unlock_result = mtx_unlock(&mutexed_value->mutex);
   assert(mtx_unlock_result == thrd_success);
+
+  return 0;
+}
+
+static void SetOnceTarget(void) {
+  size_t i;
+
+  for (i = 0; i < kOnceTargetValue; i += 1) {
+    Increment(&once_value);
+  }
+}
+
+static int SetOnceTargetMultithread(void* arg) {
+  enum {
+    kIterationCount = 8
+  };
+
+  once_flag* flag = arg;
+  size_t i;
+
+  for (i = 0; i < kIterationCount; i += 1) {
+    call_once(flag, &SetOnceTarget);
+  }
 
   return 0;
 }
@@ -131,7 +160,37 @@ static void Mdc_Threads_AssertMutexLockUnlock(void) {
   mtx_destroy(&value.mutex);
 }
 
+static void Mdc_Threads_AssertCallOnce(void) {
+  enum {
+    kThreadsCount = 256
+  };
+
+  const once_flag kInitOnceFlag = ONCE_FLAG_INIT;
+
+  thrd_t threads[kThreadsCount];
+  once_flag flag = ONCE_FLAG_INIT;
+
+  size_t i;
+  int thread_create_result;
+  int thread_join_result;
+
+  assert(memcmp(&flag, &kInitOnceFlag, sizeof(kInitOnceFlag)) == 0);
+
+  for (i = 0; i < kThreadsCount; i += 1) {
+    thread_create_result = thrd_create(&threads[i], &SetOnceTargetMultithread, &flag);
+    assert(thread_create_result == thrd_success);
+  }
+
+  for (i = 0; i < kThreadsCount; i += 1) {
+    thread_join_result = thrd_join(threads[i], NULL);
+    assert(thread_join_result == thrd_success);
+  }
+
+  assert(once_value == kOnceTargetValue);
+}
+
 void Mdc_Threads_RunTests(void) {
   Mdc_Threads_AssertRaceCondition();
   Mdc_Threads_AssertMutexLockUnlock();
+  Mdc_Threads_AssertCallOnce();
 }
