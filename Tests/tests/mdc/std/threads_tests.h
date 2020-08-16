@@ -27,16 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "std_tests.h"
+#ifndef MDC_TESTS_C_STD_THREADS_H_
+#define MDC_TESTS_C_STD_THREADS_H_
 
-#include <stdio.h>
+void Mdc_Threads_RunTests(void);
 
-#include "std/stdbool_tests.h"
-#include "std/stdint_tests.h"
-#include "std/threads_tests.h"
-
-void Mdc_Std_RunTests(void) {
-  Mdc_StdBool_RunTests();
-  Mdc_StdInt_RunTests();
-  Mdc_Threads_RunTests();
-}
+#endif /* MDC_TESTS_C_STD_THREADS_H_ */
