@@ -44,6 +44,12 @@ int mtx_init(mtx_t* mutex, int type) {
   return thrd_success;
 }
 
+void mtx_destroy(mtx_t* mutex) {
+  BOOL close_handle_result;
+
+  close_handle_result = CloseHandle(mutex->mutex_);
+}
+
 int mtx_lock(mtx_t* mutex) {
   DWORD wait_result;
   BOOL is_release_success;
@@ -118,10 +124,6 @@ int mtx_unlock(mtx_t *mutex) {
   mutex->is_owned_ = FALSE;
 
   return thrd_success;
-}
-
-void mtx_destroy(mtx_t* mutex) {
-  CloseHandle(mutex->mutex_);
 }
 
 #endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */
