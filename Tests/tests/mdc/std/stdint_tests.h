@@ -30,15 +30,6 @@
 #ifndef MDC_TESTS_C_STD_STDINT_H_
 #define MDC_TESTS_C_STD_STDINT_H_
 
-void Mdc_Std_AssertInt8Size(void);
-void Mdc_Std_AssertInt16Size(void);
-void Mdc_Std_AssertInt32Size(void);
-
-void Mdc_Std_AssertUInt8Size(void);
-void Mdc_Std_AssertUInt16Size(void);
-void Mdc_Std_AssertUInt32Size(void);
-
-void Mdc_Std_AssertIntptrSize(void);
-void Mdc_Std_AssertUintptrSize(void);
+void Mdc_StdInt_RunTests(void);
 
 #endif /* MDC_TESTS_C_STD_STDINT_H_ */

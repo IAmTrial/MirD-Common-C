@@ -35,19 +35,6 @@
 #include "std/stdint_tests.h"
 
 void Mdc_Std_RunTests(void) {
-  /* stdbool.h */
-  Mdc_Std_AssertFalseIsZero();
-  Mdc_Std_AssertTrueIsNonZero();
-
-  /* stdint.h */
-  Mdc_Std_AssertInt8Size();
-  Mdc_Std_AssertInt16Size();
-  Mdc_Std_AssertInt32Size();
-
-  Mdc_Std_AssertUInt8Size();
-  Mdc_Std_AssertUInt16Size();
-  Mdc_Std_AssertUInt32Size();
-
-  Mdc_Std_AssertIntptrSize();
-  Mdc_Std_AssertUintptrSize();
+  Mdc_StdBool_RunTests();
+  Mdc_StdInt_RunTests();
 }

@@ -30,7 +30,6 @@
 #ifndef MDC_TESTS_C_STD_STDBOOL_H_
 #define MDC_TESTS_C_STD_STDBOOL_H_
 
-void Mdc_Std_AssertFalseIsZero(void);
-void Mdc_Std_AssertTrueIsNonZero(void);
+void Mdc_StdBool_RunTests(void);
 
 #endif /* MDC_TESTS_C_STD_STDBOOL_H_ */
