@@ -82,13 +82,8 @@ int thrd_create(thrd_t* thrd, thrd_start_t func, void* arg) {
 }
 
 int thrd_equal(thrd_t lhs, thrd_t rhs) {
-  DWORD lhs_id;
-  DWORD rhs_id;
-
-  lhs_id = GetThreadId(lhs);
-  rhs_id = GetThreadId(rhs);
-
-  return lhs_id == rhs_id;
+  /* TODO (Mir Duralga): This does not work if the pseudo-handle is used! */
+  return lhs == rhs;
 }
 
 thrd_t thrd_current(void) {
