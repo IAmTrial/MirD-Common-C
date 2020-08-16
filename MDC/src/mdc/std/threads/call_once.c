@@ -50,15 +50,15 @@ static void CallAsPassiveThread(once_flag* flag) {
 }
 
 void call_once(once_flag* flag, void (*func)(void)) {
-  LONG had_active_thread;
+  LONG has_active_thread;
 
   if (flag->is_finished_) {
     return;
   }
 
-  had_active_thread = InterlockedExchange(&flag->has_active_thread_, 1);
+  has_active_thread = InterlockedExchange(&flag->has_active_thread_, 1);
 
-  if (had_active_thread == 0) {
+  if (has_active_thread == 0) {
     /* This is the active thread. */
     CallAsActiveThread(flag, func);
   } else {
