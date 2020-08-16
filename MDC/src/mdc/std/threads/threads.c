@@ -75,11 +75,7 @@ int thrd_create(thrd_t* thrd, thrd_start_t func, void* arg) {
   if (*thrd == NULL) {
     free(args_wrapper);
 
-    if (errno == EACCES) {
-      return thrd_nomem;
-    } else {
-      return thrd_error;
-    }
+    return thrd_error;
   }
 
   return thrd_success;
