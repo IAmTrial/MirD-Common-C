@@ -38,6 +38,10 @@
 
 #include <windows.h>
 
+/**
+ * Threads
+ */
+
 enum {
   thrd_success,
   thrd_nomem,
@@ -45,6 +49,18 @@ enum {
   thrd_busy,
   thrd_error
 };
+
+typedef int (*thrd_start_t)(void*);
+
+typedef HANDLE thrd_t;
+
+int thrd_create(thrd_t* thr, thrd_start_t func, void* arg);
+int thrd_equal(thrd_t lhs, thrd_t rhs);
+thrd_t thrd_current(void);
+void thrd_yield(void);
+void thrd_exit(int res);
+int thrd_detach(thrd_t thr);
+int thrd_join(thrd_t thr, int *res);
 
 /**
  * Mutual exclusion
