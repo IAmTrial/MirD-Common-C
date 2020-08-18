@@ -93,8 +93,8 @@ struct Mdc_Vector* Mdc_Vector_Init(
 /**
  * Initializes the destination vector by copying the source vector.
  *
- * @param[out] dest destination pair
- * @param[in] src source pair
+ * @param[out] dest destination vector
+ * @param[in] src source vector
  * @return dest if successful, otherwise NULL
  */
 struct Mdc_Vector* Mdc_Vector_InitCopy(
@@ -105,8 +105,8 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
 /**
  * Initializes the destination vector by moving the source vector.
  *
- * @param[out] dest destination pair
- * @param[in] src source pair
+ * @param[out] dest destination vector
+ * @param[in] src source vector
  * @return dest if successful, otherwise NULL
  */
 struct Mdc_Vector* Mdc_Vector_InitMove(
@@ -172,7 +172,7 @@ const void* Mdc_Vector_AtConst(const struct Mdc_Vector* vector, size_t pos);
  * Returns the pointer to the last element in the vector.
  *
  * @param[in] vector this vector
- * @return the last element in the vector
+ * @return the pointer to the last element in the vector
  */
 void* Mdc_Vector_Back(struct Mdc_Vector* vector);
 
@@ -180,7 +180,7 @@ void* Mdc_Vector_Back(struct Mdc_Vector* vector);
  * Returns the pointer to the last element in the vector.
  *
  * @param[in] vector this vector
- * @return the last element in the vector
+ * @return the pointer to the last element in the vector
  */
 const void* Mdc_Vector_BackConst(const struct Mdc_Vector* vector);
 
@@ -230,7 +230,7 @@ bool Mdc_Vector_Empty(const struct Mdc_Vector* vector);
  * Returns the pointer to the first element in the vector.
  *
  * @param[in] vector this vector
- * @return the first element in the vector
+ * @return the pointer to the first element in the vector
  */
 void* Mdc_Vector_Front(struct Mdc_Vector* vector);
 
@@ -238,7 +238,7 @@ void* Mdc_Vector_Front(struct Mdc_Vector* vector);
  * Returns the pointer to the first element in the vector.
  *
  * @param[in] vector this vector
- * @return the first element in the vector
+ * @return the pointer to the first element in the vector
  */
 const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
 
@@ -257,7 +257,7 @@ void Mdc_Vector_PopBack(struct Mdc_Vector* vector);
  * capacity, then all iterators are invalidated.
  *
  * @param[in, out] vector this vector
- * @param[in] value the value append
+ * @param[in] value the value to append
  */
 void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value);
 
@@ -289,8 +289,8 @@ void Mdc_Vector_Resize(
 
 /**
  * Increases the capacity of this vector. If the vector's capacity is
- * larger than the specified new capacity, then the function does
- * nothing.
+ * larger than or equal to the specified new capacity, then the
+ * function does nothing.
  *
  * @param[in] vector this vector
  * @param[in] new_capacity the desired new capacity for this vector
