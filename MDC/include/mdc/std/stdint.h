@@ -39,10 +39,14 @@
 typedef __int8 int8_t;
 typedef __int16 int16_t;
 typedef __int32 int32_t;
+typedef __int64 int64_t;
+typedef int64_t intmax_t;
 
 typedef unsigned __int8 uint8_t;
 typedef unsigned __int16 uint16_t;
 typedef unsigned __int32 uint32_t;
+typedef unsigned __int64 uint64_t;
+typedef uint64_t uintmax_t;
 
 #if defined(_WIN64)
 
@@ -62,10 +66,12 @@ typedef unsigned __int32 uintptr_t;
 #define INT64_MIN -9223372036854775808L
 
 #if defined(_WIN64)
-#define INTPTR_MIN -9223372036854775808L
+#define INTPTR_MIN INT64_MIN
 #elif defined(_WIN32)
-#define INTPTR_MIN -2147483648
+#define INTPTR_MIN INT32_MIN
 #endif
+
+#define INTMAX_MIN INT64_MIN
 
 #define INT8_MAX 127
 #define INT16_MAX 32767
@@ -73,10 +79,12 @@ typedef unsigned __int32 uintptr_t;
 #define INT64_MAX 9223372036854775807L
 
 #if defined(_WIN64)
-#define INTPTR_MAX 9223372036854775807L
+#define INTPTR_MAX INT64_MAX
 #elif defined(_WIN32)
-#define INTPTR_MAX 2147483647
+#define INTPTR_MAX INT32_MAX
 #endif
+
+#define INTMAX_MAX INT64_MAX
 
 #define UINT8_MAX 255
 #define UINT16_MAX 65535
@@ -84,10 +92,12 @@ typedef unsigned __int32 uintptr_t;
 #define UINT64_MAX 18446744073709551615L
 
 #if defined(_WIN64)
-#define UINTPTR_MIN 18446744073709551615L
+#define UINTPTR_MAX UINT64_MAX
 #elif defined(_WIN32)
-#define UINTPTR_MIN 4294967295
+#define UINTPTR_MAX UINT32_MAX
 #endif
+
+#define UINTMAX_MAX UINT64_MAX
 
 #endif /* defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L */
 
