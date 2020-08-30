@@ -236,5 +236,7 @@ int Mdc_CharTraitsChar_Eof(void) {
 }
 
 int Mdc_CharTraitsChar_NotEof(int e) {
-  return e != EOF;
+  return Mdc_CharTraitsChar_EqualIntType(e, Mdc_CharTraitsChar_Eof())
+      ? 0
+      : e;
 }
