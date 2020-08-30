@@ -27,27 +27,12 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#include "string_tests.h"
 
 #include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
 
-#include "container_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
+#include "string/basic_string_tests.h"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
-
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
-
-  return 0;
+void Mdc_String_RunTests(void) {
+  Mdc_BasicString_RunTests();
 }
