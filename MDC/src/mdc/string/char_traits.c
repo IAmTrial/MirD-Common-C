@@ -27,48 +27,4 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STRING_CHAR_TRAITS_H_
-#define MDC_C_STRING_CHAR_TRAITS_H_
-
-#include <stddef.h>
-
-#include "../std/stdbool.h"
-#include "../std/stdint.h"
-
-struct Mdc_CharTraitsSizes {
-  size_t ch_size;
-  size_t int_size;
-};
-
-struct Mdc_CharTraitsFunctions {
-  void (*assign_char)(void* r, const void* a);
-  void* (*assign_str)(void* p, size_t count, uintmax_t a);
-
-  bool (*equal_char)(uintmax_t a, uintmax_t b);
-  bool (*less_than_char)(uintmax_t a, uintmax_t b);
-
-  void* (*copy_overlap_str)(void* dest, const void* src, size_t count);
-  void* (*copy_nonoverlap_str)(void* dest, const void* src, size_t count);
-
-  int (*compare_str)(const void* s1, const void* s2, size_t count);
-  size_t (*length_str)(const void* s);
-  const void* (*find_str)(const void* p, size_t count, uintmax_t ch);
-
-  uintmax_t (*to_char_type)(uintmax_t c);
-  uintmax_t (*to_int_type)(uintmax_t c);
-  bool (*equal_int_type)(uintmax_t c1, uintmax_t c2);
-
-  uintmax_t (*eof)(void);
-  uintmax_t (*not_eof)(uintmax_t e);
-};
-
-struct Mdc_CharTraits {
-  struct Mdc_CharTraitsSizes sizes;
-  struct Mdc_CharTraitsFunctions functions;
-};
-
-#define MDC_CHAR_TRAITS_UNINIT { 0 };
-
-#endif /* MDC_C_STRING_CHAR_TRAITS_H_ */
-
-#include "char_traits/char_traits_char.h"
+#include "../../../include/mdc/string/char_traits.h"
