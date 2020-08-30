@@ -1265,7 +1265,7 @@ bool Mdc_BasicString_EqualCStr(
       str->length_
   );
 
-  return functions->compare_str(&kNullTermCh, c_str, 1);
+  return functions->compare_str(&kNullTermCh, c_str_end_ptr, 1) == 0;
 }
 
 void* Mdc_BasicString_Front(struct Mdc_BasicString* str){
