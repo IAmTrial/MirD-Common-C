@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/string/char_traits.h"
+#include "../../../../include/mdc/string/char_traits/char_traits_char.h"
 
 #include <string.h>
 #include <stdio.h>

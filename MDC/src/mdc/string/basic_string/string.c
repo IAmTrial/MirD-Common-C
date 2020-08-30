@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "string.h"
+#include "../../../../include/mdc/string/basic_string/string.h"
 
 #include "../../../../include/mdc/string/basic_string.h"
 
