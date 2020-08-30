@@ -132,7 +132,7 @@ struct Mdc_CharTraits* Mdc_CharTraitsChar_Init(
   /* Set functions. */
   functions->assign_char = &Mdc_CharTraitsChar_AssignCharAsVoid;
   functions->assign_str = &Mdc_CharTraitsChar_AssignStrAsVoid;
-  functions->compare_str = &Mdc_CharTraitsChar_EqualCharAsVoid;
+  functions->equal_char = &Mdc_CharTraitsChar_EqualCharAsVoid;
   functions->less_than_char = &Mdc_CharTraitsChar_LessThanCharAsVoid;
   functions->copy_overlap_str = &Mdc_CharTraitsChar_CopyOverlapStrAsVoid;
   functions->copy_nonoverlap_str =
