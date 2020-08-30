@@ -30,6 +30,7 @@
 #include "../../../include/mdc/string/basic_string.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "../../../include/mdc/std/stdint.h"
 
@@ -1008,7 +1009,7 @@ size_t Mdc_BasicString_Capacity(const struct Mdc_BasicString* str) {
   return str->capacity_;
 }
 
-int Mdc_BasicString_Compare(
+int Mdc_BasicString_CompareStr(
     const struct Mdc_BasicString* str1,
     const struct Mdc_BasicString* str2
 ) {
@@ -1018,7 +1019,167 @@ int Mdc_BasicString_Compare(
   const struct Mdc_CharTraitsFunctions* const functions =
       &metadata->char_traits.functions;
 
-  return functions->compare_str(str1->str_, str2->str_, str1->length_ + 1);
+  return Mdc_BasicString_CompareSubstr(str1, 0, str1->length_, str2);
+}
+
+int Mdc_BasicString_CompareSubstr(
+    const struct Mdc_BasicString* str1,
+    size_t pos1,
+    size_t count1,
+    const struct Mdc_BasicString* str2
+) {
+  const struct Mdc_BasicStringMetadata* const metadata = str1->metadata;
+  const struct Mdc_CharTraitsSizes* const sizes =
+      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraitsFunctions* const functions =
+      &metadata->char_traits.functions;
+
+  return Mdc_BasicString_CompareSubstrs(
+      str1,
+      pos1,
+      count1,
+      str2,
+      0,
+      Mdc_BasicString_npos
+  );
+}
+
+int Mdc_BasicString_CompareSubstrs(
+    const struct Mdc_BasicString* str1,
+    size_t pos1,
+    size_t count1,
+    const struct Mdc_BasicString* str2,
+    size_t pos2,
+    size_t count2
+) {
+  const struct Mdc_BasicStringMetadata* const metadata = str1->metadata;
+  const struct Mdc_CharTraitsSizes* const sizes =
+      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraitsFunctions* const functions =
+      &metadata->char_traits.functions;
+
+  if (count2 == Mdc_BasicString_npos
+      || count2 > str2->length_ - pos2) {
+    count2 = str2->length_ - pos2;
+  }
+
+  return Mdc_BasicString_CompareCSubstrs(
+      str1,
+      pos1,
+      count1,
+      Mdc_UnBasicString_Access(str2->str_, sizes->ch_size, pos2),
+      count2
+  );
+}
+
+int Mdc_BasicString_CompareCStr(
+    const struct Mdc_BasicString* str,
+    const void* c_str
+) {
+  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
+  const struct Mdc_CharTraitsSizes* const sizes =
+      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraitsFunctions* const functions =
+      &metadata->char_traits.functions;
+
+  return Mdc_BasicString_CompareCSubstr(
+      str,
+      0,
+      str->length_,
+      c_str
+  );
+}
+
+int Mdc_BasicString_CompareCSubstr(
+    const struct Mdc_BasicString* str,
+    size_t pos1,
+    size_t count1,
+    const void* c_str
+) {
+  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
+  const struct Mdc_CharTraitsSizes* const sizes =
+      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraitsFunctions* const functions =
+      &metadata->char_traits.functions;
+
+  return Mdc_BasicString_CompareCSubstrs(
+      str,
+      pos1,
+      count1,
+      c_str,
+      functions->length_str(c_str)
+  );
+}
+
+int Mdc_BasicString_CompareCSubstrs(
+    const struct Mdc_BasicString* str,
+    size_t pos1,
+    size_t count1,
+    const void* c_str,
+    size_t count2
+) {
+  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
+  const struct Mdc_CharTraitsSizes* const sizes =
+      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraitsFunctions* const functions =
+      &metadata->char_traits.functions;
+  const uintmax_t null_term_ch = '\0';
+
+  bool is_str_length_equal;
+  bool is_str_length_less_than;
+
+  size_t compare_length;
+  int compare_result;
+
+  const void* access_end_ptr;
+
+  /* Limit count1 to the length of str. */
+  if (count1 > str->length_ - pos1) {
+    count1 = str->length_ - pos1;
+  }
+
+  /* Compare the strings up to the length of the shorter one. */
+  is_str_length_equal = (count1 == count2);
+  is_str_length_less_than = (count1 < count2);
+
+  if (is_str_length_less_than) {
+    compare_length = count1;
+  } else {
+    compare_length = count2;
+  }
+
+  compare_result = functions->compare_str(str->str_, c_str, compare_length);
+
+  if (compare_result != 0 || is_str_length_equal) {
+    return compare_result;
+  }
+
+  /* Treat the shorter one's end char as null-term. */
+  if (is_str_length_less_than) {
+    access_end_ptr = Mdc_UnBasicString_AccessConst(
+        c_str,
+        sizes->ch_size,
+        compare_length
+    );
+
+    return functions->compare_str(
+        &null_term_ch,
+        access_end_ptr,
+        1
+    );
+  } else {
+    access_end_ptr = Mdc_UnBasicString_AccessConst(
+        str->str_,
+        sizes->ch_size,
+        compare_length
+    );
+
+    return functions->compare_str(
+        access_end_ptr,
+        &null_term_ch,
+        1
+    );
+  }
 }
 
 void Mdc_BasicString_Clear(struct Mdc_BasicString* str) {
@@ -1048,7 +1209,7 @@ bool Mdc_BasicString_Empty(const struct Mdc_BasicString* str) {
   return Mdc_BasicString_Length(str) == 0;
 }
 
-bool Mdc_BasicString_Equal(
+bool Mdc_BasicString_EqualStr(
     const struct Mdc_BasicString* str1,
     const struct Mdc_BasicString* str2
 ) {
@@ -1071,6 +1232,40 @@ bool Mdc_BasicString_Equal(
   );
 
   return (compare_result == 0);
+}
+
+bool Mdc_BasicString_EqualCStr(
+    const struct Mdc_BasicString* str,
+    const void* c_str
+) {
+  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
+  const struct Mdc_CharTraitsSizes* const sizes =
+      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraitsFunctions* const functions =
+      &metadata->char_traits.functions;
+
+  const uintmax_t kNullTermCh = '\0';
+
+  int compare_result;
+  const void* c_str_end_ptr;
+
+  compare_result = functions->compare_str(
+      str->str_,
+      c_str,
+      str->length_
+  );
+
+  if (compare_result != 0) {
+    return compare_result;
+  }
+
+  c_str_end_ptr = Mdc_UnBasicString_AccessConst(
+      c_str,
+      sizes->ch_size,
+      str->length_
+  );
+
+  return functions->compare_str(&kNullTermCh, c_str, 1);
 }
 
 void* Mdc_BasicString_Front(struct Mdc_BasicString* str){

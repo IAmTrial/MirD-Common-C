@@ -31,7 +31,6 @@
 #define MDC_C_STRING_BASIC_STRING_H_
 
 #include <stddef.h>
-#include <wchar.h>
 
 #include "../std/stdbool.h"
 #include "char_traits.h"
@@ -312,9 +311,111 @@ size_t Mdc_BasicString_Capacity(const struct Mdc_BasicString* str);
  * @return 0 if the strings have equivalent characters, negative value if
  *    str1 < str2, and positive value if str1 > str2
  */
-int Mdc_BasicString_Compare(
+int Mdc_BasicString_CompareStr(
     const struct Mdc_BasicString* str1,
     const struct Mdc_BasicString* str2
+);
+
+/**
+ * Lexicographically compares a substring and string. Returns 0 if
+ * they are the same, a negative value if the first string is "less"
+ * than the second string, and a positive value if the first string is
+ * "greater" than the second string.
+ *
+ * @param[in] str1 the first string
+ * @param[in] pos1 the starting position of the first substring
+ * @param[in] count1 the number of characters in the first substring
+ * @param[in] str2 the second string
+ * @return 0 if the strings have equivalent characters, negative value if
+ *    str1 < str2, and positive value if str1 > str2
+ */
+int Mdc_BasicString_CompareSubstr(
+    const struct Mdc_BasicString* str1,
+    size_t pos1,
+    size_t count1,
+    const struct Mdc_BasicString* str2
+);
+
+/**
+ * Lexicographically compares two substrings. Returns 0 if they are
+ * the same, a negative value if the first string is "less" than the
+ * second string, and a positive value if the first string is
+ * "greater" than the second string.
+ *
+ * @param[in] str1 the first string
+ * @param[in] pos1 the starting position of the first substring
+ * @param[in] count1 the number of characters in the first substring
+ * @param[in] str2 the second string
+ * @param[in] pos2 the starting position of the second substring
+ * @param[in] count2 the number of characters in the second substring
+ * @return 0 if the strings have equivalent characters, negative value if
+ *    str1 < str2, and positive value if str1 > str2
+ */
+int Mdc_BasicString_CompareSubstrs(
+    const struct Mdc_BasicString* str1,
+    size_t pos1,
+    size_t count1,
+    const struct Mdc_BasicString* str2,
+    size_t pos2,
+    size_t count2
+);
+
+/**
+ * Lexicographically compares two strings. Returns 0 if they are the
+ * same, a negative value if the first string is "less" than the
+ * second string, and a positive value if the first string is
+ * "greater" than the second string.
+ *
+ * @param[in] str the first string
+ * @param[in] c_str the second string
+ * @return 0 if the strings have equivalent characters, negative value if
+ *    str1 < str2, and positive value if str1 > str2
+ */
+int Mdc_BasicString_CompareCStr(
+    const struct Mdc_BasicString* str,
+    const void* c_str
+);
+
+/**
+ * Lexicographically compares a substring and string. Returns 0 if
+ * they are the same, a negative value if the first string is "less"
+ * than the second string, and a positive value if the first string is
+ * "greater" than the second string.
+ *
+ * @param[in] str the first string
+ * @param[in] pos1 the starting position of the first substring
+ * @param[in] count1 the number of characters in the first substring
+ * @param[in] c_str the second string
+ * @return 0 if the strings have equivalent characters, negative value if
+ *    str1 < str2, and positive value if str1 > str2
+ */
+int Mdc_BasicString_CompareCSubstr(
+    const struct Mdc_BasicString* str,
+    size_t pos1,
+    size_t count1,
+    const void* c_str
+);
+
+/**
+ * Lexicographically compares two substrings. Returns 0 if they are
+ * the same, a negative value if the first string is "less" than the
+ * second string, and a positive value if the first string is
+ * "greater" than the second string.
+ *
+ * @param[in] str the first string
+ * @param[in] pos1 the starting position of the first substring
+ * @param[in] count1 the number of characters in the first substring
+ * @param[in] c_str the second string
+ * @param[in] count2 the number of characters in the second substring
+ * @return 0 if the strings have equivalent characters, negative value if
+ *    str1 < str2, and positive value if str1 > str2
+ */
+int Mdc_BasicString_CompareCSubstrs(
+    const struct Mdc_BasicString* str,
+    size_t pos1,
+    size_t count1,
+    const void* c_str,
+    size_t count2
 );
 
 /**
@@ -362,15 +463,27 @@ const void* Mdc_BasicString_DataConst(const struct Mdc_BasicString* str);
 bool Mdc_BasicString_Empty(const struct Mdc_BasicString* str);
 
 /**
- * Returns whether two maps contains equivalent characters.
+ * Returns whether two strings contains equivalent characters.
  *
  * @param[in] str1 the first string
  * @param[in] str2 the second string
  * @return true if the string have equivalent characters, false otherwise
  */
-bool Mdc_BasicString_Equal(
+bool Mdc_BasicString_EqualStr(
     const struct Mdc_BasicString* str1,
     const struct Mdc_BasicString* str2
+);
+
+/**
+ * Returns whether two strings contains equivalent characters.
+ *
+ * @param[in] str the first string
+ * @param[in] c_str the second string
+ * @return true if the string have equivalent characters, false otherwise
+ */
+bool Mdc_BasicString_EqualCStr(
+    const struct Mdc_BasicString* str,
+    const void* c_str
 );
 
 /**
@@ -465,3 +578,5 @@ bool Mdc_BasicStringMetadata_Equal(
 );
 
 #endif /* MDC_C_STRING_BASIC_STRING_H_ */
+
+#include "basic_string/string.h"
