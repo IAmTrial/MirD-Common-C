@@ -580,3 +580,4 @@ bool Mdc_BasicStringMetadata_Equal(
 #endif /* MDC_C_STRING_BASIC_STRING_H_ */
 
 #include "basic_string/string.h"
+#include "basic_string/wstring.h"
