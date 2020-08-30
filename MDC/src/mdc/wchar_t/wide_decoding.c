@@ -33,15 +33,26 @@
 #include <stddef.h>
 #include <windows.h>
 
-static wchar_t* Mdc_Wide_DecodeChar(
+#include "../../../include/mdc/std/threads.h"
+
+static once_flag wstring_metadata_once_flag = ONCE_FLAG_INIT;
+static struct Mdc_BasicStringMetadata wstring_metadata;
+
+static void Mdc_Wide_InitWStringMetadata(void) {
+  Mdc_WStringMetadata_InitMetadata(&wstring_metadata);
+}
+
+static struct Mdc_BasicString Mdc_Wide_DecodeChar(
     const char* char_str,
     UINT code_page
 ) {
-  wchar_t* wide_str;
+  struct Mdc_BasicString wide_str = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString* init_wide_str;
   size_t wide_str_len;
-  size_t wide_str_size;
 
   size_t converted_chars_with_null_count;
+
+  call_once(&wstring_metadata_once_flag, &Mdc_Wide_InitWStringMetadata);
 
   /* Determine the number of characters needed. */
   wide_str_len = MultiByteToWideChar(
@@ -60,10 +71,14 @@ static wchar_t* Mdc_Wide_DecodeChar(
   wide_str_len -= 1;
 
   /* Allocate the wide string. */
-  wide_str_size = (wide_str_len + 1) * sizeof(wide_str[0]);
-  wide_str = malloc(wide_str_size);
+  init_wide_str = Mdc_BasicString_InitFromChar(
+      &wide_str,
+      &wstring_metadata,
+      wide_str_len,
+      L'\0'
+  );
 
-  if (wide_str == NULL) {
+  if (init_wide_str != &wide_str) {
     goto return_bad;
   }
 
@@ -73,7 +88,7 @@ static wchar_t* Mdc_Wide_DecodeChar(
       0,
       char_str,
       -1,
-      wide_str,
+      Mdc_BasicString_Data(&wide_str),
       wide_str_len + 1
   );
 
@@ -85,20 +100,20 @@ static wchar_t* Mdc_Wide_DecodeChar(
   return wide_str;
 
 free_wide_str:
-  free(wide_str);
+  Mdc_BasicString_Deinit(&wide_str);
 
 return_bad:
-  return NULL;
+  return MDC_BASIC_STRING_UNINIT;
 }
 
-wchar_t* Mdc_Wide_DecodeAscii(const char* ascii_str) {
+struct Mdc_BasicString Mdc_Wide_DecodeAscii(const char* ascii_str) {
   return Mdc_Wide_DecodeChar(ascii_str, 20127);
 }
 
-wchar_t* Mdc_Wide_DecodeDefaultMultibyte(const char* multibyte_str) {
+struct Mdc_BasicString Mdc_Wide_DecodeDefaultMultibyte(const char* multibyte_str) {
   return Mdc_Wide_DecodeChar(multibyte_str, CP_ACP);
 }
 
-wchar_t* Mdc_Wide_DecodeUtf8(const char* utf8_str) {
+struct Mdc_BasicString Mdc_Wide_DecodeUtf8(const char* utf8_str) {
   return Mdc_Wide_DecodeChar(utf8_str, CP_UTF8);
 }

@@ -32,6 +32,8 @@
 
 #include <wchar.h>
 
+#include "../string/basic_string.h"
+
 /**
  * Creates a wide encoded copy of the specified 7-bit ASCII string.
  * The returned pointer must have free called on it by the client once
@@ -41,7 +43,7 @@
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-char* Mdc_Wide_EncodeAscii(const wchar_t* ascii_str);
+struct Mdc_BasicString Mdc_Wide_EncodeAscii(const wchar_t* ascii_str);
 
 /**
  * Creates a multibyte encoded copy of the specified wide string. The
@@ -53,7 +55,7 @@ char* Mdc_Wide_EncodeAscii(const wchar_t* ascii_str);
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-char* Mdc_Wide_EncodeDefaultMultibyte(const wchar_t* wide_str);
+struct Mdc_BasicString Mdc_Wide_EncodeDefaultMultibyte(const wchar_t* wide_str);
 
 /**
  * Creates a UTF-8 encoded copy of the specified wide string. The
@@ -64,6 +66,6 @@ char* Mdc_Wide_EncodeDefaultMultibyte(const wchar_t* wide_str);
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-char* Mdc_Wide_EncodeUtf8(const wchar_t* wide_str);
+struct Mdc_BasicString Mdc_Wide_EncodeUtf8(const wchar_t* wide_str);
 
 #endif /* MDC_C_WCHAR_T_WIDE_ENCODING_H_ */
