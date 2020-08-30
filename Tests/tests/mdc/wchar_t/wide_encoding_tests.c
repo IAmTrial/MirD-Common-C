@@ -34,36 +34,43 @@
 #include <string.h>
 #include <wchar.h>
 
+#include <mdc/string/basic_string.h>
 #include <mdc/wchar_t/wide_encoding.h>
 #include "example_text/example_text.h"
 
 static void Mdc_WideEncoding_AssertEncodeAscii(void) {
-  char* ascii_str;
+  struct Mdc_BasicString ascii_str;
 
   ascii_str = Mdc_Wide_EncodeAscii(kAsciiExampleTextWide);
-  assert(strcmp(ascii_str, kAsciiExampleText) == 0);
+  assert(Mdc_BasicString_CompareCStr(&ascii_str, kAsciiExampleText) == 0);
 
-  free(ascii_str);
+  Mdc_BasicString_Deinit(&ascii_str);
 }
 
 static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
-  char* multibyte_ascii_str;
+  struct Mdc_BasicString multibyte_ascii_str;
+  int compare_result;
 
   multibyte_ascii_str = Mdc_Wide_EncodeDefaultMultibyte(
       kAsciiExampleTextWide
   );
-  assert(strcmp(multibyte_ascii_str, kAsciiExampleText) == 0);
 
-  free(multibyte_ascii_str);
+  compare_result = Mdc_BasicString_CompareCStr(
+      &multibyte_ascii_str,
+      kAsciiExampleText
+  );
+  assert(compare_result == 0);
+
+  Mdc_BasicString_Deinit(&multibyte_ascii_str);
 }
 
 static void Mdc_WideEncoding_AssertEncodeUtf8(void) {
-  char* utf8_str;
+  struct Mdc_BasicString utf8_str;
 
   utf8_str = Mdc_Wide_EncodeUtf8(kUtf8ExampleTextWide);
-  assert(strcmp(utf8_str, kUtf8ExampleText) == 0);
+  assert(Mdc_BasicString_CompareCStr(&utf8_str, kUtf8ExampleText) == 0);
 
-  free(utf8_str);
+  Mdc_BasicString_Deinit(&utf8_str);
 }
 
 void Mdc_WideEncoding_RunTests(void) {

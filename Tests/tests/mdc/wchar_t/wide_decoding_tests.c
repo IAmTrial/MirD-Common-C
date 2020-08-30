@@ -34,34 +34,35 @@
 #include <string.h>
 #include <wchar.h>
 
+#include <mdc/string/basic_string.h>
 #include <mdc/wchar_t/wide_decoding.h>
 #include "example_text/example_text.h"
 
 static void Mdc_WideDecoding_AssertDecodeAscii(void) {
-  wchar_t* wide_str;
+  struct Mdc_BasicString wide_str;
 
   wide_str = Mdc_Wide_DecodeAscii(kAsciiExampleText);
-  assert(wcscmp(wide_str, kAsciiExampleTextWide) == 0);
+  assert(Mdc_BasicString_CompareCStr(&wide_str, kAsciiExampleTextWide) == 0);
 
-  free(wide_str);
+  Mdc_BasicString_Deinit(&wide_str);
 }
 
 static void Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii(void) {
-  wchar_t* wide_str;
+  struct Mdc_BasicString wide_str;
 
   wide_str = Mdc_Wide_DecodeDefaultMultibyte(kAsciiExampleText);
-  assert(wcscmp(wide_str, kAsciiExampleTextWide) == 0);
+  assert(Mdc_BasicString_CompareCStr(&wide_str, kAsciiExampleTextWide) == 0);
 
-  free(wide_str);
+  Mdc_BasicString_Deinit(&wide_str);
 }
 
 static void Mdc_WideDecoding_AssertDecodeUtf8(void) {
-  wchar_t* wide_str;
+  struct Mdc_BasicString wide_str;
 
   wide_str = Mdc_Wide_DecodeUtf8(kUtf8ExampleText);
-  assert(wcscmp(wide_str, kUtf8ExampleTextWide) == 0);
+  assert(Mdc_BasicString_CompareCStr(&wide_str, kUtf8ExampleTextWide) == 0);
 
-  free(wide_str);
+  Mdc_BasicString_Deinit(&wide_str);
 }
 
 void Mdc_WideDecoding_RunTests(void) {
