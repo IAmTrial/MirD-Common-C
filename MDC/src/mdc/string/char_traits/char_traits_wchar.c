@@ -29,12 +29,14 @@
 
 #include "../../../../include/mdc/string/char_traits/char_traits_wchar.h"
 
+#include "../../../../include/mdc/std/wchar.h"
+
 /**
  * Static functions
  */
 
 static void Mdc_CharTraitsWChar_AssignCharAsVoid(void* r, const void* a) {
-  Mdc_CharTraitsWChar_AssignChar(r, a);
+  Mdc_CharTraitsWChar_AssignChar((wchar_t*) r, (wchar_t*) a);
 }
 
 static void* Mdc_CharTraitsWChar_AssignStrAsVoid(
@@ -42,7 +44,7 @@ static void* Mdc_CharTraitsWChar_AssignStrAsVoid(
     size_t count,
     uintmax_t a
 ) {
-  return Mdc_CharTraitsWChar_AssignStr(p, count, (wchar_t) a);
+  return Mdc_CharTraitsWChar_AssignStr((wchar_t*) p, count, (wchar_t) a);
 }
 
 static bool Mdc_CharTraitsWChar_EqualCharAsVoid(uintmax_t a, uintmax_t b) {
@@ -58,7 +60,11 @@ static void* Mdc_CharTraitsWChar_CopyOverlapStrAsVoid(
     const void* src,
     size_t count
 ) {
-  return Mdc_CharTraitsWChar_CopyOverlapStr(dest, src, count);
+  return Mdc_CharTraitsWChar_CopyOverlapStr(
+      (wchar_t*) dest,
+      (const wchar_t*) src,
+      count
+  );
 }
 
 static void* Mdc_CharTraitsWChar_CopyNonoverlapStrAsVoid(
@@ -66,7 +72,11 @@ static void* Mdc_CharTraitsWChar_CopyNonoverlapStrAsVoid(
     const void* src,
     size_t count
 ) {
-  return Mdc_CharTraitsWChar_CopyNonoverlapStr(dest, src, count);
+  return Mdc_CharTraitsWChar_CopyNonoverlapStr(
+      (wchar_t*) dest,
+      (const wchar_t*) src,
+      count
+  );
 }
 
 static int Mdc_CharTraitsWChar_CompareStrAsVoid(
@@ -74,11 +84,15 @@ static int Mdc_CharTraitsWChar_CompareStrAsVoid(
     const void* s2,
     size_t count
 ) {
-  return Mdc_CharTraitsWChar_CompareStr(s1, s2, count);
+  return Mdc_CharTraitsWChar_CompareStr(
+      (const wchar_t*) s1,
+      (const wchar_t*) s2,
+      count
+  );
 }
 
 static size_t Mdc_CharTraitsWChar_LengthStrAsVoid(const void* s) {
-  return Mdc_CharTraitsWChar_LengthStr(s);
+  return Mdc_CharTraitsWChar_LengthStr((const wchar_t*) s);
 }
 
 static const void* Mdc_CharTraitsWChar_FindStrAsVoid(
@@ -86,7 +100,7 @@ static const void* Mdc_CharTraitsWChar_FindStrAsVoid(
     size_t count,
     uintmax_t ch
 ) {
-  return Mdc_CharTraitsWChar_FindStr(p, count, (wchar_t) ch);
+  return Mdc_CharTraitsWChar_FindStr((wchar_t*) p, count, (wchar_t) ch);
 }
 
 static uintmax_t Mdc_CharTraitsWChar_ToCharTypeAsVoid(uintmax_t c) {
