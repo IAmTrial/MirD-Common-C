@@ -30,9 +30,14 @@
 #ifndef MDC_C_STRING_CHAR_TRAITS_CHAR_TRAITS_WCHAR_H_
 #define MDC_C_STRING_CHAR_TRAITS_CHAR_TRAITS_WCHAR_H_
 
+#include <stddef.h>
 #include <wchar.h>
 
 #include "../char_traits.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 struct Mdc_CharTraits* Mdc_CharTraitsWChar_Init(
     struct Mdc_CharTraits* char_traits
@@ -75,5 +80,9 @@ bool Mdc_CharTraitsWChar_EqualIntType(wint_t c1, wint_t c2);
 
 wint_t Mdc_CharTraitsWChar_Eof(void);
 wint_t Mdc_CharTraitsWChar_NotEof(wint_t e);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
 
 #endif /* MDC_C_STRING_CHAR_TRAITS_CHAR_TRAITS_WCHAR_H_ */
