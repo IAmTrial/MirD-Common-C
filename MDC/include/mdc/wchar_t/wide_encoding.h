@@ -30,8 +30,7 @@
 #ifndef MDC_C_WCHAR_T_WIDE_ENCODING_H_
 #define MDC_C_WCHAR_T_WIDE_ENCODING_H_
 
-#include <wchar.h>
-
+#include "../std/wchar.h"
 #include "../string/basic_string.h"
 
 /**

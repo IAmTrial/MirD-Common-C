@@ -32,8 +32,8 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <wchar.h>
 
+#include <mdc/std/wchar.h>
 #include <mdc/string/basic_string.h>
 #include <mdc/wchar_t/wide_decoding.h>
 #include "example_text/example_text.h"

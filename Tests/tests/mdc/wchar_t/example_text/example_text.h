@@ -30,7 +30,7 @@
 #ifndef MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
 #define MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
 
-#include <wchar.h>
+#include <mdc/std/wchar.h>
 
 extern const char* const kAsciiExampleText;
 extern const wchar_t* const kAsciiExampleTextWide;

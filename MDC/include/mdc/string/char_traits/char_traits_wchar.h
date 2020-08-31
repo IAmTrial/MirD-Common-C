@@ -31,8 +31,8 @@
 #define MDC_C_STRING_CHAR_TRAITS_CHAR_TRAITS_WCHAR_H_
 
 #include <stddef.h>
-#include <wchar.h>
 
+#include "../../std/wchar.h"
 #include "../char_traits.h"
 
 #ifdef __cplusplus
