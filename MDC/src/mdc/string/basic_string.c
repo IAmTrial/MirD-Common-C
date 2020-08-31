@@ -1357,11 +1357,13 @@ void Mdc_BasicString_Reserve(
   const struct Mdc_CharTraitsFunctions* const functions =
       &metadata->char_traits.functions;
 
+  char* realloc_cstring;
+
   if (new_capacity <= str->capacity_) {
     return;
   }
 
-  char* realloc_cstring = realloc(str->str_, new_capacity * sizes->ch_size);
+  realloc_cstring = realloc(str->str_, new_capacity * sizes->ch_size);
   if (realloc_cstring == NULL) {
     goto return_bad;
   }
