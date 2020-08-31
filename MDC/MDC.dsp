@@ -140,6 +140,50 @@ SOURCE=.\src\mdc\std\threads\mutex.c
 SOURCE=.\src\mdc\std\threads\threads.c
 # End Source File
 # End Group
+# Begin Group "wchar_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\std\wchar\wchar.c
+# End Source File
+# End Group
+# End Group
+# Begin Group "string_c"
+
+# PROP Default_Filter ""
+# Begin Group "basic_string_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\string\basic_string\string.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\string\basic_string\wstring.c
+# End Source File
+# End Group
+# Begin Group "char_traits_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\string\char_traits\char_traits_char.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\string\char_traits\char_traits_wchar.c
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\src\mdc\string\basic_string.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\string\char_traits.c
+# End Source File
 # End Group
 # End Group
 # End Group
@@ -195,6 +239,46 @@ SOURCE=.\include\mdc\std\stdint.h
 # Begin Source File
 
 SOURCE=.\include\mdc\std\threads.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\std\wchar.h
+# End Source File
+# End Group
+# Begin Group "string_h"
+
+# PROP Default_Filter ""
+# Begin Group "basic_string_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\string\basic_string\string.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\string\basic_string\wstring.h
+# End Source File
+# End Group
+# Begin Group "char_traits_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\string\char_traits\char_traits_char.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\string\char_traits\char_traits_wchar.h
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\include\mdc\string\basic_string.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\string\char_traits.h
 # End Source File
 # End Group
 # End Group

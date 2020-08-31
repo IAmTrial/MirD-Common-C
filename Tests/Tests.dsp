@@ -198,6 +198,18 @@ SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.c
 SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.h
 # End Source File
 # End Group
+# Begin Group "string"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\string\basic_string_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\string\basic_string_tests.h
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\tests\mdc\container_tests.c
@@ -217,6 +229,14 @@ SOURCE=.\tests\mdc\std_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\std_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\string_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\string_tests.h
 # End Source File
 # Begin Source File
 
