@@ -127,7 +127,7 @@ DLLEXPORT int cnd_wait(cnd_t* cond, mtx_t* mutex);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "../../../dllexport_define.inc"
+#include "../../../dllexport_undefine.inc"
 #endif
 
 #endif /* MDC_C_STD_THREADS_H_ */
