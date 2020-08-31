@@ -33,13 +33,13 @@
 #include <stddef.h>
 #include <wchar.h>
 
-#if !defined(__cplusplus) || __STDC_VERSION__ < 199409L
+#if !defined(__cplusplus) && __STDC_VERSION__ < 199409L
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-#if !defined(_MSC_VER)
+#if _MSC_VER <= 1200
 
 /**
  * String manipulation
@@ -65,7 +65,7 @@ size_t wcscspn(const wchar_t* dest, const wchar_t* src);
 wchar_t* wcspbrk(const wchar_t* dest, const wchar_t* str);
 wchar_t* wcsstr(const wchar_t* dest, const wchar_t* src);
 
-#endif /* !defined(_MSC_VER) */
+#endif /* _MSC_VER <= 1200 */
 
 /**
  * Wide character array manipulation
@@ -81,6 +81,6 @@ wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
 } /* __cplusplus */
 #endif /* __cplusplus */
 
-#endif /* !defined(__cplusplus) || __STDC_VERSION__ < 199409L */
+#endif /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */
 
 #endif /* MDC_C_STD_WCHAR_H_ */
