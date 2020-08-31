@@ -27,24 +27,10 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STRING_BASIC_STRING_WSTRING_H_
-#define MDC_C_STRING_BASIC_STRING_WSTRING_H_
-
-#include "../../../../include/mdc/string/basic_string.h"
-
-#include "../../../../dllexport_define.inc"
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-DLLEXPORT struct Mdc_BasicStringMetadata* Mdc_WStringMetadata_InitMetadata(
-    struct Mdc_BasicStringMetadata* metadata
-);
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
-
-#include "../../../../dllexport_undefine.inc"
-#endif /* MDC_C_STRING_BASIC_STRING_WSTRING_H_ */
+#if defined(MDC_DLLEXPORT)
+#define DLLEXPORT __declspec(dllexport)
+#elif defined(MDC_DLLIMPORT)
+#define DLLEXPORT __declspec(dllimport)
+#else
+#define DLLEXPORT
+#endif

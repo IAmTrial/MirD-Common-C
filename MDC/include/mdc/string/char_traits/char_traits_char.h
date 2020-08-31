@@ -32,46 +32,57 @@
 
 #include "../char_traits.h"
 
-struct Mdc_CharTraits* Mdc_CharTraitsChar_Init(
+#include "../../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+DLLEXPORT struct Mdc_CharTraits* Mdc_CharTraitsChar_Init(
     struct Mdc_CharTraits* char_traits
 );
 
-void Mdc_CharTraitsChar_AssignChar(char* r, const char* a);
-char* Mdc_CharTraitsChar_AssignStr(char* p, size_t count, char a);
+DLLEXPORT void Mdc_CharTraitsChar_AssignChar(char* r, const char* a);
+DLLEXPORT char* Mdc_CharTraitsChar_AssignStr(char* p, size_t count, char a);
 
-bool Mdc_CharTraitsChar_EqualChar(char a, char b);
-bool Mdc_CharTraitsChar_LessThanChar(char a, char b);
+DLLEXPORT bool Mdc_CharTraitsChar_EqualChar(char a, char b);
+DLLEXPORT bool Mdc_CharTraitsChar_LessThanChar(char a, char b);
 
-char* Mdc_CharTraitsChar_CopyOverlapStr(
+DLLEXPORT char* Mdc_CharTraitsChar_CopyOverlapStr(
     char* dest,
     const char* src,
     size_t count
 );
-char* Mdc_CharTraitsChar_CopyNonoverlapStr(
+DLLEXPORT char* Mdc_CharTraitsChar_CopyNonoverlapStr(
     char* dest,
     const char* src,
     size_t count
 );
 
-int Mdc_CharTraitsChar_CompareStr(
+DLLEXPORT int Mdc_CharTraitsChar_CompareStr(
     const char* s1,
     const char* s2,
     size_t count
 );
 
-size_t Mdc_CharTraitsChar_LengthStr(const char* s);
+DLLEXPORT size_t Mdc_CharTraitsChar_LengthStr(const char* s);
 
-const char* Mdc_CharTraitsChar_FindStr(
+DLLEXPORT const char* Mdc_CharTraitsChar_FindStr(
     const char* p,
     size_t count,
     char ch
 );
 
-char Mdc_CharTraitsChar_ToCharType(int c);
-int Mdc_CharTraitsChar_ToIntType(char c);
-bool Mdc_CharTraitsChar_EqualIntType(int c1, int c2);
+DLLEXPORT char Mdc_CharTraitsChar_ToCharType(int c);
+DLLEXPORT int Mdc_CharTraitsChar_ToIntType(char c);
+DLLEXPORT bool Mdc_CharTraitsChar_EqualIntType(int c1, int c2);
 
-int Mdc_CharTraitsChar_Eof(void);
-int Mdc_CharTraitsChar_NotEof(int e);
+DLLEXPORT int Mdc_CharTraitsChar_Eof(void);
+DLLEXPORT int Mdc_CharTraitsChar_NotEof(int e);
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../../dllexport_undefine.inc"
 #endif /* MDC_C_STRING_CHAR_TRAITS_CHAR_TRAITS_CHAR_H_ */

@@ -38,6 +38,12 @@
 
 #include <windows.h>
 
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**
  * Threads
  */
@@ -54,13 +60,13 @@ typedef int (*thrd_start_t)(void*);
 
 typedef HANDLE thrd_t;
 
-int thrd_create(thrd_t* thr, thrd_start_t func, void* arg);
-int thrd_equal(thrd_t lhs, thrd_t rhs);
-thrd_t thrd_current(void);
-void thrd_yield(void);
-void thrd_exit(int res);
-int thrd_detach(thrd_t thr);
-int thrd_join(thrd_t thr, int *res);
+DLLEXPORT int thrd_create(thrd_t* thr, thrd_start_t func, void* arg);
+DLLEXPORT int thrd_equal(thrd_t lhs, thrd_t rhs);
+DLLEXPORT thrd_t thrd_current(void);
+DLLEXPORT void thrd_yield(void);
+DLLEXPORT void thrd_exit(int res);
+DLLEXPORT int thrd_detach(thrd_t thr);
+DLLEXPORT int thrd_join(thrd_t thr, int *res);
 
 /**
  * Mutual exclusion
@@ -79,11 +85,11 @@ typedef struct {
   BOOL is_owned_;
 } mtx_t;
 
-int mtx_init(mtx_t* mutex, int type);
-void mtx_destroy(mtx_t* mutex);
-int mtx_lock(mtx_t* mutex);
-int mtx_trylock(mtx_t *mutex);
-int mtx_unlock(mtx_t *mutex);
+DLLEXPORT int mtx_init(mtx_t* mutex, int type);
+DLLEXPORT void mtx_destroy(mtx_t* mutex);
+DLLEXPORT int mtx_lock(mtx_t* mutex);
+DLLEXPORT int mtx_trylock(mtx_t *mutex);
+DLLEXPORT int mtx_unlock(mtx_t *mutex);
 
 typedef struct {
   LONG has_active_thread_;
@@ -98,7 +104,7 @@ typedef struct {
 
 #define ONCE_FLAG_INIT { 0 }
 
-void call_once(once_flag* flag, void (*func)(void));
+DLLEXPORT void call_once(once_flag* flag, void (*func)(void));
 
 /**
  * Conditional variables
@@ -111,12 +117,17 @@ typedef struct {
   LONG has_signal_pass;
 } cnd_t;
 
-int cnd_init(cnd_t* cond);
-void cnd_destroy(cnd_t* cond);
-int cnd_signal(cnd_t* cond);
-int cnd_broadcast(cnd_t* cond);
-int cnd_wait(cnd_t* cond, mtx_t* mutex);
+DLLEXPORT int cnd_init(cnd_t* cond);
+DLLEXPORT void cnd_destroy(cnd_t* cond);
+DLLEXPORT int cnd_signal(cnd_t* cond);
+DLLEXPORT int cnd_broadcast(cnd_t* cond);
+DLLEXPORT int cnd_wait(cnd_t* cond, mtx_t* mutex);
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_define.inc"
 #endif
 
 #endif /* MDC_C_STD_THREADS_H_ */

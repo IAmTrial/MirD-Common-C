@@ -33,6 +33,12 @@
 #include "../std/wchar.h"
 #include "../string/basic_string.h"
 
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /**
  * Creates a wide encoded copy of the specified 7-bit ASCII string.
  * The returned pointer must have free called on it by the client once
@@ -42,7 +48,9 @@
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-struct Mdc_BasicString Mdc_Wide_EncodeAscii(const wchar_t* ascii_str);
+DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeAscii(
+    const wchar_t* ascii_str
+);
 
 /**
  * Creates a multibyte encoded copy of the specified wide string. The
@@ -54,7 +62,9 @@ struct Mdc_BasicString Mdc_Wide_EncodeAscii(const wchar_t* ascii_str);
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-struct Mdc_BasicString Mdc_Wide_EncodeDefaultMultibyte(const wchar_t* wide_str);
+DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeDefaultMultibyte(
+    const wchar_t* wide_str
+);
 
 /**
  * Creates a UTF-8 encoded copy of the specified wide string. The
@@ -65,6 +75,13 @@ struct Mdc_BasicString Mdc_Wide_EncodeDefaultMultibyte(const wchar_t* wide_str);
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-struct Mdc_BasicString Mdc_Wide_EncodeUtf8(const wchar_t* wide_str);
+DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeUtf8(
+    const wchar_t* wide_str
+);
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_WCHAR_T_WIDE_ENCODING_H_ */

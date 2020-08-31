@@ -33,6 +33,12 @@
 #include "../std/stdbool.h"
 #include "../std/stdint.h"
 
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct Mdc_Pointer {
   union {
     void* ptr_;
@@ -40,44 +46,55 @@ struct Mdc_Pointer {
   };
 };
 
-struct Mdc_Pointer* Mdc_Pointer_InitFromPointer(
+DLLEXPORT struct Mdc_Pointer* Mdc_Pointer_InitFromPointer(
     struct Mdc_Pointer* pointer,
     void* value
 );
 
-struct Mdc_Pointer* Mdc_Pointer_InitFromValue(
+DLLEXPORT struct Mdc_Pointer* Mdc_Pointer_InitFromValue(
     struct Mdc_Pointer* pointer,
     intptr_t value
 );
 
-struct Mdc_Pointer* Mdc_Pointer_InitCopy(
+DLLEXPORT struct Mdc_Pointer* Mdc_Pointer_InitCopy(
     struct Mdc_Pointer* dest,
     const struct Mdc_Pointer* src
 );
 
-struct Mdc_Pointer* Mdc_Pointer_InitMove(
+DLLEXPORT struct Mdc_Pointer* Mdc_Pointer_InitMove(
     struct Mdc_Pointer* dest,
     struct Mdc_Pointer* src
 );
 
-void Mdc_Pointer_Deinit(struct Mdc_Pointer* pointer);
+DLLEXPORT void Mdc_Pointer_Deinit(struct Mdc_Pointer* pointer);
 
-int Mdc_Pointer_Compare(
+DLLEXPORT int Mdc_Pointer_Compare(
     const struct Mdc_Pointer* pointer1,
     const struct Mdc_Pointer* pointer2
 );
 
-bool Mdc_Pointer_Equal(
+DLLEXPORT bool Mdc_Pointer_Equal(
     const struct Mdc_Pointer* pointer1,
     const struct Mdc_Pointer* pointer2
 );
 
-void* Mdc_Pointer_GetPointer(const struct Mdc_Pointer* pointer);
+DLLEXPORT void* Mdc_Pointer_GetPointer(const struct Mdc_Pointer* pointer);
 
-void Mdc_Pointer_SetPointer(struct Mdc_Pointer* pointer, void* ptr);
+DLLEXPORT void Mdc_Pointer_SetPointer(
+    struct Mdc_Pointer* pointer,
+    void* ptr
+);
 
-intptr_t Mdc_Pointer_GetValue(const struct Mdc_Pointer* pointer);
+DLLEXPORT intptr_t Mdc_Pointer_GetValue(const struct Mdc_Pointer* pointer);
 
-void Mdc_Pointer_SetValue(struct Mdc_Pointer* pointer, intptr_t value);
+DLLEXPORT void Mdc_Pointer_SetValue(
+    struct Mdc_Pointer* pointer,
+    intptr_t value
+);
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_OBJECT_POINTER_H_ */

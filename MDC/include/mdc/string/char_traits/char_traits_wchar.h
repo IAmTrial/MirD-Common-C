@@ -35,54 +35,61 @@
 #include "../../std/wchar.h"
 #include "../char_traits.h"
 
+#include "../../../../dllexport_define.inc"
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-struct Mdc_CharTraits* Mdc_CharTraitsWChar_Init(
+DLLEXPORT struct Mdc_CharTraits* Mdc_CharTraitsWChar_Init(
     struct Mdc_CharTraits* char_traits
 );
 
-void Mdc_CharTraitsWChar_AssignChar(wchar_t* r, const wchar_t* a);
-wchar_t* Mdc_CharTraitsWChar_AssignStr(wchar_t* p, size_t count, wchar_t a);
+DLLEXPORT void Mdc_CharTraitsWChar_AssignChar(wchar_t* r, const wchar_t* a);
+DLLEXPORT wchar_t* Mdc_CharTraitsWChar_AssignStr(
+    wchar_t* p,
+    size_t count,
+    wchar_t a
+);
 
-bool Mdc_CharTraitsWChar_EqualChar(wchar_t a, wchar_t b);
-bool Mdc_CharTraitsWChar_LessThanChar(wchar_t a, wchar_t b);
+DLLEXPORT bool Mdc_CharTraitsWChar_EqualChar(wchar_t a, wchar_t b);
+DLLEXPORT bool Mdc_CharTraitsWChar_LessThanChar(wchar_t a, wchar_t b);
 
-wchar_t* Mdc_CharTraitsWChar_CopyOverlapStr(
+DLLEXPORT wchar_t* Mdc_CharTraitsWChar_CopyOverlapStr(
     wchar_t* dest,
     const wchar_t* src,
     size_t count
 );
-wchar_t* Mdc_CharTraitsWChar_CopyNonoverlapStr(
+DLLEXPORT wchar_t* Mdc_CharTraitsWChar_CopyNonoverlapStr(
     wchar_t* dest,
     const wchar_t* src,
     size_t count
 );
 
-int Mdc_CharTraitsWChar_CompareStr(
+DLLEXPORT int Mdc_CharTraitsWChar_CompareStr(
     const wchar_t* s1,
     const wchar_t* s2,
     size_t count
 );
 
-size_t Mdc_CharTraitsWChar_LengthStr(const wchar_t* s);
+DLLEXPORT size_t Mdc_CharTraitsWChar_LengthStr(const wchar_t* s);
 
-const wchar_t* Mdc_CharTraitsWChar_FindStr(
+DLLEXPORT const wchar_t* Mdc_CharTraitsWChar_FindStr(
     const wchar_t* p,
     size_t count,
     wchar_t ch
 );
 
-wchar_t Mdc_CharTraitsWChar_ToCharType(wint_t c);
-wint_t Mdc_CharTraitsWChar_ToIntType(wchar_t c);
-bool Mdc_CharTraitsWChar_EqualIntType(wint_t c1, wint_t c2);
+DLLEXPORT wchar_t Mdc_CharTraitsWChar_ToCharType(wint_t c);
+DLLEXPORT wint_t Mdc_CharTraitsWChar_ToIntType(wchar_t c);
+DLLEXPORT bool Mdc_CharTraitsWChar_EqualIntType(wint_t c1, wint_t c2);
 
-wint_t Mdc_CharTraitsWChar_Eof(void);
-wint_t Mdc_CharTraitsWChar_NotEof(wint_t e);
+DLLEXPORT wint_t Mdc_CharTraitsWChar_Eof(void);
+DLLEXPORT wint_t Mdc_CharTraitsWChar_NotEof(wint_t e);
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */
 
+#include "../../../../dllexport_undefine.inc"
 #endif /* MDC_C_STRING_CHAR_TRAITS_CHAR_TRAITS_WCHAR_H_ */

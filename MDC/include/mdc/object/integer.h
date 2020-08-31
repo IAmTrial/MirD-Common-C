@@ -32,39 +32,50 @@
 
 #include "../std/stdbool.h"
 
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct Mdc_Integer {
   int value_;
 };
 
-struct Mdc_Integer* Mdc_Integer_InitFromValue(
+DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitFromValue(
     struct Mdc_Integer* integer,
     int value
 );
 
-struct Mdc_Integer* Mdc_Integer_InitCopy(
+DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitCopy(
     struct Mdc_Integer* dest,
     const struct Mdc_Integer* src
 );
 
-struct Mdc_Integer* Mdc_Integer_InitMove(
+DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitMove(
     struct Mdc_Integer* dest,
     struct Mdc_Integer* src
 );
 
-void Mdc_Integer_Deinit(struct Mdc_Integer* integer);
+DLLEXPORT void Mdc_Integer_Deinit(struct Mdc_Integer* integer);
 
-int Mdc_Integer_Compare(
+DLLEXPORT int Mdc_Integer_Compare(
     const struct Mdc_Integer* integer1,
     const struct Mdc_Integer* integer2
 );
 
-bool Mdc_Integer_Equal(
+DLLEXPORT bool Mdc_Integer_Equal(
     const struct Mdc_Integer* integer1,
     const struct Mdc_Integer* integer2
 );
 
-int Mdc_Integer_GetValue(const struct Mdc_Integer* integer);
+DLLEXPORT int Mdc_Integer_GetValue(const struct Mdc_Integer* integer);
 
-void Mdc_Integer_SetValue(struct Mdc_Integer* integer, int value);
+DLLEXPORT void Mdc_Integer_SetValue(struct Mdc_Integer* integer, int value);
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_OBJECT_INTEGER_H_ */

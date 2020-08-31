@@ -34,6 +34,8 @@
 
 #include "../../../include/mdc/std/stdbool.h"
 
+#include "../../../dllexport_define.inc"
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -122,7 +124,7 @@ struct Mdc_Pair {
  * @param[in] second the second to move-assign
  * @return this pair if successful, otherwise NULL
  */
-struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     void* first,
@@ -140,7 +142,7 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
  * @param[in] second the second to copy-assign
  * @return this pair if successful, otherwise NULL
  */
-struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     void* first,
@@ -158,7 +160,7 @@ struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
  * @param[in] second the second to move-assign
  * @return this pair if successful, otherwise NULL
  */
-struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     const void* first,
@@ -176,7 +178,7 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
  * @param[in] second the second to copy-assign
  * @return this pair if successful, otherwise NULL
  */
-struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     const void* first,
@@ -190,7 +192,7 @@ struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
  * @param[in] src source pair
  * @return dest if successful, otherwise NULL
  */
-struct Mdc_Pair* Mdc_Pair_InitCopy(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitCopy(
     struct Mdc_Pair* dest,
     const struct Mdc_Pair* src
 );
@@ -202,7 +204,7 @@ struct Mdc_Pair* Mdc_Pair_InitCopy(
  * @param[in] src source pair
  * @return dest if successful, otherwise NULL
  */
-struct Mdc_Pair* Mdc_Pair_InitMove(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitMove(
     struct Mdc_Pair* dest,
     struct Mdc_Pair* src
 );
@@ -212,7 +214,7 @@ struct Mdc_Pair* Mdc_Pair_InitMove(
  *
  * @param[in, out] pair this pair
  */
-void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
+DLLEXPORT void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
 
 /**
  * Compares the two pairs by their first values, and returns a
@@ -226,7 +228,7 @@ void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
  * @param[in] pair2 second pair to compare
  * @return 0 if equal, < 0 if pair1 < pair2, > 0 if pair1 > pair2
  */
-int Mdc_Pair_Compare(
+DLLEXPORT int Mdc_Pair_Compare(
     const struct Mdc_Pair* pair1,
     const struct Mdc_Pair* pair2
 );
@@ -237,7 +239,7 @@ int Mdc_Pair_Compare(
  * @param[in, out] pair1 the first pair to swap
  * @param[in, out] pair2 the second pair to swap
  */
-void Mdc_Pair_Swap(
+DLLEXPORT void Mdc_Pair_Swap(
     struct Mdc_Pair* pair1,
     struct Mdc_Pair* pair2
 );
@@ -248,7 +250,7 @@ void Mdc_Pair_Swap(
  * @param[in] metadata1 the first metadata to compare
  * @param[in] metadata2 the second metadata to compare
  */
-bool Mdc_PairMetadata_Equal(
+DLLEXPORT bool Mdc_PairMetadata_Equal(
     const struct Mdc_PairMetadata* metadata1,
     const struct Mdc_PairMetadata* metadata2
 );
@@ -257,4 +259,5 @@ bool Mdc_PairMetadata_Equal(
 } /* extern "C" */
 #endif /* __cplusplus */
 
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_CONTAINER_PAIR_H_ */

@@ -34,6 +34,12 @@
 
 #include "../std/stdbool.h"
 
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct Mdc_VectorElementSize {
   size_t size;
 };
@@ -78,7 +84,7 @@ struct Mdc_Vector {
 
 #define MDC_VECTOR_UNINIT { 0 }
 
-const struct Mdc_Vector Mdc_Vector_kUninit;
+DLLEXPORT const struct Mdc_Vector Mdc_Vector_kUninit;
 
 /**
  * Initializes the vector.
@@ -87,7 +93,7 @@ const struct Mdc_Vector Mdc_Vector_kUninit;
  * @param[in] metadata the vector metadata
  * @return this vector if successful, otherwise NULL
  */
-struct Mdc_Vector* Mdc_Vector_Init(
+DLLEXPORT struct Mdc_Vector* Mdc_Vector_Init(
     struct Mdc_Vector* vector,
     const struct Mdc_VectorMetadata* metadata
 );
@@ -99,7 +105,7 @@ struct Mdc_Vector* Mdc_Vector_Init(
  * @param[in] src source vector
  * @return dest if successful, otherwise NULL
  */
-struct Mdc_Vector* Mdc_Vector_InitCopy(
+DLLEXPORT struct Mdc_Vector* Mdc_Vector_InitCopy(
     struct Mdc_Vector* dest,
     const struct Mdc_Vector* src
 );
@@ -111,7 +117,7 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
  * @param[in] src source vector
  * @return dest if successful, otherwise NULL
  */
-struct Mdc_Vector* Mdc_Vector_InitMove(
+DLLEXPORT struct Mdc_Vector* Mdc_Vector_InitMove(
     struct Mdc_Vector* dest,
     struct Mdc_Vector* src
 );
@@ -121,7 +127,7 @@ struct Mdc_Vector* Mdc_Vector_InitMove(
  *
  * @param[in, out] vector this vector
  */
-void Mdc_Vector_Deinit(struct Mdc_Vector* vector);
+DLLEXPORT void Mdc_Vector_Deinit(struct Mdc_Vector* vector);
 
 /**
  * Returns the pointer to the element at the specified position. No
@@ -131,7 +137,7 @@ void Mdc_Vector_Deinit(struct Mdc_Vector* vector);
  * @param[in] pos the position of the element
  * @return the pointer to the element at the specified position
  */
-void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos);
+DLLEXPORT void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos);
 
 /**
  * Returns the pointer to the element at the specified position. No
@@ -141,7 +147,7 @@ void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos);
  * @param[in] pos the position of the element
  * @return the pointer to the element at the specified position
  */
-const void* Mdc_Vector_AccessConst(
+DLLEXPORT const void* Mdc_Vector_AccessConst(
     const struct Mdc_Vector* vector,
     size_t pos
 );
@@ -156,7 +162,7 @@ const void* Mdc_Vector_AccessConst(
  * @return the pointer to the element at the specified position,
  *    otherwise NULL
  */
-void* Mdc_Vector_At(struct Mdc_Vector* vector, size_t pos);
+DLLEXPORT void* Mdc_Vector_At(struct Mdc_Vector* vector, size_t pos);
 
 /**
  * Returns the pointer to the element at the specified position. If an
@@ -168,7 +174,10 @@ void* Mdc_Vector_At(struct Mdc_Vector* vector, size_t pos);
  * @return the pointer to the element at the specified position,
  *    otherwise NULL
  */
-const void* Mdc_Vector_AtConst(const struct Mdc_Vector* vector, size_t pos);
+DLLEXPORT const void* Mdc_Vector_AtConst(
+    const struct Mdc_Vector* vector,
+    size_t pos
+);
 
 /**
  * Returns the pointer to the last element in the vector.
@@ -176,7 +185,7 @@ const void* Mdc_Vector_AtConst(const struct Mdc_Vector* vector, size_t pos);
  * @param[in] vector this vector
  * @return the pointer to the last element in the vector
  */
-void* Mdc_Vector_Back(struct Mdc_Vector* vector);
+DLLEXPORT void* Mdc_Vector_Back(struct Mdc_Vector* vector);
 
 /**
  * Returns the pointer to the last element in the vector.
@@ -184,7 +193,7 @@ void* Mdc_Vector_Back(struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return the pointer to the last element in the vector
  */
-const void* Mdc_Vector_BackConst(const struct Mdc_Vector* vector);
+DLLEXPORT const void* Mdc_Vector_BackConst(const struct Mdc_Vector* vector);
 
 /**
  * Returns the number of allocated spaces for elements in the vector.
@@ -192,7 +201,7 @@ const void* Mdc_Vector_BackConst(const struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return the number of allocated spaces in the vector
  */
-size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector);
+DLLEXPORT size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector);
 
 /**
  * Removes all elements from the vector. Invalidates pointers
@@ -200,7 +209,7 @@ size_t Mdc_Vector_Capacity(const struct Mdc_Vector* vector);
  *
  * @param[in, out] vector this vector
  */
-void Mdc_Vector_Clear(struct Mdc_Vector* vector);
+DLLEXPORT void Mdc_Vector_Clear(struct Mdc_Vector* vector);
 
 /**
  * Returns the pointer to the array of contiguous elements that is
@@ -209,7 +218,7 @@ void Mdc_Vector_Clear(struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return the pointer to the array managed by this vector
  */
-void* Mdc_Vector_Data(struct Mdc_Vector* vector);
+DLLEXPORT void* Mdc_Vector_Data(struct Mdc_Vector* vector);
 
 /**
  * Returns the pointer to the array of contiguous elements that is
@@ -218,7 +227,7 @@ void* Mdc_Vector_Data(struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return the pointer to the array managed by this vector
  */
-const void* Mdc_Vector_DataConst(const struct Mdc_Vector* vector);
+DLLEXPORT const void* Mdc_Vector_DataConst(const struct Mdc_Vector* vector);
 
 /**
  * Returns whether the map contains any key-mappings.
@@ -226,7 +235,7 @@ const void* Mdc_Vector_DataConst(const struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return true if the vector contains at least one element, otherwise false
  */
-bool Mdc_Vector_Empty(const struct Mdc_Vector* vector);
+DLLEXPORT bool Mdc_Vector_Empty(const struct Mdc_Vector* vector);
 
 /**
  * Returns the pointer to the first element in the vector.
@@ -234,7 +243,7 @@ bool Mdc_Vector_Empty(const struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return the pointer to the first element in the vector
  */
-void* Mdc_Vector_Front(struct Mdc_Vector* vector);
+DLLEXPORT void* Mdc_Vector_Front(struct Mdc_Vector* vector);
 
 /**
  * Returns the pointer to the first element in the vector.
@@ -242,7 +251,7 @@ void* Mdc_Vector_Front(struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return the pointer to the first element in the vector
  */
-const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
+DLLEXPORT const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
 
 /**
  * Removes the last element in the vector. If the vector is empty,
@@ -251,7 +260,7 @@ const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector);
  *
  * @param[in] vector this vector
  */
-void Mdc_Vector_PopBack(struct Mdc_Vector* vector);
+DLLEXPORT void Mdc_Vector_PopBack(struct Mdc_Vector* vector);
 
 /**
  * Appends the value to the end of the vector via move-assignment. The
@@ -261,7 +270,7 @@ void Mdc_Vector_PopBack(struct Mdc_Vector* vector);
  * @param[in, out] vector this vector
  * @param[in] value the value to append
  */
-void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value);
+DLLEXPORT void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value);
 
 /**
  * Appends the value to the end of the vector via copy-assignment. The
@@ -271,7 +280,10 @@ void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value);
  * @param[in] vector this vector
  * @param[in] value the value append
  */
-void Mdc_Vector_PushBackCopy(struct Mdc_Vector* vector, const void* value);
+DLLEXPORT void Mdc_Vector_PushBackCopy(
+    struct Mdc_Vector* vector,
+    const void* value
+);
 
 /**
  * Resizes the vector to contain a new count of elements. If the new
@@ -283,7 +295,7 @@ void Mdc_Vector_PushBackCopy(struct Mdc_Vector* vector, const void* value);
  * @param[in] count the new count of elements
  * @param[in] value the value to copy into the vector if appended
  */
-void Mdc_Vector_Resize(
+DLLEXPORT void Mdc_Vector_Resize(
     struct Mdc_Vector* vector,
     size_t count,
     const void* value
@@ -297,7 +309,10 @@ void Mdc_Vector_Resize(
  * @param[in] vector this vector
  * @param[in] new_capacity the desired new capacity for this vector
  */
-void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity);
+DLLEXPORT void Mdc_Vector_Reserve(
+    struct Mdc_Vector* vector,
+    size_t new_capacity
+);
 
 /**
  * Requests for the vector's element capacity to shrink down to the
@@ -305,7 +320,7 @@ void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity);
  *
  * @param[in] vector this vector
  */
-void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector);
+DLLEXPORT void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector);
 
 /**
  * Returns the number of elements in the vector.
@@ -313,7 +328,7 @@ void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector);
  * @param[in] vector this vector
  * @return the number of elements in the vector
  */
-size_t Mdc_Vector_Size(const struct Mdc_Vector* vector);
+DLLEXPORT size_t Mdc_Vector_Size(const struct Mdc_Vector* vector);
 
 /**
  * Swaps the contents of two vectors.
@@ -321,7 +336,10 @@ size_t Mdc_Vector_Size(const struct Mdc_Vector* vector);
  * @param[in, out] vector1 first vector
  * @param[in, out] vector2 second vector
  */
-void Mdc_Vector_Swap(struct Mdc_Vector* vector1, struct Mdc_Vector* vector2);
+DLLEXPORT void Mdc_Vector_Swap(
+    struct Mdc_Vector* vector1,
+    struct Mdc_Vector* vector2
+);
 
 /**
  * Compares two vector metadatas and returns whether they are equal.
@@ -329,9 +347,14 @@ void Mdc_Vector_Swap(struct Mdc_Vector* vector1, struct Mdc_Vector* vector2);
  * @param[in] metadata1 the first metadata to compare
  * @param[in] metadata2 the second metadata to compare
  */
-bool Mdc_VectorMetadata_Equal(
+DLLEXPORT bool Mdc_VectorMetadata_Equal(
     struct Mdc_VectorMetadata* metadata1,
     struct Mdc_VectorMetadata* metadata2
 );
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_CONTAINER_VECTOR_H_ */

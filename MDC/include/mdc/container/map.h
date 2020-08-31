@@ -35,6 +35,12 @@
 #include "../std/stdbool.h"
 #include "pair.h"
 
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct Mdc_MapMetadata {
   struct Mdc_PairMetadata pair_metadata;
 };
@@ -49,7 +55,7 @@ struct Mdc_Map {
 
 #define MDC_MAP_UNINIT { 0 }
 
-const struct Mdc_Map Mdc_Map_kUninit;
+DLLEXPORT const struct Mdc_Map Mdc_Map_kUninit;
 
 /**
  * Initializes the map.
@@ -58,7 +64,7 @@ const struct Mdc_Map Mdc_Map_kUninit;
  * @param[in] metadata the map metadata
  * @return this map if successful, otherwise NULL
  */
-struct Mdc_Map* Mdc_Map_Init(
+DLLEXPORT struct Mdc_Map* Mdc_Map_Init(
     struct Mdc_Map* map,
     const struct Mdc_MapMetadata* metadata
 );
@@ -70,7 +76,7 @@ struct Mdc_Map* Mdc_Map_Init(
  * @param[in] src source pair
  * @return dest if successful, otherwise NULL
  */
-struct Mdc_Map* Mdc_Map_InitCopy(
+DLLEXPORT struct Mdc_Map* Mdc_Map_InitCopy(
     struct Mdc_Map* dest,
     const struct Mdc_Map* src
 );
@@ -82,7 +88,7 @@ struct Mdc_Map* Mdc_Map_InitCopy(
  * @param[in] src source pair
  * @return dest if successful, otherwise NULL
  */
-struct Mdc_Map* Mdc_Map_InitMove(
+DLLEXPORT struct Mdc_Map* Mdc_Map_InitMove(
     struct Mdc_Map* dest,
     struct Mdc_Map* src
 );
@@ -92,7 +98,7 @@ struct Mdc_Map* Mdc_Map_InitMove(
  *
  * @param[in, out] map this map
  */
-void Mdc_Map_Deinit(struct Mdc_Map* map);
+DLLEXPORT void Mdc_Map_Deinit(struct Mdc_Map* map);
 
 /**
  * Returns the value mapped to the specified key. If no such key
@@ -102,7 +108,7 @@ void Mdc_Map_Deinit(struct Mdc_Map* map);
  * @param[in] key the key of the element to locate
  * @return the value mapped to the key, otherwise NULL
  */
-void* Mdc_Map_At(struct Mdc_Map* map, const void* key);
+DLLEXPORT void* Mdc_Map_At(struct Mdc_Map* map, const void* key);
 
 /**
  * Returns the value mapped to the specified key. If no such key
@@ -112,14 +118,17 @@ void* Mdc_Map_At(struct Mdc_Map* map, const void* key);
  * @param[in] key the key of the element to locate
  * @return the value mapped to the key, otherwise NULL
  */
-const void* Mdc_Map_AtConst(const struct Mdc_Map* map, const void* key);
+DLLEXPORT const void* Mdc_Map_AtConst(
+    const struct Mdc_Map* map,
+    const void* key
+);
 
 /**
  * Clear all entries in the map.
  *
  * @param[in, out] map this map
  */
-void Mdc_Map_Clear(struct Mdc_Map* map);
+DLLEXPORT void Mdc_Map_Clear(struct Mdc_Map* map);
 
 /**
  * Returns whether or not the map contains a mapping for the specified
@@ -128,7 +137,7 @@ void Mdc_Map_Clear(struct Mdc_Map* map);
  * @param[in] map this map
  * @param[in] key the key of the element to check
  */
-bool Mdc_Map_Contains(const struct Mdc_Map* map, const void* key);
+DLLEXPORT bool Mdc_Map_Contains(const struct Mdc_Map* map, const void* key);
 
 /**
  * Emplaces a pair into the map. The emplaced pair is allocated by
@@ -142,7 +151,7 @@ bool Mdc_Map_Contains(const struct Mdc_Map* map, const void* key);
  * @param[in] params the parameters to pass into the value
  *    initialization function
  */
-void Mdc_Map_Emplace(
+DLLEXPORT void Mdc_Map_Emplace(
     struct Mdc_Map* map,
     void* key,
     void* (*value_init_function)(void*, void*),
@@ -161,7 +170,7 @@ void Mdc_Map_Emplace(
  * @param[in] params the parameters to pass into the value
  *    initialization function
  */
-void Mdc_Map_EmplaceKeyCopy(
+DLLEXPORT void Mdc_Map_EmplaceKeyCopy(
     struct Mdc_Map* map,
     const void* key,
     void* (*value_init_function)(void*, void*),
@@ -174,7 +183,7 @@ void Mdc_Map_EmplaceKeyCopy(
  * @param[in] map this map
  * @return true if the map contains any key-mapping, otherwise false
  */
-bool Mdc_Map_Empty(const struct Mdc_Map* map);
+DLLEXPORT bool Mdc_Map_Empty(const struct Mdc_Map* map);
 
 /**
  * Returns whether two maps contains equivalent elements.
@@ -183,7 +192,10 @@ bool Mdc_Map_Empty(const struct Mdc_Map* map);
  * @param[in] map2 the second map
  * @return true if the maps have equivalent values, false otherwise
  */
-bool Mdc_Map_Equal(const struct Mdc_Map* map1, const struct Mdc_Map* map2);
+DLLEXPORT bool Mdc_Map_Equal(
+    const struct Mdc_Map* map1,
+    const struct Mdc_Map* map2
+);
 
 /**
  * Removes the pair that is mapped to the specified key.
@@ -192,7 +204,7 @@ bool Mdc_Map_Equal(const struct Mdc_Map* map1, const struct Mdc_Map* map2);
  * @param[in] key the key of the element to remove
  * @return whether the element was erased or not
  */
-bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key);
+DLLEXPORT bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key);
 
 /**
  * Returns a pointer-to-pointer-to-pair with the specified key. If
@@ -203,7 +215,10 @@ bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key);
  * @return the pointer-to-pointer-to-pair that contains the key,
  *      otherwise NULL
  */
-struct Mdc_Pair** Mdc_Map_Find(struct Mdc_Map* map, const void* key);
+DLLEXPORT struct Mdc_Pair** Mdc_Map_Find(
+    struct Mdc_Map* map,
+    const void* key
+);
 
 /**
  * Returns a pointer-to-pointer-to-pair with the specified key. If
@@ -214,7 +229,7 @@ struct Mdc_Pair** Mdc_Map_Find(struct Mdc_Map* map, const void* key);
  * @return the pointer-to-pointer-to-pair that contains the key,
  *      otherwise NULL
  */
-const struct Mdc_Pair** Mdc_Map_FindConst(
+DLLEXPORT const struct Mdc_Pair** Mdc_Map_FindConst(
     const struct Mdc_Map* map,
     const void* key
 );
@@ -228,7 +243,7 @@ const struct Mdc_Pair** Mdc_Map_FindConst(
  * @param[in, out] map this map
  * @param[in] pair the pair to insert or assign
  */
-void Mdc_Map_InsertOrAssignPair(
+DLLEXPORT void Mdc_Map_InsertOrAssignPair(
     struct Mdc_Map* map,
     struct Mdc_Pair* pair
 );
@@ -242,7 +257,7 @@ void Mdc_Map_InsertOrAssignPair(
  * @param[in, out] map this map
  * @param[in] pair the pair to insert or assign
  */
-void Mdc_Map_InsertOrAssignPairCopy(
+DLLEXPORT void Mdc_Map_InsertOrAssignPairCopy(
     struct Mdc_Map* map,
     const struct Mdc_Pair* new_pair
 );
@@ -253,7 +268,7 @@ void Mdc_Map_InsertOrAssignPairCopy(
  * @param[in] map this map
  * @return the maximum count of elements
  */
-size_t Mdc_Map_MaxSize(const struct Mdc_Map* map);
+DLLEXPORT size_t Mdc_Map_MaxSize(const struct Mdc_Map* map);
 
 /**
  * Returns the number of keys in the map.
@@ -261,7 +276,7 @@ size_t Mdc_Map_MaxSize(const struct Mdc_Map* map);
  * @param map this map
  * @return the number of keys in the map
  */
-size_t Mdc_Map_Size(const struct Mdc_Map* map);
+DLLEXPORT size_t Mdc_Map_Size(const struct Mdc_Map* map);
 
 /**
  * Swaps the contents of two maps.
@@ -269,7 +284,7 @@ size_t Mdc_Map_Size(const struct Mdc_Map* map);
  * @param[in, out] map1 first map
  * @param[in, out] map2 second map
  */
-void Mdc_Map_Swap(struct Mdc_Map* map1, struct Mdc_Map* map2);
+DLLEXPORT void Mdc_Map_Swap(struct Mdc_Map* map1, struct Mdc_Map* map2);
 
 /**
  * Compares two map metadatas and returns whether they are equal.
@@ -277,9 +292,14 @@ void Mdc_Map_Swap(struct Mdc_Map* map1, struct Mdc_Map* map2);
  * @param[in] metadata1 the first metadata to compare
  * @param[in] metadata2 the second metadata to compare
  */
-bool Mdc_MapMetadata_Equal(
+DLLEXPORT bool Mdc_MapMetadata_Equal(
     const struct Mdc_MapMetadata* metadata1,
     const struct Mdc_MapMetadata* metadata2
 );
 
+#ifdef __cplusplus
+} extern "C"
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_CONTAINER_MAP_H_ */

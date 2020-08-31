@@ -35,6 +35,12 @@
 #include "../std/stdbool.h"
 #include "../std/stdint.h"
 
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct Mdc_CharTraitsSizes {
   size_t ch_size;
   size_t int_size;
@@ -69,6 +75,11 @@ struct Mdc_CharTraits {
 
 #define MDC_CHAR_TRAITS_UNINIT { 0 };
 
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_STRING_CHAR_TRAITS_H_ */
 
 #include "char_traits/char_traits_char.h"
