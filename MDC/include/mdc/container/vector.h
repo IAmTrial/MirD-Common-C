@@ -76,7 +76,9 @@ struct Mdc_Vector {
   size_t capacity;
 };
 
-const struct Mdc_Vector MDC_VECTOR_UNINIT;
+#define MDC_VECTOR_UNINIT { 0 }
+
+const struct Mdc_Vector Mdc_Vector_kUninit;
 
 /**
  * Initializes the vector.

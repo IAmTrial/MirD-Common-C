@@ -47,11 +47,9 @@ struct Mdc_Map {
   size_t capacity;
 };
 
-#if __STDC_VERSION__ >= 199901L
-#define MDC_MAP_UNINIT ((struct Mdc_Map) { 0 })
-#else
 #define MDC_MAP_UNINIT { 0 }
-#endif
+
+const struct Mdc_Map Mdc_Map_kUninit;
 
 /**
  * Initializes the map.

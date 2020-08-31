@@ -37,6 +37,8 @@ enum FILE_SCOPE_CONSTANTS_01 {
   kInitialCapacity = 2
 };
 
+const struct Mdc_Map Mdc_Map_kUninit = MDC_MAP_UNINIT;
+
 /**
  * Static functions
  */
@@ -303,6 +305,8 @@ free_metadata:
   map->metadata = NULL;
 
 return_bad:
+  *map = Mdc_Map_kUninit;
+
   return NULL;
 }
 
@@ -372,6 +376,8 @@ free_metadata_copy:
   dest->metadata = NULL;
 
 return_bad:
+  *dest = Mdc_Map_kUninit;
+
   return NULL;
 }
 
@@ -398,6 +404,8 @@ struct Mdc_Map* Mdc_Map_InitMove(
   return dest;
 
 return_bad:
+  *dest = Mdc_Map_kUninit;
+
   return NULL;
 }
 
@@ -415,6 +423,8 @@ void Mdc_Map_Deinit(struct Mdc_Map* map) {
     free(map->metadata);
     map->metadata = NULL;
   }
+
+  *map = Mdc_Map_kUninit;
 }
 
 void* Mdc_Map_At(struct Mdc_Map* map, const void* key) {

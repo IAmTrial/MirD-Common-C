@@ -38,6 +38,9 @@ enum {
   kInitialCapacity = 4
 };
 
+const struct Mdc_BasicString Mdc_BasicString_kUninit =
+    MDC_BASIC_STRING_UNINIT;
+
 /**
  * Static
  */
@@ -132,7 +135,7 @@ free_metadata:
   free(str->metadata);
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -225,7 +228,7 @@ free_metadata:
   free(str->metadata);
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -269,7 +272,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitFromChar(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -371,7 +374,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitFromCStrTop(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -405,7 +408,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithStrCopy(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -439,7 +442,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithCStr(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -473,7 +476,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithChar(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -508,7 +511,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithStrCopy(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -543,7 +546,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithCStr(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -578,7 +581,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithChar(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -612,7 +615,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatCStrWithStrCopy(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -646,7 +649,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatCStrWithStr(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -680,7 +683,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatCharWithStrCopy(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -714,7 +717,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatCharWithStr(
   return str;
 
 return_bad:
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -745,7 +748,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitMove(
   return dest;
 
 return_bad:
-  *dest = MDC_BASIC_STRING_UNINIT;
+  *dest = Mdc_BasicString_kUninit;
 
   return NULL;
 }
@@ -753,13 +756,15 @@ return_bad:
 void Mdc_BasicString_Deinit(struct Mdc_BasicString* str) {
   if (str->str_ != NULL) {
     free(str->str_);
+    str->str_ = NULL;
   }
 
   if (str->metadata != NULL) {
     free(str->metadata);
+    str->metadata = NULL;
   }
 
-  *str = MDC_BASIC_STRING_UNINIT;
+  *str = Mdc_BasicString_kUninit;
 }
 
 void* Mdc_BasicString_Access(

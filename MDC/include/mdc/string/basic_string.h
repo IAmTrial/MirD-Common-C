@@ -51,7 +51,9 @@ struct Mdc_BasicString {
   size_t capacity_;
 };
 
-struct Mdc_BasicString MDC_BASIC_STRING_UNINIT;
+#define MDC_BASIC_STRING_UNINIT { 0 };
+
+const struct Mdc_BasicString Mdc_BasicString_kUninit;
 
 struct Mdc_BasicString* Mdc_BasicString_InitEmpty(
     struct Mdc_BasicString* str,

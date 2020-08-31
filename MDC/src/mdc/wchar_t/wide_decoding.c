@@ -103,7 +103,7 @@ free_wide_str:
   Mdc_BasicString_Deinit(&wide_str);
 
 return_bad:
-  return MDC_BASIC_STRING_UNINIT;
+  return Mdc_BasicString_kUninit;
 }
 
 struct Mdc_BasicString Mdc_Wide_DecodeAscii(const char* ascii_str) {

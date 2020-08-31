@@ -37,7 +37,7 @@ enum FILE_SCOPE_CONSTANTS_01 {
   kInitialCapacity = 4
 };
 
-const struct Mdc_Vector MDC_VECTOR_UNINIT = { 0 };
+const struct Mdc_Vector Mdc_Vector_kUninit = MDC_VECTOR_UNINIT;
 
 /**
  * Static functions
@@ -295,6 +295,8 @@ free_metadata_copy:
   vector->metadata = NULL;
 
 return_bad:
+  *vector = Mdc_Vector_kUninit;
+
   return NULL;
 }
 
@@ -380,6 +382,8 @@ free_metadata_copy:
   dest->metadata = NULL;
 
 return_bad:
+  *dest = Mdc_Vector_kUninit;
+
   return NULL;
 }
 
@@ -407,6 +411,8 @@ struct Mdc_Vector* Mdc_Vector_InitMove(
   return dest;
 
 return_bad:
+  *dest = Mdc_Vector_kUninit;
+
   return NULL;
 }
 
@@ -439,6 +445,8 @@ void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
     free(vector->metadata);
     vector->metadata = NULL;
   }
+
+  *vector = Mdc_Vector_kUninit;
 }
 
 void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos) {
