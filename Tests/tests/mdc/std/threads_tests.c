@@ -40,10 +40,11 @@ struct MutexedValue {
 };
 
 enum {
+  kOnceDefaultValue = 0,
   kOnceTargetValue = 42
 };
 
-static int once_value = 0;
+static int once_value = kOnceDefaultValue;
 
 static int Increment(void* value) {
   int* actual_value = (int*) value;
@@ -127,7 +128,26 @@ static void Mdc_Threads_AssertRaceCondition(void) {
   assert(value <= kThreadsCount);
 }
 
-static void Mdc_Threads_AssertMutexLockUnlock(void) {
+static void Mdc_Threads_AssertMutexLockUnlockSingle(void) {
+  struct MutexedValue value;
+
+  size_t i;
+  int mtx_init_result;
+  int thread_create_result;
+  int thread_join_result;
+
+  value.value = 0;
+
+  mtx_init_result = mtx_init(&value.mutex, mtx_plain);
+  assert(mtx_init_result == thrd_success);
+
+  MutexedIncrement(&value);
+  assert(value.value == 1);
+
+  mtx_destroy(&value.mutex);
+}
+
+static void Mdc_Threads_AssertMutexLockUnlockMulti(void) {
   enum {
     kThreadsCount = 256
   };
@@ -160,7 +180,25 @@ static void Mdc_Threads_AssertMutexLockUnlock(void) {
   mtx_destroy(&value.mutex);
 }
 
-static void Mdc_Threads_AssertCallOnce(void) {
+static void Mdc_Threads_AssertCallOnceSingle(void) {
+  const once_flag kInitOnceFlag = ONCE_FLAG_INIT;
+
+  once_flag flag = ONCE_FLAG_INIT;
+
+  size_t i;
+  int thread_create_result;
+  int thread_join_result;
+
+  once_value = kOnceDefaultValue;
+
+  assert(memcmp(&flag, &kInitOnceFlag, sizeof(kInitOnceFlag)) == 0);
+
+  SetOnceTargetMultithread(&flag);
+
+  assert(once_value == kOnceTargetValue);
+}
+
+static void Mdc_Threads_AssertCallOnceMulti(void) {
   enum {
     kThreadsCount = 256
   };
@@ -173,6 +211,8 @@ static void Mdc_Threads_AssertCallOnce(void) {
   size_t i;
   int thread_create_result;
   int thread_join_result;
+
+  once_value = kOnceDefaultValue;
 
   assert(memcmp(&flag, &kInitOnceFlag, sizeof(kInitOnceFlag)) == 0);
 
@@ -191,6 +231,8 @@ static void Mdc_Threads_AssertCallOnce(void) {
 
 void Mdc_Threads_RunTests(void) {
   Mdc_Threads_AssertRaceCondition();
-  Mdc_Threads_AssertMutexLockUnlock();
-  Mdc_Threads_AssertCallOnce();
+  Mdc_Threads_AssertMutexLockUnlockSingle();
+  Mdc_Threads_AssertMutexLockUnlockMulti();
+  Mdc_Threads_AssertCallOnceSingle();
+  Mdc_Threads_AssertCallOnceMulti();
 }
