@@ -31,6 +31,11 @@
 
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
+
+#if defined(__GNUC__)
+#include <unistd.h>
+#endif
 
 #include <mdc/std/threads.h>
 
@@ -53,7 +58,12 @@ static int Increment(void* value) {
   /* Separate operations on a copy forces a race condition. */
   temp = *actual_value;
   temp += 1;
+
+  #if defined(_MSC_VER)
   Sleep(1);
+  #elif defined(__GNUC__)
+  usleep(1);
+  #endif
 
   *actual_value = temp;
 
@@ -131,10 +141,7 @@ static void Mdc_Threads_AssertRaceCondition(void) {
 static void Mdc_Threads_AssertMutexLockUnlockSingle(void) {
   struct MutexedValue value;
 
-  size_t i;
   int mtx_init_result;
-  int thread_create_result;
-  int thread_join_result;
 
   value.value = 0;
 
@@ -184,10 +191,6 @@ static void Mdc_Threads_AssertCallOnceSingle(void) {
   const once_flag kInitOnceFlag = ONCE_FLAG_INIT;
 
   once_flag flag = ONCE_FLAG_INIT;
-
-  size_t i;
-  int thread_create_result;
-  int thread_join_result;
 
   once_value = kOnceDefaultValue;
 
