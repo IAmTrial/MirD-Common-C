@@ -30,7 +30,7 @@
 #ifndef MDC_C_STD_STDINT_H_
 #define MDC_C_STD_STDINT_H_
 
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#if __STDC_VERSION__ >= 199901L
 
 #include <stdint.h>
 
@@ -99,6 +99,6 @@ typedef unsigned __int32 uintptr_t;
 
 #define UINTMAX_MAX UINT64_MAX
 
-#endif /* defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L */
+#endif /* __STDC_VERSION__ >= 199901L */
 
 #endif /* MDC_C_STD_STDINT_H_ */
