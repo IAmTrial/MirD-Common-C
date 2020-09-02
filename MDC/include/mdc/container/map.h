@@ -207,34 +207,6 @@ DLLEXPORT bool Mdc_Map_Equal(
 DLLEXPORT bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key);
 
 /**
- * Returns a pointer-to-pointer-to-pair with the specified key. If
- * the key is not found, then the null pointer is returned.
- *
- * @param[in, out] map this map
- * @param[in] key the key of the element to find
- * @return the pointer-to-pointer-to-pair that contains the key,
- *      otherwise NULL
- */
-DLLEXPORT struct Mdc_Pair** Mdc_Map_Find(
-    struct Mdc_Map* map,
-    const void* key
-);
-
-/**
- * Returns a pointer-to-pointer-to-pair with the specified key. If
- * the key is not found, then the null pointer is returned.
- *
- * @param[in, out] map this map
- * @param[in] key the key of the element to find
- * @return the pointer-to-pointer-to-pair that contains the key,
- *      otherwise NULL
- */
-DLLEXPORT const struct Mdc_Pair* const* Mdc_Map_FindConst(
-    const struct Mdc_Map* map,
-    const void* key
-);
-
-/**
  * Inserts the pair into the map via move-assignment if there is no
  * key-mapping for the pair's key. Otherwise, replaces the previous
  * mapping with the specified pair via move-assignment. Returns the

@@ -269,6 +269,34 @@ static void Mdc_Map_DeinitAndFreeElements(
 }
 
 /**
+ * Returns a pointer-to-pointer-to-pair with the specified key. If
+ * the key is not found, then the null pointer is returned.
+ *
+ * @param[in, out] map this map
+ * @param[in] key the key of the element to find
+ * @return the pointer-to-pointer-to-pair that contains the key,
+ *      otherwise NULL
+ */
+static struct Mdc_Pair** Mdc_Map_Find(
+    struct Mdc_Map* map,
+    const void* key
+);
+
+/**
+ * Returns a pointer-to-pointer-to-pair with the specified key. If
+ * the key is not found, then the null pointer is returned.
+ *
+ * @param[in, out] map this map
+ * @param[in] key the key of the element to find
+ * @return the pointer-to-pointer-to-pair that contains the key,
+ *      otherwise NULL
+ */
+static const struct Mdc_Pair* const* Mdc_Map_FindConst(
+    const struct Mdc_Map* map,
+    const void* key
+);
+
+/**
  * External functions
  */
 
