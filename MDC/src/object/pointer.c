@@ -31,6 +31,9 @@
 
 #include <stddef.h>
 
+const struct Mdc_Pointer Mdc_Pointer_kUninit =
+    MDC_POINTER_UNINIT;
+
 struct Mdc_Pointer* Mdc_Pointer_InitFromPointer(
     struct Mdc_Pointer* pointer,
     void* ptr
@@ -66,7 +69,7 @@ struct Mdc_Pointer* Mdc_Pointer_InitMove(
 }
 
 void Mdc_Pointer_Deinit(struct Mdc_Pointer* pointer) {
-  /* Intentionally left empty. */
+  *pointer = Mdc_Pointer_kUninit;
 }
 
 int Mdc_Pointer_Compare(

@@ -43,6 +43,10 @@ struct Mdc_Pointer {
   void* ptr_;
 };
 
+#define MDC_POINTER_UNINIT { 0 }
+
+const struct Mdc_Pointer Mdc_Pointer_kUninit;
+
 DLLEXPORT struct Mdc_Pointer* Mdc_Pointer_InitFromPointer(
     struct Mdc_Pointer* pointer,
     void* value
