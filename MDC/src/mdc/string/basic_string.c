@@ -282,7 +282,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitStrTail(
     const struct Mdc_BasicString* src,
     size_t pos
 ) {
-  return Mdc_BasicString_InitSubstr(str, src, pos, Mdc_BasicString_npos);
+  return Mdc_BasicString_InitSubstr(str, src, pos, MDC_BASIC_STRING_NPOS);
 }
 
 struct Mdc_BasicString* Mdc_BasicString_InitSubstr(
@@ -299,7 +299,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitSubstr(
 
   const void* tail_start_ptr;
 
-  if (count == Mdc_BasicString_npos) {
+  if (count == MDC_BASIC_STRING_NPOS) {
     count = src->length_ - pos;
   }
 
@@ -726,7 +726,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitCopy(
     struct Mdc_BasicString* dest,
     const struct Mdc_BasicString* src
 ) {
-  return Mdc_BasicString_InitSubstr(dest, src, 0, Mdc_BasicString_npos);
+  return Mdc_BasicString_InitSubstr(dest, src, 0, MDC_BASIC_STRING_NPOS);
 }
 
 struct Mdc_BasicString* Mdc_BasicString_InitMove(
@@ -883,7 +883,7 @@ struct Mdc_BasicString* Mdc_BasicString_AppendStrTail(
       dest,
       src,
       pos,
-      Mdc_BasicString_npos
+      MDC_BASIC_STRING_NPOS
   );
 }
 
@@ -901,7 +901,7 @@ struct Mdc_BasicString* Mdc_BasicString_AppendSubstr(
 
   const void* tail_start_ptr;
 
-  if (count == Mdc_BasicString_npos) {
+  if (count == MDC_BASIC_STRING_NPOS) {
     count = src->length_;
   }
 
@@ -1045,7 +1045,7 @@ int Mdc_BasicString_CompareSubstr(
       count1,
       str2,
       0,
-      Mdc_BasicString_npos
+      MDC_BASIC_STRING_NPOS
   );
 }
 
@@ -1063,7 +1063,7 @@ int Mdc_BasicString_CompareSubstrs(
   const struct Mdc_CharTraitsFunctions* const functions =
       &metadata->char_traits.functions;
 
-  if (count2 == Mdc_BasicString_npos
+  if (count2 == MDC_BASIC_STRING_NPOS
       || count2 > str2->length_ - pos2) {
     count2 = str2->length_ - pos2;
   }

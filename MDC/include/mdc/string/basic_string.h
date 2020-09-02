@@ -45,9 +45,7 @@ struct Mdc_BasicStringMetadata {
   struct Mdc_CharTraits char_traits;
 };
 
-enum {
-  Mdc_BasicString_npos = (size_t) -1
-};
+#define MDC_BASIC_STRING_NPOS ((size_t) -1)
 
 struct Mdc_BasicString {
   struct Mdc_BasicStringMetadata* metadata;
