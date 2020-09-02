@@ -195,6 +195,7 @@ static void Mdc_Vector_DeinitIndexElements(
     );
 
     functions->init_move(dest_element, src_element);
+    functions->deinit(src_element);
   }
 
   vector->count -= d_start_end;
