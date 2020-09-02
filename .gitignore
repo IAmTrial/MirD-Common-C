@@ -5,10 +5,13 @@
 *.wwdb
 
 # Binaries
+*.a
 *.dll
 *.exe
 *.lib
+*.o
 *.obj
+*.so
 
 # Debug / Intermediate Files
 *.ipch
