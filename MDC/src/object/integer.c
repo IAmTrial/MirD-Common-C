@@ -29,6 +29,9 @@
 
 #include "../../include/mdc/object/integer.h"
 
+const struct Mdc_Integer Mdc_Integer_kUninit =
+    MDC_INTEGER_UNINIT;
+
 struct Mdc_Integer* Mdc_Integer_InitFromValue(
     struct Mdc_Integer* integer,
     int value
@@ -55,7 +58,7 @@ struct Mdc_Integer* Mdc_Integer_InitMove(
 }
 
 void Mdc_Integer_Deinit(struct Mdc_Integer* integer) {
-  /* Intentionally left empty. */
+  *integer = Mdc_Integer_kUninit;
 }
 
 int Mdc_Integer_Compare(

@@ -42,6 +42,10 @@ struct Mdc_Integer {
   int value_;
 };
 
+#define MDC_INTEGER_UNINIT { 0 }
+
+const struct Mdc_Integer Mdc_Integer_kUninit;
+
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitFromValue(
     struct Mdc_Integer* integer,
     int value
