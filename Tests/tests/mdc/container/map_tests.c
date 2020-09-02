@@ -66,6 +66,10 @@ enum FILE_SCOPE_CONSTANTS_03 {
       / sizeof(kRepeatingTextWords[0])
 };
 
+static void* Mdc_Integer_InitCopyAsVoid(void* dest, void* src) {
+  return Mdc_Integer_InitCopy(dest, src);
+}
+
 static struct Mdc_MapMetadata* Mdc_WordCountMapMetadata_Init(
     struct Mdc_MapMetadata* metadata
 ) {
@@ -137,7 +141,7 @@ static void Mdc_Map_AssertEmplace(void) {
       Mdc_Map_Emplace(
           &map,
           &key_copy,
-          &Mdc_Integer_InitCopy,
+          &Mdc_Integer_InitCopyAsVoid,
           &zero_copy
       );
 
@@ -200,7 +204,7 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
       Mdc_Map_EmplaceKeyCopy(
           &map,
           &kRepeatingText[i],
-          &Mdc_Integer_InitCopy,
+          &Mdc_Integer_InitCopyAsVoid,
           &zero_copy
       );
     }
