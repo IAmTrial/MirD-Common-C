@@ -742,5 +742,5 @@ bool Mdc_VectorMetadata_Equal(
 
   memcmp_result = memcmp(metadata1, metadata2, sizeof(*metadata1));
 
-  return (memcmp == 0);
+  return (memcmp_result == 0);
 }
