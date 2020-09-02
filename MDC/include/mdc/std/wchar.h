@@ -41,7 +41,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#if _MSC_VER <= 1200
+#if _MSC_VER < 1200
 
 /**
  * String manipulation
@@ -67,7 +67,7 @@ DLLEXPORT size_t wcscspn(const wchar_t* dest, const wchar_t* src);
 DLLEXPORT wchar_t* wcspbrk(const wchar_t* dest, const wchar_t* str);
 DLLEXPORT wchar_t* wcsstr(const wchar_t* dest, const wchar_t* src);
 
-#endif /* _MSC_VER <= 1200 */
+#endif /* _MSC_VER < 1200 */
 
 /**
  * Wide character array manipulation
