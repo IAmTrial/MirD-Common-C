@@ -43,10 +43,10 @@
  */
 
 const struct CharCString kFirstSrc1 = { "Hello world" };
-const struct Integer kSecondSrc1 = { 42 };
+const struct Mdc_Integer kSecondSrc1 = { 42 };
 
 const struct CharCString kFirstSrc2 = { "Hello world!" };
-const struct Integer kSecondSrc2 = { 43 };
+const struct Mdc_Integer kSecondSrc2 = { 43 };
 
 static void Mdc_Pair_AssertInitDeinit(void) {
   struct Mdc_PairMetadata metadata;
@@ -58,7 +58,7 @@ static void Mdc_Pair_AssertInitDeinit(void) {
       &metadata.functions.second_functions;
 
   struct CharCString first;
-  struct Integer second;
+  struct Mdc_Integer second;
 
   struct Mdc_Pair pair;
   struct Mdc_Pair* init_pair;
@@ -72,7 +72,7 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   assert(strcmp(first.cstring, kFirstSrc1.cstring) == 0);
 
   Mdc_Integer_InitCopy(&second, &kSecondSrc1);
-  assert(second.value == kSecondSrc1.value);
+  assert(Mdc_Integer_Equal(&second, &kSecondSrc1));
 
   init_pair = Mdc_Pair_InitFirstSecond(
       &pair,

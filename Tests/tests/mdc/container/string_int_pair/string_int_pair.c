@@ -29,8 +29,8 @@
 
 #include "string_int_pair.h"
 
+#include <mdc/object/integer.h>
 #include "../../../sample_types/char_cstring.h"
-#include "../../../sample_types/integer.h"
 
 /**
  * Static functions
@@ -101,7 +101,7 @@ struct Mdc_PairMetadata* Mdc_PairCharCStringIntMetadata_Init(
     struct Mdc_PairMetadata* metadata
 ) {
   metadata->size.first_size = sizeof(struct CharCString);
-  metadata->size.second_size = sizeof(struct Integer);
+  metadata->size.second_size = sizeof(struct Mdc_Integer);
 
   Mdc_PairCharCStringIntFirstFunctions_Init(
       &metadata->functions.first_functions
