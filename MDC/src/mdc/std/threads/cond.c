@@ -31,6 +31,8 @@
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
+#if defined(_MSC_VER)
+
 int cnd_init(cnd_t* cond) {
   cond->waiter_event_ = CreateEventA(NULL, TRUE, FALSE, NULL);
 
@@ -127,5 +129,53 @@ int cnd_wait(cnd_t* cond, mtx_t* mutex) {
 return_bad:
   return thrd_error;
 }
+
+#elif defined(__GNUC__)
+
+#include <errno.h>
+
+int cnd_init(cnd_t* cond) {
+  int result;
+
+  result = pthread_cond_init(cond, NULL);
+
+  if (result == 0) {
+    return thrd_success;
+  } else if (result == ENOMEM) {
+    return thrd_nomem;
+  } else {
+    return thrd_error;
+  }
+}
+
+void cnd_destroy(cnd_t* cond) {
+  pthread_cond_destroy(cond);
+}
+
+int cnd_signal(cnd_t* cond) {
+  int result;
+
+  result = pthread_cond_signal(cond);
+
+  return (result == 0) ? thrd_success : thrd_error;
+}
+
+int cnd_broadcast(cnd_t* cond) {
+  int result;
+
+  result = pthread_cond_broadcast(cond);
+
+  return (result == 0) ? thrd_success : thrd_error;
+}
+
+int cnd_wait(cnd_t* cond, mtx_t* mutex) {
+  int result;
+
+  result = pthread_cond_wait(cond, mutex);
+
+  return (result == 0) ? thrd_success : thrd_error;
+}
+
+#endif
 
 #endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */

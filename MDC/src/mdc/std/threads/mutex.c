@@ -31,6 +31,8 @@
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
+#if defined(_MSC_VER)
+
 int mtx_init(mtx_t* mutex, int type) {
   mutex->mutex_ = CreateMutexA(NULL, FALSE, NULL);
 
@@ -135,5 +137,81 @@ return_bad:
 
   return thrd_error;
 }
+
+#elif defined(__GNUC__)
+
+#include <errno.h>
+
+/* TODO (Mir Drualga): In Linux, if an error occurs, define _GNU_SOURCE */
+
+int mtx_init(mtx_t* mutex, int type) {
+  int init_attr_result;
+  int init_mutex_result;
+
+  int mutex_attr_type;
+  pthread_mutexattr_t attr;
+
+  init_attr_result = pthread_mutexattr_init(&attr);
+  if (init_attr_result != 0) {
+    goto return_bad;
+  }
+
+  if ((type & mtx_recursive) == mtx_recursive) {
+    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+  } else {
+    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_DEFAULT);
+  }
+
+  init_mutex_result = pthread_mutex_init(mutex, &attr);
+  if (init_mutex_result != 0) {
+    goto destory_attr;
+  }
+
+  pthread_mutexattr_destroy(&attr);
+
+  return thrd_success;
+
+destory_attr:
+  pthread_mutexattr_destroy(&attr);
+
+return_bad:
+  return thrd_error;
+}
+
+void mtx_destroy(mtx_t* mutex) {
+  pthread_mutex_destroy(mutex);
+}
+
+int mtx_lock(mtx_t* mutex) {
+  int result;
+
+  result = pthread_mutex_lock(mutex);
+
+  return (result == 0) ? thrd_success : thrd_error;
+}
+
+int mtx_trylock(mtx_t *mutex) {
+  int result;
+
+  result = pthread_mutex_lock(mutex);
+
+  if (result == 0) {
+    return thrd_success;
+  } else if (result == EBUSY || result == EAGAIN) {
+    return thrd_busy;
+  } else {
+    return thrd_error;
+  }
+}
+
+int mtx_unlock(mtx_t *mutex) {
+  int result;
+
+  result = pthread_mutex_unlock(mutex);
+
+  return (result == 0) ? thrd_success : thrd_error;
+}
+
+#endif
 
 #endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */

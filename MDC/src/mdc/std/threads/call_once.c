@@ -31,6 +31,8 @@
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
+#if defined(_MSC_VER)
+
 static void CallAsActiveThread(once_flag* flag, void (*func)(void)) {
   flag->passive_thread_event_ = CreateEventA(NULL, TRUE, FALSE, NULL);
   flag->is_event_init_ = TRUE;
@@ -66,5 +68,13 @@ void call_once(once_flag* flag, void (*func)(void)) {
     CallAsPassiveThread(flag);
   }
 }
+
+#elif defined(__GNUC__)
+
+void call_once(once_flag* flag, void (*func)(void)) {
+  pthread_once(flag, func);
+}
+
+#endif
 
 #endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */

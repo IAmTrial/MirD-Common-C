@@ -31,6 +31,8 @@
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
+#if defined(_MSC_VER)
+
 #include <process.h>
 #include <stdlib.h>
 
@@ -140,5 +142,82 @@ int thrd_join(thrd_t thr, int *res) {
 return_bad:
   return thrd_error;
 }
+
+#elif defined(__GNUC__)
+
+#include <errno.h>
+#include <sched.h>
+#include <stdlib.h>
+
+struct ThreadArgsWrapper {
+  thrd_start_t func_;
+  void* arg_;
+};
+
+static void* thrd_wrap_func(void* arg_wrapper) {
+  struct ThreadArgsWrapper args_wrapper_copy;
+
+  args_wrapper_copy = *(struct ThreadArgsWrapper*) arg_wrapper;
+  free(arg_wrapper);
+
+  return (void*) args_wrapper_copy.func_(args_wrapper_copy.arg_);
+}
+
+int thrd_create(thrd_t* thr, thrd_start_t func, void* arg) {
+  struct ThreadArgsWrapper* arg_wrapper;
+  int result;
+
+  arg_wrapper = malloc(sizeof(*arg_wrapper));
+  if (arg_wrapper == NULL) {
+    return ENOMEM;
+  }
+
+  arg_wrapper->func_ = func;
+  arg_wrapper->arg_ = arg;
+
+  result = pthread_create(thr, NULL, &thrd_wrap_func, arg_wrapper);
+
+  if (result == 0) {
+    return thrd_success;
+  } else if (result == ENOMEM) {
+    return thrd_nomem;
+  } else {
+    return thrd_error;
+  }
+}
+
+int thrd_equal(thrd_t lhs, thrd_t rhs) {
+  return pthread_equal(lhs, rhs);
+}
+
+thrd_t thrd_current(void) {
+  return pthread_self();
+}
+
+void thrd_yield(void) {
+  sched_yield();
+}
+
+void thrd_exit(int res) {
+  pthread_exit((void*) res);
+}
+
+int thrd_detach(thrd_t thr) {
+  int result;
+
+  result = pthread_detach(thr);
+
+  return (result == 0) ? thrd_success : thrd_error;
+}
+
+int thrd_join(thrd_t thr, int *res) {
+  int result;
+
+  result = pthread_join(thr, (void*) res);
+
+  return (result == 0) ? thrd_success : thrd_error;
+}
+
+#endif
 
 #endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */

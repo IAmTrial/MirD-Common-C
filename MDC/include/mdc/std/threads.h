@@ -36,7 +36,11 @@
 
 #else
 
-#include <windows.h>
+#if defined(_MSC_VER)
+  #include <windows.h>
+#elif defined(__GNUC__)
+  #include <pthread.h>
+#endif
 
 #include "../../../dllexport_define.inc"
 
@@ -58,7 +62,15 @@ enum {
 
 typedef int (*thrd_start_t)(void*);
 
+#if defined(_MSC_VER)
+
 typedef HANDLE thrd_t;
+
+#elif defined(__GNUC__)
+
+typedef pthread_t thrd_t;
+
+#endif
 
 DLLEXPORT int thrd_create(thrd_t* thr, thrd_start_t func, void* arg);
 DLLEXPORT int thrd_equal(thrd_t lhs, thrd_t rhs);
@@ -78,6 +90,8 @@ enum {
   mtx_timed = 0x3
 };
 
+#if defined(_MSC_VER)
+
 typedef struct {
   HANDLE mutex_;
   int type_;
@@ -85,11 +99,19 @@ typedef struct {
   BOOL is_owned_;
 } mtx_t;
 
+#elif defined(__GNUC__)
+
+typedef pthread_mutex_t mtx_t;
+
+#endif
+
 DLLEXPORT int mtx_init(mtx_t* mutex, int type);
 DLLEXPORT void mtx_destroy(mtx_t* mutex);
 DLLEXPORT int mtx_lock(mtx_t* mutex);
 DLLEXPORT int mtx_trylock(mtx_t *mutex);
 DLLEXPORT int mtx_unlock(mtx_t *mutex);
+
+#if defined(_MSC_VER)
 
 typedef struct {
   LONG has_active_thread_;
@@ -104,11 +126,21 @@ typedef struct {
 
 #define ONCE_FLAG_INIT { 0 }
 
+#elif defined(__GNUC__)
+
+typedef pthread_once_t once_flag;
+
+#define ONCE_FLAG_INIT PTHREAD_ONCE_INIT
+
+#endif
+
 DLLEXPORT void call_once(once_flag* flag, void (*func)(void));
 
 /**
  * Conditional variables
  */
+
+#if defined(_MSC_VER)
 
 typedef struct {
   HANDLE waiter_event_;
@@ -116,6 +148,12 @@ typedef struct {
   BOOL is_broadcast;
   LONG has_signal_pass;
 } cnd_t;
+
+#elif defined(__GNUC__)
+
+typedef pthread_cond_t cnd_t;
+
+#endif
 
 DLLEXPORT int cnd_init(cnd_t* cond);
 DLLEXPORT void cnd_destroy(cnd_t* cond);
