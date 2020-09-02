@@ -37,18 +37,8 @@
 
 #if __STDC_VERSION__ < 201112L && !defined(static_assert)
 
-/* Delivers an error if the assertion fails. The message isn't usable though. */
-#define MDC_UNDERLYING_STATIC_ASSERT_03(COND, MSG) \
-    typedef struct { char a; } error_##MSG[(!!(COND))*2-1]
-
-#define MDC_UNDERLYING_STATIC_ASSERT_02(expression, counter, line) \
-    MDC_UNDERLYING_STATIC_ASSERT_03(expression, static_assertion_##counter##_at_line_##line)
-
-#define MDC_UNDERLYING_STATIC_ASSERT_01(expression, counter, line) \
-    MDC_UNDERLYING_STATIC_ASSERT_02(expression, counter, line)
-
-#define static_assert(expression, message) \
-    MDC_UNDERLYING_STATIC_ASSERT_01(expression, __COUNTER__, __LINE__)
+/* Assert hackarounds fail to work with VC++ 6. */
+#define static_assert(expression, message)
 
 #endif /* __STDC_VERSION__ >= 201112L && !defined(static_assert) */
 
