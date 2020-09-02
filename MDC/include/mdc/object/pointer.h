@@ -40,10 +40,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 struct Mdc_Pointer {
-  union {
-    void* ptr_;
-    intptr_t value_;
-  };
+  void* ptr_;
 };
 
 DLLEXPORT struct Mdc_Pointer* Mdc_Pointer_InitFromPointer(

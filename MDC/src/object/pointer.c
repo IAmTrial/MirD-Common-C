@@ -29,6 +29,8 @@
 
 #include "../../include/mdc/object/pointer.h"
 
+#include <stddef.h>
+
 struct Mdc_Pointer* Mdc_Pointer_InitFromPointer(
     struct Mdc_Pointer* pointer,
     void* ptr
@@ -42,7 +44,7 @@ struct Mdc_Pointer* Mdc_Pointer_InitFromValue(
     struct Mdc_Pointer* pointer,
     intptr_t value
 ) {
-  pointer->value_ = value;
+  pointer->ptr_ = (void*) value;
 
   return pointer;
 }
@@ -51,7 +53,7 @@ struct Mdc_Pointer* Mdc_Pointer_InitCopy(
     struct Mdc_Pointer* dest,
     const struct Mdc_Pointer* src
 ) {
-  dest->value_ = src->value_;
+  dest->ptr_ = src->ptr_;
 
   return dest;
 }
@@ -71,7 +73,9 @@ int Mdc_Pointer_Compare(
     const struct Mdc_Pointer* pointer1,
     const struct Mdc_Pointer* pointer2
 ) {
-  intptr_t compare_value = pointer1->value_ - pointer2->value_;
+  intptr_t compare_value;
+
+  compare_value = (intptr_t) pointer1->ptr_ - (intptr_t) pointer2->ptr_;
 
   if (compare_value < 0) {
     return -1;
@@ -86,7 +90,7 @@ bool Mdc_Pointer_Equal(
     const struct Mdc_Pointer* pointer1,
     const struct Mdc_Pointer* pointer2
 ) {
-  return pointer1->value_ == pointer2->value_;
+  return pointer1->ptr_ == pointer2->ptr_;
 }
 
 void* Mdc_Pointer_GetPointer(const struct Mdc_Pointer* pointer) {
@@ -98,9 +102,9 @@ void Mdc_Pointer_SetPointer(struct Mdc_Pointer* pointer, void* ptr) {
 }
 
 intptr_t Mdc_Pointer_GetValue(const struct Mdc_Pointer* pointer) {
-  return pointer->value_;
+  return (intptr_t) pointer->ptr_;
 }
 
 void Mdc_Pointer_SetValue(struct Mdc_Pointer* pointer, intptr_t value) {
-  pointer->value_ = value;
+  pointer->ptr_ = (void*) value;
 }
