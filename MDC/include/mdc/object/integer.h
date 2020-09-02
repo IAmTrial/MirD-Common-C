@@ -68,9 +68,19 @@ DLLEXPORT int Mdc_Integer_Compare(
     const struct Mdc_Integer* integer2
 );
 
+DLLEXPORT int Mdc_Integer_CompareValue(
+    const struct Mdc_Integer* integer,
+    int value
+);
+
 DLLEXPORT bool Mdc_Integer_Equal(
     const struct Mdc_Integer* integer1,
     const struct Mdc_Integer* integer2
+);
+
+DLLEXPORT bool Mdc_Integer_EqualValue(
+    const struct Mdc_Integer* integer,
+    int value
 );
 
 DLLEXPORT int Mdc_Integer_GetValue(const struct Mdc_Integer* integer);

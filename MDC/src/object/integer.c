@@ -68,11 +68,25 @@ int Mdc_Integer_Compare(
   return integer1->value_ - integer2->value_;
 }
 
+int Mdc_Integer_CompareValue(
+    const struct Mdc_Integer* integer,
+    int value
+) {
+  return integer->value_ - value;
+}
+
 bool Mdc_Integer_Equal(
     const struct Mdc_Integer* integer1,
     const struct Mdc_Integer* integer2
 ) {
   return integer1->value_ == integer2->value_;
+}
+
+bool Mdc_Integer_EqualValue(
+    const struct Mdc_Integer* integer,
+    int value
+) {
+  return integer->value_ == value;
 }
 
 int Mdc_Integer_GetValue(const struct Mdc_Integer* integer) {
