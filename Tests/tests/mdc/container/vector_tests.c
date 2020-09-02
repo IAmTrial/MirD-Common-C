@@ -34,43 +34,33 @@
 #include <string.h>
 
 #include <mdc/container/vector.h>
-#include "../../sample_types/char_cstring.h"
+#include <mdc/object/integer.h>
 
-static const struct CharCString kBasicExampleText[] = {
-    "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy",
-    "dog."
-};
-
-enum FILE_SCOPE_CONSTANTS_02 {
-  kBasicExampleTextCount = sizeof(kBasicExampleText)
-      / sizeof(kBasicExampleText[0])
-};
-
-static void* Mdc_CharCString_InitCopyAsVoid(void* dest, const void* src) {
-  return Mdc_CharCString_InitCopy(dest, src);
+static void* Mdc_Integer_InitCopyAsVoid(void* dest, const void* src) {
+  return Mdc_Integer_InitCopy(dest, src);
 }
 
-static void* Mdc_CharCString_InitMoveAsVoid(void* dest, void* src) {
-  return Mdc_CharCString_InitMove(dest, src);
+static void* Mdc_Integer_InitMoveAsVoid(void* dest, void* src) {
+  return Mdc_Integer_InitMove(dest, src);
 }
 
-static void Mdc_CharCString_DeinitAsVoid(void* str) {
-  Mdc_CharCString_Deinit(str);
+static void Mdc_Integer_DeinitAsVoid(void* str) {
+  Mdc_Integer_Deinit(str);
 }
 
-static int Mdc_CharCString_CompareAsVoid(const void* str1, const void* str2) {
-  return Mdc_CharCString_Compare(str1, str2);
+static int Mdc_Integer_CompareAsVoid(const void* str1, const void* str2) {
+  return Mdc_Integer_Compare(str1, str2);
 }
 
-static struct Mdc_VectorMetadata* Mdc_VectorCharCStringMetadata_Init(
+static struct Mdc_VectorMetadata* Mdc_VectorIntegerMetadata_Init(
     struct Mdc_VectorMetadata* metadata
 ) {
-  metadata->size.size = sizeof(struct CharCString);
+  metadata->size.size = sizeof(struct Mdc_Integer);
 
-  metadata->functions.init_copy = &Mdc_CharCString_InitCopyAsVoid;
-  metadata->functions.init_move = &Mdc_CharCString_InitMoveAsVoid;
-  metadata->functions.deinit = &Mdc_CharCString_DeinitAsVoid;
-  metadata->functions.compare = &Mdc_CharCString_CompareAsVoid;
+  metadata->functions.init_copy = &Mdc_Integer_InitCopyAsVoid;
+  metadata->functions.init_move = &Mdc_Integer_InitMoveAsVoid;
+  metadata->functions.deinit = &Mdc_Integer_DeinitAsVoid;
+  metadata->functions.compare = &Mdc_Integer_CompareAsVoid;
 
   return metadata;
 }
@@ -81,12 +71,12 @@ static void Mdc_Vector_AssertInitDeinit(void) {
 
   struct Mdc_Vector* init_vector;
 
-  Mdc_VectorCharCStringMetadata_Init(&metadata);
+  Mdc_VectorIntegerMetadata_Init(&metadata);
 
   init_vector = Mdc_Vector_Init(&vector, &metadata);
 
   assert(init_vector == &vector);
-  assert(memcmp(vector.metadata, &metadata, sizeof(vector.metadata)) == 0);
+  assert(memcmp(vector.metadata, &metadata, sizeof(*vector.metadata)) == 0);
   assert(Mdc_Vector_Size(&vector) == 0);
   assert(Mdc_Vector_Empty(&vector));
 
@@ -95,44 +85,47 @@ static void Mdc_Vector_AssertInitDeinit(void) {
 
 static void Mdc_Vector_AssertPushAndPopBack(void) {
   struct Mdc_Vector vector = MDC_VECTOR_UNINIT;
-  struct Mdc_VectorMetadata metadata;
+  struct Mdc_VectorMetadata vector_metadata;
+
+  struct Mdc_Integer integer1 = MDC_INTEGER_UNINIT;
+  struct Mdc_Integer integer2 = MDC_INTEGER_UNINIT;
+  struct Mdc_Integer integer3 = MDC_INTEGER_UNINIT;
 
   size_t i;
-  struct CharCString str_src;
-  struct CharCString* at_result;
+  struct Mdc_Integer* at_result;
 
-  Mdc_VectorCharCStringMetadata_Init(&metadata);
-  Mdc_Vector_Init(&vector, &metadata);
+  Mdc_VectorIntegerMetadata_Init(&vector_metadata);
+  Mdc_Vector_Init(&vector, &vector_metadata);
 
-  Mdc_CharCString_InitCopy(&str_src, &kBasicExampleText[0]);
-  Mdc_Vector_PushBack(&vector, &str_src);
-  Mdc_CharCString_Deinit(&str_src);
+  Mdc_Integer_InitFromValue(&integer1, 1234);
+  Mdc_Vector_PushBack(&vector, &integer1);
 
-  Mdc_CharCString_InitCopy(&str_src, &kBasicExampleText[1]);
-  Mdc_Vector_PushBack(&vector, &str_src);
-  Mdc_CharCString_Deinit(&str_src);
+  Mdc_Integer_InitFromValue(&integer2, 4321);
+  Mdc_Vector_PushBack(&vector, &integer2);
 
   assert(Mdc_Vector_Size(&vector) == 2);
   assert(Mdc_Vector_Capacity(&vector) >= 2);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[0]) == 0);
+  assert(Mdc_Integer_EqualValue(at_result, 1234));
 
   at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[1]) == 0);
+  assert(Mdc_Integer_CompareValue(at_result, 4321) == 0);
 
   Mdc_Vector_PopBack(&vector);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[0]) == 0);
+  assert(Mdc_Integer_EqualValue(at_result, 1234));
 
-  for (i = 2; i < kBasicExampleTextCount; i += 1) {
-    Mdc_CharCString_InitCopy(&str_src, &kBasicExampleText[i]);
-    Mdc_Vector_PushBack(&vector, &str_src);
-    Mdc_CharCString_Deinit(&str_src);
+  for (i = 1; i < 5; i += 1) {
+    Mdc_Integer_InitFromValue(&integer3, i);
 
-    at_result = Mdc_Vector_At(&vector, i - 1);
-    assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[i]) == 0);
+    Mdc_Vector_PushBack(&vector, &integer3);
+
+    at_result = Mdc_Vector_At(&vector, i);
+    assert(Mdc_Integer_EqualValue(at_result, i));
+
+    Mdc_Integer_Deinit(&integer3);
   }
 
   while (Mdc_Vector_Size(&vector) > 0) {
@@ -141,41 +134,55 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
 
   assert(Mdc_Vector_Empty(&vector));
 
+  Mdc_Integer_Deinit(&integer2);
+  Mdc_Integer_Deinit(&integer1);
   Mdc_Vector_Deinit(&vector);
 }
 
 static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
   struct Mdc_Vector vector = MDC_VECTOR_UNINIT;
-  struct Mdc_VectorMetadata metadata;
+  struct Mdc_VectorMetadata vector_metadata;
+
+  struct Mdc_Integer integer1 = MDC_INTEGER_UNINIT;
+  struct Mdc_Integer integer2 = MDC_INTEGER_UNINIT;
+  struct Mdc_Integer integer3 = MDC_INTEGER_UNINIT;
 
   size_t i;
-  struct CharCString* at_result;
+  struct Mdc_Integer* at_result;
 
-  Mdc_VectorCharCStringMetadata_Init(&metadata);
-  Mdc_Vector_Init(&vector, &metadata);
+  Mdc_VectorIntegerMetadata_Init(&vector_metadata);
 
-  Mdc_Vector_PushBackCopy(&vector, &kBasicExampleText[0]);
-  Mdc_Vector_PushBackCopy(&vector, &kBasicExampleText[1]);
+  Mdc_Vector_Init(&vector, &vector_metadata);
+
+  Mdc_Integer_InitFromValue(&integer1, 1234);
+  Mdc_Vector_PushBackCopy(&vector, &integer1);
+
+  Mdc_Integer_InitFromValue(&integer2, 4321);
+  Mdc_Vector_PushBackCopy(&vector, &integer2);
 
   assert(Mdc_Vector_Size(&vector) == 2);
   assert(Mdc_Vector_Capacity(&vector) >= 2);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[0]) == 0);
+  assert(Mdc_Integer_EqualValue(at_result, 1234));
 
   at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[1]) == 0);
+  assert(Mdc_Integer_CompareValue(at_result, 4321) == 0);
 
   Mdc_Vector_PopBack(&vector);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[0]) == 0);
+  assert(Mdc_Integer_EqualValue(at_result, 1234));
 
-  for (i = 2; i < kBasicExampleTextCount; i += 1) {
-    Mdc_Vector_PushBackCopy(&vector, &kBasicExampleText[i]);
+  for (i = 1; i < 5; i += 1) {
+    Mdc_Integer_InitFromValue(&integer3, i);
 
-    at_result = Mdc_Vector_At(&vector, i - 1);
-    assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[i]) == 0);
+    Mdc_Vector_PushBackCopy(&vector, &integer3);
+
+    at_result = Mdc_Vector_At(&vector, i);
+    assert(Mdc_Integer_EqualValue(at_result, i));
+
+    Mdc_Integer_Deinit(&integer3);
   }
 
   while (Mdc_Vector_Size(&vector) > 0) {
@@ -184,6 +191,8 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
 
   assert(Mdc_Vector_Empty(&vector));
 
+  Mdc_Integer_Deinit(&integer2);
+  Mdc_Integer_Deinit(&integer1);
   Mdc_Vector_Deinit(&vector);
 }
 
@@ -191,17 +200,22 @@ static void Mdc_Vector_AssertClear(void) {
   struct Mdc_Vector vector = MDC_VECTOR_UNINIT;
   struct Mdc_VectorMetadata metadata;
 
-  size_t i;
-  struct CharCString* at_result;
+  struct Mdc_Integer integer;
 
-  Mdc_VectorCharCStringMetadata_Init(&metadata);
+  size_t i;
+  struct Mdc_Integer* at_result;
+
+  Mdc_VectorIntegerMetadata_Init(&metadata);
   Mdc_Vector_Init(&vector, &metadata);
 
-  for (i = 0; i < kBasicExampleTextCount; i += 1) {
-    Mdc_Vector_PushBackCopy(&vector, &kBasicExampleText[i]);
+  for (i = 0; i < 32; i += 1) {
+    Mdc_Integer_InitFromValue(&integer, i);
+    Mdc_Vector_PushBackCopy(&vector, &integer);
 
     at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_CharCString_Compare(at_result, &kBasicExampleText[i]) == 0);
+    assert(Mdc_Integer_EqualValue(at_result, i));
+
+    Mdc_Integer_Deinit(&integer);
   }
 
   Mdc_Vector_Clear(&vector);
