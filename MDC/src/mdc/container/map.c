@@ -580,6 +580,7 @@ void Mdc_Map_Emplace(
 
   Mdc_Pair_Deinit(&new_pair);
   value_functions->deinit(value);
+  free(value);
 
   return;
 
@@ -646,6 +647,8 @@ void Mdc_Map_EmplaceKeyCopy(
   /* Move-insert the pair into the map. */
   Mdc_Map_InsertPair(map, &new_pair);
 
+  Mdc_Pair_Deinit(&new_pair);
+  value_functions->deinit(value);
   free(value);
 
   return;
