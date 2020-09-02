@@ -124,8 +124,8 @@ static bool Mdc_Map_IsPairMetadataEqual(
 }
 
 static int Mdc_Map_KeyCompare(
-    const struct Mdc_Pair** pair1,
-    const struct Mdc_Pair** pair2
+    const struct Mdc_Pair* const* pair1,
+    const struct Mdc_Pair* const* pair2
 ) {
   const struct Mdc_PairMetadata* const pair_metadata =
       (*pair1)->metadata;
@@ -435,7 +435,7 @@ const void* Mdc_Map_AtConst(
     const struct Mdc_Map* map,
     const void* key
 ) {
-  const struct Mdc_Pair** search_result;
+  const struct Mdc_Pair* const* search_result;
 
   search_result = Mdc_Map_FindConst(map, key);
 
@@ -475,7 +475,7 @@ void Mdc_Map_Clear(struct Mdc_Map* map) {
 }
 
 bool Mdc_Map_Contains(const struct Mdc_Map* map, const void* key) {
-  const struct Mdc_Pair** search_result;
+  const struct Mdc_Pair* const* search_result;
 
   search_result = Mdc_Map_FindConst(map, key);
 
@@ -489,7 +489,7 @@ struct Mdc_Pair** Mdc_Map_Find(
   return (struct Mdc_Pair**) Mdc_Map_FindConst(map, key);
 }
 
-const struct Mdc_Pair** Mdc_Map_FindConst(
+const struct Mdc_Pair* const* Mdc_Map_FindConst(
     const struct Mdc_Map* map,
     const void* key
 ) {
@@ -500,13 +500,13 @@ const struct Mdc_Pair** Mdc_Map_FindConst(
   const struct Mdc_PairFirstFunctions* const key_functions =
       &pair_functions->first_functions;
 
-  struct Mdc_Pair** search_result;
+  const struct Mdc_Pair** search_result;
 
   struct Mdc_Pair search_pair;
   struct Mdc_Pair* search_pair_ptr;
 
-  search_pair.first = key;
-  search_pair.metadata = pair_metadata;
+  search_pair.first = (void*) key;
+  search_pair.metadata = (void*) pair_metadata;
 
   search_pair_ptr = &search_pair;
 

@@ -229,7 +229,7 @@ DLLEXPORT struct Mdc_Pair** Mdc_Map_Find(
  * @return the pointer-to-pointer-to-pair that contains the key,
  *      otherwise NULL
  */
-DLLEXPORT const struct Mdc_Pair** Mdc_Map_FindConst(
+DLLEXPORT const struct Mdc_Pair* const* Mdc_Map_FindConst(
     const struct Mdc_Map* map,
     const void* key
 );
