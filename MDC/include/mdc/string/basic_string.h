@@ -57,7 +57,7 @@ struct Mdc_BasicString {
   size_t capacity_;
 };
 
-#define MDC_BASIC_STRING_UNINIT { 0 };
+#define MDC_BASIC_STRING_UNINIT { 0 }
 
 const struct Mdc_BasicString Mdc_BasicString_kUninit;
 
