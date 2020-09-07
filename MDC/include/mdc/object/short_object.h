@@ -63,11 +63,11 @@ Mdc_Short_GetObjectMetadata(void);
  */
 
 DLLEXPORT struct Mdc_Short* Mdc_Short_AssignDefault(
-    struct Mdc_Short* short_
+    struct Mdc_Short* shrt
 );
 
 DLLEXPORT struct Mdc_Short* Mdc_Short_AssignFromValue(
-    struct Mdc_Short* short_,
+    struct Mdc_Short* shrt,
     short value
 );
 
@@ -85,9 +85,92 @@ DLLEXPORT struct Mdc_Short* Mdc_Short_AssignMove(
  * Increment/decrement operators
  */
 
+DLLEXPORT struct Mdc_Short* Mdc_Short_PreIncrement(
+    struct Mdc_Short* shrt
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_PreDecrement(
+    struct Mdc_Short* shrt
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_PostIncrement(
+    struct Mdc_Short* shrt_out,
+    struct Mdc_Short* shrt_in
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_PostDecrement(
+    struct Mdc_Short* shrt_out,
+    struct Mdc_Short* shrt_in
+);
+
 /**
  * Arithmetic operators
  */
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_Add(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_Subtract(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_Multiply(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_Divide(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_Modulo(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseNot(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseAnd(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseOr(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseXor(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseLeftShift(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseRightShift(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+);
 
 /**
  * Comparison operators
@@ -99,7 +182,7 @@ DLLEXPORT bool Mdc_Short_Equal(
 );
 
 DLLEXPORT bool Mdc_Short_EqualValue(
-    const struct Mdc_Short* short_,
+    const struct Mdc_Short* shrt,
     short value
 );
 
@@ -109,7 +192,7 @@ DLLEXPORT int Mdc_Short_Compare(
 );
 
 DLLEXPORT int Mdc_Short_CompareValue(
-    const struct Mdc_Short* short_,
+    const struct Mdc_Short* shrt,
     short value
 );
 
@@ -117,16 +200,16 @@ DLLEXPORT int Mdc_Short_CompareValue(
  * Etc. functions
  */
 
-DLLEXPORT size_t Mdc_Short_Hash(const struct Mdc_Short* short_);
+DLLEXPORT size_t Mdc_Short_Hash(const struct Mdc_Short* shrt);
 
 DLLEXPORT void Mdc_Short_Swap(
     struct Mdc_Short* short1,
     struct Mdc_Short* short2
 );
 
-DLLEXPORT short Mdc_Short_GetValue(const struct Mdc_Short* short_);
+DLLEXPORT short Mdc_Short_GetValue(const struct Mdc_Short* shrt);
 
-DLLEXPORT void Mdc_Short_SetValue(struct Mdc_Short* short_, short value);
+DLLEXPORT void Mdc_Short_SetValue(struct Mdc_Short* shrt, short value);
 
 #ifdef __cplusplus
 } /* extern "C" */

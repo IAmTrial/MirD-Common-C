@@ -41,7 +41,7 @@
 
 #define MDC_SHORT_UNINIT { 0 }
 
-const struct Mdc_Short Mdc_Short_kUninit = MDC_SHORT_UNINIT;
+static const struct Mdc_Short Mdc_Short_kUninit = MDC_SHORT_UNINIT;
 
 static void* Mdc_Short_InitAsVoid(void* shrt) {
   return Mdc_Short_Init(shrt);
@@ -71,9 +71,118 @@ static void* Mdc_Short_AssignMoveAsVoid(void* dest, void* src) {
  * Object increment/decrement operators
  */
 
+static void* Mdc_Short_PreIncrementAsVoid(void* shrt) {
+  return Mdc_Short_PreIncrement(shrt);
+}
+
+static void* Mdc_Short_PreDecrementAsVoid(void* shrt) {
+  return Mdc_Short_PreDecrement(shrt);
+}
+
+static void* Mdc_Short_PostIncrementAsVoid(
+    void* short_out,
+    void* short_in
+) {
+  return Mdc_Short_PostIncrement(short_out, short_in);
+}
+
+static void* Mdc_Short_PostDecrementAsVoid(
+    void* short_out,
+    void* short_in
+) {
+  return Mdc_Short_PostDecrement(short_out, short_in);
+}
+
 /**
  * Object arithmetic operators
  */
+
+static void* Mdc_Short_AddAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_Add(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_SubtractAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_Subtract(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_MultiplyAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_Multiply(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_DivideAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_Divide(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_ModuloAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_Modulo(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_BitwiseNotAsVoid(
+    void* short_out,
+    const void* short_in
+) {
+  return Mdc_Short_BitwiseNot(short_out, short_in);
+}
+
+static void* Mdc_Short_BitwiseAndAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_BitwiseAnd(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_BitwiseOrAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_BitwiseOr(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_BitwiseXorAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_BitwiseXor(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_BitwiseLeftShiftAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_BitwiseLeftShift(short_out, short_in1, short_in2);
+}
+
+static void* Mdc_Short_BitwiseRightShiftAsVoid(
+    void* short_out,
+    const void* short_in1,
+    const void* short_in2
+) {
+  return Mdc_Short_BitwiseRightShift(short_out, short_in1, short_in2);
+}
 
 /**
  * Object comparison operators
@@ -114,6 +223,9 @@ static void Mdc_Short_SwapAsVoid(
  * Metadata
  */
 
+static struct Mdc_ObjectMetadata global_metadata;
+static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
+
 static struct Mdc_ObjectMetadata* Mdc_Short_InitObjectMetadata(
     struct Mdc_ObjectMetadata* metadata
 ) {
@@ -126,6 +238,26 @@ static struct Mdc_ObjectMetadata* Mdc_Short_InitObjectMetadata(
   metadata->functions.assign_copy = &Mdc_Short_AssignCopyAsVoid;
   metadata->functions.assign_move = &Mdc_Short_AssignMoveAsVoid;
 
+  metadata->functions.pre_increment = &Mdc_Short_PreIncrementAsVoid;
+  metadata->functions.pre_decrement = &Mdc_Short_PreDecrementAsVoid;
+  metadata->functions.post_increment = &Mdc_Short_PostIncrementAsVoid;
+  metadata->functions.post_decrement = &Mdc_Short_PostDecrementAsVoid;
+
+  metadata->functions.add = &Mdc_Short_AddAsVoid;
+  metadata->functions.subtract = &Mdc_Short_SubtractAsVoid;
+  metadata->functions.multiply = &Mdc_Short_MultiplyAsVoid;
+  metadata->functions.divide = &Mdc_Short_DivideAsVoid;
+  metadata->functions.modulo = &Mdc_Short_ModuloAsVoid;
+
+  metadata->functions.bitwise_not = &Mdc_Short_BitwiseNotAsVoid;
+  metadata->functions.bitwise_and = &Mdc_Short_BitwiseAndAsVoid;
+  metadata->functions.bitwise_or = &Mdc_Short_BitwiseOrAsVoid;
+  metadata->functions.bitwise_xor = &Mdc_Short_BitwiseXorAsVoid;
+  metadata->functions.bitwise_left_shift =
+      &Mdc_Short_BitwiseLeftShiftAsVoid;
+  metadata->functions.bitwise_right_shift =
+      &Mdc_Short_BitwiseRightShiftAsVoid;
+
   metadata->functions.equal = &Mdc_Short_EqualAsVoid;
   metadata->functions.compare = &Mdc_Short_CompareAsVoid;
 
@@ -134,9 +266,6 @@ static struct Mdc_ObjectMetadata* Mdc_Short_InitObjectMetadata(
 
   return metadata;
 }
-
-static struct Mdc_ObjectMetadata global_metadata;
-static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
 
 static void Mdc_Short_InitGlobalObjectMetadata(void) {
   Mdc_Short_InitObjectMetadata(&global_metadata);
@@ -212,9 +341,187 @@ struct Mdc_Short* Mdc_Short_AssignMove(
  * Increment/decrement operators
  */
 
+struct Mdc_Short* Mdc_Short_PreIncrement(
+    struct Mdc_Short* shrt
+) {
+  shrt->value_ += 1;
+
+  return shrt;
+}
+
+struct Mdc_Short* Mdc_Short_PreDecrement(
+    struct Mdc_Short* shrt
+) {
+  shrt->value_ -= 1;
+
+  return shrt;
+}
+
+struct Mdc_Short* Mdc_Short_PostIncrement(
+    struct Mdc_Short* short_out,
+    struct Mdc_Short* short_in
+) {
+  Mdc_Short_AssignCopy(short_out, short_in);
+  short_in->value_ += 1;
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_PostDecrement(
+    struct Mdc_Short* short_out,
+    struct Mdc_Short* short_in
+) {
+  Mdc_Short_AssignCopy(short_out, short_in);
+  short_in->value_ -= 1;
+
+  return short_out;
+}
+
 /**
  * Arithmetic operators
  */
+
+struct Mdc_Short* Mdc_Short_Add(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ + short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_Subtract(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ - short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_Multiply(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ * short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_Divide(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ / short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_Modulo(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ % short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_BitwiseNot(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      ~(short_in->value_)
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_BitwiseAnd(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ & short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_BitwiseOr(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ | short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_BitwiseXor(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ ^ short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_BitwiseLeftShift(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ << short_in2->value_
+  );
+
+  return short_out;
+}
+
+struct Mdc_Short* Mdc_Short_BitwiseRightShift(
+    struct Mdc_Short* short_out,
+    const struct Mdc_Short* short_in1,
+    const struct Mdc_Short* short_in2
+) {
+  Mdc_Short_AssignFromValue(
+      short_out,
+      short_in1->value_ >> short_in2->value_
+  );
+
+  return short_out;
+}
 
 /**
  * Comparison operators
@@ -228,10 +535,10 @@ bool Mdc_Short_Equal(
 }
 
 bool Mdc_Short_EqualValue(
-    const struct Mdc_Short* short_,
+    const struct Mdc_Short* shrt,
     short value
 ) {
-  return short_->value_ == value;
+  return shrt->value_ == value;
 }
 
 int Mdc_Short_Compare(
@@ -242,18 +549,18 @@ int Mdc_Short_Compare(
 }
 
 int Mdc_Short_CompareValue(
-    const struct Mdc_Short* short_,
+    const struct Mdc_Short* shrt,
     short value
 ) {
-  return short_->value_ - value;
+  return shrt->value_ - value;
 }
 
 /**
  * Etc. functions
  */
 
-size_t Mdc_Short_Hash(const struct Mdc_Short* short_) {
-  return short_->value_;
+size_t Mdc_Short_Hash(const struct Mdc_Short* shrt) {
+  return shrt->value_ % (size_t) -1;
 }
 
 void Mdc_Short_Swap(
@@ -267,10 +574,10 @@ void Mdc_Short_Swap(
   *short2 = temp;
 }
 
-short Mdc_Short_GetValue(const struct Mdc_Short* short_) {
-  return short_->value_;
+short Mdc_Short_GetValue(const struct Mdc_Short* shrt) {
+  return shrt->value_;
 }
 
-void Mdc_Short_SetValue(struct Mdc_Short* short_, short value) {
-  short_->value_ = value;
+void Mdc_Short_SetValue(struct Mdc_Short* shrt, short value) {
+  shrt->value_ = value;
 }
