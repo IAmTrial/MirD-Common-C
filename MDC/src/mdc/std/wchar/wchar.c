@@ -31,7 +31,7 @@
 
 #include <stddef.h>
 
-#if !defined(__cplusplus) && __STDC_VERSION__ < 199409L
+#if !defined(__cplusplus) && __STDC_VERSION__ < 199409L && _MSC_VER <= 1200
 
 wchar_t* wmemcpy(wchar_t* dest, const wchar_t* src, size_t count) {
   size_t i;

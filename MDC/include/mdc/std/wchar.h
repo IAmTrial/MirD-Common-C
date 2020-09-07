@@ -41,6 +41,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#if _MSC_VER <= 1200
 #if _MSC_VER < 1200
 
 /**
@@ -78,6 +79,8 @@ DLLEXPORT wchar_t* wmemmove(wchar_t* dest, const wchar_t* src, size_t count);
 DLLEXPORT int wmemcmp(const wchar_t* lhs, const wchar_t* rhs, size_t count);
 DLLEXPORT wchar_t* wmemchr(const wchar_t* ptr, wchar_t ch, size_t count);
 DLLEXPORT wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
+
+#endif /* _MSC_VER <= 1200 */
 
 #ifdef __cplusplus
 } /* extern "C" */
