@@ -30,6 +30,7 @@
 #ifndef MDC_C_STRING_BASIC_STRING_WSTRING_H_
 #define MDC_C_STRING_BASIC_STRING_WSTRING_H_
 
+#include "../../../../include/mdc/object_metadata/object_metadata.h"
 #include "../../../../include/mdc/string/basic_string.h"
 
 #include "../../../../dllexport_define.inc"
@@ -38,9 +39,20 @@
 extern "C" {
 #endif /* __cplusplus */
 
-DLLEXPORT struct Mdc_BasicStringMetadata* Mdc_WStringMetadata_InitMetadata(
-    struct Mdc_BasicStringMetadata* metadata
+/**
+ * Initialization/deinitialization
+ */
+
+DLLEXPORT struct Mdc_BasicString* Mdc_WString_Init(
+    struct Mdc_BasicString* str
 );
+
+/**
+ * Metadata
+ */
+
+DLLEXPORT const struct Mdc_ObjectMetadata*
+Mdc_WString_GetObjectMetadata(void);
 
 #ifdef __cplusplus
 } /* extern "C" */

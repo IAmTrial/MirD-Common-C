@@ -35,24 +35,16 @@
 
 #include "../../../include/mdc/std/threads.h"
 
-static once_flag string_metadata_once_flag = ONCE_FLAG_INIT;
-static struct Mdc_BasicStringMetadata string_metadata;
-
-static void Mdc_Wide_InitStringMetadata(void) {
-  Mdc_StringMetadata_InitMetadata(&string_metadata);
-}
-
 static struct Mdc_BasicString Mdc_Wide_EncodeChar(
     const wchar_t* wide_str,
     UINT code_page
 ) {
-  struct Mdc_BasicString char_str = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString char_str;
   struct Mdc_BasicString* init_char_str;
+  struct Mdc_BasicString* assign_char_str;
   size_t char_str_len;
 
   size_t converted_chars_with_null_count;
-
-  call_once(&string_metadata_once_flag, &Mdc_Wide_InitStringMetadata);
 
   /* Determine the number of bytes needed. */
   char_str_len = WideCharToMultiByte(
@@ -73,15 +65,18 @@ static struct Mdc_BasicString Mdc_Wide_EncodeChar(
   char_str_len -= 1;
 
   /* Allocate the char string. */
-  init_char_str = Mdc_BasicString_InitFromChar(
+  init_char_str = Mdc_String_Init(&char_str);
+  if (init_char_str != &char_str) {
+    goto return_bad;
+  }
+
+  assign_char_str = Mdc_BasicString_AssignFromChar(
       &char_str,
-      &string_metadata,
       char_str_len,
       '\0'
   );
-
-  if (init_char_str != &char_str) {
-    goto return_bad;
+  if (assign_char_str != &char_str) {
+    goto deinit_char_str;
   }
 
   /* Convert the char string to wide string. */
@@ -106,7 +101,7 @@ deinit_char_str:
   Mdc_BasicString_Deinit(&char_str);
 
 return_bad:
-  return Mdc_BasicString_kUninit;
+  return char_str;
 }
 
 struct Mdc_BasicString Mdc_Wide_EncodeAscii(const wchar_t* wide_str) {

@@ -27,36 +27,48 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STRING_BASIC_STRING_STRING_H_
-#define MDC_C_STRING_BASIC_STRING_STRING_H_
+#include "../../../../include/mdc/string/basic_string/wstring.h"
 
-#include "../../../../include/mdc/object_metadata/object_metadata.h"
-#include "../../../../include/mdc/string/basic_string.h"
-
-#include "../../../../dllexport_define.inc"
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#include "../../../../include/mdc/std/threads.h"
 
 /**
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_BasicString* Mdc_String_Init(
-    struct Mdc_BasicString* str
-);
+static void* Mdc_WString_InitAsVoid(void* str) {
+  return Mdc_WString_Init(str);
+}
 
 /**
  * Metadata
  */
 
-DLLEXPORT const struct Mdc_ObjectMetadata*
-Mdc_String_GetObjectMetadata(void);
+static struct Mdc_ObjectMetadata* Mdc_WString_InitObjectMetadata(
+    struct Mdc_ObjectMetadata* metadata
+) {
+  *metadata = *Mdc_BasicString_GetObjectMetadataTemplate();
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+  metadata->functions.init = &Mdc_WString_InitAsVoid;
 
-#include "../../../../dllexport_undefine.inc"
-#endif /* MDC_C_STRING_BASIC_STRING_STRING_H_ */
+  return metadata;
+}
+
+static struct Mdc_ObjectMetadata global_metadata;
+static once_flag global_metadata_init_flag = ONCE_FLAG_INIT;
+
+static void Mdc_WString_InitGlobalObjectMetadata(void) {
+  Mdc_WString_InitObjectMetadata(&global_metadata);
+}
+
+/**
+ * Metadata
+ */
+
+const struct Mdc_ObjectMetadata* Mdc_WString_GetObjectMetadata(void) {
+  call_once(
+      &global_metadata_init_flag,
+      &Mdc_WString_InitGlobalObjectMetadata
+  );
+
+  return &global_metadata;
+}

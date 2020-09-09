@@ -29,6 +29,7 @@
 
 #include "../../../../include/mdc/string/char_traits/char_traits_wchar.h"
 
+#include "../../../../include/mdc/std/threads.h"
 #include "../../../../include/mdc/std/wchar.h"
 
 /**
@@ -126,11 +127,7 @@ static uintmax_t Mdc_CharTraitsWChar_NotEofAsVoid(uintmax_t e) {
   return Mdc_CharTraitsWChar_NotEof((wint_t) e);
 }
 
-/**
- * External functions
- */
-
-struct Mdc_CharTraits* Mdc_CharTraitsWChar_Init(
+static struct Mdc_CharTraits* Mdc_CharTraitsWChar_Init(
     struct Mdc_CharTraits* char_traits
 ) {
   struct Mdc_CharTraitsSizes* sizes = &char_traits->sizes;
@@ -158,6 +155,26 @@ struct Mdc_CharTraits* Mdc_CharTraitsWChar_Init(
   functions->not_eof = &Mdc_CharTraitsWChar_NotEofAsVoid;
 
   return char_traits;
+}
+
+static struct Mdc_CharTraits global_char_traits;
+static once_flag global_char_traits_init_flag = ONCE_FLAG_INIT;
+
+static void Mdc_CharTraitsWChar_InitGlobalCharTraits(void) {
+  Mdc_CharTraitsWChar_Init(&global_char_traits);
+}
+
+/**
+ * External functions
+ */
+
+const struct Mdc_CharTraits* Mdc_CharTraitsWChar_GetCharTraits(void) {
+  call_once(
+      &global_char_traits_init_flag,
+      &Mdc_CharTraitsWChar_InitGlobalCharTraits
+  );
+
+  return &global_char_traits;
 }
 
 void Mdc_CharTraitsWChar_AssignChar(wchar_t* r, const wchar_t* a) {

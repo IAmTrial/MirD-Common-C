@@ -32,6 +32,7 @@
 
 #include <stddef.h>
 
+#include "../object_metadata/object_metadata.h"
 #include "../std/stdbool.h"
 #include "char_traits.h"
 
@@ -41,120 +42,81 @@
 extern "C" {
 #endif /* __cplusplus */
 
-struct Mdc_BasicStringMetadata {
-  struct Mdc_CharTraits char_traits;
-};
-
 #define MDC_BASIC_STRING_NPOS ((size_t) -1)
 
 struct Mdc_BasicString {
-  struct Mdc_BasicStringMetadata* metadata;
+  const struct Mdc_CharTraits* char_traits_;
 
   void* str_;
   size_t length_;
   size_t capacity_;
 };
 
-#define MDC_BASIC_STRING_UNINIT { 0 }
+/**
+ * Initialization/deinitialization
+ */
 
-const struct Mdc_BasicString Mdc_BasicString_kUninit;
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitEmpty(
+/**
+ * Initializes the string with the specified character traits.
+ *
+ * @param[in, out] str this string
+ * @param[in] char_traits the character traits
+ */
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_Init(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata
+    const struct Mdc_CharTraits* char_traits
 );
 
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitFromChar(
+/**
+ * Deinitializes the string.
+ *
+ * @param[in, out] str this string
+ */
+DLLEXPORT void Mdc_BasicString_Deinit(struct Mdc_BasicString* str);
+
+/**
+ * Metadata
+ */
+
+DLLEXPORT const struct Mdc_ObjectMetadata*
+Mdc_BasicString_GetObjectMetadataTemplate(void);
+
+/**
+ * Assignment functions
+ */
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignEmpty(
+    struct Mdc_BasicString* str
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignFromChar(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     size_t count,
     uintmax_t ch
 );
 
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitStrTail(
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignStrTail(
     struct Mdc_BasicString* str,
     const struct Mdc_BasicString* src,
     size_t pos
 );
 
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitSubstr(
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignSubstr(
     struct Mdc_BasicString* str,
     const struct Mdc_BasicString* src,
     size_t pos,
     size_t count
 );
 
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitFromCStr(
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignFromCStr(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     const void* c_str
 );
 
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitFromCStrTop(
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignFromCStrTop(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     const void* c_str,
     size_t count
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithStrCopy(
-    struct Mdc_BasicString* str,
-    const struct Mdc_BasicString* src1,
-    const struct Mdc_BasicString* src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithCStr(
-    struct Mdc_BasicString* str,
-    const struct Mdc_BasicString* src1,
-    const void* src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithChar(
-    struct Mdc_BasicString* str,
-    const struct Mdc_BasicString* src1,
-    uintmax_t src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithStrCopy(
-    struct Mdc_BasicString* str,
-    struct Mdc_BasicString* src1,
-    const struct Mdc_BasicString* src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithCStr(
-    struct Mdc_BasicString* str,
-    struct Mdc_BasicString* src1,
-    const void* src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithChar(
-    struct Mdc_BasicString* str,
-    struct Mdc_BasicString* src1,
-    uintmax_t src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatCStrWithStrCopy(
-    struct Mdc_BasicString* str,
-    const void* src1,
-    const struct Mdc_BasicString* src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatCStrWithStr(
-    struct Mdc_BasicString* str,
-    const void* src1,
-    struct Mdc_BasicString* src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatCharWithStrCopy(
-    struct Mdc_BasicString* str,
-    uintmax_t src1,
-    const struct Mdc_BasicString* src2
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatCharWithStr(
-    struct Mdc_BasicString* str,
-    uintmax_t src1,
-    struct Mdc_BasicString* src2
 );
 
 /**
@@ -164,7 +126,7 @@ DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitConcatCharWithStr(
  * @param[in] src source string
  * @return dest if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitCopy(
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignCopy(
     struct Mdc_BasicString* dest,
     const struct Mdc_BasicString* src
 );
@@ -176,17 +138,74 @@ DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitCopy(
  * @param[in] src source string
  * @return dest if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitMove(
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignMove(
     struct Mdc_BasicString* dest,
     struct Mdc_BasicString* src
 );
 
 /**
- * Deinitializes the string.
- *
- * @param[in, out] str this string
+ * Concat functions
  */
-DLLEXPORT void Mdc_BasicString_Deinit(struct Mdc_BasicString* str);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatStrCopyWithStrCopy(
+    struct Mdc_BasicString* str,
+    const struct Mdc_BasicString* src1,
+    const struct Mdc_BasicString* src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatStrCopyWithCStr(
+    struct Mdc_BasicString* str,
+    const struct Mdc_BasicString* src1,
+    const void* src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatStrCopyWithChar(
+    struct Mdc_BasicString* str,
+    const struct Mdc_BasicString* src1,
+    uintmax_t src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatStrWithStrCopy(
+    struct Mdc_BasicString* str,
+    struct Mdc_BasicString* src1,
+    const struct Mdc_BasicString* src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatStrWithCStr(
+    struct Mdc_BasicString* str,
+    struct Mdc_BasicString* src1,
+    const void* src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatStrWithChar(
+    struct Mdc_BasicString* str,
+    struct Mdc_BasicString* src1,
+    uintmax_t src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatCStrWithStrCopy(
+    struct Mdc_BasicString* str,
+    const void* src1,
+    const struct Mdc_BasicString* src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatCStrWithStr(
+    struct Mdc_BasicString* str,
+    const void* src1,
+    struct Mdc_BasicString* src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatCharWithStrCopy(
+    struct Mdc_BasicString* str,
+    uintmax_t src1,
+    const struct Mdc_BasicString* src2
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_ConcatCharWithStr(
+    struct Mdc_BasicString* str,
+    uintmax_t src1,
+    struct Mdc_BasicString* src2
+);
 
 /**
  * Returns the pointer to the character at the specified position. No
@@ -570,17 +589,6 @@ DLLEXPORT size_t Mdc_BasicString_Size(const struct Mdc_BasicString* str);
 DLLEXPORT void Mdc_BasicString_Swap(
     struct Mdc_BasicString* str1,
     struct Mdc_BasicString* str2
-);
-
-/**
- * Compares two basic string metadatas and returns whether they are equal.
- *
- * @param[in] metadata1 the first metadata to compare
- * @param[in] metadata2 the second metadata to compare
- */
-DLLEXPORT bool Mdc_BasicStringMetadata_Equal(
-    const struct Mdc_BasicStringMetadata* metadata1,
-    const struct Mdc_BasicStringMetadata* metadata2
 );
 
 #ifdef __cplusplus

@@ -32,6 +32,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "../../../../include/mdc/std/threads.h"
+
 /**
  * Static functions
  */
@@ -115,11 +117,7 @@ static uintmax_t Mdc_CharTraitsChar_NotEofAsVoid(uintmax_t e) {
   return Mdc_CharTraitsChar_NotEof((int) e);
 }
 
-/**
- * External functions
- */
-
-struct Mdc_CharTraits* Mdc_CharTraitsChar_Init(
+static struct Mdc_CharTraits* Mdc_CharTraitsChar_Init(
     struct Mdc_CharTraits* char_traits
 ) {
   struct Mdc_CharTraitsSizes* sizes = &char_traits->sizes;
@@ -147,6 +145,26 @@ struct Mdc_CharTraits* Mdc_CharTraitsChar_Init(
   functions->not_eof = &Mdc_CharTraitsChar_NotEofAsVoid;
 
   return char_traits;
+}
+
+static struct Mdc_CharTraits global_char_traits;
+static once_flag global_char_traits_init_flag = ONCE_FLAG_INIT;
+
+static void Mdc_CharTraitsChar_InitGlobalCharTraits(void) {
+  Mdc_CharTraitsChar_Init(&global_char_traits);
+}
+
+/**
+ * External functions
+ */
+
+const struct Mdc_CharTraits* Mdc_CharTraitsChar_GetCharTraits(void) {
+  call_once(
+      &global_char_traits_init_flag,
+      &Mdc_CharTraitsChar_InitGlobalCharTraits
+  );
+
+  return &global_char_traits;
 }
 
 void Mdc_CharTraitsChar_AssignChar(char* r, const char* a) {

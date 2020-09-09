@@ -34,15 +34,27 @@
 
 #include "../../../include/mdc/std/stdint.h"
 
+/**
+ * Static
+ */
+
+/**
+ * Object initialization/deinitialization
+ */
+
 enum {
   kInitialCapacity = 4
 };
 
-const struct Mdc_BasicString Mdc_BasicString_kUninit =
+#define MDC_BASIC_STRING_UNINIT { 0 }
+
+static const struct Mdc_BasicString Mdc_BasicString_kUninit =
     MDC_BASIC_STRING_UNINIT;
 
+static const uintmax_t Mdc_BasicString_kNullChar = '\0';
+
 /**
- * Static
+ * Etc. functions
  */
 
 static size_t Mdc_UnBasicString_ElementsIndexToBytesIndex(
@@ -74,38 +86,28 @@ static void* Mdc_UnBasicString_Access(
   return (void*) Mdc_UnBasicString_AccessConst(str, ch_size, pos);
 }
 
-static struct Mdc_BasicString* Mdc_BasicString_InitMoveCStrConcatCStr(
+static struct Mdc_BasicString* Mdc_BasicString_MoveCStrConcatCStr(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     void* src1,
     size_t src1_length,
     size_t src1_capacity,
     const void* src2,
     size_t src2_length
 ) {
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   void* concat_start_ptr;
   void* end_ptr;
 
-  /* Copy-assign metadata. */
-  str->metadata = malloc(sizeof(*str->metadata));
-  if (str->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *str->metadata = *metadata;
-
-  /* Set remaining members. */
   str->capacity_ = src1_length + src2_length + 1;
 
   if (str->capacity_ > src1_capacity) {
     str->str_ = realloc(src1, str->capacity_ * sizes->ch_size);
     if (str->str_ == NULL) {
-      goto free_metadata;
+      goto return_bad;
     }
   } else {
     str->str_ = src1;
@@ -131,27 +133,23 @@ static struct Mdc_BasicString* Mdc_BasicString_InitMoveCStrConcatCStr(
 
   return str;
 
-free_metadata:
-  free(str->metadata);
-
 return_bad:
-  *str = Mdc_BasicString_kUninit;
+  str->capacity_ = 0;
 
   return NULL;
 }
 
-static struct Mdc_BasicString* Mdc_BasicString_InitCopyCStrConcatCStr(
+static struct Mdc_BasicString* Mdc_BasicString_CopyCStrConcatCStr(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     const void* src1,
     size_t src1_length,
     const void* src2,
     size_t src2_length
 ) {
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   size_t src1_capacity;
   void* src1_copy;
@@ -175,9 +173,8 @@ static struct Mdc_BasicString* Mdc_BasicString_InitCopyCStrConcatCStr(
   );
   functions->assign_str(src1_copy_end_ptr, 1, '\0');
 
-  return Mdc_BasicString_InitMoveCStrConcatCStr(
+  return Mdc_BasicString_MoveCStrConcatCStr(
       str,
-      metadata,
       src1_copy,
       src1_length,
       src1_capacity,
@@ -193,68 +190,72 @@ return_bad:
  * External
  */
 
-struct Mdc_BasicString* Mdc_BasicString_InitEmpty(
-    struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata
-) {
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
-  const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+/**
+ * Initialization/deinitialization
+ */
 
-  /* Copy-assign metadata. */
-  str->metadata = malloc(sizeof(*str->metadata));
-  if (str->metadata == NULL) {
-    goto return_bad;
+struct Mdc_BasicString* Mdc_BasicString_Init(
+    struct Mdc_BasicString* str,
+    const struct Mdc_CharTraits* char_traits
+) {
+  *str = Mdc_BasicString_kUninit;
+
+  str->char_traits_ = char_traits;
+
+  return str;
+}
+
+void Mdc_BasicString_Deinit(struct Mdc_BasicString* str) {
+  if (str->str_ != NULL) {
+    free(str->str_);
   }
 
-  *str->metadata = *metadata;
+  *str = Mdc_BasicString_kUninit;
+}
 
-  /* Set remaining members. */
+/**
+ * Assignment functions
+ */
+
+struct Mdc_BasicString* Mdc_BasicString_AssignEmpty(
+    struct Mdc_BasicString* str
+) {
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
+  const struct Mdc_CharTraitsFunctions* const functions =
+      &char_traits->functions;
+
   str->capacity_ = kInitialCapacity;
 
   str->str_ = malloc(str->capacity_ * sizes->ch_size);
   if (str->str_ == NULL) {
-    goto free_metadata;
+    goto return_bad;
   }
 
   str->length_ = 0;
 
-  functions->assign_str(str->str_, 1, '\0');
+  functions->assign_char(str->str_, &Mdc_BasicString_kNullChar);
 
   return str;
 
-free_metadata:
-  free(str->metadata);
-
 return_bad:
-  *str = Mdc_BasicString_kUninit;
+  str->capacity_ = 0;
 
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitFromChar(
+struct Mdc_BasicString* Mdc_BasicString_AssignFromChar(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     size_t count,
     uintmax_t ch
 ) {
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   void* end_ptr;
 
-  /* Copy-assign metadata. */
-  str->metadata = malloc(sizeof(*str->metadata));
-  if (str->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *str->metadata = *metadata;
-
-  /* Set remaining members. */
   str->capacity_ = count + 1;
 
   str->str_ = malloc(str->capacity_ * sizes->ch_size);
@@ -267,35 +268,34 @@ struct Mdc_BasicString* Mdc_BasicString_InitFromChar(
   functions->assign_str(str->str_, count, ch);
 
   end_ptr = Mdc_UnBasicString_Access(str->str_, sizes->ch_size, count);
-  functions->assign_str(end_ptr, 1, '\0');
+  functions->assign_char(end_ptr, &Mdc_BasicString_kNullChar);
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
+  str->capacity_ = 0;
 
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitStrTail(
+struct Mdc_BasicString* Mdc_BasicString_AssignStrTail(
     struct Mdc_BasicString* str,
     const struct Mdc_BasicString* src,
     size_t pos
 ) {
-  return Mdc_BasicString_InitSubstr(str, src, pos, MDC_BASIC_STRING_NPOS);
+  return Mdc_BasicString_AssignSubstr(str, src, pos, MDC_BASIC_STRING_NPOS);
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitSubstr(
+struct Mdc_BasicString* Mdc_BasicString_AssignSubstr(
     struct Mdc_BasicString* str,
     const struct Mdc_BasicString* src,
     size_t pos,
     size_t count
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   const void* tail_start_ptr;
 
@@ -309,54 +309,41 @@ struct Mdc_BasicString* Mdc_BasicString_InitSubstr(
       pos
   );
 
-  return Mdc_BasicString_InitFromCStrTop(
+  return Mdc_BasicString_AssignFromCStrTop(
       str,
-      metadata,
       tail_start_ptr,
       count
   );
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitFromCStr(
+struct Mdc_BasicString* Mdc_BasicString_AssignFromCStr(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     const void* c_str
 ) {
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  return Mdc_BasicString_InitFromCStrTop(
+  return Mdc_BasicString_AssignFromCStrTop(
       str,
-      metadata,
       c_str,
       functions->length_str(c_str)
   );
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitFromCStrTop(
+struct Mdc_BasicString* Mdc_BasicString_AssignFromCStrTop(
     struct Mdc_BasicString* str,
-    const struct Mdc_BasicStringMetadata* metadata,
     const void* c_str,
     size_t count
 ) {
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   void* end_ptr;
 
-  /* Copy-assign metadata. */
-  str->metadata = malloc(sizeof(*str->metadata));
-  if (str->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *str->metadata = *metadata;
-
-  /* Set remaining members. */
   str->capacity_ = count + 1;
 
   str->str_ = malloc(str->capacity_ * sizes->ch_size);
@@ -369,134 +356,140 @@ struct Mdc_BasicString* Mdc_BasicString_InitFromCStrTop(
   functions->copy_nonoverlap_str(str->str_, c_str, count);
 
   end_ptr = Mdc_UnBasicString_Access(str->str_, sizes->ch_size, count);
-  functions->assign_str(end_ptr, 1, '\0');
+  functions->assign_char(end_ptr, &Mdc_BasicString_kNullChar);
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
+  str->capacity_ = 0;
 
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithStrCopy(
+struct Mdc_BasicString* Mdc_BasicString_AssignCopy(
+    struct Mdc_BasicString* dest,
+    const struct Mdc_BasicString* src
+) {
+  return Mdc_BasicString_AssignStrTail(dest, src, 0);
+}
+
+struct Mdc_BasicString* Mdc_BasicString_AssignMove(
+    struct Mdc_BasicString* dest,
+    struct Mdc_BasicString* src
+) {
+  *dest = *src;
+
+  return dest;
+}
+
+/**
+ * Concat functions
+ */
+
+struct Mdc_BasicString* Mdc_BasicString_ConcatStrCopyWithStrCopy(
     struct Mdc_BasicString* str,
     const struct Mdc_BasicString* src1,
     const struct Mdc_BasicString* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitCopyCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_CopyCStrConcatCStr(
       str,
-      metadata,
       src1->str_,
       src1->length_,
       src2->str_,
       src2->length_
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithCStr(
+struct Mdc_BasicString* Mdc_BasicString_ConcatStrCopyWithCStr(
     struct Mdc_BasicString* str,
     const struct Mdc_BasicString* src1,
     const void* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitCopyCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_CopyCStrConcatCStr(
       str,
-      metadata,
       src1->str_,
       src1->length_,
       src2,
       functions->length_str(src2)
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatStrCopyWithChar(
+struct Mdc_BasicString* Mdc_BasicString_ConcatStrCopyWithChar(
     struct Mdc_BasicString* str,
     const struct Mdc_BasicString* src1,
     uintmax_t src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitCopyCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_CopyCStrConcatCStr(
       str,
-      metadata,
       src1->str_,
       src1->length_,
       &src2,
       1
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithStrCopy(
+struct Mdc_BasicString* Mdc_BasicString_ConcatStrWithStrCopy(
     struct Mdc_BasicString* str,
     struct Mdc_BasicString* src1,
     const struct Mdc_BasicString* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitMoveCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_MoveCStrConcatCStr(
       str,
-      metadata,
       src1->str_,
       src1->length_,
       src1->capacity_,
@@ -504,34 +497,30 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithStrCopy(
       src2->length_
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithCStr(
+struct Mdc_BasicString* Mdc_BasicString_ConcatStrWithCStr(
     struct Mdc_BasicString* str,
     struct Mdc_BasicString* src1,
     const void* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitMoveCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_MoveCStrConcatCStr(
       str,
-      metadata,
       src1->str_,
       src1->length_,
       src1->capacity_,
@@ -539,7 +528,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithCStr(
       functions->length_str(src2)
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
@@ -551,22 +540,20 @@ return_bad:
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithChar(
+struct Mdc_BasicString* Mdc_BasicString_ConcatStrWithChar(
     struct Mdc_BasicString* str,
     struct Mdc_BasicString* src1,
     uintmax_t src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitMoveCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_MoveCStrConcatCStr(
       str,
-      metadata,
       src1->str_,
       src1->length_,
       src1->capacity_,
@@ -574,197 +561,134 @@ struct Mdc_BasicString* Mdc_BasicString_InitConcatStrWithChar(
       1
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatCStrWithStrCopy(
+struct Mdc_BasicString* Mdc_BasicString_ConcatCStrWithStrCopy(
     struct Mdc_BasicString* str,
     const void* src1,
     const struct Mdc_BasicString* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src2->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitCopyCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_CopyCStrConcatCStr(
       str,
-      metadata,
       src1,
       functions->length_str(src1),
       src2->str_,
       src2->length_
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatCStrWithStr(
+struct Mdc_BasicString* Mdc_BasicString_ConcatCStrWithStr(
     struct Mdc_BasicString* str,
     const void* src1,
     struct Mdc_BasicString* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src2->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitCopyCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_CopyCStrConcatCStr(
       str,
-      metadata,
       src1,
       functions->length_str(src1),
       src2->str_,
       src2->length_
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatCharWithStrCopy(
+struct Mdc_BasicString* Mdc_BasicString_ConcatCharWithStrCopy(
     struct Mdc_BasicString* str,
     uintmax_t src1,
     const struct Mdc_BasicString* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src2->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitCopyCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_CopyCStrConcatCStr(
       str,
-      metadata,
       &src1,
       1,
       src2->str_,
       src2->length_
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
 }
 
-struct Mdc_BasicString* Mdc_BasicString_InitConcatCharWithStr(
+struct Mdc_BasicString* Mdc_BasicString_ConcatCharWithStr(
     struct Mdc_BasicString* str,
     uintmax_t src1,
     struct Mdc_BasicString* src2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = src2->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  struct Mdc_BasicString* init_str_concat;
+  struct Mdc_BasicString* assign_str_concat;
 
-  init_str_concat = Mdc_BasicString_InitCopyCStrConcatCStr(
+  assign_str_concat = Mdc_BasicString_CopyCStrConcatCStr(
       str,
-      metadata,
       &src1,
       functions->length_str(&src1),
       src2->str_,
       src2->length_
   );
 
-  if (init_str_concat != str) {
+  if (assign_str_concat != str) {
     goto return_bad;
   }
 
   return str;
 
 return_bad:
-  *str = Mdc_BasicString_kUninit;
-
   return NULL;
-}
-
-struct Mdc_BasicString* Mdc_BasicString_InitCopy(
-    struct Mdc_BasicString* dest,
-    const struct Mdc_BasicString* src
-) {
-  return Mdc_BasicString_InitSubstr(dest, src, 0, MDC_BASIC_STRING_NPOS);
-}
-
-struct Mdc_BasicString* Mdc_BasicString_InitMove(
-    struct Mdc_BasicString* dest,
-    struct Mdc_BasicString* src
-) {
-  /* Copy-assign metadata. */
-  dest->metadata = malloc(sizeof(*dest->metadata));
-  if (dest->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *dest->metadata = *src->metadata;
-
-  dest->str_ = src->str_;
-  dest->length_ = src->length_;
-  dest->capacity_ = src->capacity_;
-
-  return dest;
-
-return_bad:
-  *dest = Mdc_BasicString_kUninit;
-
-  return NULL;
-}
-
-void Mdc_BasicString_Deinit(struct Mdc_BasicString* str) {
-  if (str->str_ != NULL) {
-    free(str->str_);
-    str->str_ = NULL;
-  }
-
-  if (str->metadata != NULL) {
-    free(str->metadata);
-    str->metadata = NULL;
-  }
-
-  *str = Mdc_BasicString_kUninit;
 }
 
 void* Mdc_BasicString_Access(
@@ -778,11 +702,10 @@ const void* Mdc_BasicString_AccessConst(
     const struct Mdc_BasicString* str,
     size_t pos
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_UnBasicString_AccessConst(str->str_, sizes->ch_size, pos);
 }
@@ -813,11 +736,10 @@ struct Mdc_BasicString* Mdc_BasicString_AppendChar(
     size_t count,
     uintmax_t ch
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = dest->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = dest->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   size_t new_length;
   size_t new_capacity;
@@ -893,11 +815,10 @@ struct Mdc_BasicString* Mdc_BasicString_AppendSubstr(
     size_t pos,
     size_t count
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = dest->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = dest->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   const void* tail_start_ptr;
 
@@ -922,11 +843,10 @@ struct Mdc_BasicString* Mdc_BasicString_AppendCStr(
     struct Mdc_BasicString* dest,
     const void* src
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = dest->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = dest->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_BasicString_AppendCStrTop(
       dest,
@@ -940,11 +860,10 @@ struct Mdc_BasicString* Mdc_BasicString_AppendCStrTop(
     const void* src,
     size_t count
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = dest->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = dest->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   size_t new_length;
   size_t new_capacity;
@@ -997,11 +916,10 @@ void* Mdc_BasicString_Back(struct Mdc_BasicString* str) {
 const void* Mdc_BasicString_BackConst(
     const struct Mdc_BasicString* str
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_UnBasicString_AccessConst(
       str->str_,
@@ -1018,11 +936,10 @@ int Mdc_BasicString_CompareStr(
     const struct Mdc_BasicString* str1,
     const struct Mdc_BasicString* str2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str1->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_BasicString_CompareSubstr(str1, 0, str1->length_, str2);
 }
@@ -1033,11 +950,10 @@ int Mdc_BasicString_CompareSubstr(
     size_t count1,
     const struct Mdc_BasicString* str2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str1->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_BasicString_CompareSubstrs(
       str1,
@@ -1057,11 +973,10 @@ int Mdc_BasicString_CompareSubstrs(
     size_t pos2,
     size_t count2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str1->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   if (count2 == MDC_BASIC_STRING_NPOS
       || count2 > str2->length_ - pos2) {
@@ -1081,11 +996,10 @@ int Mdc_BasicString_CompareCStr(
     const struct Mdc_BasicString* str,
     const void* c_str
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_BasicString_CompareCSubstr(
       str,
@@ -1101,11 +1015,10 @@ int Mdc_BasicString_CompareCSubstr(
     size_t count1,
     const void* c_str
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_BasicString_CompareCSubstrs(
       str,
@@ -1123,12 +1036,10 @@ int Mdc_BasicString_CompareCSubstrs(
     const void* c_str,
     size_t count2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
-  const uintmax_t null_term_ch = '\0';
+      &char_traits->functions;
 
   bool is_str_length_equal;
   bool is_str_length_less_than;
@@ -1168,7 +1079,7 @@ int Mdc_BasicString_CompareCSubstrs(
     );
 
     return functions->compare_str(
-        &null_term_ch,
+        &Mdc_BasicString_kNullChar,
         access_end_ptr,
         1
     );
@@ -1181,20 +1092,19 @@ int Mdc_BasicString_CompareCSubstrs(
 
     return functions->compare_str(
         access_end_ptr,
-        &null_term_ch,
+        &Mdc_BasicString_kNullChar,
         1
     );
   }
 }
 
 void Mdc_BasicString_Clear(struct Mdc_BasicString* str) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
-  functions->assign_str(str->str_, 1, '\0');
+  functions->assign_char(str->str_, &Mdc_BasicString_kNullChar);
   str->length_ = 0;
 }
 
@@ -1218,11 +1128,10 @@ bool Mdc_BasicString_EqualStr(
     const struct Mdc_BasicString* str1,
     const struct Mdc_BasicString* str2
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str1->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str1->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   int compare_result;
 
@@ -1243,11 +1152,10 @@ bool Mdc_BasicString_EqualCStr(
     const struct Mdc_BasicString* str,
     const void* c_str
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   const uintmax_t kNullTermCh = '\0';
 
@@ -1278,11 +1186,10 @@ void* Mdc_BasicString_Front(struct Mdc_BasicString* str){
 }
 
 const void* Mdc_BasicString_FrontConst(const struct Mdc_BasicString* str) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   return Mdc_UnBasicString_AccessConst(
       str->str_,
@@ -1296,11 +1203,10 @@ size_t Mdc_BasicString_Length(const struct Mdc_BasicString* str) {
 }
 
 void Mdc_BasicString_PopBack(struct Mdc_BasicString* str) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   void* new_end_ptr;
 
@@ -1311,15 +1217,14 @@ void Mdc_BasicString_PopBack(struct Mdc_BasicString* str) {
       sizes->ch_size,
       str->length_
   );
-  functions->assign_str(new_end_ptr, 1, '\0');
+  functions->assign_char(new_end_ptr, &Mdc_BasicString_kNullChar);
 }
 
 void Mdc_BasicString_PushBack(struct Mdc_BasicString* str, uintmax_t ch) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   size_t new_length;
   size_t new_capacity;
@@ -1349,18 +1254,17 @@ void Mdc_BasicString_PushBack(struct Mdc_BasicString* str, uintmax_t ch) {
       sizes->ch_size,
       str->length_
   );
-  functions->assign_str(new_end_ptr, 1, '\0');
+  functions->assign_char(new_end_ptr, &Mdc_BasicString_kNullChar);
 }
 
 void Mdc_BasicString_Reserve(
     struct Mdc_BasicString* str,
     size_t new_capacity
 ) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   char* realloc_cstring;
 
@@ -1383,11 +1287,10 @@ return_bad:
 }
 
 void Mdc_BasicString_ShrinkToFit(struct Mdc_BasicString* str) {
-  const struct Mdc_BasicStringMetadata* const metadata = str->metadata;
-  const struct Mdc_CharTraitsSizes* const sizes =
-      &metadata->char_traits.sizes;
+  const struct Mdc_CharTraits* const char_traits = str->char_traits_;
+  const struct Mdc_CharTraitsSizes* const sizes = &char_traits->sizes;
   const struct Mdc_CharTraitsFunctions* const functions =
-      &metadata->char_traits.functions;
+      &char_traits->functions;
 
   size_t new_cap;
   char* realloc_cstring;
@@ -1421,11 +1324,4 @@ void Mdc_BasicString_Swap(
   temp = *str1;
   *str1 = *str2;
   *str2 = temp;
-}
-
-bool Mdc_BasicStringMetadata_Equal(
-    const struct Mdc_BasicStringMetadata* metadata1,
-    const struct Mdc_BasicStringMetadata* metadata2
-) {
-  return memcmp(metadata1, metadata2, sizeof(*metadata1)) == 0;
 }

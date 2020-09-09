@@ -29,12 +29,12 @@
 
 #include "../../../../include/mdc/string/basic_string/string.h"
 
-#include "../../../../include/mdc/string/basic_string.h"
+/**
+ * Initialization/deinitialization
+ */
 
-struct Mdc_BasicStringMetadata* Mdc_StringMetadata_InitMetadata(
-    struct Mdc_BasicStringMetadata* metadata
+struct Mdc_BasicString* Mdc_String_Init(
+    struct Mdc_BasicString* str
 ) {
-  Mdc_CharTraitsChar_Init(&metadata->char_traits);
-
-  return metadata;
+  return Mdc_BasicString_Init(str, Mdc_CharTraitsChar_GetCharTraits());
 }

@@ -29,12 +29,12 @@
 
 #include "../../../../include/mdc/string/basic_string/wstring.h"
 
-#include "../../../../include/mdc/string/basic_string.h"
+/**
+ * Initialization/deinitialization
+ */
 
-struct Mdc_BasicStringMetadata* Mdc_WStringMetadata_InitMetadata(
-    struct Mdc_BasicStringMetadata* metadata
+struct Mdc_BasicString* Mdc_WString_Init(
+    struct Mdc_BasicString* str
 ) {
-  Mdc_CharTraitsWChar_Init(&metadata->char_traits);
-
-  return metadata;
+  return Mdc_BasicString_Init(str, Mdc_CharTraitsWChar_GetCharTraits());
 }

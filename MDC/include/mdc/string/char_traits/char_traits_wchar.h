@@ -41,9 +41,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-DLLEXPORT struct Mdc_CharTraits* Mdc_CharTraitsWChar_Init(
-    struct Mdc_CharTraits* char_traits
-);
+DLLEXPORT const struct Mdc_CharTraits*
+Mdc_CharTraitsWChar_GetCharTraits(void);
 
 DLLEXPORT void Mdc_CharTraitsWChar_AssignChar(wchar_t* r, const wchar_t* a);
 DLLEXPORT wchar_t* Mdc_CharTraitsWChar_AssignStr(
