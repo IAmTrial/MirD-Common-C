@@ -39,8 +39,16 @@
  * Object initialization/deinitialization
  */
 
-static void* Mdc_Integer_InitAsVoid(void* integer) {
-  return Mdc_Integer_Init(integer);
+static void* Mdc_Integer_InitDefaultAsVoid(void* integer) {
+  return Mdc_Integer_InitDefault(integer);
+}
+
+static void* Mdc_Integer_InitCopyAsVoid(void* dest, const void* src) {
+  return Mdc_Integer_InitCopy(dest, src);
+}
+
+static void* Mdc_Integer_InitMoveAsVoid(void* dest, void* src) {
+  return Mdc_Integer_InitMove(dest, src);
 }
 
 static void Mdc_Integer_DeinitAsVoid(void* integer) {
@@ -50,10 +58,6 @@ static void Mdc_Integer_DeinitAsVoid(void* integer) {
 /**
  * Object assignment functions
  */
-
-static void* Mdc_Integer_AssignDefaultAsVoid(void* integer) {
-  return Mdc_Integer_AssignDefault(integer);
-}
 
 static void* Mdc_Integer_AssignCopyAsVoid(void* dest, const void* src) {
   return Mdc_Integer_AssignCopy(dest, src);
@@ -75,18 +79,12 @@ static void* Mdc_Integer_PreDecrementAsVoid(void* integer) {
   return Mdc_Integer_PreDecrement(integer);
 }
 
-static void* Mdc_Integer_PostIncrementAsVoid(
-    void* integer_out,
-    void* integer_in
-) {
-  return Mdc_Integer_PostIncrement(integer_out, integer_in);
+static void* Mdc_Integer_PostIncrementAsVoid(void* out, void* in) {
+  return Mdc_Integer_PostIncrement(out, in);
 }
 
-static void* Mdc_Integer_PostDecrementAsVoid(
-    void* integer_out,
-    void* integer_in
-) {
-  return Mdc_Integer_PostDecrement(integer_out, integer_in);
+static void* Mdc_Integer_PostDecrementAsVoid(void* out, void* in) {
+  return Mdc_Integer_PostDecrement(out, in);
 }
 
 /**
@@ -94,90 +92,90 @@ static void* Mdc_Integer_PostDecrementAsVoid(
  */
 
 static void* Mdc_Integer_AddAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_Add(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_Add(out, op1, op2);
 }
 
 static void* Mdc_Integer_SubtractAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_Subtract(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_Subtract(out, op1, op2);
 }
 
 static void* Mdc_Integer_MultiplyAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_Multiply(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_Multiply(out, op1, op2);
 }
 
 static void* Mdc_Integer_DivideAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_Divide(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_Divide(out, op1, op2);
 }
 
 static void* Mdc_Integer_ModuloAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_Modulo(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_Modulo(out, op1, op2);
 }
 
 static void* Mdc_Integer_BitwiseNotAsVoid(
-    void* integer_out,
-    const void* integer_in
+    void* out,
+    const void* in
 ) {
-  return Mdc_Integer_BitwiseNot(integer_out, integer_in);
+  return Mdc_Integer_BitwiseNot(out, in);
 }
 
 static void* Mdc_Integer_BitwiseAndAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_BitwiseAnd(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_BitwiseAnd(out, op1, op2);
 }
 
 static void* Mdc_Integer_BitwiseOrAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_BitwiseOr(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_BitwiseOr(out, op1, op2);
 }
 
 static void* Mdc_Integer_BitwiseXorAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_BitwiseXor(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_BitwiseXor(out, op1, op2);
 }
 
 static void* Mdc_Integer_BitwiseLeftShiftAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_BitwiseLeftShift(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_BitwiseLeftShift(out, op1, op2);
 }
 
 static void* Mdc_Integer_BitwiseRightShiftAsVoid(
-    void* integer_out,
-    const void* integer_in1,
-    const void* integer_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Integer_BitwiseRightShift(integer_out, integer_in1, integer_in2);
+  return Mdc_Integer_BitwiseRightShift(out, op1, op2);
 }
 
 /**
@@ -227,10 +225,11 @@ static struct Mdc_ObjectMetadata* Mdc_Integer_InitObjectMetadata(
 ) {
   metadata->size = sizeof(struct Mdc_Integer);
 
-  metadata->functions.init = &Mdc_Integer_InitAsVoid;
+  metadata->functions.init_default = &Mdc_Integer_InitDefaultAsVoid;
+  metadata->functions.init_copy = &Mdc_Integer_InitCopyAsVoid;
+  metadata->functions.init_move = &Mdc_Integer_InitMoveAsVoid;
   metadata->functions.deinit = &Mdc_Integer_DeinitAsVoid;
 
-  metadata->functions.assign_default = &Mdc_Integer_AssignDefaultAsVoid;
   metadata->functions.assign_copy = &Mdc_Integer_AssignCopyAsVoid;
   metadata->functions.assign_move = &Mdc_Integer_AssignMoveAsVoid;
 

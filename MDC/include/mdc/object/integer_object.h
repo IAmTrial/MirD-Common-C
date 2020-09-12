@@ -47,8 +47,23 @@ struct Mdc_Integer {
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_Init(
+DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitDefault(
     struct Mdc_Integer* integer
+);
+
+DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitFromValue(
+    struct Mdc_Integer* integer,
+    int value
+);
+
+DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitCopy(
+    struct Mdc_Integer* dest,
+    const struct Mdc_Integer* src
+);
+
+DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitMove(
+    struct Mdc_Integer* dest,
+    struct Mdc_Integer* src
 );
 
 DLLEXPORT void Mdc_Integer_Deinit(struct Mdc_Integer* integer);
@@ -63,15 +78,6 @@ Mdc_Integer_GetObjectMetadata(void);
 /**
  * Assignment functions
  */
-
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_AssignDefault(
-    struct Mdc_Integer* integer
-);
-
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_AssignFromValue(
-    struct Mdc_Integer* integer,
-    int value
-);
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_AssignCopy(
     struct Mdc_Integer* dest,
@@ -96,13 +102,13 @@ DLLEXPORT struct Mdc_Integer* Mdc_Integer_PreDecrement(
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_PostIncrement(
-    struct Mdc_Integer* integer_out,
-    struct Mdc_Integer* integer_in
+    struct Mdc_Integer* out,
+    struct Mdc_Integer* in
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_PostDecrement(
-    struct Mdc_Integer* integer_out,
-    struct Mdc_Integer* integer_in
+    struct Mdc_Integer* out,
+    struct Mdc_Integer* in
 );
 
 /**
@@ -110,68 +116,68 @@ DLLEXPORT struct Mdc_Integer* Mdc_Integer_PostDecrement(
  */
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_Add(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_Subtract(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_Multiply(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_Divide(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_Modulo(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseNot(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* in
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseAnd(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseOr(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseXor(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseLeftShift(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseRightShift(
-    struct Mdc_Integer* integer_out,
-    const struct Mdc_Integer* integer_in1,
-    const struct Mdc_Integer* integer_in2
+    struct Mdc_Integer* out,
+    const struct Mdc_Integer* op1,
+    const struct Mdc_Integer* op2
 );
 
 /**

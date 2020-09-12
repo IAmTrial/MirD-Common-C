@@ -41,10 +41,23 @@ extern "C" {
 #endif /* __cplusplus */
 
 struct Mdc_ObjectFunctions {
-  void* (*init)(void*);
+  void* (*init_default)(void*);
+
+  /**
+   * Initializes the destination object by copying the source object.
+   */
+  void* (*init_copy)(void*, const void*);
+
+  /**
+   * Initializes the destination object by moving the source object.
+   */
+  void* (*init_move)(void*, void*);
+
+  /**
+   * Deinitializes the specified object.
+   */
   void (*deinit)(void*);
 
-  void* (*assign_default)(void*);
   void* (*assign_copy)(void*, const void*);
   void* (*assign_move)(void*, void*);
 
@@ -67,6 +80,13 @@ struct Mdc_ObjectFunctions {
   void* (*bitwise_right_shift)(void* out, const void* in1, const void* in2);
 
   bool (*equal)(const void*, const void*);
+
+  /**
+   * Compares two objects. Returns 0 if they are the same, a negative
+   * value if the first object is "less" than the second object, and a
+   * positive value if the first object is "greater" than the second
+   * object.
+   */
   int (*compare)(const void*, const void*);
 
   size_t (*hash)(const void*);
@@ -80,7 +100,7 @@ struct Mdc_ObjectMetadata {
 
 #define MDC_OBJECT_METADATA_UNINIT { 0 }
 
-const struct Mdc_ObjectMetadata Mdc_Metadata_kUninit;
+const struct Mdc_ObjectMetadata Mdc_ObjectMetadata_kUninit;
 
 #ifdef __cplusplus
 } /* extern "C" */

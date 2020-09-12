@@ -39,8 +39,16 @@
  * Object initialization/deinitialization
  */
 
-static void* Mdc_Short_InitAsVoid(void* shrt) {
-  return Mdc_Short_Init(shrt);
+static void* Mdc_Short_InitDefaultAsVoid(void* shrt) {
+  return Mdc_Short_InitDefault(shrt);
+}
+
+static void* Mdc_Short_InitCopyAsVoid(void* dest, const void* src) {
+  return Mdc_Short_InitCopy(dest, src);
+}
+
+static void* Mdc_Short_InitMoveAsVoid(void* dest, void* src) {
+  return Mdc_Short_InitMove(dest, src);
 }
 
 static void Mdc_Short_DeinitAsVoid(void* shrt) {
@@ -50,10 +58,6 @@ static void Mdc_Short_DeinitAsVoid(void* shrt) {
 /**
  * Object assignment functions
  */
-
-static void* Mdc_Short_AssignDefaultAsVoid(void* shrt) {
-  return Mdc_Short_AssignDefault(shrt);
-}
 
 static void* Mdc_Short_AssignCopyAsVoid(void* dest, const void* src) {
   return Mdc_Short_AssignCopy(dest, src);
@@ -227,10 +231,11 @@ static struct Mdc_ObjectMetadata* Mdc_Short_InitObjectMetadata(
 ) {
   metadata->size = sizeof(struct Mdc_Short);
 
-  metadata->functions.init = &Mdc_Short_InitAsVoid;
+  metadata->functions.init_default = &Mdc_Short_InitDefaultAsVoid;
+  metadata->functions.init_copy = &Mdc_Short_InitCopyAsVoid;
+  metadata->functions.init_move = &Mdc_Short_InitMoveAsVoid;
   metadata->functions.deinit = &Mdc_Short_DeinitAsVoid;
 
-  metadata->functions.assign_default = &Mdc_Short_AssignDefaultAsVoid;
   metadata->functions.assign_copy = &Mdc_Short_AssignCopyAsVoid;
   metadata->functions.assign_move = &Mdc_Short_AssignMoveAsVoid;
 

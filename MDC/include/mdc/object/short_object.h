@@ -47,7 +47,22 @@ struct Mdc_Short {
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_Init(struct Mdc_Short* shrt);
+DLLEXPORT struct Mdc_Short* Mdc_Short_InitDefault(struct Mdc_Short* shrt);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_InitFromValue(
+    struct Mdc_Short* shrt,
+    short value
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_InitCopy(
+    struct Mdc_Short* dest,
+    const struct Mdc_Short* src
+);
+
+DLLEXPORT struct Mdc_Short* Mdc_Short_InitMove(
+    struct Mdc_Short* dest,
+    struct Mdc_Short* src
+);
 
 DLLEXPORT void Mdc_Short_Deinit(struct Mdc_Short* shrt);
 
@@ -61,15 +76,6 @@ Mdc_Short_GetObjectMetadata(void);
 /**
  * Assignment functions
  */
-
-DLLEXPORT struct Mdc_Short* Mdc_Short_AssignDefault(
-    struct Mdc_Short* shrt
-);
-
-DLLEXPORT struct Mdc_Short* Mdc_Short_AssignFromValue(
-    struct Mdc_Short* shrt,
-    short value
-);
 
 DLLEXPORT struct Mdc_Short* Mdc_Short_AssignCopy(
     struct Mdc_Short* dest,
