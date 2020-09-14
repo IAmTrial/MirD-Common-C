@@ -100,7 +100,8 @@ static void Mdc_BasicString_SwapAsVoid(
  * Metadata
  */
 
-static struct Mdc_ObjectMetadata global_metadata;
+static struct Mdc_ObjectMetadata global_metadata =
+    MDC_OBJECT_METADATA_UNINIT;
 static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
 
 static struct Mdc_ObjectMetadata* Mdc_BasicString_InitObjectMetadata(
@@ -108,10 +109,6 @@ static struct Mdc_ObjectMetadata* Mdc_BasicString_InitObjectMetadata(
 ) {
   metadata->size = sizeof(struct Mdc_BasicString);
 
-  /*
-  * metadata->functions.init needs to be filled out by a
-  * specialization of BasicString.
-  */
   metadata->functions.deinit = &Mdc_BasicString_DeinitAsVoid;
 
   metadata->functions.assign_default = &Mdc_BasicString_AssignEmptyAsVoid;

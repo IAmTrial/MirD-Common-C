@@ -223,7 +223,8 @@ static void Mdc_Short_SwapAsVoid(
  * Metadata
  */
 
-static struct Mdc_ObjectMetadata global_metadata;
+static struct Mdc_ObjectMetadata global_metadata =
+    MDC_OBJECT_METADATA_UNINIT;
 static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
 
 static struct Mdc_ObjectMetadata* Mdc_Short_InitObjectMetadata(
