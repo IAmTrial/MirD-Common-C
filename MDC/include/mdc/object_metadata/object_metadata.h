@@ -93,6 +93,12 @@ struct Mdc_ObjectFunctions {
   void (*swap)(void*, void*);
 };
 
+
+/*
+* All sizes and init functions (except copy and move) in template
+* object metadata need to be manually specialized.
+*/
+
 struct Mdc_ObjectMetadata {
   size_t size;
   struct Mdc_ObjectFunctions functions;
