@@ -32,6 +32,7 @@
 
 #include <stddef.h>
 
+#include "../../../include/mdc/object_metadata/object_metadata.h"
 #include "../../../include/mdc/std/stdbool.h"
 
 #include "../../../dllexport_define.inc"
@@ -40,77 +41,26 @@
 extern "C" {
 #endif /* __cplusplus */
 
-struct Mdc_PairFirstFunctions {
-  /**
-   * Initializes the destination object by copying the source object.
-   */
-  void* (*init_copy)(void* dest, const void* src);
-
-  /**
-   * Initializes the destination object by moving the source object.
-   */
-  void* (*init_move)(void* dest, void* src);
-
-  /**
-   * Deinitializes the specified object.
-   */
-  void (*deinit)(void* obj);
-
-  /**
-   * Compares two objects. Returns 0 if they are the same, a negative
-   * value if the first object is "less" than the second object, and a
-   * positive value if the first object is "greater" than the second
-   * object.
-   */
-  int (*compare)(const void*, const void*);
-};
-
-struct Mdc_PairSecondFunctions {
-  /**
-   * Initializes the destination object by copying the source object.
-   */
-  void* (*init_copy)(void*, const void*);
-
-  /**
-   * Initializes the destination object by moving the source object.
-   */
-  void* (*init_move)(void* dest, void* src);
-
-  /**
-   * Deinitializes the specified object.
-   */
-  void (*deinit)(void*);
-
-  /**
-   * Compares two objects. Returns 0 if they are the same, a negative
-   * value if the first object is "less" than the second object, and a
-   * positive value if the first object is "greater" than the second
-   * object.
-   */
-  int (*compare)(const void*, const void*);
-};
-
-struct Mdc_PairSize {
-  size_t first_size;
-  size_t second_size;
-};
-
-struct Mdc_PairFunctions {
-  struct Mdc_PairFirstFunctions first_functions;
-  struct Mdc_PairSecondFunctions second_functions;
-};
-
 struct Mdc_PairMetadata {
-  struct Mdc_PairSize size;
-  struct Mdc_PairFunctions functions;
+  const struct Mdc_ObjectMetadata* first_metadata;
+  const struct Mdc_ObjectMetadata* second_metadata;
 };
 
 struct Mdc_Pair {
-  struct Mdc_PairMetadata* metadata;
+  const struct Mdc_PairMetadata* metadata;
 
   void* first;
   void* second;
 };
+
+/**
+ * Initialization/deinitialization
+ */
+
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitDefault(
+    struct Mdc_Pair* pair,
+    const struct Mdc_PairMetadata* metadata
+);
 
 /**
  * Initializes the pair using the specified metadata for the type
@@ -119,12 +69,12 @@ struct Mdc_Pair {
  * where after initialization, they will be managed by the pair.
  *
  * @param[in, out] pair this pair
- * @param[in] metadata the metadata to copy
+ * @param[in] metadata the pair metadata
  * @param[in] first the first to move-assign
  * @param[in] second the second to move-assign
  * @return this pair if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFromFirstSecond(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     void* first,
@@ -137,12 +87,12 @@ DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstSecond(
  * is copy-assigned into the pair.
  *
  * @param[in, out] pair this pair
- * @param[in] metadata the metadata to copy
+ * @param[in] metadata the pair metadata
  * @param[in] first the first to move-assign
  * @param[in] second the second to copy-assign
  * @return this pair if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFromFirstSecondCopy(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     void* first,
@@ -155,12 +105,12 @@ DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstSecondCopy(
  * is move-assigned into the pair.
  *
  * @param[in, out] pair this pair
- * @param[in] metadata the metadata to copy
+ * @param[in] metadata the pair metadata
  * @param[in] first the first to copy-assign
  * @param[in] second the second to move-assign
  * @return this pair if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecond(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     const void* first,
@@ -173,12 +123,12 @@ DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstCopySecond(
  * is copy-assigned into the pair.
  *
  * @param[in, out] pair this pair
- * @param[in] metadata the metadata to copy
+ * @param[in] metadata the pair metadata
  * @param[in] first the first to copy-assign
  * @param[in] second the second to copy-assign
  * @return this pair if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFirstCopySecondCopy(
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecondCopy(
     struct Mdc_Pair* pair,
     const struct Mdc_PairMetadata* metadata,
     const void* first,
@@ -217,6 +167,60 @@ DLLEXPORT struct Mdc_Pair* Mdc_Pair_InitMove(
 DLLEXPORT void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
 
 /**
+ * Metadata
+ */
+
+DLLEXPORT struct Mdc_PairMetadata* Mdc_PairMetadata_Init(
+    struct Mdc_PairMetadata* metadata,
+    const struct Mdc_ObjectMetadata* first_metadata,
+    const struct Mdc_ObjectMetadata* second_metadata
+);
+
+/**
+ * Assignment
+ */
+
+/**
+ * Initializes the destination pair by copying the source pair.
+ *
+ * @param[in, out] dest destination pair
+ * @param[in] src source pair
+ * @return dest if successful, otherwise NULL
+ */
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_AssignCopy(
+    struct Mdc_Pair* dest,
+    const struct Mdc_Pair* src
+);
+
+/**
+ * Initializes the destination pair by moving the source pair.
+ *
+ * @param[in, out] dest destination pair
+ * @param[in] src source pair
+ * @return dest if successful, otherwise NULL
+ */
+DLLEXPORT struct Mdc_Pair* Mdc_Pair_AssignMove(
+    struct Mdc_Pair* dest,
+    struct Mdc_Pair* src
+);
+
+/**
+ * Comparison functions
+ */
+
+/**
+ * Returns whether two pairs contains equivalent first and seconds.
+ *
+ * @param[in] pair1 the first pair
+ * @param[in] pair2 the second pair
+ * @return true if the pairs are equivalent, false otherwise
+ */
+DLLEXPORT bool Mdc_Pair_Equal(
+    const struct Mdc_Pair* pair1,
+    const struct Mdc_Pair* pair2
+);
+
+/**
  * Compares the two pairs by their first values, and returns a
  * non-zero value if they are different. Otherwise, return a value
  * resulting from comparing their second values. Returns 0 if they are
@@ -232,6 +236,10 @@ DLLEXPORT int Mdc_Pair_Compare(
     const struct Mdc_Pair* pair1,
     const struct Mdc_Pair* pair2
 );
+
+/**
+ * Etc. functions
+ */
 
 /**
  * Swaps two pairs.
