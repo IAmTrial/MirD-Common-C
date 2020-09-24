@@ -35,13 +35,12 @@
 
 #include "../../../include/mdc/std/threads.h"
 
-static struct Mdc_BasicString Mdc_Wide_DecodeChar(
+static struct Mdc_BasicString* Mdc_Wide_DecodeChar(
+    struct Mdc_BasicString* wide_str,
     const char* char_str,
     UINT code_page
 ) {
-  struct Mdc_BasicString wide_str;
   struct Mdc_BasicString* init_wide_str;
-  struct Mdc_BasicString* assign_wide_str;
   size_t wide_str_len;
 
   size_t converted_chars_with_null_count;
@@ -63,18 +62,14 @@ static struct Mdc_BasicString Mdc_Wide_DecodeChar(
   wide_str_len -= 1;
 
   /* Allocate the wide string. */
-  init_wide_str = Mdc_WString_Init(&wide_str);
-  if (init_wide_str != &wide_str) {
-    goto return_bad;
-  }
-
-  assign_wide_str = Mdc_BasicString_AssignFromChar(
-      &wide_str,
+  init_wide_str = Mdc_BasicString_InitFromChar(
+      wide_str,
+      Mdc_CharTraitsWChar_GetCharTraits(),
       wide_str_len,
       L'\0'
   );
-  if (assign_wide_str != &wide_str) {
-    goto deinit_wide_str;
+  if (init_wide_str != wide_str) {
+    goto return_bad;
   }
 
   /* Convert the char string to wide string. */
@@ -83,7 +78,7 @@ static struct Mdc_BasicString Mdc_Wide_DecodeChar(
       0,
       char_str,
       -1,
-      Mdc_BasicString_Data(&wide_str),
+      Mdc_BasicString_Data(wide_str),
       wide_str_len + 1
   );
 
@@ -95,20 +90,29 @@ static struct Mdc_BasicString Mdc_Wide_DecodeChar(
   return wide_str;
 
 deinit_wide_str:
-  Mdc_BasicString_Deinit(&wide_str);
+  Mdc_BasicString_Deinit(wide_str);
 
 return_bad:
   return wide_str;
 }
 
-struct Mdc_BasicString Mdc_Wide_DecodeAscii(const char* ascii_str) {
-  return Mdc_Wide_DecodeChar(ascii_str, 20127);
+struct Mdc_BasicString* Mdc_Wide_DecodeAscii(
+    struct Mdc_BasicString* wide_str,
+    const char* ascii_str
+) {
+  return Mdc_Wide_DecodeChar(wide_str, ascii_str, 20127);
 }
 
-struct Mdc_BasicString Mdc_Wide_DecodeDefaultMultibyte(const char* multibyte_str) {
-  return Mdc_Wide_DecodeChar(multibyte_str, CP_ACP);
+struct Mdc_BasicString* Mdc_Wide_DecodeDefaultMultibyte(
+    struct Mdc_BasicString* wide_str,
+    const char* multibyte_str
+) {
+  return Mdc_Wide_DecodeChar(wide_str, multibyte_str, CP_ACP);
 }
 
-struct Mdc_BasicString Mdc_Wide_DecodeUtf8(const char* utf8_str) {
-  return Mdc_Wide_DecodeChar(utf8_str, CP_UTF8);
+struct Mdc_BasicString* Mdc_Wide_DecodeUtf8(
+    struct Mdc_BasicString* wide_str,
+    const char* utf8_str
+) {
+  return Mdc_Wide_DecodeChar(wide_str, utf8_str, CP_UTF8);
 }

@@ -35,13 +35,12 @@
 
 #include "../../../include/mdc/std/threads.h"
 
-static struct Mdc_BasicString Mdc_Wide_EncodeChar(
+static struct Mdc_BasicString* Mdc_Wide_EncodeChar(
+    struct Mdc_BasicString* char_str,
     const wchar_t* wide_str,
     UINT code_page
 ) {
-  struct Mdc_BasicString char_str;
   struct Mdc_BasicString* init_char_str;
-  struct Mdc_BasicString* assign_char_str;
   size_t char_str_len;
 
   size_t converted_chars_with_null_count;
@@ -65,18 +64,14 @@ static struct Mdc_BasicString Mdc_Wide_EncodeChar(
   char_str_len -= 1;
 
   /* Allocate the char string. */
-  init_char_str = Mdc_String_Init(&char_str);
-  if (init_char_str != &char_str) {
-    goto return_bad;
-  }
-
-  assign_char_str = Mdc_BasicString_AssignFromChar(
-      &char_str,
+  init_char_str = Mdc_BasicString_InitFromChar(
+      char_str,
+      Mdc_CharTraitsChar_GetCharTraits(),
       char_str_len,
       '\0'
   );
-  if (assign_char_str != &char_str) {
-    goto deinit_char_str;
+  if (init_char_str != char_str) {
+    goto return_bad;
   }
 
   /* Convert the char string to wide string. */
@@ -85,7 +80,7 @@ static struct Mdc_BasicString Mdc_Wide_EncodeChar(
       0,
       wide_str,
       -1,
-      Mdc_BasicString_Data(&char_str),
+      Mdc_BasicString_Data(char_str),
       char_str_len + 1,
       NULL,
       NULL
@@ -98,20 +93,29 @@ static struct Mdc_BasicString Mdc_Wide_EncodeChar(
   return char_str;
 
 deinit_char_str:
-  Mdc_BasicString_Deinit(&char_str);
+  Mdc_BasicString_Deinit(char_str);
 
 return_bad:
   return char_str;
 }
 
-struct Mdc_BasicString Mdc_Wide_EncodeAscii(const wchar_t* wide_str) {
-  return Mdc_Wide_EncodeChar(wide_str, 20127);
+struct Mdc_BasicString* Mdc_Wide_EncodeAscii(
+    struct Mdc_BasicString* char_str,
+    const wchar_t* wide_str
+) {
+  return Mdc_Wide_EncodeChar(char_str, wide_str, 20127);
 }
 
-struct Mdc_BasicString Mdc_Wide_EncodeDefaultMultibyte(const wchar_t* wide_str) {
-  return Mdc_Wide_EncodeChar(wide_str, CP_ACP);
+struct Mdc_BasicString* Mdc_Wide_EncodeDefaultMultibyte(
+    struct Mdc_BasicString* char_str,
+    const wchar_t* wide_str
+) {
+  return Mdc_Wide_EncodeChar(char_str, wide_str, CP_ACP);
 }
 
-struct Mdc_BasicString Mdc_Wide_EncodeUtf8(const wchar_t* wide_str) {
-  return Mdc_Wide_EncodeChar(wide_str, CP_UTF8);
+struct Mdc_BasicString* Mdc_Wide_EncodeUtf8(
+    struct Mdc_BasicString* char_str,
+    const wchar_t* wide_str
+) {
+  return Mdc_Wide_EncodeChar(char_str, wide_str, CP_UTF8);
 }

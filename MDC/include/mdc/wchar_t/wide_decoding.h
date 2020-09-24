@@ -48,7 +48,10 @@ extern "C" {
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_BasicString Mdc_Wide_DecodeAscii(const char* ascii_str);
+DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeAscii(
+    struct Mdc_BasicString* wide_str,
+    const char* ascii_str
+);
 
 /**
  * Creates a wide encoded copy of the specified multibyte string. The
@@ -60,7 +63,8 @@ DLLEXPORT struct Mdc_BasicString Mdc_Wide_DecodeAscii(const char* ascii_str);
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_BasicString Mdc_Wide_DecodeDefaultMultibyte(
+DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeDefaultMultibyte(
+    struct Mdc_BasicString* wide_str,
     const char* multibyte_str
 );
 
@@ -73,7 +77,10 @@ DLLEXPORT struct Mdc_BasicString Mdc_Wide_DecodeDefaultMultibyte(
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_BasicString Mdc_Wide_DecodeUtf8(const char* utf8_str);
+DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeUtf8(
+    struct Mdc_BasicString* wide_str,
+    const char* utf8_str
+);
 
 #ifdef __cplusplus
 } /* extern "C" */

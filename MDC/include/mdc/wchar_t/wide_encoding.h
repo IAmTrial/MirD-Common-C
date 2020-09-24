@@ -48,8 +48,9 @@ extern "C" {
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeAscii(
-    const wchar_t* ascii_str
+DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeAscii(
+    struct Mdc_BasicString* char_str,
+    const wchar_t* wide_str
 );
 
 /**
@@ -62,7 +63,8 @@ DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeAscii(
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeDefaultMultibyte(
+DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeDefaultMultibyte(
+    struct Mdc_BasicString* char_str,
     const wchar_t* wide_str
 );
 
@@ -75,7 +77,8 @@ DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeDefaultMultibyte(
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString Mdc_Wide_EncodeUtf8(
+DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeUtf8(
+    struct Mdc_BasicString* char_str,
     const wchar_t* wide_str
 );
 
