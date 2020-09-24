@@ -80,7 +80,7 @@ static int Mdc_Pair_CompareAsVoid(const void* pair1, const void* pair2) {
  */
 
 static void Mdc_Pair_SwapAsVoid(void* pair1, void* pair2) {
-  return Mdc_Pair_Swap(pair1, pair2);
+  Mdc_Pair_Swap(pair1, pair2);
 }
 
 /**
