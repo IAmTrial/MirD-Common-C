@@ -35,8 +35,8 @@
  * Initialization/deinitialization
  */
 
-static void* Mdc_String_InitAsVoid(void* str) {
-  return Mdc_String_Init(str);
+static void* Mdc_String_InitEmptyAsVoid(void* str) {
+  return Mdc_String_InitEmpty(str);
 }
 
 /**
@@ -48,7 +48,7 @@ static struct Mdc_ObjectMetadata* Mdc_String_InitObjectMetadata(
 ) {
   *metadata = *Mdc_BasicString_GetObjectMetadataTemplate();
 
-  metadata->functions.init = &Mdc_String_InitAsVoid;
+  metadata->functions.init_default = &Mdc_String_InitEmptyAsVoid;
 
   return metadata;
 }

@@ -33,8 +33,8 @@
  * Initialization/deinitialization
  */
 
-struct Mdc_BasicString* Mdc_WString_Init(
+struct Mdc_BasicString* Mdc_WString_InitEmpty(
     struct Mdc_BasicString* str
 ) {
-  return Mdc_BasicString_Init(str, Mdc_CharTraitsWChar_GetCharTraits());
+  return Mdc_BasicString_InitEmpty(str, Mdc_CharTraitsWChar_GetCharTraits());
 }

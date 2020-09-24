@@ -43,7 +43,7 @@ extern "C" {
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_BasicString* Mdc_WString_Init(
+DLLEXPORT struct Mdc_BasicString* Mdc_WString_InitEmpty(
     struct Mdc_BasicString* str
 );
 

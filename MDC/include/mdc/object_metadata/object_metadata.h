@@ -95,7 +95,7 @@ struct Mdc_ObjectFunctions {
 
 
 /*
-* All sizes and init functions (except copy and move) in template
+* All init functions (except copy and move) in template
 * object metadata need to be manually specialized.
 */
 

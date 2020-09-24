@@ -39,17 +39,21 @@
  * Initialization/deinitialization
  */
 
+static void* Mdc_BasicString_InitCopyAsVoid(void* dest, const void* src) {
+  return Mdc_BasicString_InitCopy(dest, src);
+}
+
+static void* Mdc_BasicString_InitMoveAsVoid(void* dest, void* src) {
+  return Mdc_BasicString_InitMove(dest, src);
+}
+
 static void Mdc_BasicString_DeinitAsVoid(void* str) {
-  return Mdc_BasicString_Deinit(str);
+  Mdc_BasicString_Deinit(str);
 }
 
 /**
  * Assignment functions
  */
-
-static void* Mdc_BasicString_AssignEmptyAsVoid(void* str) {
-  return Mdc_BasicString_AssignEmpty(str);
-}
 
 static void* Mdc_BasicString_AssignConcatStrCopyWithStrCopyAsVoid(
     void* dest,
@@ -109,9 +113,10 @@ static struct Mdc_ObjectMetadata* Mdc_BasicString_InitObjectMetadata(
 ) {
   metadata->size = sizeof(struct Mdc_BasicString);
 
+  metadata->functions.init_copy = &Mdc_BasicString_InitCopyAsVoid;
+  metadata->functions.init_move = &Mdc_BasicString_InitMoveAsVoid;
   metadata->functions.deinit = &Mdc_BasicString_DeinitAsVoid;
 
-  metadata->functions.assign_default = &Mdc_BasicString_AssignEmptyAsVoid;
   metadata->functions.assign_copy = &Mdc_BasicString_AssignCopyAsVoid;
   metadata->functions.assign_move = &Mdc_BasicString_AssignMoveAsVoid;
 

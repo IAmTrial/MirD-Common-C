@@ -45,7 +45,7 @@ extern "C" {
 #define MDC_BASIC_STRING_NPOS ((size_t) -1)
 
 struct Mdc_BasicString {
-  const struct Mdc_CharTraits* char_traits_;
+  const struct Mdc_CharTraits* char_traits;
 
   void* str_;
   size_t length_;
@@ -56,15 +56,52 @@ struct Mdc_BasicString {
  * Initialization/deinitialization
  */
 
-/**
- * Initializes the string with the specified character traits.
- *
- * @param[in, out] str this string
- * @param[in] char_traits the character traits
- */
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_Init(
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitEmpty(
     struct Mdc_BasicString* str,
     const struct Mdc_CharTraits* char_traits
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitFromChar(
+    struct Mdc_BasicString* str,
+    const struct Mdc_CharTraits* char_traits,
+    size_t count,
+    uintmax_t ch
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitStrTail(
+    struct Mdc_BasicString* str,
+    const struct Mdc_BasicString* src,
+    size_t pos
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitSubstr(
+    struct Mdc_BasicString* str,
+    const struct Mdc_BasicString* src,
+    size_t pos,
+    size_t count
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitFromCStr(
+    struct Mdc_BasicString* str,
+    const struct Mdc_CharTraits* char_traits,
+    const void* c_str
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitFromCStrTop(
+    struct Mdc_BasicString* str,
+    const struct Mdc_CharTraits* char_traits,
+    const void* c_str,
+    size_t count
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitCopy(
+    struct Mdc_BasicString* dest,
+    const struct Mdc_BasicString* src
+);
+
+DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_InitMove(
+    struct Mdc_BasicString* dest,
+    struct Mdc_BasicString* src
 );
 
 /**
@@ -84,40 +121,6 @@ Mdc_BasicString_GetObjectMetadataTemplate(void);
 /**
  * Assignment functions
  */
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignEmpty(
-    struct Mdc_BasicString* str
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignFromChar(
-    struct Mdc_BasicString* str,
-    size_t count,
-    uintmax_t ch
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignStrTail(
-    struct Mdc_BasicString* str,
-    const struct Mdc_BasicString* src,
-    size_t pos
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignSubstr(
-    struct Mdc_BasicString* str,
-    const struct Mdc_BasicString* src,
-    size_t pos,
-    size_t count
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignFromCStr(
-    struct Mdc_BasicString* str,
-    const void* c_str
-);
-
-DLLEXPORT struct Mdc_BasicString* Mdc_BasicString_AssignFromCStrTop(
-    struct Mdc_BasicString* str,
-    const void* c_str,
-    size_t count
-);
 
 /**
  * Initializes the destination string by copying the source string.
