@@ -42,11 +42,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 struct Mdc_MapMetadata {
-  struct Mdc_PairMetadata pair_metadata;
+  const struct Mdc_PairMetadata* pair_metadata;
 };
 
 struct Mdc_Map {
-  struct Mdc_MapMetadata* metadata;
+  const struct Mdc_MapMetadata* metadata;
 
   struct Mdc_Pair** pairs;
   size_t count;
@@ -64,7 +64,7 @@ DLLEXPORT const struct Mdc_Map Mdc_Map_kUninit;
  * @param[in] metadata the map metadata
  * @return this map if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_Map* Mdc_Map_Init(
+DLLEXPORT struct Mdc_Map* Mdc_Map_InitEmpty(
     struct Mdc_Map* map,
     const struct Mdc_MapMetadata* metadata
 );
@@ -99,6 +99,56 @@ DLLEXPORT struct Mdc_Map* Mdc_Map_InitMove(
  * @param[in, out] map this map
  */
 DLLEXPORT void Mdc_Map_Deinit(struct Mdc_Map* map);
+
+/**
+ * Assignment
+ */
+
+DLLEXPORT struct Mdc_Map* Mdc_Map_AssignCopy(
+    struct Mdc_Map* dest,
+    const struct Mdc_Map* src
+);
+
+DLLEXPORT struct Mdc_Map* Mdc_Map_AssignMove(
+    struct Mdc_Map* dest,
+    struct Mdc_Map* src
+);
+
+/**
+ * Comparison functions
+ */
+
+/**
+ * Returns whether two maps contains equivalent elements.
+ *
+ * @param[in] map1 the first map
+ * @param[in] map2 the second map
+ * @return true if the maps have equivalent values, false otherwise
+ */
+DLLEXPORT bool Mdc_Map_Equal(
+    const struct Mdc_Map* map1,
+    const struct Mdc_Map* map2
+);
+
+/**
+ * Compares the two map by their elements as pairs, and returns a
+ * non-zero value if they are different. Returns 0 if they are
+ * the same, a negative value if the first pair is "less" than the
+ * second pair, and a positive value if the first pair is "greater"
+ * than the second pair.
+ *
+ * @param[in] map1 the first map
+ * @param[in] map2 the second map
+ * @return 0 if equal, < 0 if map1 < map2, > 0 if map1 > map2
+ */
+DLLEXPORT int Mdc_Map_Compare(
+    const struct Mdc_Map* map1,
+    const struct Mdc_Map* map2
+);
+
+/**
+ * Etc. functions
+ */
 
 /**
  * Returns the value mapped to the specified key. If no such key
@@ -184,18 +234,6 @@ DLLEXPORT void Mdc_Map_EmplaceKeyCopy(
  * @return true if the map contains any key-mapping, otherwise false
  */
 DLLEXPORT bool Mdc_Map_Empty(const struct Mdc_Map* map);
-
-/**
- * Returns whether two maps contains equivalent elements.
- *
- * @param[in] map1 the first map
- * @param[in] map2 the second map
- * @return true if the maps have equivalent values, false otherwise
- */
-DLLEXPORT bool Mdc_Map_Equal(
-    const struct Mdc_Map* map1,
-    const struct Mdc_Map* map2
-);
 
 /**
  * Removes the pair that is mapped to the specified key.

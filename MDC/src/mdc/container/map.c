@@ -106,7 +106,15 @@ static bool Mdc_Map_IsPairMetadataEqual(
 ) {
   const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map_metadata->pair_metadata;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   int metadata_compare_result;
 
@@ -129,8 +137,10 @@ static int Mdc_Map_KeyCompare(
 ) {
   const struct Mdc_PairMetadata* const pair_metadata =
       (*pair1)->metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
 
   return key_functions->compare((*pair1)->first, (*pair2)->first);
 }
@@ -156,7 +166,7 @@ static void Mdc_Map_InsertPair(
     goto return_bad;
   }
 
-  init_pair_move = Mdc_Pair_InitMove(map->pairs[map->count], new_pair);
+  init_pair_move = Mdc_Pair_AssignMove(map->pairs[map->count], new_pair);
 
   if (init_pair_move != map->pairs[map->count]) {
     goto free_pair_move;
@@ -194,7 +204,7 @@ static void Mdc_Map_InsertPairCopy(
     goto return_bad;
   }
 
-  init_pair_copy = Mdc_Pair_InitCopy(map->pairs[map->count], new_pair);
+  init_pair_copy = Mdc_Pair_AssignCopy(map->pairs[map->count], new_pair);
 
   if (init_pair_copy != map->pairs[map->count]) {
     goto free_pair_copy;
@@ -300,37 +310,26 @@ static const struct Mdc_Pair* const* Mdc_Map_FindConst(
  * External functions
  */
 
-struct Mdc_Map* Mdc_Map_Init(
+struct Mdc_Map* Mdc_Map_InitEmpty(
     struct Mdc_Map* map,
     const struct Mdc_MapMetadata* metadata
 ) {
   size_t pairs_size;
 
-  /* Copy the metadata. */
-  map->metadata = malloc(sizeof(*map->metadata));
-
-  if (map->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *map->metadata = *metadata;
+  map->metadata = metadata;
 
   /* Initialize the table. */
   pairs_size = kInitialCapacity * sizeof(map->pairs[0]);
   map->pairs = malloc(pairs_size);
 
   if (map->pairs == NULL) {
-    goto free_metadata;
+    goto return_bad;
   }
 
   map->count = 0;
   map->capacity = kInitialCapacity;
 
   return map;
-
-free_metadata:
-  free(map->metadata);
-  map->metadata = NULL;
 
 return_bad:
   *map = Mdc_Map_kUninit;
@@ -344,46 +343,45 @@ struct Mdc_Map* Mdc_Map_InitCopy(
 ) {
   const struct Mdc_MapMetadata* const map_metadata = src->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map_metadata->pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   size_t i;
 
   const struct Mdc_Pair* init_pair_copy;
 
-  /* Copy the metadata. */
-  dest->metadata = malloc(sizeof(*dest->metadata));
-
-  if (dest->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *dest->metadata = *map_metadata;
+  dest->metadata = map_metadata;
 
   /* Copy the pairs. */
   dest->pairs = malloc(src->capacity * sizeof(*dest->pairs));
 
   if (dest->pairs == NULL) {
-    goto free_metadata_copy;
+    goto return_bad;
   }
 
   dest->capacity = src->capacity;
 
-  for (i = 0; i < src->count; i += 1, dest->count += 1) {
+  for (i = 0; i < src->count; i += 1) {
     dest->pairs[i] = malloc(sizeof(*dest->pairs[i]));
 
     if (dest->pairs[i] == NULL) {
       goto deinit_and_free_pairs;
     }
 
-    init_pair_copy = Mdc_Pair_InitCopy(dest->pairs[i], src->pairs[i]);
+    init_pair_copy = Mdc_Pair_AssignCopy(dest->pairs[i], src->pairs[i]);
 
     if (init_pair_copy != dest->pairs[i]) {
       goto free_last_pair;
     }
+
+    dest->count += 1;
   }
 
   return dest;
@@ -399,10 +397,6 @@ deinit_and_free_pairs:
   dest->pairs = NULL;
   dest->capacity = 0;
 
-free_metadata_copy:
-  free(dest->metadata);
-  dest->metadata = NULL;
-
 return_bad:
   *dest = Mdc_Map_kUninit;
 
@@ -413,13 +407,7 @@ struct Mdc_Map* Mdc_Map_InitMove(
     struct Mdc_Map* dest,
     struct Mdc_Map* src
 ) {
-  dest->metadata = malloc(sizeof(*dest->metadata));
-
-  if (dest->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *dest->metadata = *src->metadata;
+  dest->metadata = src->metadata;
 
   dest->pairs = src->pairs;
   dest->count = src->count;
@@ -430,11 +418,6 @@ struct Mdc_Map* Mdc_Map_InitMove(
   src->capacity = 0;
 
   return dest;
-
-return_bad:
-  *dest = Mdc_Map_kUninit;
-
-  return NULL;
 }
 
 void Mdc_Map_Deinit(struct Mdc_Map* map) {
@@ -446,14 +429,153 @@ void Mdc_Map_Deinit(struct Mdc_Map* map) {
   }
 
   map->capacity = 0;
-
-  if (map->metadata != NULL) {
-    free(map->metadata);
-    map->metadata = NULL;
-  }
-
   *map = Mdc_Map_kUninit;
 }
+
+/**
+ * Assignment
+ */
+
+struct Mdc_Map* Mdc_Map_AssignCopy(
+    struct Mdc_Map* dest,
+    const struct Mdc_Map* src
+) {
+  struct Mdc_Map temp_map;
+  struct Mdc_Map* init_temp_map;
+  struct Mdc_Map* assign_dest;
+
+  init_temp_map = Mdc_Map_InitCopy(&temp_map, src);
+  if (init_temp_map != &temp_map) {
+    goto return_bad;
+  }
+
+  assign_dest = Mdc_Map_AssignMove(dest, &temp_map);
+  if (assign_dest != dest) {
+    goto deinit_temp_map;
+  }
+
+  Mdc_Map_Deinit(&temp_map);
+
+  return dest;
+
+deinit_temp_map:
+  Mdc_Map_Deinit(&temp_map);
+
+return_bad:
+  return NULL;
+}
+
+struct Mdc_Map* Mdc_Map_AssignMove(
+    struct Mdc_Map* dest,
+    struct Mdc_Map* src
+) {
+  if (dest->pairs != NULL) {
+    Mdc_Map_DeinitAndFreeElements(dest, 0, dest->count);
+    free(dest->pairs);
+  }
+
+  dest->capacity = src->capacity;
+  dest->count = src->count;
+  dest->pairs = src->pairs;
+
+  src->capacity = 0;
+  src->count = 0;
+  src->pairs = NULL;
+
+  return dest;
+}
+
+/**
+ * Comparison functions
+ */
+
+bool Mdc_Map_Equal(
+    const struct Mdc_Map* map1,
+    const struct Mdc_Map* map2
+) {
+  const struct Mdc_MapMetadata* const map_metadata = map1->metadata;
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
+
+  size_t i;
+  struct Mdc_Pair* pair1;
+  struct Mdc_Pair* pair2;
+
+  if (map1->count != map2->count) {
+    return false;
+  }
+
+  for (i = 0; i < map1->count; i += 1) {
+    pair1 = map1->pairs[i];
+    pair2 = map2->pairs[i];
+
+    if (!Mdc_Pair_Equal(pair1, pair2)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+int Mdc_Map_Compare(
+    const struct Mdc_Map* map1,
+    const struct Mdc_Map* map2
+) {
+  const struct Mdc_MapMetadata* const map_metadata = map1->metadata;
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
+
+  size_t lowest_count;
+
+  size_t i;
+  struct Mdc_Pair* pair1;
+  struct Mdc_Pair* pair2;
+
+  int compare_result;
+
+  lowest_count = (map1->count < map2->count)
+      ? map1->count
+      : map2->count;
+
+  for (i = 0; i < lowest_count; i += 1) {
+    pair1 = map1->pairs[i];
+    pair2 = map2->pairs[i];
+
+    compare_result = Mdc_Pair_Compare(pair1, pair2);
+
+    if (compare_result != 0) {
+      return compare_result;
+    }
+  }
+
+  if (map1->count < map2->count) {
+    return -1;
+  } else if (map1->count > map2->count) {
+    return 1;
+  } else /* if (map1->count == map2->count) */ {
+    return 0;
+  }
+}
+
+/**
+ * Etc. functions
+ */
 
 void* Mdc_Map_At(struct Mdc_Map* map, const void* key) {
   return (void*) Mdc_Map_AtConst(map, key);
@@ -521,12 +643,17 @@ const struct Mdc_Pair* const* Mdc_Map_FindConst(
     const struct Mdc_Map* map,
     const void* key
 ) {
+  const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map->metadata->pair_metadata;
-  const struct Mdc_PairFunctions* const pair_functions =
-      &pair_metadata->functions;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_functions->first_functions;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   const struct Mdc_Pair** search_result;
 
@@ -561,11 +688,15 @@ void Mdc_Map_Emplace(
 ) {
   const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map_metadata->pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Pair new_pair;
   void* value;
@@ -579,7 +710,7 @@ void Mdc_Map_Emplace(
   }
 
   /* In-place instantiate the value. */
-  value = malloc(pair_metadata->size.second_size);
+  value = malloc(value_metadata->size);
 
   if (value == NULL) {
     goto return_bad;
@@ -592,7 +723,7 @@ void Mdc_Map_Emplace(
   }
 
   /* Initialize the pair. */
-  init_pair = Mdc_Pair_InitFirstSecond(
+  init_pair = Mdc_Pair_InitFromFirstSecond(
       &new_pair,
       pair_metadata,
       key,
@@ -630,11 +761,15 @@ void Mdc_Map_EmplaceKeyCopy(
 ) {
   const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map_metadata->pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Pair new_pair;
   void* value;
@@ -648,7 +783,7 @@ void Mdc_Map_EmplaceKeyCopy(
   }
 
   /* In-place instantiate the value. */
-  value = malloc(pair_metadata->size.second_size);
+  value = malloc(value_metadata->size);
 
   if (value == NULL) {
     goto return_bad;
@@ -661,7 +796,7 @@ void Mdc_Map_EmplaceKeyCopy(
   }
 
   /* Initialize the pair. */
-  init_pair = Mdc_Pair_InitFirstCopySecond(
+  init_pair = Mdc_Pair_InitFromFirstCopySecond(
       &new_pair,
       pair_metadata,
       key,
@@ -695,35 +830,18 @@ bool Mdc_Map_Empty(const struct Mdc_Map* map) {
   return Mdc_Map_Size(map) == 0;
 }
 
-bool Mdc_Map_Equal(const struct Mdc_Map* map1, const struct Mdc_Map* map2) {
-  size_t map1_size = Mdc_Map_Size(map1);
-  size_t map2_size = Mdc_Map_Size(map2);
-
-  size_t i;
-  int compare_pair_result;
-
-  if (map1_size != map2_size) {
-    return false;
-  }
-
-  for (i = 0; i < map1_size; i += 1) {
-    compare_pair_result = Mdc_Pair_Compare(map1->pairs[i], map2->pairs[i]);
-
-    if (compare_pair_result != 0) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key) {
+  const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map->metadata->pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Pair** find_pair_ptr;
 
@@ -756,14 +874,17 @@ void Mdc_Map_InsertOrAssignPair(
     struct Mdc_Map* map,
     struct Mdc_Pair* new_pair
 ) {
+  const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map->metadata->pair_metadata;
-  const struct Mdc_PairFunctions* const pair_functions =
-      &pair_metadata->functions;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_functions->first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_functions->second_functions;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   const struct Mdc_Pair* init_pair_move;
   struct Mdc_Pair** find_pair;
@@ -783,7 +904,7 @@ void Mdc_Map_InsertOrAssignPair(
   assert(*find_pair != NULL);
 
   Mdc_Pair_Deinit(*find_pair);
-  init_pair_move = Mdc_Pair_InitMove(*find_pair, new_pair);
+  init_pair_move = Mdc_Pair_AssignMove(*find_pair, new_pair);
 
   if (init_pair_move != *find_pair) {
     goto return_bad;
@@ -799,14 +920,17 @@ void Mdc_Map_InsertOrAssignPairCopy(
     struct Mdc_Map* map,
     const struct Mdc_Pair* new_pair
 ) {
+  const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map->metadata->pair_metadata;
-  const struct Mdc_PairFunctions* const pair_functions =
-      &pair_metadata->functions;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_functions->first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_functions->second_functions;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Pair** find_pair_ptr;
   struct Mdc_Pair* init_pair_copy;
@@ -826,7 +950,7 @@ void Mdc_Map_InsertOrAssignPairCopy(
   assert(*find_pair_ptr != NULL);
 
   Mdc_Pair_Deinit(*find_pair_ptr);
-  init_pair_copy = Mdc_Pair_InitCopy(*find_pair_ptr, new_pair);
+  init_pair_copy = Mdc_Pair_AssignCopy(*find_pair_ptr, new_pair);
 
   if (init_pair_copy != *find_pair_ptr) {
     goto return_bad;
@@ -841,23 +965,24 @@ return_bad:
 size_t Mdc_Map_MaxSize(const struct Mdc_Map* map) {
   const struct Mdc_MapMetadata* const map_metadata = map->metadata;
   const struct Mdc_PairMetadata* const pair_metadata =
-      &map_metadata->pair_metadata;
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
-  size_t non_elements_size;
   size_t element_size;
-
-  non_elements_size = sizeof(map_metadata)
-      + sizeof(*map_metadata)
-      + sizeof(map->count)
-      + sizeof(map->capacity)
-      + sizeof(map->pairs);
 
   element_size = sizeof(map->pairs[0])
       + sizeof(*map->pairs[0])
-      + pair_metadata->size.first_size
-      + pair_metadata->size.second_size;
+      + key_metadata->size
+      + value_metadata->size;
 
-  return (((size_t) -1) - non_elements_size) / element_size;
+  return ((size_t) -1) / element_size;
 }
 
 size_t Mdc_Map_Size(const struct Mdc_Map* map) {
