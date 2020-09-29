@@ -27,16 +27,39 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
-#define MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_
+#include "map_string_int.h"
 
-#include <mdc/container/pair.h>
+#include <mdc/std/threads.h>
+#include "../pair_string_int/pair_string_int.h"
 
-#include <mdc/object/integer.h>
-#include "../../../sample_types/char_cstring.h"
+/**
+ * Static functions
+ */
 
-struct Mdc_PairMetadata* Mdc_PairCharCStringIntMetadata_Init(
-    struct Mdc_PairMetadata* metadata
-);
+static struct Mdc_MapMetadata* Mdc_MapStringInt_InitMapMetadata(
+    struct Mdc_MapMetadata* map_metadata
+) {
+  map_metadata->pair_metadata = Mdc_PairStringInt_GetGlobalPairMetadata();
 
-#endif /* MDC_TESTS_C_CONTAINER_STRING_INT_PAIR_STRING_INT_PAIR_H_ */
+  return map_metadata;
+}
+
+static struct Mdc_MapMetadata global_map_metadata;
+static once_flag global_map_metadata_init_flag = ONCE_FLAG_INIT;
+
+static void Mdc_MapStringInt_InitGlobalMapMetadata(void) {
+  Mdc_MapStringInt_InitMapMetadata(&global_map_metadata);
+}
+
+/**
+ * External functions
+ */
+
+const struct Mdc_MapMetadata* Mdc_MapStringInt_GetGlobalMapMetadata(void) {
+  call_once(
+      &global_map_metadata_init_flag,
+      &Mdc_MapStringInt_InitGlobalMapMetadata
+  );
+
+  return &global_map_metadata;
+}
