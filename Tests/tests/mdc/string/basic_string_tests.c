@@ -62,14 +62,14 @@ static const wchar_t* kTestCWStrings[] = {
 };
 
 static void Mdc_BasicString_AssertInitEmptyDeinit(
-    const struct Mdc_BasicStringMetadata* metadata,
+    const struct Mdc_CharTraits* metadata,
     const void** c_strings
 ) {
-  struct Mdc_BasicString string = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString string;
 
   struct Mdc_BasicString* init_string;
 
-  init_string = Mdc_BasicString_InitEmpty(&string, metadata);
+  init_string = Mdc_BasicString_InitEmpty(&string);
 
   assert(init_string == &string);
   assert(Mdc_BasicString_Length(&string) == 0);
@@ -95,14 +95,14 @@ static void Mdc_BasicString_AssertInitConcat(
   Mdc_BasicString_InitFromCStr(&string1, metadata, c_strings[kHelloWorld]);
   Mdc_BasicString_InitFromCStr(&string2, metadata, c_strings[kDog]);
 
-  init_concat1 = Mdc_BasicString_InitConcatStrCopyWithCStr(
+  init_concat1 = Mdc_BasicString_ConcatStrCopyWithCStr(
       &concat_string1,
       &string1,
       c_strings[1]
   );
   assert(init_concat1 == &concat_string1);
 
-  init_concat2 = Mdc_BasicString_InitConcatStrCopyWithCStr(
+  init_concat2 = Mdc_BasicString_ConcatStrCopyWithCStr(
       &concat_string2,
       &string1,
       &string2

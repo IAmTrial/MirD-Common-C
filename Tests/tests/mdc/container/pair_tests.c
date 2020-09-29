@@ -36,45 +36,54 @@
 #include <string.h>
 
 #include <mdc/container/map.h>
-#include "string_int_pair/string_int_pair.h"
+#include <mdc/object/integer_object.h>
+#include <mdc/string/basic_string.h>
+#include "pair_string_int/pair_string_int.h"
 
 /**
  * External functions
  */
 
-const struct CharCString kFirstSrc1 = { "Hello world" };
-const struct Mdc_Integer kSecondSrc1 = { 42 };
+const const char* kFirstSrc1 = "Hello world";
+const const int kSecondSrc1 = 42;
 
-const struct CharCString kFirstSrc2 = { "Hello world!" };
-const struct Mdc_Integer kSecondSrc2 = { 43 };
+const const char* kFirstSrc2 = "Hello world!";
+const const int kSecondSrc2 = 43;
 
 static void Mdc_Pair_AssertInitDeinit(void) {
-  struct Mdc_PairMetadata metadata;
-  struct Mdc_PairMetadata* init_metadata;
+  const struct Mdc_PairMetadata* const pair_metadata =
+      Mdc_PairStringInt_GetGlobalPairMetadata();
+  const struct Mdc_ObjectMetadata* const first_metadata =
+      pair_metadata->first_metadata;
+  const struct Mdc_ObjectFunctions* const first_functions =
+      &first_metadata->functions;
+  const struct Mdc_ObjectMetadata* const second_metadata =
+      pair_metadata->second_metadata;
+  const struct Mdc_ObjectFunctions* const second_functions =
+      &second_metadata->functions;
 
-  const struct Mdc_PairFirstFunctions* const first_functions =
-      &metadata.functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const second_functions =
-      &metadata.functions.second_functions;
+  struct Mdc_BasicString first;
+  const struct Mdc_BasicString* init_first;
 
-  struct CharCString first;
   struct Mdc_Integer second;
+  const struct Mdc_Integer* init_second;
 
   struct Mdc_Pair pair;
   struct Mdc_Pair* init_pair;
 
-  init_metadata = Mdc_PairCharCStringIntMetadata_Init(&metadata);
+  init_first = Mdc_BasicString_InitFromCStr(
+      &first,
+      Mdc_CharTraitsChar_GetCharTraits(),
+      kFirstSrc1
+  );
 
-  assert(init_metadata == &metadata);
-
-  Mdc_CharCString_InitCopy(&first, &kFirstSrc1);
-  assert(first.cstring != NULL);
-  assert(strcmp(first.cstring, kFirstSrc1.cstring) == 0);
+  assert(init_first != NULL);
+  assert(Mdc_BasicString_EqualCStr(&first, kFirstSrc1));
 
   Mdc_Integer_InitCopy(&second, &kSecondSrc1);
   assert(Mdc_Integer_Equal(&second, &kSecondSrc1));
 
-  init_pair = Mdc_Pair_InitFirstSecond(
+  init_pair = Mdc_Pair_InitFromFirstSecond(
       &pair,
       &metadata,
       &first,
@@ -109,7 +118,7 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   init_metadata = Mdc_PairCharCStringIntMetadata_Init(&metadata);
   assert(init_metadata == &metadata);
 
-  init_pair = Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair,
       &metadata,
       &kFirstSrc1,
@@ -145,7 +154,7 @@ static void Mdc_Pair_AssertCompareFirst(void) {
 
   Mdc_PairCharCStringIntMetadata_Init(&metadata);
 
-  init_pair1 = Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair1 = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair1,
       &metadata,
       &kFirstSrc1,
@@ -153,7 +162,7 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   );
   assert(init_pair1 == &pair1);
 
-  init_pair2 = Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair2 = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc2,
@@ -203,7 +212,7 @@ static void Mdc_Pair_AssertCompareSecond(void) {
 
   Mdc_PairCharCStringIntMetadata_Init(&metadata);
 
-  init_pair1 = Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair1 = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair1,
       &metadata,
       &kFirstSrc1,
@@ -211,7 +220,7 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   );
   assert(init_pair1 == &pair1);
 
-  init_pair2 = Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair2 = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc1,
@@ -261,7 +270,7 @@ static void Mdc_Pair_AssertSwap() {
 
   Mdc_PairCharCStringIntMetadata_Init(&metadata);
 
-  init_pair1 = Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair1 = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair1,
       &metadata,
       &kFirstSrc1,
@@ -269,7 +278,7 @@ static void Mdc_Pair_AssertSwap() {
   );
   assert(init_pair1 == &pair1);
 
-  init_pair2 = Mdc_Pair_InitFirstCopySecondCopy(
+  init_pair2 = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair2,
       &metadata,
       &kFirstSrc2,

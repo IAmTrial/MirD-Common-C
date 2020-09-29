@@ -37,7 +37,7 @@
 
 #include <mdc/container/map.h>
 #include <mdc/container/pair.h>
-#include "string_int_pair/string_int_pair.h"
+#include "pair_string_int/pair_string_int.h"
 
 static const struct CharCString kBasicExampleText[] = {
     "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy",
@@ -71,9 +71,9 @@ static void* Mdc_Integer_InitCopyAsVoid(void* dest, void* src) {
 }
 
 static struct Mdc_MapMetadata* Mdc_WordCountMapMetadata_Init(
-    struct Mdc_MapMetadata* metadata
+    const struct Mdc_MapMetadata* metadata
 ) {
-  Mdc_PairCharCStringIntMetadata_Init(&metadata->pair_metadata);
+  Mdc_PairCharCStringIntMetadata_Init(metadata->pair_metadata);
 
   return metadata;
 }
@@ -85,7 +85,7 @@ static void Mdc_Map_AssertInitDeinit(void) {
   int memcmp_result;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_Init(&map, &metadata_src);
+  Mdc_Map_InitEmpty(&map, &metadata_src);
 
   assert(map.metadata != NULL);
 
@@ -126,7 +126,7 @@ static void Mdc_Map_AssertEmplace(void) {
   const struct CharCString* init_key_copy;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_Init(&map, &metadata_src);
+  Mdc_Map_InitEmpty(&map, &metadata_src);
 
   assert(map.metadata != NULL);
 
@@ -192,7 +192,7 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
   int zero_copy;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_Init(&map, &metadata_src);
+  Mdc_Map_InitEmpty(&map, &metadata_src);
 
   assert(map.metadata != NULL);
 
@@ -254,14 +254,14 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   const struct Mdc_Pair* init_pair;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_Init(&map, &metadata_src);
+  Mdc_Map_InitEmpty(&map, &metadata_src);
 
   assert(map.metadata != NULL);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],
@@ -319,14 +319,14 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   const struct Mdc_Pair* init_pair;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_Init(&map, &metadata_src);
+  Mdc_Map_InitEmpty(&map, &metadata_src);
 
   assert(map.metadata != NULL);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],
@@ -382,14 +382,14 @@ static void Mdc_Map_AssertClear(void) {
   const struct Mdc_Pair* init_pair;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_Init(&map, &metadata_src);
+  Mdc_Map_InitEmpty(&map, &metadata_src);
 
   assert(map.metadata != NULL);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],
@@ -436,14 +436,14 @@ static void Mdc_Map_AssertErase(void) {
   const struct Mdc_Pair* init_pair;
 
   Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_Init(&map, &metadata_src);
+  Mdc_Map_InitEmpty(&map, &metadata_src);
 
   assert(map.metadata != NULL);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      init_pair = Mdc_Pair_InitFirstCopySecondCopy(
+      init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           &map.metadata->pair_metadata,
           &kRepeatingText[i],

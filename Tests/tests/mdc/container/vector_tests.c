@@ -34,23 +34,7 @@
 #include <string.h>
 
 #include <mdc/container/vector.h>
-#include <mdc/object/integer.h>
-
-static void* Mdc_Integer_InitCopyAsVoid(void* dest, const void* src) {
-  return Mdc_Integer_InitCopy(dest, src);
-}
-
-static void* Mdc_Integer_InitMoveAsVoid(void* dest, void* src) {
-  return Mdc_Integer_InitMove(dest, src);
-}
-
-static void Mdc_Integer_DeinitAsVoid(void* str) {
-  Mdc_Integer_Deinit(str);
-}
-
-static int Mdc_Integer_CompareAsVoid(const void* str1, const void* str2) {
-  return Mdc_Integer_Compare(str1, str2);
-}
+#include <mdc/object/integer_object.h>
 
 static struct Mdc_VectorMetadata* Mdc_VectorIntegerMetadata_Init(
     struct Mdc_VectorMetadata* metadata
