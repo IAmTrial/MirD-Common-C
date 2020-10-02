@@ -62,14 +62,13 @@ static const wchar_t* kTestCWStrings[] = {
 };
 
 static void Mdc_BasicString_AssertInitEmptyDeinit(
-    const struct Mdc_CharTraits* metadata,
+    const struct Mdc_CharTraits* char_traits,
     const void** c_strings
 ) {
   struct Mdc_BasicString string;
-
   struct Mdc_BasicString* init_string;
 
-  init_string = Mdc_BasicString_InitEmpty(&string);
+  init_string = Mdc_BasicString_InitEmpty(&string, char_traits);
 
   assert(init_string == &string);
   assert(Mdc_BasicString_Length(&string) == 0);
@@ -81,19 +80,19 @@ static void Mdc_BasicString_AssertInitEmptyDeinit(
 }
 
 static void Mdc_BasicString_AssertInitConcat(
-    const struct Mdc_BasicStringMetadata* metadata,
+    const struct Mdc_CharTraits* char_traits,
     const void** c_strings
 ) {
-  struct Mdc_BasicString string1 = MDC_BASIC_STRING_UNINIT;
-  struct Mdc_BasicString string2 = MDC_BASIC_STRING_UNINIT;
-  struct Mdc_BasicString concat_string1 = MDC_BASIC_STRING_UNINIT;
-  struct Mdc_BasicString concat_string2 = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString string1;
+  struct Mdc_BasicString string2;
+  struct Mdc_BasicString concat_string1;
+  struct Mdc_BasicString concat_string2;
 
   const struct Mdc_BasicString* init_concat1;
   const struct Mdc_BasicString* init_concat2;
 
-  Mdc_BasicString_InitFromCStr(&string1, metadata, c_strings[kHelloWorld]);
-  Mdc_BasicString_InitFromCStr(&string2, metadata, c_strings[kDog]);
+  Mdc_BasicString_InitFromCStr(&string1, char_traits, c_strings[kHelloWorld]);
+  Mdc_BasicString_InitFromCStr(&string2, char_traits, c_strings[kDog]);
 
   init_concat1 = Mdc_BasicString_ConcatStrCopyWithCStr(
       &concat_string1,
@@ -118,14 +117,14 @@ static void Mdc_BasicString_AssertInitConcat(
 }
 
 static void Mdc_BasicString_AssertAtAndAccess(
-    const struct Mdc_BasicStringMetadata* metadata,
+    const struct Mdc_CharTraits* char_traits,
     const void** c_strings
 ) {
   enum {
     kHelloWorldLength = 12
   };
 
-  struct Mdc_BasicString string = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString string;
 
   void* at_result;
   const void* at_const_result;
@@ -133,7 +132,7 @@ static void Mdc_BasicString_AssertAtAndAccess(
   const void* access_const_result;
   const void* null_term_ptr;
 
-  Mdc_BasicString_InitFromCStr(&string, metadata, c_strings[kHelloWorld]);
+  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
 
   at_result = Mdc_BasicString_At(&string, 3);
   at_const_result = Mdc_BasicString_AtConst(&string, 3);
@@ -159,10 +158,10 @@ static void Mdc_BasicString_AssertAtAndAccess(
 }
 
 static void Mdc_BasicString_AssertFrontAndBack(
-    const struct Mdc_BasicStringMetadata* metadata,
+    const struct Mdc_CharTraits* char_traits,
     const void** c_strings
 ) {
-  struct Mdc_BasicString string = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString string;
 
   void* data_ptr;
   void* front_ptr;
@@ -170,7 +169,7 @@ static void Mdc_BasicString_AssertFrontAndBack(
   void* back_ptr;
   const void* back_const_ptr;
 
-  Mdc_BasicString_InitFromCStr(&string, metadata, c_strings[kHelloWorld]);
+  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
 
   data_ptr = Mdc_BasicString_Data(&string);
 
@@ -191,17 +190,17 @@ static void Mdc_BasicString_AssertFrontAndBack(
 }
 
 static void Mdc_BasicString_AssertCompareAndEqual(
-    const struct Mdc_BasicStringMetadata* metadata,
+    const struct Mdc_CharTraits* char_traits,
     const void** c_strings
 ) {
-  struct Mdc_BasicString string1 = MDC_BASIC_STRING_UNINIT;
-  struct Mdc_BasicString string2 = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString string1;
+  struct Mdc_BasicString string2;
 
   void* string1_data;
   void* string2_data;
 
-  Mdc_BasicString_InitFromCStr(&string1, metadata, c_strings[kHelloWorld]);
-  Mdc_BasicString_InitFromCStr(&string2, metadata, c_strings[khelloworld]);
+  Mdc_BasicString_InitFromCStr(&string1, char_traits, c_strings[kHelloWorld]);
+  Mdc_BasicString_InitFromCStr(&string2, char_traits, c_strings[khelloworld]);
 
   string1_data = Mdc_BasicString_Data(&string1);
   string2_data = Mdc_BasicString_Data(&string2);
@@ -209,12 +208,12 @@ static void Mdc_BasicString_AssertCompareAndEqual(
   assert(Mdc_BasicString_CompareStr(&string1, &string2) < 0);
   assert(!Mdc_BasicString_EqualStr(&string1, &string2));
 
-  metadata->char_traits.functions.assign_str(string2_data, 1, 'H');
+  char_traits->functions.assign_str(string2_data, 1, 'H');
 
   assert(Mdc_BasicString_CompareStr(&string1, &string2) == 0);
   assert(Mdc_BasicString_EqualStr(&string1, &string2));
 
-  metadata->char_traits.functions.assign_str(string1_data, 1, 'h');
+  char_traits->functions.assign_str(string1_data, 1, 'h');
 
   assert(Mdc_BasicString_CompareStr(&string1, &string2) > 0);
   assert(!Mdc_BasicString_EqualStr(&string1, &string2));
@@ -224,12 +223,12 @@ static void Mdc_BasicString_AssertCompareAndEqual(
 }
 
 static void Mdc_BasicString_AssertAppend(
-    const struct Mdc_BasicStringMetadata* metadata,
+    const struct Mdc_CharTraits* char_traits,
     const void** c_strings
 ) {
-  struct Mdc_BasicString string = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString string;
 
-  Mdc_BasicString_InitFromCStr(&string, metadata, c_strings[kHelloWorld]);
+  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
 
   Mdc_BasicString_AppendCStr(&string, c_strings[k5a]);
   assert(Mdc_BasicString_EqualCStr(&string, c_strings[kHelloWorld5a]));
@@ -239,12 +238,12 @@ static void Mdc_BasicString_AssertAppend(
 }
 
 static void Mdc_BasicString_AssertPushBackAndPopBack(
-    const struct Mdc_BasicStringMetadata* metadata,
+    const struct Mdc_CharTraits* char_traits,
     const void** c_strings
 ) {
-  struct Mdc_BasicString string = MDC_BASIC_STRING_UNINIT;
+  struct Mdc_BasicString string;
 
-  Mdc_BasicString_InitFromCStr(&string, metadata, c_strings[kHelloWorld]);
+  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
 
   Mdc_BasicString_PushBack(&string, 'a');
   assert(Mdc_BasicString_EqualCStr(&string, c_strings[kHelloWorlda]));
@@ -263,45 +262,45 @@ void Mdc_BasicString_RunTests(void) {
   };
 
   struct {
-    struct Mdc_BasicStringMetadata metadata;
+    const struct Mdc_CharTraits* char_traits;
     const void** c_strings;
   } test_args[kStringSpecializationCount];
 
   size_t i;
 
-  Mdc_StringMetadata_InitMetadata(&test_args[0].metadata);
+  test_args[0].char_traits = Mdc_CharTraitsChar_GetCharTraits();
   test_args[0].c_strings = kTestCStrings;
 
-  Mdc_WStringMetadata_InitMetadata(&test_args[1].metadata);
+  test_args[1].char_traits = Mdc_CharTraitsWChar_GetCharTraits();
   test_args[1].c_strings = kTestCWStrings;
 
   for (i = 0; i < kStringSpecializationCount; i += 1) {
     Mdc_BasicString_AssertInitEmptyDeinit(
-        &test_args[i].metadata,
+        test_args[i].char_traits,
         test_args[i].c_strings
     );
     Mdc_BasicString_AssertInitConcat(
-        &test_args[i].metadata,
+        test_args[i].char_traits,
         test_args[i].c_strings
     );
     Mdc_BasicString_AssertAtAndAccess(
-        &test_args[i].metadata,
+        test_args[i].char_traits,
         test_args[i].c_strings
     );
     Mdc_BasicString_AssertFrontAndBack(
-        &test_args[i].metadata,
+        test_args[i].char_traits,
         test_args[i].c_strings
     );
     Mdc_BasicString_AssertCompareAndEqual(
-        &test_args[i].metadata,
+        test_args[i].char_traits,
         test_args[i].c_strings
     );
     Mdc_BasicString_AssertAppend(
-        &test_args[i].metadata,
+        test_args[i].char_traits,
         test_args[i].c_strings
     );
     Mdc_BasicString_AssertPushBackAndPopBack(
-        &test_args[i].metadata,
+        test_args[i].char_traits,
         test_args[i].c_strings
     );
   }
