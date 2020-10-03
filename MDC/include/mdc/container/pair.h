@@ -170,6 +170,9 @@ DLLEXPORT void Mdc_Pair_Deinit(struct Mdc_Pair* pair);
  * Metadata
  */
 
+DLLEXPORT const struct Mdc_ObjectMetadata*
+Mdc_Pair_GetObjectMetadataTemplate(void);
+
 DLLEXPORT struct Mdc_PairMetadata* Mdc_PairMetadata_Init(
     struct Mdc_PairMetadata* metadata,
     const struct Mdc_ObjectMetadata* first_metadata,
