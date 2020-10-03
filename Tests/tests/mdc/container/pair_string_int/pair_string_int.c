@@ -37,20 +37,15 @@
  * Static functions
  */
 
-static struct Mdc_PairMetadata* Mdc_PairStringInt_InitPairMetadata(
-    struct Mdc_PairMetadata* pair_metadata
-) {
-  pair_metadata->first_metadata = Mdc_String_GetObjectMetadata();
-  pair_metadata->second_metadata = Mdc_Integer_GetObjectMetadata();
+static struct Mdc_PairMetadata global_pair_metadata;
+static once_flag global_pair_metadata_init_flag = ONCE_FLAG_INIT;
 
-  return pair_metadata;
-}
-
-static struct Mdc_PairMetadata global_map_metadata;
-static once_flag global_map_metadata_init_flag = ONCE_FLAG_INIT;
-
-static void Mdc_MapStringInt_InitGlobalMapMetadata(void) {
-  Mdc_PairStringInt_InitPairMetadata(&global_map_metadata);
+static void Mdc_PairStringInt_InitGlobalMapMetadata(void) {
+  Mdc_PairMetadata_Init(
+      &global_pair_metadata,
+      Mdc_String_GetObjectMetadata(),
+      Mdc_Integer_GetObjectMetadata()
+  );
 }
 
 /**
@@ -59,9 +54,9 @@ static void Mdc_MapStringInt_InitGlobalMapMetadata(void) {
 
 const struct Mdc_PairMetadata* Mdc_PairStringInt_GetGlobalPairMetadata(void) {
   call_once(
-      &global_map_metadata_init_flag,
-      &Mdc_MapStringInt_InitGlobalMapMetadata
+      &global_pair_metadata_init_flag,
+      &Mdc_PairStringInt_InitGlobalMapMetadata
   );
 
-  return &global_map_metadata;
+  return &global_pair_metadata;
 }
