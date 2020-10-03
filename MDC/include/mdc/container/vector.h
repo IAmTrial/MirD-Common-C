@@ -54,6 +54,10 @@ struct Mdc_Vector {
 };
 
 /**
+ * Initialization/deinitialization
+ */
+
+/**
  * Initializes the vector.
  *
  * @param[out] vector this vector
@@ -95,6 +99,69 @@ DLLEXPORT struct Mdc_Vector* Mdc_Vector_InitMove(
  * @param[in, out] vector this vector
  */
 DLLEXPORT void Mdc_Vector_Deinit(struct Mdc_Vector* vector);
+
+/**
+ * Metadata
+ */
+
+DLLEXPORT const struct Mdc_ObjectMetadata*
+Mdc_Vector_GetObjectMetadataTemplate(void);
+
+DLLEXPORT struct Mdc_VectorMetadata* Mdc_VectorMetadata_Init(
+    struct Mdc_VectorMetadata* vector_metadata,
+    const struct Mdc_ObjectMetadata* element_metadata
+);
+
+/**
+ * Assignment
+ */
+
+DLLEXPORT struct Mdc_Vector* Mdc_Vector_AssignCopy(
+    struct Mdc_Vector* dest,
+    const struct Mdc_Vector* src
+);
+
+DLLEXPORT struct Mdc_Vector* Mdc_Vector_AssignMove(
+    struct Mdc_Vector* dest,
+    struct Mdc_Vector* src
+);
+
+/**
+ * Comparison functions
+ */
+
+/**
+ * Returns whether two vectors contains equivalent elements.
+ *
+ * @param[in] vector1 the first vector
+ * @param[in] vector2 the second vector
+ * @return true if the vectors are equivalent, false otherwise
+ */
+DLLEXPORT bool Mdc_Vector_Equal(
+    const struct Mdc_Vector* vector1,
+    const struct Mdc_Vector* vector2
+);
+
+/**
+ * Compares the two vectors by their elements, and returns a non-zero
+ * value if they are different. Returns 0 if they are the same, a
+ * negative value if the first vector is "less" than the second
+ * vector, and a positive value if the first vector is "greater" than
+ * the second vector.
+ *
+ * @param[in] vector1 first vector to compare
+ * @param[in] vector2 second vector to compare
+ * @return 0 if equal, < 0 if vector1 < vector2,
+ *    > 0 if vector1 > vector2
+ */
+DLLEXPORT int Mdc_Vector_Compare(
+    const struct Mdc_Vector* vector1,
+    const struct Mdc_Vector* vector2
+);
+
+/**
+ * Etc. functions
+ */
 
 /**
  * Returns the pointer to the element at the specified position. No

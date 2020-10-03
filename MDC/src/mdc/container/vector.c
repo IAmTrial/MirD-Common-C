@@ -166,9 +166,9 @@ deinit_elements:
 }
 
 /**
- * Removes the specified range of elements in the vector, frees the
- * memory used for the individual elements, sets the pointer to NULL.
- * Sets the size after reordering the elements.
+ * Removes the specified range of elements in the vector, deinits the
+ * the individual elements, sets the pointer to NULL. Sets the size
+ * after reordering the elements.
  *
  * @param[in, out] map this map
  * @param[in] i_start start index
@@ -275,6 +275,10 @@ static void Mdc_Vector_ReserveOnPolicy(struct Mdc_Vector* vector) {
 
 /**
  * External functions
+ */
+
+/**
+ * Initialization/deinitialization
  */
 
 struct Mdc_Vector* Mdc_Vector_InitEmpty(
@@ -440,6 +444,144 @@ void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
 
   *vector = Mdc_Vector_kUninit;
 }
+
+/**
+ * Assignment
+ */
+
+struct Mdc_Vector* Mdc_Vector_AssignCopy(
+    struct Mdc_Vector* dest,
+    const struct Mdc_Vector* src
+) {
+  struct Mdc_Vector temp_vector;
+  struct Mdc_Vector* init_temp_vector;
+
+  struct Mdc_Vector* assign_dest;
+
+  init_temp_vector = Mdc_Vector_InitCopy(&temp_vector, src);
+  if (init_temp_vector != &temp_vector) {
+    goto return_bad;
+  }
+
+  assign_dest = Mdc_Vector_AssignMove(dest, &temp_vector);
+  if (assign_dest != dest) {
+    goto deinit_temp_vector;
+  }
+
+  Mdc_Vector_Deinit(&temp_vector);
+
+  return dest;
+
+deinit_temp_vector:
+  Mdc_Vector_Deinit(&temp_vector);
+
+return_bad:
+  return NULL;
+}
+
+struct Mdc_Vector* Mdc_Vector_AssignMove(
+    struct Mdc_Vector* dest,
+    struct Mdc_Vector* src
+) {
+  if (dest->elements != NULL) {
+    Mdc_Vector_DeinitIndexElements(dest, 0, dest->count);
+    free(dest->elements);
+    dest->capacity = 0;
+  }
+
+  dest->capacity = src->capacity;
+  dest->count = src->count;
+  dest->elements = src->elements;
+
+  src->capacity = 0;
+  src->count = 0;
+  src->elements = NULL;
+
+  return dest;
+}
+
+/**
+ * Comparison functions
+ */
+
+bool Mdc_Vector_Equal(
+    const struct Mdc_Vector* vector1,
+    const struct Mdc_Vector* vector2
+) {
+  const struct Mdc_VectorMetadata* const vector_metadata = vector1->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
+  size_t i;
+  const void* element1;
+  const void* element2;
+
+  if (vector1->count != vector2->count) {
+    return false;
+  }
+
+  for (i = 0; i < vector1->count; i += 1) {
+    element1 = Mdc_UnVector_AccessConst(vector1->elements, element_size, i);
+    element2 = Mdc_UnVector_AccessConst(vector2->elements, element_size, i);
+
+    if (!element_functions->equal(element1, element2)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+int Mdc_Vector_Compare(
+    const struct Mdc_Vector* vector1,
+    const struct Mdc_Vector* vector2
+) {
+  const struct Mdc_VectorMetadata* const vector_metadata = vector1->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
+  size_t i;
+  size_t shorter_length;
+
+  const void* element1;
+  const void* element2;
+  int compare_value;
+
+  if (vector1->count < vector2->count) {
+    shorter_length = vector1->count;
+  } else {
+    shorter_length = vector2->count;
+  }
+
+  for (i = 0; i < shorter_length; i += 1) {
+    element1 = Mdc_UnVector_AccessConst(vector1->elements, element_size, i);
+    element2 = Mdc_UnVector_AccessConst(vector2->elements, element_size, i);
+
+    compare_value = element_functions->compare(element1, element2);
+
+    if (compare_value != 0) {
+      return compare_value;
+    }
+  }
+
+  if (vector1->count < vector2->count) {
+    return -1;
+  } else if (vector1->count > vector2->count) {
+    return 1;
+  } else /* if (vector1->count == vector2->count) */ {
+    return 0;
+  }
+}
+
+/**
+ * Etc. functions
+ */
 
 void* Mdc_Vector_Access(struct Mdc_Vector* vector, size_t pos) {
   return (void*) Mdc_Vector_AccessConst(vector, pos);
