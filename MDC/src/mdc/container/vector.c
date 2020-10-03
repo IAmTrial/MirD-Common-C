@@ -33,15 +33,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum FILE_SCOPE_CONSTANTS_01 {
+enum {
   kInitialCapacity = 4
 };
 
-const struct Mdc_Vector Mdc_Vector_kUninit = MDC_VECTOR_UNINIT;
-
 /**
- * Static functions
+ * Static
  */
+
+#define MDC_VECTOR_UNINIT { 0 }
+
+const struct Mdc_Vector Mdc_Vector_kUninit = MDC_VECTOR_UNINIT;
 
 /**
  * Returns the bytes index for the specified vector and element
@@ -105,39 +107,51 @@ static size_t Mdc_Vector_ElementIndexToByteIndex(
     const struct Mdc_Vector* vector,
     size_t index
 ) {
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
   return Mdc_UnVector_ElementIndexToByteIndex(
-      vector->metadata->size.size,
+      element_metadata->size,
       index
   );
 }
 
 static void* Mdc_UnVector_InitMoveElements(
     void* dest_elements,
-    const struct Mdc_VectorMetadata* metadata,
+    const struct Mdc_VectorMetadata* vector_metadata,
     void* src_elements,
     size_t count
 ) {
-  const struct Mdc_VectorElementFunctions* const functions =
-      &metadata->functions;
-  const size_t element_size = metadata->size.size;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
 
   size_t i;
   void* dest_element;
   void* src_element;
 
-  const void* init_element_move;
+  const void* init_element;
 
   for (i = 0; i < count; i += 1) {
     dest_element = Mdc_UnVector_Access(dest_elements, element_size, i);
     src_element = Mdc_UnVector_Access(dest_elements, element_size, i);
 
-    init_element_move = functions->init_move(dest_element, src_element);
+    init_element = element_functions->init_move(
+        dest_element,
+        src_element
+    );
 
-    if (init_element_move != dest_element) {
+    if (init_element != dest_element) {
       goto deinit_elements;
     }
 
-    functions->deinit(src_element);
+    element_functions->deinit(src_element);
   }
 
   return dest_elements;
@@ -145,7 +159,7 @@ static void* Mdc_UnVector_InitMoveElements(
 deinit_elements:
   for (; i > 0; i -= 1) {
     dest_element = Mdc_UnVector_Access(dest_elements, element_size, i - 1);
-    functions->deinit(dest_element);
+    element_functions->deinit(dest_element);
   }
 
   return NULL;
@@ -165,9 +179,12 @@ static void Mdc_Vector_DeinitIndexElements(
     size_t i_start,
     size_t i_end
 ) {
-  const struct Mdc_VectorElementFunctions* const functions =
-      &vector->metadata->functions;
-  const size_t element_size = vector->metadata->size.size;
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
 
   const size_t d_start_end = i_end - i_start;
 
@@ -176,7 +193,7 @@ static void Mdc_Vector_DeinitIndexElements(
   void* src_element;
 
   for (i = i_start; i < i_end; i += 1) {
-    functions->deinit(
+    element_functions->deinit(
         Mdc_UnVector_Access(vector->elements, element_size, i)
     );
   }
@@ -194,8 +211,8 @@ static void Mdc_Vector_DeinitIndexElements(
         i
     );
 
-    functions->init_move(dest_element, src_element);
-    functions->deinit(src_element);
+    element_functions->init_move(dest_element, src_element);
+    element_functions->deinit(src_element);
   }
 
   vector->count -= d_start_end;
@@ -260,40 +277,33 @@ static void Mdc_Vector_ReserveOnPolicy(struct Mdc_Vector* vector) {
  * External functions
  */
 
-struct Mdc_Vector* Mdc_Vector_Init(
+struct Mdc_Vector* Mdc_Vector_InitEmpty(
     struct Mdc_Vector* vector,
     const struct Mdc_VectorMetadata* metadata
 ) {
-  const struct Mdc_VectorElementFunctions* const element_functions =
-      &metadata->functions;
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
 
   size_t elements_size;
 
-  /* Copy the metadata. */
-  vector->metadata = malloc(sizeof(*vector->metadata));
-
-  if (vector->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *vector->metadata = *metadata;
+  vector->metadata = metadata;
 
   /* Initialize the elements. */
-  elements_size = kInitialCapacity * sizeof(vector->metadata->size.size);
+  elements_size = kInitialCapacity * sizeof(element_size);
   vector->elements = malloc(elements_size);
 
   if (vector->elements == NULL) {
-    goto free_metadata_copy;
+    goto return_bad;
   }
 
   vector->count = 0;
   vector->capacity = kInitialCapacity;
 
   return vector;
-
-free_metadata_copy:
-  free(vector->metadata);
-  vector->metadata = NULL;
 
 return_bad:
   *vector = Mdc_Vector_kUninit;
@@ -305,9 +315,12 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
     struct Mdc_Vector* dest,
     const struct Mdc_Vector* src
 ) {
-  const struct Mdc_VectorMetadata* const src_metadata = src->metadata;
-  const struct Mdc_VectorElementFunctions* const element_functions =
-      &src_metadata->functions;
+  const struct Mdc_VectorMetadata* const vector_metadata = src->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
 
   size_t i;
   size_t elements_size;
@@ -317,21 +330,14 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
   void* dest_element;
   const void* src_element;
 
-  /* Copy the metadata. */
-  dest->metadata = malloc(sizeof(*dest->metadata));
-
-  if (dest->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *dest->metadata = *src_metadata;
+  dest->metadata = vector_metadata;
 
   /* Copy the elements. */
-  elements_size = src->capacity * sizeof(src_metadata->size.size);
+  elements_size = src->capacity * sizeof(element_size);
   dest->elements = malloc(elements_size);
 
   if (dest->elements == NULL) {
-    goto free_metadata_copy;
+    goto return_bad;
   }
 
   dest->capacity = src->capacity;
@@ -339,13 +345,13 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
   for (dest->count = 0; dest->count < src->count; dest->count += 1) {
     dest_element = Mdc_UnVector_Access(
         dest->elements,
-        src_metadata->size.size,
+        element_size,
         dest->count
     );
 
     src_element = Mdc_UnVector_AccessConst(
         src->elements,
-        src_metadata->size.size,
+        element_size,
         dest->count
     );
 
@@ -365,7 +371,7 @@ deinit_elements:
   for (i = 0; i < dest->count; i += 1) {
     dest_element = Mdc_UnVector_Access(
         dest->elements,
-        src_metadata->size.size,
+        element_size,
         dest->count
     );
 
@@ -378,10 +384,6 @@ deinit_elements:
   dest->elements = NULL;
   dest->capacity = 0;
 
-free_metadata_copy:
-  free(dest->metadata);
-  dest->metadata = NULL;
-
 return_bad:
   *dest = Mdc_Vector_kUninit;
 
@@ -392,13 +394,7 @@ struct Mdc_Vector* Mdc_Vector_InitMove(
     struct Mdc_Vector* dest,
     struct Mdc_Vector* src
 ) {
-  dest->metadata = malloc(sizeof(*dest->metadata));
-
-  if (dest->metadata == NULL) {
-    goto return_bad;
-  }
-
-  *dest->metadata = *src->metadata;
+  dest->metadata = src->metadata;
 
   dest->elements = src->elements;
   src->elements = NULL;
@@ -410,16 +406,16 @@ struct Mdc_Vector* Mdc_Vector_InitMove(
   src->capacity = 0;
 
   return dest;
-
-return_bad:
-  *dest = Mdc_Vector_kUninit;
-
-  return NULL;
 }
 
 void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
-  const struct Mdc_VectorElementFunctions* const element_functions =
-      &vector->metadata->functions;
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
   void* dest_element;
   size_t i;
 
@@ -427,7 +423,7 @@ void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
     for (i = 0; i < vector->count; i += 1) {
       dest_element = Mdc_UnVector_Access(
           vector->elements,
-          vector->metadata->size.size,
+          element_size,
           i
       );
 
@@ -442,11 +438,6 @@ void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
     vector->capacity = 0;
   }
 
-  if (vector->metadata != NULL) {
-    free(vector->metadata);
-    vector->metadata = NULL;
-  }
-
   *vector = Mdc_Vector_kUninit;
 }
 
@@ -458,9 +449,16 @@ const void* Mdc_Vector_AccessConst(
     const struct Mdc_Vector* vector,
     size_t pos
 ) {
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
   return Mdc_UnVector_AccessConst(
       vector->elements,
-      vector->metadata->size.size,
+      element_size,
       pos
   );
 }
@@ -517,18 +515,28 @@ const void* Mdc_Vector_FrontConst(const struct Mdc_Vector* vector) {
 }
 
 void Mdc_Vector_PopBack(struct Mdc_Vector* vector) {
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
   void* last_element;
 
   last_element = Mdc_Vector_Back(vector);
-  vector->metadata->functions.deinit(last_element);
+  element_functions->deinit(last_element);
 
   vector->count -= 1;
 }
 
 void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value) {
-  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
-  const struct Mdc_VectorElementFunctions* const functions =
-      &metadata->functions;
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
 
   void* insertion_element;
   const void* init_insertion_element_move;
@@ -537,11 +545,11 @@ void Mdc_Vector_PushBack(struct Mdc_Vector* vector, void* value) {
 
   insertion_element = Mdc_UnVector_Access(
       vector->elements,
-      vector->metadata->size.size,
+      element_size,
       vector->count
   );
 
-  init_insertion_element_move = functions->init_move(
+  init_insertion_element_move = element_functions->init_move(
       insertion_element,
       value
   );
@@ -559,9 +567,12 @@ return_bad:
 }
 
 void Mdc_Vector_PushBackCopy(struct Mdc_Vector* vector, const void* value) {
-  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
-  const struct Mdc_VectorElementFunctions* const functions =
-      &metadata->functions;
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
 
   void* insertion_element;
   const void* init_insertion_element_copy;
@@ -570,11 +581,11 @@ void Mdc_Vector_PushBackCopy(struct Mdc_Vector* vector, const void* value) {
 
   insertion_element = Mdc_UnVector_Access(
       vector->elements,
-      vector->metadata->size.size,
+      element_size,
       vector->count
   );
 
-  init_insertion_element_copy = functions->init_copy(
+  init_insertion_element_copy = element_functions->init_copy(
       insertion_element,
       value
   );
@@ -596,9 +607,13 @@ void Mdc_Vector_Resize(
     size_t count,
     const void* value
 ) {
-  const struct Mdc_VectorMetadata* const metadata = vector->metadata;
-  const struct Mdc_VectorElementFunctions* const functions =
-      &metadata->functions;
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
   const size_t old_count = Mdc_Vector_Size(vector);
 
   void* element;
@@ -615,12 +630,12 @@ void Mdc_Vector_Resize(
   /* Init or deinit the additional elements in the vector. */
   for (; vector->count > count; vector->count -= 1) {
     element = Mdc_Vector_Access(vector, vector->count - 1);
-    functions->deinit(element);
+    element_functions->deinit(element);
   }
 
   for (; vector->count < count; vector->count += 1) {
     element = Mdc_Vector_Access(vector, vector->count);
-    init_element_copy = functions->init_copy(element, value);
+    init_element_copy = element_functions->init_copy(element, value);
 
     if (init_element_copy != element) {
       goto return_bad;
@@ -630,13 +645,20 @@ void Mdc_Vector_Resize(
 return_bad:
   for (; vector->count > old_count; vector->count -= 1) {
     element = Mdc_Vector_Access(vector, vector->count - 1);
-    functions->deinit(element);
+    element_functions->deinit(element);
   }
 
   return;
 }
 
 void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
   void* realloc_elements;
   size_t new_elements_size;
   const void* init_elements_move;
@@ -645,7 +667,7 @@ void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
     return;
   }
 
-  new_elements_size = vector->metadata->size.size * new_capacity;
+  new_elements_size = element_size * new_capacity;
   realloc_elements = malloc(new_elements_size);
 
   if (realloc_elements == NULL) {
@@ -678,6 +700,13 @@ return_bad:
 }
 
 void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
+  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
+  const struct Mdc_ObjectMetadata* const element_metadata =
+      vector_metadata->element_metadata;
+  const size_t element_size = element_metadata->size;
+  const struct Mdc_ObjectFunctions* const element_functions =
+      &element_metadata->functions;
+
   void* realloc_elements;
   size_t new_elements_size;
 
@@ -687,7 +716,7 @@ void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
     return;
   }
 
-  new_elements_size = vector->count * vector->metadata->size.size;
+  new_elements_size = vector->count * element_size;
   realloc_elements = malloc(new_elements_size);
 
   if (realloc_elements == NULL) {

@@ -32,6 +32,7 @@
 
 #include <stddef.h>
 
+#include "../object_metadata/object_metadata.h"
 #include "../std/stdbool.h"
 
 #include "../../../dllexport_define.inc"
@@ -40,51 +41,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
-struct Mdc_VectorElementSize {
-  size_t size;
-};
-
-struct Mdc_VectorElementFunctions {
-  /**
-   * Initializes the destination object by copying the source object.
-   */
-  void* (*init_copy)(void* dest, const void* src);
-
-  /**
-   * Initializes the destination object by moving the source object.
-   */
-  void* (*init_move)(void* dest, void* src);
-
-  /**
-   * Deinitializes the specified object.
-   */
-  void (*deinit)(void* obj);
-
-  /**
-   * Compares two objects. Returns 0 if they are the same, a negative
-   * value if the first object is "less" than the second object, and a
-   * positive value if the first object is "greater" than the second
-   * object.
-   */
-  int (*compare)(const void*, const void*);
-};
-
 struct Mdc_VectorMetadata {
-  struct Mdc_VectorElementSize size;
-  struct Mdc_VectorElementFunctions functions;
+  const struct Mdc_ObjectMetadata* element_metadata;
 };
 
 struct Mdc_Vector {
-  struct Mdc_VectorMetadata* metadata;
+  const struct Mdc_VectorMetadata* metadata;
 
   void* elements;
   size_t count;
   size_t capacity;
 };
-
-#define MDC_VECTOR_UNINIT { 0 }
-
-DLLEXPORT const struct Mdc_Vector Mdc_Vector_kUninit;
 
 /**
  * Initializes the vector.
@@ -93,7 +60,7 @@ DLLEXPORT const struct Mdc_Vector Mdc_Vector_kUninit;
  * @param[in] metadata the vector metadata
  * @return this vector if successful, otherwise NULL
  */
-DLLEXPORT struct Mdc_Vector* Mdc_Vector_Init(
+DLLEXPORT struct Mdc_Vector* Mdc_Vector_InitEmpty(
     struct Mdc_Vector* vector,
     const struct Mdc_VectorMetadata* metadata
 );
