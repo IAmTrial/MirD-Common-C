@@ -46,7 +46,7 @@ extern "C" {
 #define Mdc_realloc(ptr, new_size) realloc(ptr, new_size)
 #define Mdc_free(ptr) free(ptr)
 
-#define Mdc_GetMallocDifference()
+#define Mdc_GetMallocDifference() 0
 #define Mdc_PrintMallocLeaks()
 
 #else

@@ -29,6 +29,8 @@
 
 #include "../../../include/mdc/malloc/malloc.h"
 
+#if !defined(NDEBUG)
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -87,3 +89,5 @@ void Mdc_PrintMallocLeaks(void) {
   printf("Number of frees: %d \n", free_count);
   printf("Difference: %d \n", Mdc_GetMallocDifference());
 }
+
+#endif
