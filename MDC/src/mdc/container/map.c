@@ -166,7 +166,7 @@ static void Mdc_Map_InsertPair(
     goto return_bad;
   }
 
-  init_pair_move = Mdc_Pair_AssignMove(map->pairs[map->count], new_pair);
+  init_pair_move = Mdc_Pair_InitMove(map->pairs[map->count], new_pair);
 
   if (init_pair_move != map->pairs[map->count]) {
     goto free_pair_move;
@@ -204,7 +204,7 @@ static void Mdc_Map_InsertPairCopy(
     goto return_bad;
   }
 
-  init_pair_copy = Mdc_Pair_AssignCopy(map->pairs[map->count], new_pair);
+  init_pair_copy = Mdc_Pair_InitCopy(map->pairs[map->count], new_pair);
 
   if (init_pair_copy != map->pairs[map->count]) {
     goto free_pair_copy;
