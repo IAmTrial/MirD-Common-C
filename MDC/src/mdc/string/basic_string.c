@@ -427,7 +427,9 @@ struct Mdc_BasicString* Mdc_BasicString_AssignMove(
     return dest;
   }
 
-  free(dest->str_);
+  if (dest->str_ != NULL) {
+    free(dest->str_);
+  }
 
   dest->length_ = src->length_;
   dest->capacity_ = src->capacity_;
