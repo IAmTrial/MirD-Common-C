@@ -33,6 +33,7 @@
 #include <stddef.h>
 #include <windows.h>
 
+#include <mdc/malloc/malloc.h>
 #include "container_tests.h"
 #include "std_tests.h"
 #include "string_tests.h"
@@ -48,6 +49,8 @@ int main(int argc, char** argv) {
   Mdc_Container_RunTests();
   Mdc_String_RunTests();
   Mdc_WChar_t_RunTests();
+
+  Mdc_PrintMallocLeaks();
 
   return 0;
 }
