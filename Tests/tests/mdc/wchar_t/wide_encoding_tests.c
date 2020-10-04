@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <mdc/malloc/malloc.h>
 #include <mdc/std/wchar.h>
 #include <mdc/string/basic_string.h>
 #include <mdc/wchar_t/wide_encoding.h>
@@ -47,6 +48,8 @@ static void Mdc_WideEncoding_AssertEncodeAscii(void) {
   assert(Mdc_BasicString_CompareCStr(&ascii_str, kAsciiExampleText) == 0);
 
   Mdc_BasicString_Deinit(&ascii_str);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
@@ -68,6 +71,8 @@ static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
   assert(compare_result == 0);
 
   Mdc_BasicString_Deinit(&multibyte_ascii_str);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_WideEncoding_AssertEncodeUtf8(void) {
@@ -79,6 +84,8 @@ static void Mdc_WideEncoding_AssertEncodeUtf8(void) {
   assert(Mdc_BasicString_CompareCStr(&utf8_str, kUtf8ExampleText) == 0);
 
   Mdc_BasicString_Deinit(&utf8_str);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 void Mdc_WideEncoding_RunTests(void) {

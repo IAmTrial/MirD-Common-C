@@ -37,10 +37,13 @@
 
 #include <mdc/container/map.h>
 #include <mdc/container/pair.h>
+#include <mdc/malloc/malloc.h>
 #include <mdc/object/integer_object.h>
 #include <mdc/string/basic_string.h>
 #include "map_string_int/map_string_int.h"
 #include "pair_string_int/pair_string_int.h"
+
+static int malloc_diff_start;
 
 static const char* const kBasicExampleText[] = {
     "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy",
@@ -106,6 +109,8 @@ static void Mdc_Map_AssertInitDeinit(void) {
   assert(Mdc_Map_Size(&map) == 0);
 
   Mdc_Map_Deinit(&map);
+
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Mdc_Map_AssertEmplace(void) {
@@ -187,6 +192,8 @@ static void Mdc_Map_AssertEmplace(void) {
   }
 
   Mdc_Map_Deinit(&map);
+
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Mdc_Map_AssertEmplaceKeyCopy(void) {
@@ -258,6 +265,8 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
   }
 
   Mdc_Map_Deinit(&map);
+
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Mdc_Map_AssertInsertOrAssignPair(void) {
@@ -339,6 +348,8 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   }
 
   Mdc_Map_Deinit(&map);
+
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
@@ -419,6 +430,8 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   }
 
   Mdc_Map_Deinit(&map);
+
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Mdc_Map_AssertClear(void) {
@@ -485,6 +498,8 @@ static void Mdc_Map_AssertClear(void) {
   assert(Mdc_Map_Empty(&map));
 
   Mdc_Map_Deinit(&map);
+
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Mdc_Map_AssertErase(void) {
@@ -554,6 +569,8 @@ static void Mdc_Map_AssertErase(void) {
   assert(Mdc_Map_Empty(&map));
 
   Mdc_Map_Deinit(&map);
+
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Init(void) {
@@ -610,6 +627,9 @@ static void Init(void) {
         kRepeatingTextCounts[i]
     ));
   }
+
+  malloc_diff_start = Mdc_GetMallocDifference();
+  assert(Mdc_GetMallocDifference() == malloc_diff_start);
 }
 
 static void Deinit(void) {
@@ -627,6 +647,9 @@ static void Deinit(void) {
   for (i = 0; i < kBasicExampleTextCount; i += 1) {
     Mdc_BasicString_Deinit(&basic_example_text_str[i]);
   }
+
+  malloc_diff_start = Mdc_GetMallocDifference();
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 void Mdc_Map_RunTests(void) {

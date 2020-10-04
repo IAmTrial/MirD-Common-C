@@ -32,6 +32,7 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <mdc/malloc/malloc.h>
 #include <mdc/string/basic_string.h>
 
 enum {
@@ -77,6 +78,8 @@ static void Mdc_BasicString_AssertInitEmptyDeinit(
   assert(Mdc_BasicString_Empty(&string));
 
   Mdc_BasicString_Deinit(&string);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_BasicString_AssertInitConcat(
@@ -114,6 +117,8 @@ static void Mdc_BasicString_AssertInitConcat(
   Mdc_BasicString_Deinit(&concat_string1);
   Mdc_BasicString_Deinit(&string2);
   Mdc_BasicString_Deinit(&string1);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_BasicString_AssertAtAndAccess(
@@ -155,6 +160,8 @@ static void Mdc_BasicString_AssertAtAndAccess(
   assert(!Mdc_BasicString_Empty(&string));
 
   Mdc_BasicString_Deinit(&string);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_BasicString_AssertFrontAndBack(
@@ -187,6 +194,8 @@ static void Mdc_BasicString_AssertFrontAndBack(
   assert(*(char*) back_ptr == '!');
 
   Mdc_BasicString_Deinit(&string);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_BasicString_AssertCompareAndEqual(
@@ -220,6 +229,8 @@ static void Mdc_BasicString_AssertCompareAndEqual(
 
   Mdc_BasicString_Deinit(&string2);
   Mdc_BasicString_Deinit(&string1);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_BasicString_AssertAppend(
@@ -235,6 +246,8 @@ static void Mdc_BasicString_AssertAppend(
   assert(Mdc_BasicString_CompareCStr(&string, c_strings[kHelloWorld5a]) == 0);
 
   Mdc_BasicString_Deinit(&string);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_BasicString_AssertPushBackAndPopBack(
@@ -254,6 +267,8 @@ static void Mdc_BasicString_AssertPushBackAndPopBack(
   assert(Mdc_BasicString_CompareCStr(&string, c_strings[kHelloWorld]) == 0);
 
   Mdc_BasicString_Deinit(&string);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 void Mdc_BasicString_RunTests(void) {

@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include <mdc/container/map.h>
+#include <mdc/malloc/malloc.h>
 #include <mdc/object/integer_object.h>
 #include <mdc/string/basic_string.h>
 #include "pair_string_int/pair_string_int.h"
@@ -104,6 +105,8 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   Mdc_Pair_Deinit(&pair);
   Mdc_Integer_Deinit(&second);
   Mdc_BasicString_Deinit(&first);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Pair_AssertInitCopyDeinit(void) {
@@ -161,6 +164,8 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   Mdc_Pair_Deinit(&pair);
   Mdc_Integer_Deinit(&second);
   Mdc_BasicString_Deinit(&first);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Pair_AssertCompareFirst(void) {
@@ -244,6 +249,8 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   Mdc_Integer_Deinit(&second);
   Mdc_BasicString_Deinit(&first2);
   Mdc_BasicString_Deinit(&first1);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Pair_AssertCompareSecond(void) {
@@ -322,6 +329,8 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   Mdc_Integer_Deinit(&second2);
   Mdc_Integer_Deinit(&second1);
   Mdc_BasicString_Deinit(&first);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Pair_AssertSwap() {
@@ -404,6 +413,8 @@ static void Mdc_Pair_AssertSwap() {
   Mdc_Integer_Deinit(&second1);
   Mdc_BasicString_Deinit(&first2);
   Mdc_BasicString_Deinit(&first1);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 void Mdc_Pair_RunTests(void) {

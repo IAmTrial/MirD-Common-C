@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include <mdc/container/vector.h>
+#include <mdc/malloc/malloc.h>
 #include <mdc/object/integer_object.h>
 #include "vector_int/vector_int.h"
 
@@ -58,6 +59,8 @@ static void Mdc_Vector_AssertInitDeinit(void) {
   assert(Mdc_Vector_Empty(&vector));
 
   Mdc_Vector_Deinit(&vector);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Vector_AssertPushAndPopBack(void) {
@@ -122,6 +125,8 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
   Mdc_Integer_Deinit(&integer2);
   Mdc_Integer_Deinit(&integer1);
   Mdc_Vector_Deinit(&vector);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
@@ -186,6 +191,8 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
   Mdc_Integer_Deinit(&integer2);
   Mdc_Integer_Deinit(&integer1);
   Mdc_Vector_Deinit(&vector);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Vector_AssertClear(void) {
@@ -223,6 +230,8 @@ static void Mdc_Vector_AssertClear(void) {
   assert(Mdc_Vector_Empty(&vector));
 
   Mdc_Vector_Deinit(&vector);
+
+  assert(Mdc_GetMallocDifference() == 0);
 }
 
 void Mdc_Vector_RunTests(void) {
