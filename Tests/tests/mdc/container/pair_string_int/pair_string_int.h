@@ -31,6 +31,8 @@
 #define MDC_TESTS_C_CONTAINER_PAIR_STRING_INT_PAIR_STRING_INT_H_
 
 #include <mdc/container/pair.h>
+#include <mdc/object/integer_object.h>
+#include <mdc/string/basic_string.h>
 
 const struct Mdc_PairMetadata* Mdc_PairStringInt_GetGlobalPairMetadata(void);
 
