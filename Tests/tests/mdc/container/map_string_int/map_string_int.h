@@ -31,6 +31,10 @@
 #define MDC_TESTS_C_CONTAINER_MAP_STRING_INT_MAP_STRING_INT_H_
 
 #include <mdc/container/map.h>
+#include <mdc/string/basic_string.h>
+#include <mdc/object/integer_object.h>
+
+#include "../pair_string_int/pair_string_int.h"
 
 const struct Mdc_MapMetadata* Mdc_MapStringInt_GetGlobalMapMetadata(void);
 

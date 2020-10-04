@@ -36,19 +36,14 @@
  * Static functions
  */
 
-static struct Mdc_MapMetadata* Mdc_MapStringInt_InitMapMetadata(
-    struct Mdc_MapMetadata* map_metadata
-) {
-  map_metadata->pair_metadata = Mdc_PairStringInt_GetGlobalPairMetadata();
-
-  return map_metadata;
-}
-
 static struct Mdc_MapMetadata global_map_metadata;
 static once_flag global_map_metadata_init_flag = ONCE_FLAG_INIT;
 
 static void Mdc_MapStringInt_InitGlobalMapMetadata(void) {
-  Mdc_MapStringInt_InitMapMetadata(&global_map_metadata);
+  Mdc_MapMetadata_Init(
+      &global_map_metadata,
+      Mdc_PairStringInt_GetGlobalPairMetadata()
+  );
 }
 
 /**
