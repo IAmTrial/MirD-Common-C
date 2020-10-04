@@ -554,6 +554,8 @@ void Mdc_Pair_Swap(
     goto unassign_pair1;
   }
 
+  Mdc_Pair_Deinit(&temp);
+
   return;
 
 unassign_pair1:
@@ -562,7 +564,6 @@ unassign_pair1:
 deinit_temp:
   assign_pair1 = Mdc_Pair_AssignMove(pair1, &temp);
   Mdc_Pair_Deinit(&temp);
-
 
 return_bad:
   return;
