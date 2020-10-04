@@ -101,6 +101,18 @@ DLLEXPORT struct Mdc_Map* Mdc_Map_InitMove(
 DLLEXPORT void Mdc_Map_Deinit(struct Mdc_Map* map);
 
 /**
+ * Metadata
+ */
+
+DLLEXPORT const struct Mdc_ObjectMetadata*
+Mdc_Map_GetObjectMetadataTemplate(void);
+
+DLLEXPORT struct Mdc_MapMetadata* Mdc_MapMetadata_Init(
+    struct Mdc_MapMetadata* map_metadata,
+    const struct Mdc_PairMetadata* pair_metadata
+);
+
+/**
  * Assignment
  */
 
