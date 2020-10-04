@@ -27,57 +27,63 @@
  *  to convey the resulting work.
  */
 
-#include <stddef.h>
+#include "../../../include/mdc/malloc/malloc.h"
+
+#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#include "char_cstring.h"
+static int malloc_count = 0;
+static int free_count = 0;
 
-struct CharCString* Mdc_CharCString_Init(
-    struct CharCString* dest,
-    const char* src
-) {
-  size_t src_len;
-  size_t src_size;
+void* Mdc_malloc(size_t size) {
+  void* result;
 
-  src_len = strlen(src);
-  src_size = (src_len + 1) * sizeof(*src);
+  result = malloc(size);
 
-  dest->cstring = Mdc_malloc(src_size);
-
-  if (dest->cstring == NULL) {
-    return NULL;
+  if (result != NULL) {
+    malloc_count += 1;
   }
 
-  strcpy(dest->cstring, src);
-
-  return dest;
+  return result;
 }
 
-struct CharCString* Mdc_CharCString_InitCopy(
-    struct CharCString* dest,
-    const struct CharCString* src
-) {
-  return Mdc_CharCString_Init(dest, src->cstring);
+void* Mdc_calloc(size_t num, size_t size) {
+  void* result;
+
+  result = calloc(num, size);
+
+  if (result != NULL) {
+    malloc_count += 1;
+  }
+
+  return result;
 }
 
-struct CharCString* Mdc_CharCString_InitMove(
-    struct CharCString* dest,
-    struct CharCString* src
-) {
-  dest->cstring = src->cstring;
-  src->cstring = NULL;
+void* Mdc_realloc(void* ptr, size_t new_size) {
+  void* result;
 
-  return dest;
+  result = realloc(ptr, new_size);
+
+  if (result != NULL) {
+    free_count += 1;
+    malloc_count += 1;
+  }
+
+  return result;
 }
 
-void Mdc_CharCString_Deinit(struct CharCString* str) {
-  Mdc_free(str->cstring);
+void Mdc_free(void* ptr) {
+  free(ptr);
+
+  free_count += 1;
 }
 
-int Mdc_CharCString_Compare(
-    const struct CharCString* str1,
-    const struct CharCString* str2
-) {
-  return strcmp(str1->cstring, str2->cstring);
+int Mdc_GetMallocDifference(void) {
+  return malloc_count - free_count;
+}
+
+void Mdc_PrintMallocLeaks(void) {
+  printf("Number of mallocs: %d \n", malloc_count);
+  printf("Number of frees: %d \n", free_count);
+  printf("Difference: %d \n", Mdc_GetMallocDifference());
 }

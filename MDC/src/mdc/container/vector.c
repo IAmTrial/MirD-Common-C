@@ -30,8 +30,9 @@
 #include "../../../include/mdc/container/vector.h"
 
 #include <assert.h>
-#include <stdlib.h>
 #include <string.h>
+
+#include "../../../include/mdc/malloc/malloc.h"
 
 enum {
   kInitialCapacity = 4
@@ -243,7 +244,7 @@ static void Mdc_Vector_SetCapacity(
       new_capacity
   );
 
-  realloc_elements_result = realloc(
+  realloc_elements_result = Mdc_realloc(
       vector->elements,
       realloc_elements_size
   );
@@ -297,7 +298,7 @@ struct Mdc_Vector* Mdc_Vector_InitEmpty(
 
   /* Initialize the elements. */
   elements_size = kInitialCapacity * sizeof(element_size);
-  vector->elements = malloc(elements_size);
+  vector->elements = Mdc_malloc(elements_size);
 
   if (vector->elements == NULL) {
     goto return_bad;
@@ -337,7 +338,7 @@ struct Mdc_Vector* Mdc_Vector_InitCopy(
 
   /* Copy the elements. */
   elements_size = src->capacity * sizeof(element_size);
-  dest->elements = malloc(elements_size);
+  dest->elements = Mdc_malloc(elements_size);
 
   if (dest->elements == NULL) {
     goto return_bad;
@@ -383,7 +384,7 @@ deinit_elements:
 
   dest->count = 0;
 
-  free(dest->elements);
+  Mdc_free(dest->elements);
   dest->elements = NULL;
   dest->capacity = 0;
 
@@ -435,7 +436,7 @@ void Mdc_Vector_Deinit(struct Mdc_Vector* vector) {
 
     vector->count = 0;
 
-    free(vector->elements);
+    Mdc_free(vector->elements);
     vector->elements = NULL;
 
     vector->capacity = 0;
@@ -484,7 +485,7 @@ struct Mdc_Vector* Mdc_Vector_AssignMove(
 ) {
   if (dest->elements != NULL) {
     Mdc_Vector_DeinitIndexElements(dest, 0, dest->count);
-    free(dest->elements);
+    Mdc_free(dest->elements);
     dest->capacity = 0;
   }
 
@@ -809,7 +810,7 @@ void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
   }
 
   new_elements_size = element_size * new_capacity;
-  realloc_elements = malloc(new_elements_size);
+  realloc_elements = Mdc_malloc(new_elements_size);
 
   if (realloc_elements == NULL) {
     goto return_bad;
@@ -826,14 +827,14 @@ void Mdc_Vector_Reserve(struct Mdc_Vector* vector, size_t new_capacity) {
     goto free_realloc_elements;
   }
 
-  free(vector->elements);
+  Mdc_free(vector->elements);
   vector->elements = realloc_elements;
   vector->capacity = new_capacity;
 
   return;
 
 free_realloc_elements:
-  free(realloc_elements);
+  Mdc_free(realloc_elements);
   realloc_elements = NULL;
 
 return_bad:
@@ -858,7 +859,7 @@ void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
   }
 
   new_elements_size = vector->count * element_size;
-  realloc_elements = malloc(new_elements_size);
+  realloc_elements = Mdc_malloc(new_elements_size);
 
   if (realloc_elements == NULL) {
     goto return_bad;
@@ -875,14 +876,14 @@ void Mdc_Vector_ShrinkToFit(struct Mdc_Vector* vector) {
     goto free_realloc_elements;
   }
 
-  free(vector->elements);
+  Mdc_free(vector->elements);
   vector->elements = realloc_elements;
   vector->capacity = vector->count;
 
   return;
 
 free_realloc_elements:
-  free(realloc_elements);
+  Mdc_free(realloc_elements);
   realloc_elements = NULL;
 
 return_bad:

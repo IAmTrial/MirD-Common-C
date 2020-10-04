@@ -29,8 +29,9 @@
 
 #include "../../../include/mdc/container/pair.h"
 
-#include <stdlib.h>
 #include <string.h>
+
+#include "../../../include/mdc/malloc/malloc.h"
 
 /**
  * Static
@@ -67,7 +68,7 @@ struct Mdc_Pair* Mdc_Pair_InitDefault(
   pair->metadata = metadata;
 
   /* Allocate and init the first. */
-  pair->first = malloc(first_metadata->size);
+  pair->first = Mdc_malloc(first_metadata->size);
   if (pair->first == NULL) {
     goto return_bad;
   }
@@ -78,7 +79,7 @@ struct Mdc_Pair* Mdc_Pair_InitDefault(
   }
 
   /* Allocate and init the second. */
-  pair->second = malloc(second_metadata->size);
+  pair->second = Mdc_malloc(second_metadata->size);
   if (pair->second == NULL) {
     goto deinit_first;
   }
@@ -91,13 +92,13 @@ struct Mdc_Pair* Mdc_Pair_InitDefault(
   return pair;
 
 free_second:
-  free(pair->second);
+  Mdc_free(pair->second);
 
 deinit_first:
   first_functions->deinit(pair->first);
 
 free_first:
-  free(pair->first);
+  Mdc_free(pair->first);
 
 return_bad:
   *pair = Mdc_Pair_kUninit;
@@ -126,7 +127,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstSecond(
   pair->metadata = metadata;
 
   /* Allocate and init the first. */
-  pair->first = malloc(first_metadata->size);
+  pair->first = Mdc_malloc(first_metadata->size);
   if (pair->first == NULL) {
     goto return_bad;
   }
@@ -137,7 +138,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstSecond(
   }
 
   /* Allocate and init the second. */
-  pair->second = malloc(second_metadata->size);
+  pair->second = Mdc_malloc(second_metadata->size);
   if (pair->second == NULL) {
     goto deinit_first;
   }
@@ -150,13 +151,13 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstSecond(
   return pair;
 
 free_second:
-  free(pair->second);
+  Mdc_free(pair->second);
 
 deinit_first:
   first_functions->deinit(pair->first);
 
 free_first:
-  free(pair->first);
+  Mdc_free(pair->first);
 
 return_bad:
   *pair = Mdc_Pair_kUninit;
@@ -185,7 +186,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstSecondCopy(
   pair->metadata = metadata;
 
   /* Allocate and init the first. */
-  pair->first = malloc(first_metadata->size);
+  pair->first = Mdc_malloc(first_metadata->size);
   if (pair->first == NULL) {
     goto return_bad;
   }
@@ -196,7 +197,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstSecondCopy(
   }
 
   /* Allocate and init the second. */
-  pair->second = malloc(second_metadata->size);
+  pair->second = Mdc_malloc(second_metadata->size);
   if (pair->second == NULL) {
     goto deinit_first;
   }
@@ -209,13 +210,13 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstSecondCopy(
   return pair;
 
 free_second:
-  free(pair->second);
+  Mdc_free(pair->second);
 
 deinit_first:
   first_functions->deinit(pair->first);
 
 free_first:
-  free(pair->first);
+  Mdc_free(pair->first);
 
 return_bad:
   *pair = Mdc_Pair_kUninit;
@@ -244,7 +245,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecond(
   pair->metadata = metadata;
 
   /* Allocate and init the first. */
-  pair->first = malloc(first_metadata->size);
+  pair->first = Mdc_malloc(first_metadata->size);
   if (pair->first == NULL) {
     goto return_bad;
   }
@@ -255,7 +256,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecond(
   }
 
   /* Allocate and init the second. */
-  pair->second = malloc(second_metadata->size);
+  pair->second = Mdc_malloc(second_metadata->size);
   if (pair->second == NULL) {
     goto deinit_first;
   }
@@ -268,13 +269,13 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecond(
   return pair;
 
 free_second:
-  free(pair->second);
+  Mdc_free(pair->second);
 
 deinit_first:
   first_functions->deinit(pair->first);
 
 free_first:
-  free(pair->first);
+  Mdc_free(pair->first);
 
 return_bad:
   *pair = Mdc_Pair_kUninit;
@@ -303,7 +304,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecondCopy(
   pair->metadata = metadata;
 
   /* Allocate and init the first. */
-  pair->first = malloc(first_metadata->size);
+  pair->first = Mdc_malloc(first_metadata->size);
   if (pair->first == NULL) {
     goto return_bad;
   }
@@ -314,7 +315,7 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecondCopy(
   }
 
   /* Allocate and init the second. */
-  pair->second = malloc(second_metadata->size);
+  pair->second = Mdc_malloc(second_metadata->size);
   if (pair->second == NULL) {
     goto deinit_first;
   }
@@ -327,13 +328,13 @@ struct Mdc_Pair* Mdc_Pair_InitFromFirstCopySecondCopy(
   return pair;
 
 free_second:
-  free(pair->second);
+  Mdc_free(pair->second);
 
 deinit_first:
   first_functions->deinit(pair->first);
 
 free_first:
-  free(pair->first);
+  Mdc_free(pair->first);
 
 return_bad:
   *pair = Mdc_Pair_kUninit;
@@ -378,12 +379,12 @@ void Mdc_Pair_Deinit(struct Mdc_Pair* pair) {
 
   if (pair->second != NULL) {
     second_functions->deinit(pair->second);
-    free(pair->second);
+    Mdc_free(pair->second);
   }
 
   if (pair->first != NULL) {
     first_functions->deinit(pair->first);
-    free(pair->first);
+    Mdc_free(pair->first);
   }
 
   *pair = Mdc_Pair_kUninit;

@@ -30,8 +30,9 @@
 #include "../../../include/mdc/container/map.h"
 
 #include <assert.h>
-#include <stdlib.h>
 #include <string.h>
+
+#include "../../../include/mdc/malloc/malloc.h"
 
 enum FILE_SCOPE_CONSTANTS_01 {
   kInitialCapacity = 2
@@ -65,7 +66,7 @@ static void Mdc_Map_SetCapacity(
 
   realloc_pairs_size = new_capacity * sizeof(map->pairs[0]);
 
-  realloc_pairs_result = realloc(
+  realloc_pairs_result = Mdc_realloc(
       map->pairs,
       realloc_pairs_size
   );
@@ -160,7 +161,7 @@ static void Mdc_Map_InsertPair(
 
   Mdc_Map_SetCapacityOnPolicy(map);
 
-  map->pairs[map->count] = malloc(sizeof(*new_pair));
+  map->pairs[map->count] = Mdc_malloc(sizeof(*new_pair));
 
   if (map->pairs[map->count] == NULL) {
     goto return_bad;
@@ -183,7 +184,7 @@ static void Mdc_Map_InsertPair(
   return;
 
 free_pair_move:
-  free(map->pairs[map->count]);
+  Mdc_free(map->pairs[map->count]);
   map->pairs[map->count] = NULL;
 
 return_bad:
@@ -198,7 +199,7 @@ static void Mdc_Map_InsertPairCopy(
 
   Mdc_Map_SetCapacityOnPolicy(map);
 
-  map->pairs[map->count] = malloc(sizeof(*new_pair));
+  map->pairs[map->count] = Mdc_malloc(sizeof(*new_pair));
 
   if (map->pairs[map->count] == NULL) {
     goto return_bad;
@@ -221,7 +222,7 @@ static void Mdc_Map_InsertPairCopy(
   return;
 
 free_pair_copy:
-  free(map->pairs[map->count]);
+  Mdc_free(map->pairs[map->count]);
   map->pairs[map->count] = NULL;
 
 return_bad:
@@ -264,7 +265,7 @@ static void Mdc_Map_DeinitAndFreeElements(
 
   for (i = i_start; i < i_end; i += 1) {
     Mdc_Pair_Deinit(map->pairs[i]);
-    free(map->pairs[i]);
+    Mdc_free(map->pairs[i]);
     map->pairs[i] = NULL;
   }
 
@@ -320,7 +321,7 @@ struct Mdc_Map* Mdc_Map_InitEmpty(
 
   /* Initialize the table. */
   pairs_size = kInitialCapacity * sizeof(map->pairs[0]);
-  map->pairs = malloc(pairs_size);
+  map->pairs = Mdc_malloc(pairs_size);
 
   if (map->pairs == NULL) {
     goto return_bad;
@@ -360,7 +361,7 @@ struct Mdc_Map* Mdc_Map_InitCopy(
   dest->metadata = map_metadata;
 
   /* Copy the pairs. */
-  dest->pairs = malloc(src->capacity * sizeof(*dest->pairs));
+  dest->pairs = Mdc_malloc(src->capacity * sizeof(*dest->pairs));
 
   if (dest->pairs == NULL) {
     goto return_bad;
@@ -369,7 +370,7 @@ struct Mdc_Map* Mdc_Map_InitCopy(
   dest->capacity = src->capacity;
 
   for (i = 0; i < src->count; i += 1) {
-    dest->pairs[i] = malloc(sizeof(*dest->pairs[i]));
+    dest->pairs[i] = Mdc_malloc(sizeof(*dest->pairs[i]));
 
     if (dest->pairs[i] == NULL) {
       goto deinit_and_free_pairs;
@@ -387,13 +388,13 @@ struct Mdc_Map* Mdc_Map_InitCopy(
   return dest;
 
 free_last_pair:
-  free(dest->pairs[dest->count]);
+  Mdc_free(dest->pairs[dest->count]);
   dest->pairs[dest->count] = NULL;
 
 deinit_and_free_pairs:
   Mdc_Map_DeinitAndFreeElements(dest, 0, dest->count);
 
-  free(dest->pairs);
+  Mdc_free(dest->pairs);
   dest->pairs = NULL;
   dest->capacity = 0;
 
@@ -424,7 +425,7 @@ void Mdc_Map_Deinit(struct Mdc_Map* map) {
   if (map->pairs != NULL) {
     Mdc_Map_DeinitAndFreeElements(map, 0, Mdc_Map_Size(map));
 
-    free(map->pairs);
+    Mdc_free(map->pairs);
     map->pairs = NULL;
   }
 
@@ -471,7 +472,7 @@ struct Mdc_Map* Mdc_Map_AssignMove(
 ) {
   if (dest->pairs != NULL) {
     Mdc_Map_DeinitAndFreeElements(dest, 0, dest->count);
-    free(dest->pairs);
+    Mdc_free(dest->pairs);
   }
 
   dest->capacity = src->capacity;
@@ -613,7 +614,7 @@ void Mdc_Map_Clear(struct Mdc_Map* map) {
   }
 
   new_pairs_size = kInitialCapacity * sizeof(map->pairs[0]);
-  realloc_result = realloc(map->pairs, new_pairs_size);
+  realloc_result = Mdc_realloc(map->pairs, new_pairs_size);
 
   /* If the reallocation failed, the capacity won't have changed, but at least the map was cleared. */
   if (realloc_result == NULL) {
@@ -710,7 +711,7 @@ void Mdc_Map_Emplace(
   }
 
   /* In-place instantiate the value. */
-  value = malloc(value_metadata->size);
+  value = Mdc_malloc(value_metadata->size);
 
   if (value == NULL) {
     goto return_bad;
@@ -739,7 +740,7 @@ void Mdc_Map_Emplace(
 
   Mdc_Pair_Deinit(&new_pair);
   value_functions->deinit(value);
-  free(value);
+  Mdc_free(value);
 
   return;
 
@@ -747,7 +748,7 @@ deinit_value:
   value_functions->deinit(value);
 
 free_value:
-  free(value);
+  Mdc_free(value);
 
 return_bad:
   return;
@@ -783,7 +784,7 @@ void Mdc_Map_EmplaceKeyCopy(
   }
 
   /* In-place instantiate the value. */
-  value = malloc(value_metadata->size);
+  value = Mdc_malloc(value_metadata->size);
 
   if (value == NULL) {
     goto return_bad;
@@ -812,7 +813,7 @@ void Mdc_Map_EmplaceKeyCopy(
 
   Mdc_Pair_Deinit(&new_pair);
   value_functions->deinit(value);
-  free(value);
+  Mdc_free(value);
 
   return;
 
@@ -820,7 +821,7 @@ deinit_value:
   value_functions->deinit(value);
 
 free_value:
-  free(value);
+  Mdc_free(value);
 
 return_bad:
   return;
@@ -853,7 +854,7 @@ bool Mdc_Map_Erase(struct Mdc_Map* map, const void* key) {
   }
 
   Mdc_Pair_Deinit(*find_pair_ptr);
-  free(*find_pair_ptr);
+  Mdc_free(*find_pair_ptr);
 
   *find_pair_ptr = map->pairs[map->count - 1];
   map->pairs[map->count - 1] = NULL;

@@ -27,57 +27,43 @@
  *  to convey the resulting work.
  */
 
+#ifndef MDC_C_MALLOC_MALLOC_H_
+#define MDC_C_MALLOC_MALLOC_H_
+
 #include <stddef.h>
 #include <stdlib.h>
-#include <string.h>
 
-#include "char_cstring.h"
+#include "../../../dllexport_define.inc"
 
-struct CharCString* Mdc_CharCString_Init(
-    struct CharCString* dest,
-    const char* src
-) {
-  size_t src_len;
-  size_t src_size;
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
-  src_len = strlen(src);
-  src_size = (src_len + 1) * sizeof(*src);
+#if defined(NDEBUG)
 
-  dest->cstring = Mdc_malloc(src_size);
+#define Mdc_malloc(size) malloc(size)
+#define Mdc_calloc(num, size) calloc(num, size)
+#define Mdc_realloc(ptr, new_size) realloc(ptr, new_size)
+#define Mdc_free(ptr) free(ptr)
 
-  if (dest->cstring == NULL) {
-    return NULL;
-  }
+#define Mdc_GetMallocDifference()
+#define Mdc_PrintMallocLeaks()
 
-  strcpy(dest->cstring, src);
+#else
 
-  return dest;
-}
+DLLEXPORT void* Mdc_malloc(size_t size);
+DLLEXPORT void* Mdc_calloc(size_t num, size_t size);
+DLLEXPORT void* Mdc_realloc(void* ptr, size_t new_size);
+DLLEXPORT void Mdc_free(void* ptr);
 
-struct CharCString* Mdc_CharCString_InitCopy(
-    struct CharCString* dest,
-    const struct CharCString* src
-) {
-  return Mdc_CharCString_Init(dest, src->cstring);
-}
+DLLEXPORT int Mdc_GetMallocDifference(void);
+DLLEXPORT void Mdc_PrintMallocLeaks(void);
 
-struct CharCString* Mdc_CharCString_InitMove(
-    struct CharCString* dest,
-    struct CharCString* src
-) {
-  dest->cstring = src->cstring;
-  src->cstring = NULL;
+#endif
 
-  return dest;
-}
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
 
-void Mdc_CharCString_Deinit(struct CharCString* str) {
-  Mdc_free(str->cstring);
-}
-
-int Mdc_CharCString_Compare(
-    const struct CharCString* str1,
-    const struct CharCString* str2
-) {
-  return strcmp(str1->cstring, str2->cstring);
-}
+#include "../../../dllexport_undefine.inc"
+#endif /* MDC_C_MALLOC_MALLOC_H_ */

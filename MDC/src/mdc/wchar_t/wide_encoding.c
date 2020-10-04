@@ -29,9 +29,10 @@
 
 #include "../../../include/mdc/wchar_t/wide_encoding.h"
 
-#include <stdlib.h>
 #include <stddef.h>
 #include <windows.h>
+
+#include "../../../include/mdc/malloc/malloc.h"
 
 #include "../../../include/mdc/std/threads.h"
 

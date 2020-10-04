@@ -34,7 +34,8 @@
 #if defined(_MSC_VER)
 
 #include <process.h>
-#include <stdlib.h>
+
+#include "../../../../include/mdc/malloc/malloc.h"
 
 struct ThreadArgsWrapper {
   thrd_start_t func_;
@@ -46,7 +47,7 @@ static unsigned int __stdcall RunThreadFuncShim(void* arg_wrapper) {
   int result;
 
   args_wrapper_copy = *(struct ThreadArgsWrapper*) arg_wrapper;
-  free(arg_wrapper);
+  Mdc_free(arg_wrapper);
 
   result = args_wrapper_copy.func_(args_wrapper_copy.arg_);
 
@@ -56,7 +57,7 @@ static unsigned int __stdcall RunThreadFuncShim(void* arg_wrapper) {
 int thrd_create(thrd_t* thrd, thrd_start_t func, void* arg) {
   struct ThreadArgsWrapper* args_wrapper;
 
-  args_wrapper = malloc(sizeof(*args_wrapper));
+  args_wrapper = Mdc_malloc(sizeof(*args_wrapper));
 
   if (args_wrapper == NULL) {
     return thrd_nomem;
@@ -75,7 +76,7 @@ int thrd_create(thrd_t* thrd, thrd_start_t func, void* arg) {
   );
 
   if (*thrd == NULL) {
-    free(args_wrapper);
+    Mdc_free(args_wrapper);
 
     return thrd_error;
   }
@@ -147,7 +148,8 @@ return_bad:
 
 #include <errno.h>
 #include <sched.h>
-#include <stdlib.h>
+
+#include "../../../../include/mdc/malloc/malloc.h"
 
 struct ThreadArgsWrapper {
   thrd_start_t func_;
@@ -158,7 +160,7 @@ static void* thrd_wrap_func(void* arg_wrapper) {
   struct ThreadArgsWrapper args_wrapper_copy;
 
   args_wrapper_copy = *(struct ThreadArgsWrapper*) arg_wrapper;
-  free(arg_wrapper);
+  Mdc_free(arg_wrapper);
 
   return (void*) args_wrapper_copy.func_(args_wrapper_copy.arg_);
 }
@@ -167,7 +169,7 @@ int thrd_create(thrd_t* thr, thrd_start_t func, void* arg) {
   struct ThreadArgsWrapper* arg_wrapper;
   int result;
 
-  arg_wrapper = malloc(sizeof(*arg_wrapper));
+  arg_wrapper = Mdc_malloc(sizeof(*arg_wrapper));
   if (arg_wrapper == NULL) {
     return ENOMEM;
   }

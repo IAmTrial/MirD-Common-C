@@ -29,9 +29,9 @@
 
 #include "../../../include/mdc/string/basic_string.h"
 
-#include <stdlib.h>
 #include <string.h>
 
+#include "../../../include/mdc/malloc/malloc.h"
 #include "../../../include/mdc/std/stdint.h"
 
 /**
@@ -106,7 +106,7 @@ static struct Mdc_BasicString* Mdc_BasicString_InitMoveCStrConcatCStr(
   str->capacity_ = src1_length + src2_length + 1;
 
   if (str->capacity_ > src1_capacity) {
-    str->str_ = realloc(src1, str->capacity_ * sizes->ch_size);
+    str->str_ = Mdc_realloc(src1, str->capacity_ * sizes->ch_size);
     if (str->str_ == NULL) {
       goto return_bad;
     }
@@ -160,7 +160,7 @@ static struct Mdc_BasicString* Mdc_BasicString_InitCopyCStrConcatCStr(
   src1_capacity = src1_length + src2_length + 1;
 
   /* Duplicate src1. */
-  src1_copy = malloc(src1_capacity * sizes->ch_size);
+  src1_copy = Mdc_malloc(src1_capacity * sizes->ch_size);
   if (src1_copy == NULL) {
     goto return_bad;
   }
@@ -208,7 +208,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitEmpty(
 
   str->capacity_ = kInitialCapacity;
 
-  str->str_ = malloc(str->capacity_ * sizes->ch_size);
+  str->str_ = Mdc_malloc(str->capacity_ * sizes->ch_size);
   if (str->str_ == NULL) {
     goto return_bad;
   }
@@ -241,7 +241,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitFromChar(
 
   str->capacity_ = count + 1;
 
-  str->str_ = malloc(str->capacity_ * sizes->ch_size);
+  str->str_ = Mdc_malloc(str->capacity_ * sizes->ch_size);
   if (str->str_ == NULL) {
     goto return_bad;
   }
@@ -333,7 +333,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitFromCStrTop(
 
   str->capacity_ = count + 1;
 
-  str->str_ = malloc(str->capacity_ * sizes->ch_size);
+  str->str_ = Mdc_malloc(str->capacity_ * sizes->ch_size);
   if (str->str_ == NULL) {
     goto return_bad;
   }
@@ -375,7 +375,7 @@ struct Mdc_BasicString* Mdc_BasicString_InitMove(
 
 void Mdc_BasicString_Deinit(struct Mdc_BasicString* str) {
   if (str->str_ != NULL) {
-    free(str->str_);
+    Mdc_free(str->str_);
   }
 
   *str = Mdc_BasicString_kUninit;
@@ -428,7 +428,7 @@ struct Mdc_BasicString* Mdc_BasicString_AssignMove(
   }
 
   if (dest->str_ != NULL) {
-    free(dest->str_);
+    Mdc_free(dest->str_);
   }
 
   dest->length_ = src->length_;
@@ -1360,7 +1360,7 @@ void Mdc_BasicString_Reserve(
     return;
   }
 
-  realloc_cstring = realloc(str->str_, new_capacity * sizes->ch_size);
+  realloc_cstring = Mdc_realloc(str->str_, new_capacity * sizes->ch_size);
   if (realloc_cstring == NULL) {
     goto return_bad;
   }
@@ -1385,7 +1385,7 @@ void Mdc_BasicString_ShrinkToFit(struct Mdc_BasicString* str) {
 
   new_cap = str->length_ + 1;
 
-  realloc_cstring = realloc(str->str_, new_cap * sizes->ch_size);
+  realloc_cstring = Mdc_realloc(str->str_, new_cap * sizes->ch_size);
   if (realloc_cstring == NULL) {
     goto return_bad;
   }
