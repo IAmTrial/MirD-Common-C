@@ -283,9 +283,8 @@ static void Mdc_Vector_ReserveOnPolicy(struct Mdc_Vector* vector) {
 
 struct Mdc_Vector* Mdc_Vector_InitEmpty(
     struct Mdc_Vector* vector,
-    const struct Mdc_VectorMetadata* metadata
+    const struct Mdc_VectorMetadata* vector_metadata
 ) {
-  const struct Mdc_VectorMetadata* const vector_metadata = vector->metadata;
   const struct Mdc_ObjectMetadata* const element_metadata =
       vector_metadata->element_metadata;
   const size_t element_size = element_metadata->size;
@@ -294,7 +293,7 @@ struct Mdc_Vector* Mdc_Vector_InitEmpty(
 
   size_t elements_size;
 
-  vector->metadata = metadata;
+  vector->metadata = vector_metadata;
 
   /* Initialize the elements. */
   elements_size = kInitialCapacity * sizeof(element_size);
