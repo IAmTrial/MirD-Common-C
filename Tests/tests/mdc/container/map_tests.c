@@ -37,19 +37,22 @@
 
 #include <mdc/container/map.h>
 #include <mdc/container/pair.h>
+#include <mdc/object/integer_object.h>
+#include <mdc/string/basic_string.h>
+#include "map_string_int/map_string_int.h"
 #include "pair_string_int/pair_string_int.h"
 
-static const struct CharCString kBasicExampleText[] = {
+static const char* kBasicExampleText[] = {
     "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy",
     "dog."
 };
 
-static const struct CharCString kRepeatingText[] = {
+static const char* kRepeatingText[] = {
     "sort", "the", "sort", "map", "the", "way", "to", "sort",
     "what", "the", "sort", "said"
 };
 
-static const struct CharCString kRepeatingTextWords[] = {
+static const char* kRepeatingTextWords[] = {
   "map", "said", "sort", "the", "to", "way", "what"
 };
 
@@ -57,7 +60,7 @@ static int kRepeatingTextCounts[] = {
   1, 1, 4, 3, 1, 1, 1
 };
 
-enum FILE_SCOPE_CONSTANTS_03 {
+enum {
   kBasicExampleTextCount = sizeof(kBasicExampleText)
       / sizeof(kBasicExampleText[0]),
   kRepeatingTextCount = sizeof(kRepeatingText)
@@ -66,35 +69,48 @@ enum FILE_SCOPE_CONSTANTS_03 {
       / sizeof(kRepeatingTextWords[0])
 };
 
-static void* Mdc_Integer_InitCopyAsVoid(void* dest, void* src) {
-  return Mdc_Integer_InitCopy(dest, src);
-}
+static struct Mdc_BasicString basic_example_text_str[kBasicExampleTextCount];
+static struct Mdc_BasicString repeating_text_str[kRepeatingTextCount];
+static struct Mdc_BasicString
+repeating_text_words_str[kRepeatingWordCountPairsCount];
+static struct Mdc_Integer
+repeating_text_counts[kRepeatingWordCountPairsCount];
 
-static struct Mdc_MapMetadata* Mdc_WordCountMapMetadata_Init(
-    const struct Mdc_MapMetadata* metadata
+static void* Mdc_Integer_InitFromValueAsVoid(
+    void* integer,
+    void* value_ptr
 ) {
-  Mdc_PairCharCStringIntMetadata_Init(metadata->pair_metadata);
+  int actual_value = *(const int*) value_ptr;
 
-  return metadata;
+  return Mdc_Integer_InitFromValue(integer, actual_value);
 }
 
 static void Mdc_Map_AssertInitDeinit(void) {
+  const struct Mdc_MapMetadata* const map_metadata =
+      Mdc_MapStringInt_GetGlobalMapMetadata();
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const first_metadata =
+      pair_metadata->first_metadata;
+  const size_t first_size = first_metadata->size;
+  const struct Mdc_ObjectFunctions* const first_functions =
+      &first_metadata->functions;
+  const struct Mdc_ObjectMetadata* const second_metadata =
+      pair_metadata->second_metadata;
+  const size_t second_size = second_metadata->size;
+  const struct Mdc_ObjectFunctions* const second_functions =
+      &second_metadata->functions;
+
   struct Mdc_Map map;
-  struct Mdc_MapMetadata metadata_src;
+  struct Mdc_Map* init_map;
 
-  int memcmp_result;
-
-  Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_InitEmpty(&map, &metadata_src);
+  init_map = Mdc_Map_InitEmpty(&map, map_metadata);
+  assert(init_map != &map);
+  assert(map.metadata != NULL);
+  assert(map.metadata == map_metadata);
 
   assert(map.metadata != NULL);
-
-  memcmp_result = memcmp(
-      map.metadata,
-      &metadata_src,
-      sizeof(*map.metadata)
-  );
-  assert(memcmp_result == 0);
+  assert(map.metadata == map_metadata);
 
   assert(Mdc_Map_Size(&map) == 0);
 
@@ -102,67 +118,67 @@ static void Mdc_Map_AssertInitDeinit(void) {
 }
 
 static void Mdc_Map_AssertEmplace(void) {
-  const int kZero = 0;
+  const struct Mdc_MapMetadata* const map_metadata =
+      Mdc_MapStringInt_GetGlobalMapMetadata();
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const size_t key_size = key_metadata->size;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const size_t value_size = value_metadata->size;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Map map;
-  struct Mdc_MapMetadata metadata_src;
+  struct Mdc_Map* init_map;
 
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &metadata_src.pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
-
-  int* actual_pair_value;
-  const int* actual_pair_value_const;
+  struct Mdc_Integer* actual_pair_value;
+  const struct Mdc_Integer* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
 
-  struct CharCString key_copy;
-  int zero_copy;
+  int zero;
 
-  const struct CharCString* init_key_copy;
-
-  Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_InitEmpty(&map, &metadata_src);
-
+  init_map = Mdc_Map_InitEmpty(&map, map_metadata);
+  assert(init_map == &map);
   assert(map.metadata != NULL);
+  assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      init_key_copy = Mdc_CharCString_InitCopy(&key_copy, &kRepeatingText[i]);
-      assert(init_key_copy == &key_copy);
+    zero = 0;
 
-      zero_copy = kZero;
-
+    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       Mdc_Map_Emplace(
           &map,
-          &key_copy,
-          &Mdc_Integer_InitCopyAsVoid,
-          &zero_copy
+          &repeating_text_str[i],
+          &Mdc_Integer_InitFromValueAsVoid,
+          &zero
       );
-
-      Mdc_CharCString_Deinit(&key_copy);
     }
 
-    actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
-
-    (*actual_pair_value) += 1;
+    actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
+    Mdc_Integer_PreIncrement(actual_pair_value);
   }
 
   /* Check all of the elements. */
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
-    assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
+    assert(Mdc_Map_Contains(&map, &repeating_text_words_str[i]));
 
-    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    actual_pair_value_const = Mdc_Map_AtConst(
+        &map,
+        &repeating_text_words_str[i]
+    );
     assert(actual_pair_value_const != NULL);
 
     value_compare_result = value_functions->compare(
         actual_pair_value_const,
-        &kRepeatingTextCounts[i]
+        &repeating_text_counts[i]
     );
     assert(value_compare_result == 0);
   }
@@ -171,59 +187,67 @@ static void Mdc_Map_AssertEmplace(void) {
 }
 
 static void Mdc_Map_AssertEmplaceKeyCopy(void) {
-  const int kZero = 0;
+  const struct Mdc_MapMetadata* const map_metadata =
+      Mdc_MapStringInt_GetGlobalMapMetadata();
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const size_t key_size = key_metadata->size;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const size_t value_size = value_metadata->size;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Map map;
-  struct Mdc_MapMetadata metadata_src;
+  struct Mdc_Map* init_map;
 
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &metadata_src.pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
-
-  int* actual_pair_value;
-  const int* actual_pair_value_const;
+  struct Mdc_Integer* actual_pair_value;
+  const struct Mdc_Integer* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
 
-  int zero_copy;
+  int zero;
 
-  Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_InitEmpty(&map, &metadata_src);
-
+  init_map = Mdc_Map_InitEmpty(&map, map_metadata);
+  assert(init_map != &map);
   assert(map.metadata != NULL);
+  assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
-      zero_copy = kZero;
+    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
+      zero = 0;
 
       Mdc_Map_EmplaceKeyCopy(
           &map,
-          &kRepeatingText[i],
-          &Mdc_Integer_InitCopyAsVoid,
-          &zero_copy
+          &repeating_text_str[i],
+          &Mdc_Integer_InitFromValueAsVoid,
+          &zero
       );
     }
 
-    actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
-
-    (*actual_pair_value) += 1;
+    actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
+    Mdc_Integer_PreIncrement(actual_pair_value);
   }
 
   /* Check all of the elements. */
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
-    assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
+    assert(Mdc_Map_Contains(&map, &repeating_text_words_str[i]));
 
-    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    actual_pair_value_const = Mdc_Map_AtConst(
+        &map,
+        &repeating_text_words_str[i]
+    );
     assert(actual_pair_value_const != NULL);
 
     value_compare_result = value_functions->compare(
         actual_pair_value_const,
-        &kRepeatingTextCounts[i]
+        &repeating_text_counts[i]
     );
     assert(value_compare_result == 0);
   }
@@ -232,40 +256,50 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
 }
 
 static void Mdc_Map_AssertInsertOrAssignPair(void) {
-  const int kZero = 0;
+  const struct Mdc_MapMetadata* const map_metadata =
+      Mdc_MapStringInt_GetGlobalMapMetadata();
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const size_t key_size = key_metadata->size;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const size_t value_size = value_metadata->size;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Map map;
-  struct Mdc_MapMetadata metadata_src;
+  struct Mdc_Map* init_map;
 
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &metadata_src.pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+  int zero;
 
   struct Mdc_Pair pair;
-  int* actual_pair_value;
-  const int* actual_pair_value_const;
+  struct Mdc_Integer* actual_pair_value;
+  const struct Mdc_Integer* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
 
   const struct Mdc_Pair* init_pair;
 
-  Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_InitEmpty(&map, &metadata_src);
-
+  init_map = Mdc_Map_InitEmpty(&map, map_metadata);
+  assert(init_map != &map);
   assert(map.metadata != NULL);
+  assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
+    zero = 0;
+
+    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
-          &map.metadata->pair_metadata,
-          &kRepeatingText[i],
-          &kZero
+          pair_metadata,
+          &repeating_text_str[i],
+          &zero
       );
       assert(init_pair == &pair);
 
@@ -274,21 +308,23 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
       Mdc_Pair_Deinit(&pair);
     }
 
-    actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
-
-    (*actual_pair_value) += 1;
+    actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
+    Mdc_Integer_PreIncrement(actual_pair_value);
   }
 
   /* Check all of the elements. */
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
-    assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
+    assert(Mdc_Map_Contains(&map, &repeating_text_words_str[i]));
 
-    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    actual_pair_value_const = Mdc_Map_AtConst(
+        &map,
+        &repeating_text_words_str[i]
+    );
     assert(actual_pair_value != NULL);
 
     value_compare_result = value_functions->compare(
         actual_pair_value_const,
-        &kRepeatingTextCounts[i]
+        &repeating_text_counts[i]
     );
     assert(value_compare_result == 0);
   }
@@ -297,40 +333,50 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
 }
 
 static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
-  const int kZero = 0;
+  const struct Mdc_MapMetadata* const map_metadata =
+      Mdc_MapStringInt_GetGlobalMapMetadata();
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const size_t key_size = key_metadata->size;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const size_t value_size = value_metadata->size;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Map map;
-  struct Mdc_MapMetadata metadata_src;
+  struct Mdc_Map* init_map;
 
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &metadata_src.pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+  int zero;
 
   struct Mdc_Pair pair;
-  int* actual_pair_value;
-  const int* actual_pair_value_const;
+  const struct Mdc_Pair* init_pair;
+
+  struct Mdc_Integer* actual_pair_value;
+  const struct Mdc_Integer* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
 
-  const struct Mdc_Pair* init_pair;
-
-  Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_InitEmpty(&map, &metadata_src);
-
+  init_map = Mdc_Map_InitEmpty(&map, map_metadata);
+  assert(init_map != &map);
   assert(map.metadata != NULL);
+  assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
+    zero = 0;
+
+    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
-          &map.metadata->pair_metadata,
-          &kRepeatingText[i],
-          &kZero
+          pair_metadata,
+          &repeating_text_str[i],
+          &zero
       );
       assert(init_pair == &pair);
 
@@ -339,21 +385,23 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
       Mdc_Pair_Deinit(&pair);
     }
 
-    actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
-
-    (*actual_pair_value) += 1;
+    actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
+    Mdc_Integer_PreIncrement(actual_pair_value);
   }
 
   /* Check all of the elements. */
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
-    assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
+    assert(Mdc_Map_Contains(&map, &repeating_text_words_str[i]));
 
-    actual_pair_value_const = Mdc_Map_AtConst(&map, &kRepeatingTextWords[i]);
+    actual_pair_value_const = Mdc_Map_AtConst(
+        &map,
+        &repeating_text_words_str[i]
+    );
     assert(actual_pair_value_const != NULL);
 
     value_compare_result = value_functions->compare(
         actual_pair_value_const,
-        &kRepeatingTextCounts[i]
+        &repeating_text_counts[i]
     );
     assert(value_compare_result == 0);
   }
@@ -362,38 +410,48 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
 }
 
 static void Mdc_Map_AssertClear(void) {
-  const int kZero = 0;
+  const struct Mdc_MapMetadata* const map_metadata =
+      Mdc_MapStringInt_GetGlobalMapMetadata();
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const size_t key_size = key_metadata->size;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const size_t value_size = value_metadata->size;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Map map;
-  struct Mdc_MapMetadata metadata_src;
+  struct Mdc_Map* init_map;
 
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &metadata_src.pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+  int zero;
 
   struct Mdc_Pair pair;
-  int* actual_pair_value;
+  const struct Mdc_Pair* init_pair;
+
+  struct Mdc_Integer* actual_pair_value;
 
   size_t i;
 
-  const struct Mdc_Pair* init_pair;
-
-  Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_InitEmpty(&map, &metadata_src);
-
+  init_map = Mdc_Map_InitEmpty(&map, map_metadata);
+  assert(init_map != &map);
   assert(map.metadata != NULL);
+  assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
+    zero = 0;
+
     if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
-          &map.metadata->pair_metadata,
-          &kRepeatingText[i],
-          &kZero
+          pair_metadata,
+          &repeating_text_str[i],
+          &zero
       );
       assert(init_pair == &pair);
 
@@ -402,9 +460,8 @@ static void Mdc_Map_AssertClear(void) {
       Mdc_Pair_Deinit(&pair);
     }
 
-    actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
-
-    (*actual_pair_value) += 1;
+    actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
+    Mdc_Integer_PreIncrement(actual_pair_value);
   }
 
   /* Clear all of the elements. */
@@ -416,38 +473,47 @@ static void Mdc_Map_AssertClear(void) {
 }
 
 static void Mdc_Map_AssertErase(void) {
-  const int kZero = 0;
+  const struct Mdc_MapMetadata* const map_metadata =
+      Mdc_MapStringInt_GetGlobalMapMetadata();
+  const struct Mdc_PairMetadata* const pair_metadata =
+      map_metadata->pair_metadata;
+  const struct Mdc_ObjectMetadata* const key_metadata =
+      pair_metadata->first_metadata;
+  const size_t key_size = key_metadata->size;
+  const struct Mdc_ObjectFunctions* const key_functions =
+      &key_metadata->functions;
+  const struct Mdc_ObjectMetadata* const value_metadata =
+      pair_metadata->second_metadata;
+  const size_t value_size = value_metadata->size;
+  const struct Mdc_ObjectFunctions* const value_functions =
+      &value_metadata->functions;
 
   struct Mdc_Map map;
-  struct Mdc_MapMetadata metadata_src;
+  struct Mdc_Map* init_map;
 
-  const struct Mdc_PairMetadata* const pair_metadata =
-      &metadata_src.pair_metadata;
-  const struct Mdc_PairFirstFunctions* const key_functions =
-      &pair_metadata->functions.first_functions;
-  const struct Mdc_PairSecondFunctions* const value_functions =
-      &pair_metadata->functions.second_functions;
+  int zero;
 
   struct Mdc_Pair pair;
-  int* actual_pair_value;
+  const struct Mdc_Pair* init_pair;
+  struct Mdc_Integer* actual_pair_value;
 
   size_t i;
 
-  const struct Mdc_Pair* init_pair;
-
-  Mdc_WordCountMapMetadata_Init(&metadata_src);
-  Mdc_Map_InitEmpty(&map, &metadata_src);
-
+  init_map = Mdc_Map_InitEmpty(&map, map_metadata);
+  assert(init_map != &map);
   assert(map.metadata != NULL);
+  assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
+    zero = 0;
+
+    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
-          &map.metadata->pair_metadata,
-          &kRepeatingText[i],
-          &kZero
+          pair_metadata,
+          &repeating_text_str[i],
+          &zero
       );
       assert(init_pair == &pair);
 
@@ -456,16 +522,15 @@ static void Mdc_Map_AssertErase(void) {
       Mdc_Pair_Deinit(&pair);
     }
 
-    actual_pair_value = Mdc_Map_At(&map, &kRepeatingText[i]);
-
-    (*actual_pair_value) += 1;
+    actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
+    Mdc_Integer_PreIncrement(actual_pair_value);
   }
 
   /* Erase all of the elements. */
   for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
-    assert(Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
-    assert(Mdc_Map_Erase(&map, &kRepeatingTextWords[i]));
-    assert(!Mdc_Map_Contains(&map, &kRepeatingTextWords[i]));
+    assert(Mdc_Map_Contains(&map, &repeating_text_words_str[i]));
+    assert(Mdc_Map_Erase(&map, &repeating_text_words_str[i]));
+    assert(!Mdc_Map_Contains(&map, &repeating_text_words_str[i]));
   }
 
   assert(Mdc_Map_Empty(&map));
@@ -473,7 +538,82 @@ static void Mdc_Map_AssertErase(void) {
   Mdc_Map_Deinit(&map);
 }
 
+static void Init(void) {
+  size_t i;
+
+  struct Mdc_BasicString* init_str;
+  struct Mdc_Integer* init_integer;
+
+  for (i = 0; i < kBasicExampleTextCount; i += 1) {
+    init_str = Mdc_BasicString_InitFromCStr(
+        &basic_example_text_str[i],
+        Mdc_CharTraitsChar_GetCharTraits(),
+        kBasicExampleText[i]
+    );
+    assert(init_str == &basic_example_text_str[i]);
+    assert(Mdc_BasicString_EqualCStr(
+        &basic_example_text_str[i],
+        kBasicExampleText[i]
+    ));
+  }
+
+  for (i = 0; i < kRepeatingTextCount; i += 1) {
+    init_str = Mdc_BasicString_InitFromCStr(
+        &repeating_text_str[i],
+        Mdc_CharTraitsChar_GetCharTraits(),
+        kRepeatingText[i]
+    );
+    assert(init_str == &repeating_text_str[i]);
+    assert(Mdc_BasicString_EqualCStr(
+        &repeating_text_str[i],
+        kRepeatingText[i]
+    ));
+  }
+
+  for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
+    init_str = Mdc_BasicString_InitFromCStr(
+        &repeating_text_words_str[i],
+        Mdc_CharTraitsChar_GetCharTraits(),
+        kRepeatingTextWords[i]
+    );
+    assert(init_str == &repeating_text_str[i]);
+    assert(Mdc_BasicString_EqualCStr(
+        &repeating_text_words_str[i],
+        kRepeatingTextWords[i]
+    ));
+
+    init_integer = Mdc_Integer_InitFromValue(
+        &repeating_text_counts[i],
+        kRepeatingTextCounts[i]
+    );
+    assert(init_integer == &repeating_text_counts[i]);
+    assert(Mdc_Integer_EqualValue(
+        &repeating_text_counts[i],
+        kRepeatingTextCounts[i]
+    ));
+  }
+}
+
+static void Deinit(void) {
+  size_t i;
+
+  for (i = 0; i < kRepeatingWordCountPairsCount; i += 1) {
+    Mdc_Integer_Deinit(&repeating_text_counts[i]);
+    Mdc_BasicString_Deinit(&repeating_text_words_str[i]);
+  }
+
+  for (i = 0; i < kRepeatingTextCount; i += 1) {
+    Mdc_BasicString_Deinit(&repeating_text_str[i]);
+  }
+
+  for (i = 0; i < kBasicExampleTextCount; i += 1) {
+    Mdc_BasicString_Deinit(&basic_example_text_str[i]);
+  }
+}
+
 void Mdc_Map_RunTests(void) {
+  Init();
+
   Mdc_Map_AssertInitDeinit();
   Mdc_Map_AssertEmplace();
   Mdc_Map_AssertEmplaceKeyCopy();
@@ -481,4 +621,6 @@ void Mdc_Map_RunTests(void) {
   Mdc_Map_AssertInsertOrAssignPairCopy();
   Mdc_Map_AssertClear();
   Mdc_Map_AssertErase();
+
+  Deinit();
 }
