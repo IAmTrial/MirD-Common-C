@@ -91,7 +91,7 @@ static struct Mdc_ObjectMetadata global_metadata =
     MDC_OBJECT_METADATA_UNINIT;
 static once_flag global_metadata_init_flag = ONCE_FLAG_INIT;
 
-static struct Mdc_ObjectMetadata* Mdc_Pair_InitObjectMetadata(
+static struct Mdc_ObjectMetadata* Mdc_Vector_InitObjectMetadata(
     struct Mdc_ObjectMetadata* metadata
 ) {
   metadata->size = sizeof(struct Mdc_Vector);
