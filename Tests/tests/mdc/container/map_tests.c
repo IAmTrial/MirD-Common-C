@@ -42,17 +42,17 @@
 #include "map_string_int/map_string_int.h"
 #include "pair_string_int/pair_string_int.h"
 
-static const char* kBasicExampleText[] = {
+static const char* const kBasicExampleText[] = {
     "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy",
     "dog."
 };
 
-static const char* kRepeatingText[] = {
+static const char* const kRepeatingText[] = {
     "sort", "the", "sort", "map", "the", "way", "to", "sort",
     "what", "the", "sort", "said"
 };
 
-static const char* kRepeatingTextWords[] = {
+static const char* const kRepeatingTextWords[] = {
   "map", "said", "sort", "the", "to", "way", "what"
 };
 
@@ -76,15 +76,6 @@ repeating_text_words_str[kRepeatingWordCountPairsCount];
 static struct Mdc_Integer
 repeating_text_counts[kRepeatingWordCountPairsCount];
 
-static void* Mdc_Integer_InitFromValueAsVoid(
-    void* integer,
-    void* value_ptr
-) {
-  int actual_value = *(const int*) value_ptr;
-
-  return Mdc_Integer_InitFromValue(integer, actual_value);
-}
-
 static void Mdc_Map_AssertInitDeinit(void) {
   const struct Mdc_MapMetadata* const map_metadata =
       Mdc_MapStringInt_GetGlobalMapMetadata();
@@ -105,7 +96,7 @@ static void Mdc_Map_AssertInitDeinit(void) {
   struct Mdc_Map* init_map;
 
   init_map = Mdc_Map_InitEmpty(&map, map_metadata);
-  assert(init_map != &map);
+  assert(init_map == &map);
   assert(map.metadata != NULL);
   assert(map.metadata == map_metadata);
 
@@ -136,13 +127,17 @@ static void Mdc_Map_AssertEmplace(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
+  struct Mdc_BasicString key_copy;
+  struct Mdc_BasicString* init_key_copy;
+
+  struct Mdc_Integer value_copy;
+  struct Mdc_Integer* init_value_copy;
+
   struct Mdc_Integer* actual_pair_value;
   const struct Mdc_Integer* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
-
-  int zero;
 
   init_map = Mdc_Map_InitEmpty(&map, map_metadata);
   assert(init_map == &map);
@@ -151,19 +146,27 @@ static void Mdc_Map_AssertEmplace(void) {
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    zero = 0;
+    init_key_copy = Mdc_BasicString_InitCopy(
+        &key_copy,
+        &repeating_text_str[i]
+    );
+    assert(init_key_copy == &key_copy);
 
-    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
-      Mdc_Map_Emplace(
-          &map,
-          &repeating_text_str[i],
-          &Mdc_Integer_InitFromValueAsVoid,
-          &zero
-      );
-    }
+    init_value_copy = Mdc_Integer_InitFromValue(&value_copy, 0);
+    assert(init_value_copy == &value_copy);
+
+    Mdc_Map_Emplace(
+        &map,
+        &key_copy,
+        value_functions->init_move,
+        &value_copy
+    );
 
     actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
     Mdc_Integer_PreIncrement(actual_pair_value);
+
+    Mdc_Integer_Deinit(&value_copy);
+    Mdc_BasicString_Deinit(&key_copy);
   }
 
   /* Check all of the elements. */
@@ -205,34 +208,36 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
+  struct Mdc_Integer value_copy;
+  struct Mdc_Integer* init_value_copy;
+
   struct Mdc_Integer* actual_pair_value;
   const struct Mdc_Integer* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
 
-  int zero;
-
   init_map = Mdc_Map_InitEmpty(&map, map_metadata);
-  assert(init_map != &map);
+  assert(init_map == &map);
   assert(map.metadata != NULL);
   assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
-      zero = 0;
+    init_value_copy = Mdc_Integer_InitFromValue(&value_copy, 0);
+    assert(init_value_copy == &value_copy);
 
-      Mdc_Map_EmplaceKeyCopy(
-          &map,
-          &repeating_text_str[i],
-          &Mdc_Integer_InitFromValueAsVoid,
-          &zero
-      );
-    }
+    Mdc_Map_EmplaceKeyCopy(
+        &map,
+        &repeating_text_str[i],
+        value_functions->init_copy,
+        &value_copy
+    );
 
     actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
     Mdc_Integer_PreIncrement(actual_pair_value);
+
+    Mdc_Integer_Deinit(&value_copy);
   }
 
   /* Check all of the elements. */
@@ -274,7 +279,8 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  int zero;
+  struct Mdc_Integer value_copy;
+  struct Mdc_Integer* init_value_copy;
 
   struct Mdc_Pair pair;
   struct Mdc_Integer* actual_pair_value;
@@ -286,20 +292,21 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   const struct Mdc_Pair* init_pair;
 
   init_map = Mdc_Map_InitEmpty(&map, map_metadata);
-  assert(init_map != &map);
+  assert(init_map == &map);
   assert(map.metadata != NULL);
   assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    zero = 0;
+    init_value_copy = Mdc_Integer_InitFromValue(&value_copy, 0);
+    assert(init_value_copy == &value_copy);
 
     if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           pair_metadata,
           &repeating_text_str[i],
-          &zero
+          &value_copy
       );
       assert(init_pair == &pair);
 
@@ -310,6 +317,8 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
 
     actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
     Mdc_Integer_PreIncrement(actual_pair_value);
+
+    Mdc_Integer_Deinit(&value_copy);
   }
 
   /* Check all of the elements. */
@@ -351,7 +360,8 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  int zero;
+  struct Mdc_Integer value_copy;
+  struct Mdc_Integer* init_value_copy;
 
   struct Mdc_Pair pair;
   const struct Mdc_Pair* init_pair;
@@ -363,20 +373,20 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   int value_compare_result;
 
   init_map = Mdc_Map_InitEmpty(&map, map_metadata);
-  assert(init_map != &map);
+  assert(init_map == &map);
   assert(map.metadata != NULL);
   assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    zero = 0;
+    init_value_copy = Mdc_Integer_InitFromValue(&value_copy, 0);
 
     if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           pair_metadata,
           &repeating_text_str[i],
-          &zero
+          &value_copy
       );
       assert(init_pair == &pair);
 
@@ -387,6 +397,8 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
 
     actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
     Mdc_Integer_PreIncrement(actual_pair_value);
+
+    Mdc_Integer_Deinit(&value_copy);
   }
 
   /* Check all of the elements. */
@@ -428,7 +440,8 @@ static void Mdc_Map_AssertClear(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  int zero;
+  struct Mdc_Integer value_copy;
+  struct Mdc_Integer* init_value_copy;
 
   struct Mdc_Pair pair;
   const struct Mdc_Pair* init_pair;
@@ -438,20 +451,20 @@ static void Mdc_Map_AssertClear(void) {
   size_t i;
 
   init_map = Mdc_Map_InitEmpty(&map, map_metadata);
-  assert(init_map != &map);
+  assert(init_map == &map);
   assert(map.metadata != NULL);
   assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    zero = 0;
+    init_value_copy = Mdc_Integer_InitFromValue(&value_copy, 0);
 
-    if (!Mdc_Map_Contains(&map, &kRepeatingText[i])) {
+    if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           pair_metadata,
           &repeating_text_str[i],
-          &zero
+          &value_copy
       );
       assert(init_pair == &pair);
 
@@ -462,6 +475,8 @@ static void Mdc_Map_AssertClear(void) {
 
     actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
     Mdc_Integer_PreIncrement(actual_pair_value);
+
+    Mdc_Integer_Deinit(&value_copy);
   }
 
   /* Clear all of the elements. */
@@ -491,7 +506,8 @@ static void Mdc_Map_AssertErase(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  int zero;
+  struct Mdc_Integer value_copy;
+  struct Mdc_Integer* init_value_copy;
 
   struct Mdc_Pair pair;
   const struct Mdc_Pair* init_pair;
@@ -500,20 +516,20 @@ static void Mdc_Map_AssertErase(void) {
   size_t i;
 
   init_map = Mdc_Map_InitEmpty(&map, map_metadata);
-  assert(init_map != &map);
+  assert(init_map == &map);
   assert(map.metadata != NULL);
   assert(map.metadata == map_metadata);
 
   /* Insert the elements. */
   for (i = 0; i < kRepeatingTextCount; i += 1) {
-    zero = 0;
+    init_value_copy = Mdc_Integer_InitFromValue(&value_copy, 0);
 
     if (!Mdc_Map_Contains(&map, &repeating_text_str[i])) {
       init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
           &pair,
           pair_metadata,
           &repeating_text_str[i],
-          &zero
+          &value_copy
       );
       assert(init_pair == &pair);
 
@@ -524,6 +540,8 @@ static void Mdc_Map_AssertErase(void) {
 
     actual_pair_value = Mdc_Map_At(&map, &repeating_text_str[i]);
     Mdc_Integer_PreIncrement(actual_pair_value);
+
+    Mdc_Integer_Deinit(&value_copy);
   }
 
   /* Erase all of the elements. */
@@ -576,7 +594,7 @@ static void Init(void) {
         Mdc_CharTraitsChar_GetCharTraits(),
         kRepeatingTextWords[i]
     );
-    assert(init_str == &repeating_text_str[i]);
+    assert(init_str == &repeating_text_words_str[i]);
     assert(Mdc_BasicString_EqualCStr(
         &repeating_text_words_str[i],
         kRepeatingTextWords[i]

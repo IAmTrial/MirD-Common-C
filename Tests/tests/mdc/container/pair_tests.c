@@ -142,8 +142,8 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair,
       pair_metadata,
-      &kFirstSrc1,
-      &kSecondSrc1
+      &first,
+      &second
   );
   assert(init_pair == &pair);
 
@@ -155,7 +155,7 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   assert(first_functions->equal(pair.first, &first));
 
   assert(pair.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair.first, kSecondSrc1));
+  assert(Mdc_Integer_EqualValue(pair.second, kSecondSrc1));
   assert(second_functions->equal(pair.second, &second));
 
   Mdc_Pair_Deinit(&pair);
@@ -287,7 +287,7 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   assert(init_pair1 == &pair1);
 
   init_pair2 = Mdc_Pair_InitFromFirstCopySecondCopy(
-      &pair1,
+      &pair2,
       pair_metadata,
       &first,
       &second2
