@@ -93,16 +93,40 @@ LINK32=link.exe
 # Begin Group "container"
 
 # PROP Default_Filter ""
-# Begin Group "string_int_pair"
+# Begin Group "map_string_int"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\tests\mdc\container\string_int_pair\string_int_pair.c
+SOURCE=.\tests\mdc\container\map_string_int\map_string_int.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\tests\mdc\container\string_int_pair\string_int_pair.h
+SOURCE=.\tests\mdc\container\map_string_int\map_string_int.h
+# End Source File
+# End Group
+# Begin Group "pair_string_int"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\pair_string_int\pair_string_int.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\pair_string_int\pair_string_int.h
+# End Source File
+# End Group
+# Begin Group "vector_int"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\vector_int\vector_int.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\container\vector_int\vector_int.h
 # End Source File
 # End Group
 # Begin Source File
@@ -245,26 +269,6 @@ SOURCE=.\tests\mdc\wchar_t_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\wchar_t_tests.h
-# End Source File
-# End Group
-# Begin Group "sample_types"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\sample_types\char_cstring.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\sample_types\char_cstring.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\sample_types\integer.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\sample_types\integer.h
 # End Source File
 # End Group
 # End Group
