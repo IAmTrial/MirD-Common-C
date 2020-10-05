@@ -98,11 +98,23 @@ SOURCE=.\src\mdc\container\map.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\mdc\container\map_metadata.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\container\pair.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\mdc\container\pair_metadata.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\container\vector.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\container\vector_metadata.c
 # End Source File
 # End Group
 # Begin Group "wchar_t_c"
@@ -161,7 +173,15 @@ SOURCE=.\src\mdc\string\basic_string\string.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\mdc\string\basic_string\string_metadata.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\string\basic_string\wstring.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\string\basic_string\wstring_metadata.c
 # End Source File
 # End Group
 # Begin Group "char_traits_c"
@@ -182,7 +202,47 @@ SOURCE=.\src\mdc\string\basic_string.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\mdc\string\basic_string_metadata.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\string\char_traits.c
+# End Source File
+# End Group
+# Begin Group "malloc_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\malloc\malloc.c
+# End Source File
+# End Group
+# Begin Group "object_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\object\integer_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\integer_object_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\short_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\short_object_metadata.c
+# End Source File
+# End Group
+# Begin Group "object_metadata_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\object_metadata\object_metadata.c
 # End Source File
 # End Group
 # End Group
@@ -279,6 +339,38 @@ SOURCE=.\include\mdc\string\basic_string.h
 # Begin Source File
 
 SOURCE=.\include\mdc\string\char_traits.h
+# End Source File
+# End Group
+# Begin Group "malloc_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\malloc\malloc.h
+# End Source File
+# End Group
+# Begin Group "object_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\object\integer_object.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\object\pointer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\object\short_object.h
+# End Source File
+# End Group
+# Begin Group "object_metadata_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\object_metadata\object_metadata.h
 # End Source File
 # End Group
 # End Group
