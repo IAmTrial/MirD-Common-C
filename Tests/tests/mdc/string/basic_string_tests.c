@@ -62,6 +62,16 @@ static const wchar_t* kTestCWStrings[] = {
   L"hello world!"
 };
 
+#if UNICODE
+
+#define kTestCTStrings kTestCWStrings
+
+#else
+
+#define kTestCTStrings kTestCStrings
+
+#endif
+
 static void Mdc_BasicString_AssertInitEmptyDeinit(
     const struct Mdc_CharTraits* char_traits,
     const void** c_strings
@@ -273,7 +283,7 @@ static void Mdc_BasicString_AssertPushBackAndPopBack(
 
 void Mdc_BasicString_RunTests(void) {
   enum {
-    kStringSpecializationCount = 2
+    kStringSpecializationCount = 3
   };
 
   struct {
@@ -288,6 +298,9 @@ void Mdc_BasicString_RunTests(void) {
 
   test_args[1].char_traits = Mdc_CharTraitsWChar_GetCharTraits();
   test_args[1].c_strings = kTestCWStrings;
+
+  test_args[2].char_traits = Mdc_CharTraitsTChar_GetCharTraits();
+  test_args[2].c_strings = kTestCTStrings;
 
   for (i = 0; i < kStringSpecializationCount; i += 1) {
     Mdc_BasicString_AssertInitEmptyDeinit(
