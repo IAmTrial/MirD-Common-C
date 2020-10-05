@@ -53,10 +53,6 @@ struct Mdc_Map {
   size_t capacity;
 };
 
-#define MDC_MAP_UNINIT { 0 }
-
-DLLEXPORT const struct Mdc_Map Mdc_Map_kUninit;
-
 /**
  * Initializes the map.
  *

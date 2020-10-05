@@ -38,7 +38,9 @@ enum FILE_SCOPE_CONSTANTS_01 {
   kInitialCapacity = 2
 };
 
-const struct Mdc_Map Mdc_Map_kUninit = MDC_MAP_UNINIT;
+#define MDC_MAP_UNINIT { 0 }
+
+static const struct Mdc_Map Mdc_Map_kUninit = MDC_MAP_UNINIT;
 
 /**
  * Static functions
