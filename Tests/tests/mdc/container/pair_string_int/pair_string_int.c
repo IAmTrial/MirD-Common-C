@@ -40,7 +40,7 @@
 static struct Mdc_PairMetadata global_pair_metadata;
 static once_flag global_pair_metadata_init_flag = ONCE_FLAG_INIT;
 
-static void Mdc_PairStringInt_InitGlobalMapMetadata(void) {
+static void Mdc_PairStringInt_InitGlobalPairMetadata(void) {
   Mdc_PairMetadata_Init(
       &global_pair_metadata,
       Mdc_String_GetObjectMetadata(),
@@ -55,7 +55,7 @@ static void Mdc_PairStringInt_InitGlobalMapMetadata(void) {
 const struct Mdc_PairMetadata* Mdc_PairStringInt_GetGlobalPairMetadata(void) {
   call_once(
       &global_pair_metadata_init_flag,
-      &Mdc_PairStringInt_InitGlobalMapMetadata
+      &Mdc_PairStringInt_InitGlobalPairMetadata
   );
 
   return &global_pair_metadata;
