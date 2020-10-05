@@ -317,6 +317,10 @@ SOURCE=.\include\mdc\string\basic_string\string.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\mdc\string\basic_string\tstring.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\mdc\string\basic_string\wstring.h
 # End Source File
 # End Group
@@ -326,6 +330,10 @@ SOURCE=.\include\mdc\string\basic_string\wstring.h
 # Begin Source File
 
 SOURCE=.\include\mdc\string\char_traits\char_traits_char.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\string\char_traits\char_traits_tchar.h
 # End Source File
 # Begin Source File
 
