@@ -40,7 +40,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#if UNICODE
+#if _UNICODE
 
 #define Mdc_CharTraitsTChar_GetCharTraits() \
     Mdc_CharTraitsWChar_GetCharTraits()

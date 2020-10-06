@@ -41,7 +41,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#if UNICODE
+#if _UNICODE
 
 /**
  * Initialization/deinitialization

@@ -62,7 +62,7 @@ static const wchar_t* kTestCWStrings[] = {
   L"hello world!"
 };
 
-#if UNICODE
+#if _UNICODE
 
 #define kTestCTStrings kTestCWStrings
 
