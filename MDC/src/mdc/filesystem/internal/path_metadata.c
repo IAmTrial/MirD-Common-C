@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/filesystem/filesystem.h"
+#include "../../../../include/mdc/filesystem/internal/path.h"
 
 #include "../../../../include/mdc/std/stdbool.h"
 #include "../../../../include/mdc/std/threads.h"

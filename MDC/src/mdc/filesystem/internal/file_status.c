@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/filesystem/filesystem.h"
+#include "../../../../include/mdc/filesystem/internal/file_status.h"
 
 #include <stddef.h>
 

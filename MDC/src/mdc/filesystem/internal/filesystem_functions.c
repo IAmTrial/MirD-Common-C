@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/filesystem/filesystem.h"
+#include "../../../../include/mdc/filesystem/internal/filesystem_functions.h"
 
 bool Mdc_Fs_ExistsFromFileStatus(
     const struct Mdc_Fs_FileStatus* file_status

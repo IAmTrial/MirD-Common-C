@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/filesystem/filesystem.h"
+#include "../../../../include/mdc/filesystem/internal/filesystem_functions.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 
