@@ -27,19 +27,13 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_FILESYSTEM_FILESYSTEM_H_
-#define MDC_C_FILESYSTEM_FILESYSTEM_H_
+#include "../../../../include/mdc/filesystem/internal/space_info.h"
 
-#ifndef MDC_ACKNOWLEDGE_LIBUNICOWS
-  #error To use the filesystem library, please link to unicows.lib \
-      for full compatability with Windows 9X systems. Define \
-      MDC_ACKNOWLEDGE_LIBUNICOWS to stop this error.
-#endif /* MDC_ACKNOWLEDGE_LIBUNICOWS */
+#include <string.h>
 
-#include "internal/filesystem_functions.h"
-#include "internal/file_status.h"
-#include "internal/file_type.h"
-#include "internal/path.h"
-#include "internal/space_info.h"
-
-#endif /* MDC_C_FILESYSTEM_FILESYSTEM_H_ */
+bool Mdc_Fs_SpaceInfo_Equal(
+    const struct Mdc_Fs_SpaceInfo* space_info1,
+    const struct Mdc_Fs_SpaceInfo* space_info2
+) {
+  return memcmp(space_info1, space_info2, sizeof(*space_info1)) == 0;
+}
