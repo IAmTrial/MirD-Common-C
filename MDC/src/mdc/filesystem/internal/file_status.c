@@ -72,16 +72,16 @@ struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitCopy(
     struct Mdc_Fs_FileStatus* dest,
     const struct Mdc_Fs_FileStatus* src
 ) {
-  return Mdc_Fs_FileStatus_InitMove(dest, src);
+  *dest = *src;
+
+  return dest;
 }
 
 struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitMove(
     struct Mdc_Fs_FileStatus* dest,
     struct Mdc_Fs_FileStatus* src
 ) {
-  *dest = *src;
-
-  return dest;
+  return Mdc_Fs_FileStatus_InitCopy(dest, src);
 }
 
 void Mdc_Fs_FileStatus_Deinit(
