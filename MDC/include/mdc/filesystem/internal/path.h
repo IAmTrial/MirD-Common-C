@@ -162,6 +162,11 @@ DLLEXPORT const struct Mdc_BasicString* Mdc_Fs_Path_Native(
     const struct Mdc_Fs_Path* path
 );
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
+    struct Mdc_Fs_Path* parent_path,
+    const struct Mdc_Fs_Path* path
+);
+
 DLLEXPORT const struct Mdc_BasicString* Mdc_Fs_Path_StrType(
     struct Mdc_BasicString* str,
     const struct Mdc_Fs_Path* path

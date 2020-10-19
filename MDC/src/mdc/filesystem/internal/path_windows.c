@@ -32,6 +32,7 @@
 #include <windows.h>
 #include <shlwapi.h>
 
+#include "../../../../include/mdc/filesystem/internal/filesystem_functions.h"
 #include "../../../../include/mdc/wchar_t/wide_decoding.h"
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -161,6 +162,83 @@ bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path) {
   path_cstr = Mdc_Fs_Path_CStr(path);
 
   return PathIsRelativeW(path_cstr);
+}
+
+struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
+    struct Mdc_Fs_Path* parent_path,
+    const struct Mdc_Fs_Path* path
+) {
+  size_t i;
+  BOOL is_path_remove_file_spec_success;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_len;
+  const Mdc_Fs_Path_ValueType* current_path_char;
+
+  Mdc_Fs_Path_ValueType* parent_path_cstr;
+  size_t parent_path_len;
+
+  struct Mdc_Fs_Path* init_parent_path;
+
+  if (!Mdc_Fs_ExistsFromPath(path)) {
+    goto return_bad;
+  }
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_len = Mdc_BasicString_Length(path_str);
+
+  parent_path_cstr = malloc((path_len + 1) * sizeof(parent_path_cstr[0]));
+  if (parent_path_cstr == NULL) {
+    goto return_bad;
+  }
+
+  wcscpy(parent_path_cstr, path_cstr);
+
+  /* Convert all path separators into back slashes. */
+  for (i = 0; i < path_len; i += 1) {
+    if (parent_path_cstr[i] == L'/') {
+      parent_path_cstr[i] = Mdc_Fs_Path_kPreferredSeparator;
+    }
+  }
+
+  /* Remove the file. */
+  is_path_remove_file_spec_success = PathRemoveFileSpecW(parent_path_cstr);
+  if (!is_path_remove_file_spec_success) {
+    goto free_parent_path_cstr;
+  }
+
+  parent_path_len = wcslen(parent_path_cstr);
+
+  /* Restore the path separators. */
+  for (i = 0; i < parent_path_len; i += 1) {
+    current_path_char = Mdc_BasicString_AtConst(path_str, i);
+
+    if (parent_path_cstr[i] != *current_path_char) {
+      parent_path_cstr[i] = *current_path_char;
+    }
+  }
+
+  /* Init the path. */
+  init_parent_path = Mdc_Fs_Path_InitFromCWStr(
+      parent_path,
+      parent_path_cstr
+  );
+
+  if (init_parent_path != parent_path) {
+    goto free_parent_path_cstr;
+  }
+
+  free(parent_path_cstr);
+
+  return parent_path;
+
+free_parent_path_cstr:
+  free(parent_path_cstr);
+
+return_bad:
+  return NULL;
 }
 
 #endif /* defined(_WIN32) || defined(_WIN64) */
