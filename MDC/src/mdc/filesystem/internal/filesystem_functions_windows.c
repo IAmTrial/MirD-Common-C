@@ -141,4 +141,47 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_SpaceInfo* Mdc_Fs_Space(
+    struct Mdc_Fs_SpaceInfo* space_info,
+    const struct Mdc_Fs_Path* path
+) {
+  BOOL is_get_disk_free_space_ex_success;
+
+  ULARGE_INTEGER available_space;
+  ULARGE_INTEGER total_space;
+  ULARGE_INTEGER free_space;
+
+  struct Mdc_Fs_Path parent_path;
+  struct Mdc_Fs_Path* init_parent_path;
+
+  const Mdc_Fs_Path_ValueType* parent_path_cstr;
+
+  if (!Mdc_Fs_ExistsFromPath(path)) {
+    goto return_bad;
+  }
+
+  init_parent_path = Mdc_Fs_Path_ParentPath(&parent_path, path);
+  if (init_parent_path != &parent_path) {
+    goto return_bad;
+  }
+
+  parent_path_cstr = Mdc_Fs_Path_CStr(&parent_path);
+
+  is_get_disk_free_space_ex_success = GetDiskFreeSpaceExW(
+      parent_path_cstr,
+      &available_space,
+      &total_space,
+      &free_space
+  );
+
+  space_info->available = available_space.QuadPart;
+  space_info->capacity = total_space.QuadPart;
+  space_info->free = free_space.QuadPart;
+
+  return space_info;
+
+return_bad:
+  return NULL;
+}
+
 #endif /* defined(_WIN32) || defined(_WIN64) */

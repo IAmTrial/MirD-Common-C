@@ -33,6 +33,7 @@
 #include "../../std/stdbool.h"
 #include "file_status.h"
 #include "path.h"
+#include "space_info.h"
 
 #include "../../../../dllexport_define.inc"
 
@@ -65,6 +66,11 @@ DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_SymlinkStatusFromPath(
     const struct Mdc_Fs_Path* path
 );
 */
+
+DLLEXPORT struct Mdc_Fs_SpaceInfo* Mdc_Fs_Space(
+    struct Mdc_Fs_SpaceInfo* space_info,
+    const struct Mdc_Fs_Path* path
+);
 
 DLLEXPORT bool Mdc_Fs_StatusKnown(
     const struct Mdc_Fs_FileStatus* file_status
