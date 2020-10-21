@@ -34,6 +34,42 @@
 #include <windows.h>
 #include <shlwapi.h>
 
+struct Mdc_Fs_Path* Mdc_Fs_AbsoluteFromPath(
+    struct Mdc_Fs_Path* absolute_path,
+    const struct Mdc_Fs_Path* path
+) {
+  Mdc_Fs_Path_ValueType* path_cstr;
+
+  Mdc_Fs_Path_ValueType* absolute_path_cstr;
+  struct Mdc_Fs_Path* init_absolute_path;
+
+  path_cstr = Mdc_Fs_Path_CStr(path);
+
+  absolute_path_cstr = _wfullpath(NULL, path_cstr, 0);
+  if (absolute_path_cstr == NULL) {
+    goto return_bad;
+  }
+
+  init_absolute_path = Mdc_Fs_Path_InitFromCWStr(
+      absolute_path,
+      absolute_path_cstr
+  );
+
+  if (init_absolute_path != absolute_path) {
+    goto free_absolute_path_cstr;
+  }
+
+  free(absolute_path_cstr);
+
+  return absolute_path;
+
+free_absolute_path_cstr:
+  free(absolute_path_cstr);
+
+return_bad:
+  return NULL;
+}
+
 /*
 * TODO (Mir Drualga): Delete this function implementation when
 * Mdc_Fs_StatusFromPath is complete.

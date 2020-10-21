@@ -41,6 +41,11 @@
 extern "C" {
 #endif /* __cplusplus */
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_AbsoluteFromPath(
+    struct Mdc_Fs_Path* absolute_path,
+    const struct Mdc_Fs_Path* path
+);
+
 DLLEXPORT bool Mdc_Fs_ExistsFromFileStatus(
     const struct Mdc_Fs_FileStatus* file_status
 );
