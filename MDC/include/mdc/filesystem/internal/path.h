@@ -150,6 +150,11 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ConcatPath(
 
 DLLEXPORT bool Mdc_Fs_Path_Empty(const struct Mdc_Fs_Path* path);
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
+    struct Mdc_Fs_Path* extension,
+    const struct Mdc_Fs_Path* path
+);
+
 DLLEXPORT bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path);
 
 DLLEXPORT bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path);

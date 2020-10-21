@@ -152,6 +152,51 @@ return_bad:
  * Etc. functions
  */
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
+    struct Mdc_Fs_Path* extension,
+    const struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_Path* init_extension;
+  Mdc_Fs_Path_ValueType* extension_cstr;
+  size_t extension_capacity;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_length;
+
+  /*
+  * Allocate space large enough for a full copy of path, in case
+  * extension is the entirety of path.
+  */
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_length = Mdc_BasicString_Length(path_str);
+
+  extension_capacity = path_length + 1;
+
+  extension_cstr = malloc(extension_capacity * sizeof(extension_cstr[0]));
+  if (extension_cstr == NULL) {
+    goto return_bad;
+  }
+
+  _wsplitpath(path_cstr, NULL, NULL, NULL, extension_cstr);
+
+  init_extension = Mdc_Fs_Path_InitFromCWStr(extension, extension_cstr);
+  if (init_extension != extension) {
+    goto free_extension_cstr;
+  }
+
+  free(extension_cstr);
+
+  return extension;
+
+free_extension_cstr:
+  free(extension_cstr);
+
+return_bad:
+  return NULL;
+}
+
 bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
   return !Mdc_Fs_Path_IsRelative(path);
 }
