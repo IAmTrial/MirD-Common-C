@@ -38,7 +38,7 @@ struct Mdc_Fs_Path* Mdc_Fs_AbsoluteFromPath(
     struct Mdc_Fs_Path* absolute_path,
     const struct Mdc_Fs_Path* path
 ) {
-  Mdc_Fs_Path_ValueType* path_cstr;
+  const Mdc_Fs_Path_ValueType* path_cstr;
 
   Mdc_Fs_Path_ValueType* absolute_path_cstr;
   struct Mdc_Fs_Path* init_absolute_path;
