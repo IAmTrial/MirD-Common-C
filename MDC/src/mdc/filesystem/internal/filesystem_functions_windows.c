@@ -177,7 +177,7 @@ return_bad:
   return NULL;
 }
 
-struct Mdc_Fs_SpaceInfo* Mdc_Fs_Space(
+struct Mdc_Fs_SpaceInfo* Mdc_Fs_SpaceFromPath(
     struct Mdc_Fs_SpaceInfo* space_info,
     const struct Mdc_Fs_Path* path
 ) {
