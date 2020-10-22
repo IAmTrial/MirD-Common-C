@@ -220,8 +220,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Filename(
     struct Mdc_Fs_Path* filename,
     const struct Mdc_Fs_Path* path
 ) {
-  Mdc_Fs_Path_ValueType* filename_cstr;
   struct Mdc_Fs_Path* init_filename;
+  Mdc_Fs_Path_ValueType* filename_cstr;
+
+  Mdc_Fs_Path_ValueType* extension_cstr;
 
   const struct Mdc_BasicString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
@@ -243,16 +245,27 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Filename(
     goto return_bad;
   }
 
-  _wsplitpath(path_cstr, NULL, NULL, filename_cstr, NULL);
-
-  init_filename = Mdc_Fs_Path_InitFromCWStr(filename, filename_cstr);
-  if (init_filename != filename) {
+  extension_cstr = malloc(path_min_capacity * sizeof(extension_cstr[0]));
+  if (extension_cstr == NULL) {
     goto free_filename_cstr;
   }
 
+  _wsplitpath(path_cstr, NULL, NULL, filename_cstr, extension_cstr);
+
+  wcscat(filename_cstr, extension_cstr);
+
+  init_filename = Mdc_Fs_Path_InitFromCWStr(filename, filename_cstr);
+  if (init_filename != filename) {
+    goto free_extension_cstr;
+  }
+
+  free(extension_cstr);
   free(filename_cstr);
 
   return filename;
+
+free_extension_cstr:
+  free(extension_cstr);
 
 free_filename_cstr:
   free(filename_cstr);
@@ -381,27 +394,34 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
 
   extension_cstr = malloc(path_min_capacity * sizeof(extension_cstr[0]));
   if (extension_cstr == NULL) {
-    goto free_stem_cstr;
+    goto free_filename_cstr;
   }
 
   _wsplitpath(path_cstr, NULL, NULL, stem_cstr, extension_cstr);
 
-  wcscat(stem_cstr, extension_cstr);
+  /*
+  * An extension with empty filename means that the extension is
+  * actually the filename.
+  */
+  if (wcslen(stem_cstr) == 0) {
+    init_stem = Mdc_Fs_Path_InitFromCWStr(stem, stem_cstr);
+  } else {
+    init_stem = Mdc_Fs_Path_InitFromCWStr(stem, extension_cstr);
+  }
 
-  init_stem = Mdc_Fs_Path_InitFromCWStr(stem, stem_cstr);
   if (init_stem != stem) {
     goto free_extension_cstr;
   }
 
-  free(stem_cstr);
   free(extension_cstr);
+  free(stem_cstr);
 
   return stem;
 
 free_extension_cstr:
   free(extension_cstr);
 
-free_stem_cstr:
+free_filename_cstr:
   free(stem_cstr);
 
 return_bad:
