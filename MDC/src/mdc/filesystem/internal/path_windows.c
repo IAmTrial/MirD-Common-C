@@ -158,28 +158,43 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
 ) {
   struct Mdc_Fs_Path* init_extension;
   Mdc_Fs_Path_ValueType* extension_cstr;
-  size_t extension_capacity;
+
+  Mdc_Fs_Path_ValueType* filename_cstr;
 
   const struct Mdc_BasicString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_length;
+  size_t path_min_capacity;
 
   /*
   * Allocate space large enough for a full copy of path, in case
-  * extension is the entirety of path.
+  * filename or extension is the entirety of path.
   */
   path_str = Mdc_Fs_Path_Native(path);
   path_cstr = Mdc_BasicString_DataConst(path_str);
   path_length = Mdc_BasicString_Length(path_str);
 
-  extension_capacity = path_length + 1;
+  path_min_capacity = path_length + 1;
 
-  extension_cstr = malloc(extension_capacity * sizeof(extension_cstr[0]));
-  if (extension_cstr == NULL) {
+  filename_cstr = malloc(path_min_capacity * sizeof(filename_cstr[0]));
+  if (filename_cstr == NULL) {
     goto return_bad;
   }
 
-  _wsplitpath(path_cstr, NULL, NULL, NULL, extension_cstr);
+  extension_cstr = malloc(path_min_capacity * sizeof(extension_cstr[0]));
+  if (extension_cstr == NULL) {
+    goto free_filename_cstr;
+  }
+
+  _wsplitpath(path_cstr, NULL, NULL, filename_cstr, extension_cstr);
+
+  /*
+  * An extension with empty filename means that the extension is
+  * actually the filename.
+  */
+  if (wcslen(filename_cstr) == 0 && wcslen(extension_cstr) >= 1) {
+    extension_cstr[0] = L'\0';
+  }
 
   init_extension = Mdc_Fs_Path_InitFromCWStr(extension, extension_cstr);
   if (init_extension != extension) {
@@ -187,11 +202,15 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
   }
 
   free(extension_cstr);
+  free(filename_cstr);
 
   return extension;
 
 free_extension_cstr:
   free(extension_cstr);
+
+free_filename_cstr:
+  free(filename_cstr);
 
 return_bad:
   return NULL;
