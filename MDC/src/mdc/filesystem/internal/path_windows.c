@@ -363,6 +363,49 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_RelativePath(
+    struct Mdc_Fs_Path* relative_path,
+    const struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_Path* init_relative_path;
+
+  Mdc_Fs_Path_ValueType drive[_MAX_DRIVE];
+  size_t drive_len;
+  size_t drive_sep_count;
+  Mdc_Fs_Path_ValueType current_ch;
+
+  const Mdc_Fs_Path_ValueType* path_cstr;
+
+  path_cstr = Mdc_Fs_Path_CStr(path);
+
+  _wsplitpath(path_cstr, drive, NULL, NULL, NULL);
+
+  drive_len = wcslen(drive);
+
+  for (drive_sep_count = 0; ; drive_sep_count += 1) {
+    current_ch = path_cstr[drive_len + drive_sep_count];
+
+    if (current_ch != Mdc_Fs_Path_kPreferredSeparator &&
+        current_ch != L'/') {
+      break;
+    }
+  }
+
+  init_relative_path = Mdc_Fs_Path_InitFromCWStr(
+      relative_path,
+      &path_cstr[drive_len + drive_sep_count]
+  );
+
+  if (init_relative_path != relative_path) {
+    goto return_bad;
+  }
+
+  return relative_path;
+
+return_bad:
+  return NULL;
+}
+
 struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
     struct Mdc_Fs_Path* stem,
     const struct Mdc_Fs_Path* path
