@@ -182,6 +182,11 @@ DLLEXPORT const struct Mdc_BasicString* Mdc_Fs_Path_StrType(
     const struct Mdc_Fs_Path* path
 );
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
+    struct Mdc_Fs_Path* stem,
+    const struct Mdc_Fs_Path* path
+);
+
 DLLEXPORT void Mdc_Fs_Path_Swap(
     struct Mdc_Fs_Path* path1,
     struct Mdc_Fs_Path* path2

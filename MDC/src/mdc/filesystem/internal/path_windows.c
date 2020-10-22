@@ -350,4 +350,62 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
+    struct Mdc_Fs_Path* stem,
+    const struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_Path* init_stem;
+  Mdc_Fs_Path_ValueType* stem_cstr;
+
+  Mdc_Fs_Path_ValueType* extension_cstr;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_length;
+  size_t path_min_capacity;
+
+  /*
+  * Allocate space large enough for a full copy of path, in case
+  * filename or extension is the entirety of path.
+  */
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_length = Mdc_BasicString_Length(path_str);
+
+  path_min_capacity = path_length + 1;
+
+  stem_cstr = malloc(path_min_capacity * sizeof(stem_cstr[0]));
+  if (stem_cstr == NULL) {
+    goto return_bad;
+  }
+
+  extension_cstr = malloc(path_min_capacity * sizeof(extension_cstr[0]));
+  if (extension_cstr == NULL) {
+    goto free_stem_cstr;
+  }
+
+  _wsplitpath(path_cstr, NULL, NULL, stem_cstr, extension_cstr);
+
+  wcscat(stem_cstr, extension_cstr);
+
+  init_stem = Mdc_Fs_Path_InitFromCWStr(stem, stem_cstr);
+  if (init_stem != stem) {
+    goto free_extension_cstr;
+  }
+
+  free(stem_cstr);
+  free(extension_cstr);
+
+  return stem;
+
+free_extension_cstr:
+  free(extension_cstr);
+
+free_stem_cstr:
+  free(stem_cstr);
+
+return_bad:
+  return NULL;
+}
+
 #endif /* defined(_WIN32) || defined(_WIN64) */
