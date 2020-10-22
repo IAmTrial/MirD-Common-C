@@ -216,6 +216,51 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_Filename(
+    struct Mdc_Fs_Path* filename,
+    const struct Mdc_Fs_Path* path
+) {
+  Mdc_Fs_Path_ValueType* filename_cstr;
+  struct Mdc_Fs_Path* init_filename;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_length;
+  size_t path_min_capacity;
+
+  /*
+  * Allocate space large enough for a full copy of path, in case
+  * filename or extension is the entirety of path.
+  */
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_length = Mdc_BasicString_Length(path_str);
+
+  path_min_capacity = path_length + 1;
+
+  filename_cstr = malloc(path_min_capacity * sizeof(filename_cstr[0]));
+  if (filename_cstr == NULL) {
+    goto return_bad;
+  }
+
+  _wsplitpath(path_cstr, NULL, NULL, filename_cstr, NULL);
+
+  init_filename = Mdc_Fs_Path_InitFromCWStr(filename, filename_cstr);
+  if (init_filename != filename) {
+    goto free_filename_cstr;
+  }
+
+  free(filename_cstr);
+
+  return filename;
+
+free_filename_cstr:
+  free(filename_cstr);
+
+return_bad:
+  return NULL;
+}
+
 bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
   return !Mdc_Fs_Path_IsRelative(path);
 }
