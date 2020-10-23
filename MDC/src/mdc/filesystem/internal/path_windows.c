@@ -33,7 +33,9 @@
 #include <shlwapi.h>
 
 #include "../../../../include/mdc/filesystem/internal/filesystem_functions.h"
+#include "../../../../include/mdc/std/wchar.h"
 #include "../../../../include/mdc/wchar_t/wide_decoding.h"
+#include "path_separator.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 
@@ -275,15 +277,50 @@ return_bad:
 }
 
 bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
-  return !Mdc_Fs_Path_IsRelative(path);
+  size_t i;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_str_len;
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_str_len = Mdc_BasicString_Length(path_str);
+
+  if (path_str_len < 3) {
+    return false;
+  }
+
+  /*
+  * Test for drive paths:
+  * "C:/" is true
+  * "C:" is false
+  */
+  if (iswalpha(path_cstr[0])
+      && path_cstr[1] == L':'
+      && Mdc_Fs_Path_IsSeparatorCh(path_cstr[2])) {
+    return true;
+  }
+
+  /*
+  * Test for UNC names:
+  * "//test" is true
+  * "// " is true
+  * "//\0" is false
+  * "//\1" is true
+  */
+  if (Mdc_Fs_Path_IsSeparatorCh(path_cstr[0])
+      && Mdc_Fs_Path_IsSeparatorCh(path_cstr[1])
+      && !Mdc_Fs_Path_IsSeparatorCh(path_cstr[2])
+      && path_cstr[2] != L'\0') {
+    return true;
+  }
+
+  return false;
 }
 
 bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path) {
-  const Mdc_Fs_Path_ValueType* path_cstr;
-
-  path_cstr = Mdc_Fs_Path_CStr(path);
-
-  return PathIsRelativeW(path_cstr);
+  return !Mdc_Fs_Path_IsAbsolute(path);
 }
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
