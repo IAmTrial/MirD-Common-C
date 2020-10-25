@@ -33,6 +33,7 @@
 #include <shlwapi.h>
 
 #include "../../../../include/mdc/filesystem/internal/filesystem_functions.h"
+#include "../../../../include/mdc/std/assert.h"
 #include "../../../../include/mdc/std/wchar.h"
 #include "../../../../include/mdc/wchar_t/wide_decoding.h"
 #include "path_separator.h"
@@ -42,6 +43,50 @@
 #define MDC_PATH_UNINIT { 0 }
 
 static const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit = MDC_PATH_UNINIT;
+
+/**
+ * Static functions
+ */
+
+enum Mdc_Fs_Path_RootNameType {
+  Mdc_Fs_Path_RootNameType_kNone,
+  Mdc_Fs_Path_RootNameType_kDrive,
+  Mdc_Fs_Path_RootNameType_kUnc,
+};
+
+static enum Mdc_Fs_Path_RootNameType Mdc_Fs_Path_GetRootNameType(
+    const struct Mdc_Fs_Path* path
+) {
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_str_len;
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_str_len = Mdc_BasicString_Length(path_str);
+
+  if (path_str_len < 2) {
+    return Mdc_Fs_Path_RootNameType_kNone;
+  }
+
+  /* Detect drive root paths. */
+  if (iswalpha(path_cstr[0])
+      && path_cstr[1] == L':') {
+    return Mdc_Fs_Path_RootNameType_kDrive;
+  }
+
+  /* UNC names start with two path separators. */
+  if (Mdc_Fs_Path_IsSeparatorCh(path_cstr[0])
+      && Mdc_Fs_Path_IsSeparatorCh(path_cstr[1])) {
+    return Mdc_Fs_Path_RootNameType_kUnc;
+  }
+
+  return Mdc_Fs_Path_RootNameType_kNone;
+}
+
+/**
+ * External functions
+ */
 
 const wchar_t Mdc_Fs_Path_kPreferredSeparator = L'\\';
 
@@ -154,44 +199,37 @@ return_bad:
  * Etc. functions
  */
 
-bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
   size_t i;
 
+bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
   const struct Mdc_BasicString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_str_len;
+
+  enum Mdc_Fs_Path_RootNameType root_type;
 
   path_str = Mdc_Fs_Path_Native(path);
   path_cstr = Mdc_BasicString_DataConst(path_str);
   path_str_len = Mdc_BasicString_Length(path_str);
 
-  if (path_str_len < 3) {
+  root_type = Mdc_Fs_Path_GetRootNameType(path);
+
+  if (path_str_len < 3 || path_cstr[2] == L'\0') {
     return false;
   }
 
-  /*
-  * Test for drive paths:
-  * "C:/" is true
-  * "C:" is false
-  */
-  if (iswalpha(path_cstr[0])
-      && path_cstr[1] == L':'
-      && Mdc_Fs_Path_IsSeparatorCh(path_cstr[2])) {
-    return true;
-  }
+  switch (root_type) {
+    case Mdc_Fs_Path_RootNameType_kDrive: {
+      return Mdc_Fs_Path_IsSeparatorCh(path_cstr[2]);
+    }
 
-  /*
-  * Test for UNC names:
-  * "//test" is true
-  * "// " is true
-  * "//\0" is false
-  * "//\1" is true
-  */
-  if (Mdc_Fs_Path_IsSeparatorCh(path_cstr[0])
-      && Mdc_Fs_Path_IsSeparatorCh(path_cstr[1])
-      && !Mdc_Fs_Path_IsSeparatorCh(path_cstr[2])
-      && path_cstr[2] != L'\0') {
-    return true;
+    case Mdc_Fs_Path_RootNameType_kUnc: {
+      return !Mdc_Fs_Path_IsSeparatorCh(path_cstr[2]);
+    }
+
+    case Mdc_Fs_Path_RootNameType_kNone: {
+      return false;
+    }
   }
 
   return false;
