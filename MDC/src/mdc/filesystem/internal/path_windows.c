@@ -420,4 +420,79 @@ bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path) {
   return !Mdc_Fs_Path_IsAbsolute(path);
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_RootName(
+    struct Mdc_Fs_Path* root_name,
+    const struct Mdc_Fs_Path* path
+) {
+  size_t i;
+
+  struct Mdc_Fs_Path* init_root_name;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_len;
+
+  enum Mdc_Fs_Path_RootNameType root_name_type;
+  size_t i_unc_root_name_end;
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_len = Mdc_BasicString_Length(path_str);
+
+  root_name_type = Mdc_Fs_Path_RootNameTypeFromPath(path);
+
+  switch (root_name_type) {
+    case Mdc_Fs_Path_RootNameType_kNone: {
+      init_root_name = Mdc_Fs_Path_InitEmpty(root_name);
+
+      break;
+    }
+
+    case Mdc_Fs_Path_RootNameType_kDrive: {
+      init_root_name = Mdc_Fs_Path_InitFromCWStrTop(
+          root_name,
+          path_cstr,
+          2
+      );
+
+      break;
+    }
+
+    case Mdc_Fs_Path_RootNameType_kUnc: {
+      if (path_len < 3 || Mdc_Fs_Path_IsSeparatorCh(path_cstr[2])) {
+        init_root_name = Mdc_Fs_Path_InitEmpty(root_name);
+      } else {
+        i_unc_root_name_end = 1;
+
+        for (i = 1; i < path_len; i += 1) {
+          if (Mdc_Fs_Path_IsSeparatorCh(path_cstr[i])) {
+            i_unc_root_name_end = i;
+          }
+        }
+
+        init_root_name = Mdc_Fs_Path_InitFromCWStrTop(
+            root_name,
+            path_cstr,
+            i_unc_root_name_end
+        );
+      }
+
+      break;
+    }
+
+    default: {
+      goto return_bad;
+    }
+  }
+
+  if (init_root_name != root_name) {
+    goto return_bad;
+  }
+
+  return root_name;
+
+return_bad:
+  return NULL;
+}
+
 #endif /* defined(_WIN32) || defined(_WIN64) */
