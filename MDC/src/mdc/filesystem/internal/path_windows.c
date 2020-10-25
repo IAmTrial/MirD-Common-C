@@ -80,7 +80,7 @@ return_bad:
   return NULL;
 }
 
-static enum Mdc_Fs_Path_RootNameType Mdc_Fs_Path_GetRootNameType(
+static enum Mdc_Fs_Path_RootNameType Mdc_Fs_Path_RootNameTypeFromPath(
     const struct Mdc_Fs_Path* path
 ) {
   const struct Mdc_BasicString* path_str;
@@ -319,7 +319,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
     }
   }
 
-  root_type = Mdc_Fs_Path_GetRootNameType(path);
+  root_type = Mdc_Fs_Path_RootNameTypeFromPath(path);
 
   if (!has_parent_separator) {
     /*
@@ -393,7 +393,7 @@ bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
   path_cstr = Mdc_BasicString_DataConst(path_str);
   path_str_len = Mdc_BasicString_Length(path_str);
 
-  root_type = Mdc_Fs_Path_GetRootNameType(path);
+  root_type = Mdc_Fs_Path_RootNameTypeFromPath(path);
 
   if (path_str_len < 3 || path_cstr[2] == L'\0') {
     return false;
