@@ -470,6 +470,51 @@ bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path) {
   return !Mdc_Fs_Path_IsAbsolute(path);
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_RelativePath(
+    struct Mdc_Fs_Path* relative_path,
+    const struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_Path* init_relative_path;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+
+  struct Mdc_Fs_Path root_path;
+  struct Mdc_Fs_Path* init_root_path;
+  const struct Mdc_BasicString* root_path_str;
+  size_t root_path_len;
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+
+  init_root_path = Mdc_Fs_Path_RootPath(&root_path, path);
+  if (init_root_path != &root_path) {
+    goto return_bad;
+  }
+
+  root_path_str = Mdc_Fs_Path_Native(&root_path);
+  root_path_len = Mdc_BasicString_Length(root_path_str);
+
+  init_relative_path = Mdc_Fs_Path_InitFromCWStr(
+      relative_path,
+      &path_cstr[root_path_len]
+  );
+
+  if (init_relative_path != relative_path) {
+    goto deinit_root_path;
+  }
+
+  Mdc_Fs_Path_Deinit(&root_path);
+
+  return relative_path;
+
+deinit_root_path:
+  Mdc_Fs_Path_Deinit(&root_path);
+
+return_bad:
+  return NULL;
+}
+
 struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
     struct Mdc_Fs_Path* root_directory,
     const struct Mdc_Fs_Path* path
