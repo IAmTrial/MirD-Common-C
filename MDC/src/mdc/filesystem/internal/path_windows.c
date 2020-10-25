@@ -420,6 +420,66 @@ bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path) {
   return !Mdc_Fs_Path_IsAbsolute(path);
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
+    struct Mdc_Fs_Path* root_directory,
+    const struct Mdc_Fs_Path* path
+) {
+  size_t i;
+
+  struct Mdc_Fs_Path* init_root_directory;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_len;
+  size_t i_root_directory_len;
+
+  struct Mdc_Fs_Path root_name;
+  struct Mdc_Fs_Path* init_root_name;
+  const struct Mdc_BasicString* root_name_str;
+  size_t root_name_len;
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_len = Mdc_BasicString_Length(path_str);
+
+  /* Use the root name to determine the start of the root directory. */
+  init_root_name = Mdc_Fs_Path_RootName(&root_name, path);
+  if (init_root_name != &root_name) {
+    goto return_bad;
+  }
+
+  root_name_str = Mdc_Fs_Path_Native(&root_name);
+  root_name_len = Mdc_BasicString_Length(root_name_str);
+
+  for (i = root_name_len; i < path_len; i += 1) {
+    if (!Mdc_Fs_Path_IsSeparatorCh(path_cstr[i])) {
+      break;
+    }
+  }
+
+  i_root_directory_len = i - root_name_len;
+
+  init_root_directory = Mdc_Fs_Path_InitFromCWStrTop(
+      root_directory,
+      path_cstr,
+      i_root_directory_len
+  );
+
+  if (init_root_directory != root_directory) {
+    goto deinit_root_name;
+  }
+
+  Mdc_Fs_Path_Deinit(&root_name);
+
+  return root_directory;
+
+deinit_root_name:
+  Mdc_Fs_Path_Deinit(&root_name);
+
+return_bad:
+  return NULL;
+}
+
 struct Mdc_Fs_Path* Mdc_Fs_Path_RootName(
     struct Mdc_Fs_Path* root_name,
     const struct Mdc_Fs_Path* path

@@ -182,6 +182,11 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RelativePath(
     const struct Mdc_Fs_Path* path
 );
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
+    struct Mdc_Fs_Path* root_directory,
+    const struct Mdc_Fs_Path* path
+);
+
 DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RootName(
     struct Mdc_Fs_Path* root_name,
     const struct Mdc_Fs_Path* path
