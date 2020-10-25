@@ -393,6 +393,45 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_Filename(
+    struct Mdc_Fs_Path* filename,
+    const struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_Path* init_filename;
+  struct Mdc_Fs_Path* init_stem;
+
+  struct Mdc_Fs_Path extension;
+  struct Mdc_Fs_Path* init_extension;
+
+  init_stem = Mdc_Fs_Path_Stem(filename, path);
+  if (init_stem != filename) {
+    goto return_bad;
+  }
+
+  init_extension = Mdc_Fs_Path_Extension(&extension, path);
+  if (init_extension != &extension) {
+    goto deinit_stem;
+  }
+
+  init_filename = Mdc_Fs_Path_ConcatPath(filename, &extension);
+  if (init_filename != filename) {
+    goto deinit_extension;
+  }
+
+  Mdc_Fs_Path_Deinit(&extension);
+
+  return filename;
+
+deinit_extension:
+  Mdc_Fs_Path_Deinit(&extension);
+
+deinit_stem:
+  Mdc_Fs_Path_Deinit(filename);
+
+return_bad:
+  return NULL;
+}
+
 bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
   const struct Mdc_BasicString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
