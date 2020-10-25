@@ -84,6 +84,66 @@ static enum Mdc_Fs_Path_RootNameType Mdc_Fs_Path_GetRootNameType(
   return Mdc_Fs_Path_RootNameType_kNone;
 }
 
+static bool Mdc_Fs_Path_HasExtensionFromFilename(
+    const Mdc_Fs_Path_ValueType* filename
+) {
+  size_t i;
+
+  size_t filename_len;
+
+  bool has_dot_char;
+  size_t i_last_dot_char;
+
+  filename_len = wcslen(filename);
+
+  if (filename_len == 0) {
+    return false;
+  }
+
+  has_dot_char = false;
+
+  for (i = filename_len - 1; i != (size_t) -1; i -= 1) {
+    if (Mdc_Fs_Path_IsSeparatorCh(filename[i])) {
+      break;
+    }
+
+    if (filename[i] == L'.') {
+      has_dot_char = true;
+      i_last_dot_char = i;
+
+      break;
+    }
+  }
+
+  if (!has_dot_char) {
+    return false;
+  }
+
+  if (filename[0] == L'.') {
+    if (filename[1] == L'\0') {
+      /* "." returns false */
+      return false;
+    }
+
+    assert(filename_len >= 2);
+
+    if (filename[1] == L'.' && filename[2] == L'\0') {
+      /* ".." returns false */
+      return false;
+    }
+
+    if (i_last_dot_char == 0 && !iswspace(filename[1])) {
+      /*
+      * ".git" returns false
+      * ". " returns true
+      */
+      return false;
+    }
+  }
+
+  return true;
+}
+
 /**
  * External functions
  */
@@ -199,7 +259,102 @@ return_bad:
  * Etc. functions
  */
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
+    struct Mdc_Fs_Path* extension,
+    const struct Mdc_Fs_Path* path
+) {
   size_t i;
+
+  struct Mdc_Fs_Path* init_extension;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_len;
+
+  const Mdc_Fs_Path_ValueType* filename_cstr;
+
+  bool has_parent_separator;
+  size_t i_parent_separator;
+  enum Mdc_Fs_Path_RootNameType root_type;
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_len = Mdc_BasicString_Length(path_str);
+
+  /* Locate the last path separator. */
+  has_parent_separator = false;
+
+  for (i = path_len - 1; i != (size_t) -1; i -= 1) {
+    if (!has_parent_separator && Mdc_Fs_Path_IsSeparatorCh(path_cstr[i])) {
+      has_parent_separator = true;
+      i_parent_separator = i;
+
+      break;
+    }
+  }
+
+  root_type = Mdc_Fs_Path_GetRootNameType(path);
+
+  if (!has_parent_separator) {
+    /*
+    * If there is no path separator, then there is either no root
+    * name or the root name is a drive path.
+    */
+    switch (root_type) {
+      case Mdc_Fs_Path_RootNameType_kNone: {
+        filename_cstr = path_cstr;
+        break;
+      }
+
+      case Mdc_Fs_Path_RootNameType_kDrive: {
+        filename_cstr = &path_cstr[2];
+        break;
+      }
+
+      default: {
+        goto return_bad;
+      }
+    }
+  } else {
+    switch (root_type) {
+      case Mdc_Fs_Path_RootNameType_kNone:
+      case Mdc_Fs_Path_RootNameType_kDrive: {
+        filename_cstr = &path_cstr[i_parent_separator + 1];
+        break;
+      }
+
+      case Mdc_Fs_Path_RootNameType_kUnc: {
+        if (i_parent_separator == 1) {
+          filename_cstr = NULL;
+        } else {
+          filename_cstr = &path_cstr[i_parent_separator + 1];
+        }
+
+        break;
+      }
+
+      default: {
+        goto return_bad;
+      }
+    }
+  }
+
+  if (filename_cstr == NULL
+      || !Mdc_Fs_Path_HasExtensionFromFilename(filename_cstr)) {
+    init_extension = Mdc_Fs_Path_InitEmpty(extension);
+  } else {
+    init_extension = Mdc_Fs_Path_InitFromCWStr(extension, filename_cstr);
+  }
+
+  if (init_extension != extension) {
+    goto return_bad;
+  }
+
+  return extension;
+
+return_bad:
+  return NULL;
+}
 
 bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
   const struct Mdc_BasicString* path_str;
