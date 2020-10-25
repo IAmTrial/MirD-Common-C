@@ -175,18 +175,27 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
     struct Mdc_Fs_Path* dest,
     const struct Mdc_Fs_Path* path
 ) {
-  size_t path_length;
-  const Mdc_Fs_Path_ValueType* back_ptr;
+  struct Mdc_BasicString* dest_path_str;
+  const Mdc_Fs_Path_ValueType* dest_path_cstr;
+  size_t dest_path_len;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
 
   struct Mdc_BasicString* append_str;
   struct Mdc_Fs_Path* concat_path;
 
-  path_length = Mdc_BasicString_Length(&dest->path_str_);
-  back_ptr = Mdc_BasicString_BackConst(&dest->path_str_);
+  dest_path_str = &dest->path_str_;
+  dest_path_cstr = Mdc_BasicString_DataConst(dest_path_str);
+  dest_path_len = Mdc_BasicString_Length(dest_path_str);
 
-  if (Mdc_Path_IsPathSeparator(*back_ptr)) {
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+
+  if (!Mdc_Path_IsPathSeparator(dest_path_cstr[dest_path_len - 1])
+      || !Mdc_Path_IsPathSeparator(path_cstr[0])) {
     append_str = Mdc_BasicString_AppendChar(
-        &dest->path_str_,
+        dest_path_str,
         1,
         Mdc_Fs_Path_kPreferredSeparator
     );
