@@ -555,4 +555,43 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_RootPath(
+    struct Mdc_Fs_Path* root_path,
+    const struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_Path* append_root_path;
+  struct Mdc_Fs_Path* init_root_name;
+
+  struct Mdc_Fs_Path root_directory;
+  struct Mdc_Fs_Path* init_root_directory;
+
+  init_root_name = Mdc_Fs_Path_RootName(root_path, path);
+  if (init_root_name != root_path) {
+    goto return_bad;
+  }
+
+  init_root_directory = Mdc_Fs_Path_RootDirectory(&root_directory, path);
+  if (init_root_directory != &root_directory) {
+    goto deinit_root_name;
+  }
+
+  append_root_path = Mdc_Fs_Path_AppendPath(root_path, &root_directory);
+  if (append_root_path != root_path) {
+    goto deinit_root_directory;
+  }
+
+  Mdc_Fs_Path_Deinit(&root_directory);
+
+  return root_path;
+
+deinit_root_directory:
+  Mdc_Fs_Path_Deinit(&root_directory);
+
+deinit_root_name:
+  Mdc_Fs_Path_Deinit(root_path);
+
+return_bad:
+  return NULL;
+}
+
 #endif /* defined(_WIN32) || defined(_WIN64) */
