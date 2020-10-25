@@ -470,6 +470,113 @@ bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path) {
   return !Mdc_Fs_Path_IsAbsolute(path);
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
+    struct Mdc_Fs_Path* parent_path,
+    const struct Mdc_Fs_Path* path
+) {
+  Mdc_Fs_Path_ValueType previous_path_ch;
+
+  struct Mdc_Fs_Path* init_parent_path;
+  size_t parent_path_len;
+  size_t relative_parent_path_len;
+
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+
+  struct Mdc_Fs_Path relative_path;
+  struct Mdc_Fs_Path* init_relative_path;
+  const struct Mdc_BasicString* relative_path_str;
+  const Mdc_Fs_Path_ValueType* relative_path_cstr;
+  size_t relative_path_len;
+
+  struct Mdc_Fs_Path filename;
+  struct Mdc_Fs_Path* init_filename;
+  const struct Mdc_BasicString* filename_str;
+  const Mdc_Fs_Path_ValueType* filename_cstr;
+  size_t filename_len;
+
+  struct Mdc_Fs_Path root_path;
+  struct Mdc_Fs_Path* init_root_path;
+  const struct Mdc_BasicString* root_path_str;
+  size_t root_path_len;
+
+  /*
+  * Create the parent relative path to prevent cutting off root
+  * directory.
+  */
+  init_relative_path = Mdc_Fs_Path_RelativePath(&relative_path, path);
+  if (init_relative_path != &relative_path) {
+    goto return_bad;
+  }
+
+  relative_path_str = Mdc_Fs_Path_Native(&relative_path);
+  relative_path_cstr = Mdc_BasicString_DataConst(relative_path_str);
+  relative_path_len = Mdc_BasicString_Length(relative_path_str);
+
+  init_filename = Mdc_Fs_Path_Filename(&filename, path);
+  if (init_filename != &filename) {
+    goto deinit_relative_path;
+  }
+
+  filename_str = Mdc_Fs_Path_Native(&filename);
+  filename_cstr = Mdc_BasicString_DataConst(filename_str);
+  filename_len = Mdc_BasicString_Length(filename_str);
+
+  /* Exclude the path separator. */
+  relative_parent_path_len = relative_path_len - filename_len;
+  while (relative_parent_path_len > 0) {
+    previous_path_ch = relative_path_cstr[relative_parent_path_len - 1];
+
+    if (!Mdc_Fs_Path_IsSeparatorCh(previous_path_ch)) {
+      break;
+    }
+
+    relative_parent_path_len -= 1;
+  }
+
+  /* Determine the parent path's length. */
+  init_root_path = Mdc_Fs_Path_RootPath(&root_path, path);
+  if (init_root_path != &root_path) {
+    goto deinit_filename;
+  }
+
+  root_path_str = Mdc_Fs_Path_Native(&root_path);
+  root_path_len = Mdc_BasicString_Length(root_path_str);
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+
+  parent_path_len = root_path_len + relative_parent_path_len;
+
+  init_parent_path = Mdc_Fs_Path_InitFromCWStrTop(
+      parent_path,
+      path_cstr,
+      parent_path_len
+  );
+
+  if (init_parent_path != parent_path) {
+    goto deinit_root_path;
+  }
+
+  Mdc_Fs_Path_Deinit(&root_path);
+  Mdc_Fs_Path_Deinit(&filename);
+  Mdc_Fs_Path_Deinit(&relative_path);
+
+  return parent_path;
+
+deinit_root_path:
+  Mdc_Fs_Path_Deinit(&root_path);
+
+deinit_filename:
+  Mdc_Fs_Path_Deinit(&filename);
+
+deinit_relative_path:
+  Mdc_Fs_Path_Deinit(&relative_path);
+
+return_bad:
+  return NULL;
+}
+
 struct Mdc_Fs_Path* Mdc_Fs_Path_RelativePath(
     struct Mdc_Fs_Path* relative_path,
     const struct Mdc_Fs_Path* path
