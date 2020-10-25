@@ -522,13 +522,13 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootName(
       if (path_len < 3 || Mdc_Fs_Path_IsSeparatorCh(path_cstr[2])) {
         init_root_name = Mdc_Fs_Path_InitEmpty(root_name);
       } else {
-        i_unc_root_name_end = 1;
-
-        for (i = 1; i < path_len; i += 1) {
+        for (i = 3; i < path_len; i += 1) {
           if (Mdc_Fs_Path_IsSeparatorCh(path_cstr[i])) {
-            i_unc_root_name_end = i;
+            break;
           }
         }
+
+        i_unc_root_name_end = i;
 
         init_root_name = Mdc_Fs_Path_InitFromCWStrTop(
             root_name,
