@@ -431,7 +431,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
   const struct Mdc_BasicString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_len;
-  size_t i_root_directory_len;
+  size_t root_directory_len;
 
   struct Mdc_Fs_Path root_name;
   struct Mdc_Fs_Path* init_root_name;
@@ -457,12 +457,12 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
     }
   }
 
-  i_root_directory_len = i - root_name_len;
+  root_directory_len = i - root_name_len;
 
   init_root_directory = Mdc_Fs_Path_InitFromCWStrTop(
       root_directory,
       path_cstr,
-      i_root_directory_len
+      root_directory_len
   );
 
   if (init_root_directory != root_directory) {
