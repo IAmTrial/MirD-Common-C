@@ -301,6 +301,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
 
   bool has_parent_separator;
   size_t i_parent_separator;
+  bool has_dot_ch;
+  size_t i_dot_ch;
   enum Mdc_Fs_Path_RootNameType root_type;
 
   path_str = Mdc_Fs_Path_Native(path);
@@ -309,6 +311,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
 
   /* Locate the last path separator. */
   has_parent_separator = false;
+  has_dot_ch = false;
 
   for (i = path_len - 1; i != (size_t) -1; i -= 1) {
     if (!has_parent_separator && Mdc_Fs_Path_IsSeparatorCh(path_cstr[i])) {
@@ -316,6 +319,11 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
       i_parent_separator = i;
 
       break;
+    }
+
+    if (!has_dot_ch && path_cstr[i] == L'.') {
+      has_dot_ch = true;
+      i_dot_ch = i;
     }
   }
 
@@ -369,7 +377,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
       || !Mdc_Fs_Path_HasExtensionFromFilename(filename_cstr)) {
     init_extension = Mdc_Fs_Path_InitEmpty(extension);
   } else {
-    init_extension = Mdc_Fs_Path_InitFromCWStr(extension, filename_cstr);
+    init_extension = Mdc_Fs_Path_InitFromCWStr(
+        extension,
+        &path_cstr[i_dot_ch]
+    );
   }
 
   if (init_extension != extension) {
