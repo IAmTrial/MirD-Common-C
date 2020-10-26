@@ -975,6 +975,113 @@ static void Mdc_Fs_Path_AssertParentPath(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
+static void Mdc_Fs_Path_AssertRelativePath(void) {
+  static const wchar_t* const kExpected[] = {
+    // Drive paths
+    L"",
+    L"Hello world/test file.txt",
+    L"Hello world/test file.txt",
+    L"test file.txt",
+    L"Hello world/.git",
+    L"Hello world/.",
+    L"Hello world/..",
+    L"Hello world/...",
+    L"Hello world/. ",
+    L"Hello world///test.txt",
+
+    // Relative paths
+    L"Hello world/",
+    L"Hello world/test file.txt",
+    L"Hello world/.git",
+    L"Hello world/.",
+    L"Hello world/..",
+    L"Hello world/...",
+    L"Hello world/. ",
+    L"Hello world//test.txt",
+
+    // UNC paths
+    L"",
+    L"Hello world/test file.txt",
+    L"Hello world/.git",
+    L"Hello world/.",
+    L"Hello world/..",
+    L"Hello world/...",
+    L"Hello world/. ",
+    L"Hello world/test.txt",
+
+    // UNC paths, no extensions
+    L"",
+    L"",
+    L"",
+    L"",
+    L"",
+    L"",
+    L"",
+
+    // Relative UNC paths
+    L"",
+    L"test file.txt",
+    L".git",
+    L".",
+    L"..",
+    L"...",
+    L". ",
+
+    // Miscellaneous
+    L"",
+    L".",
+    L"..",
+    L"...",
+    L". ",
+    L".git",
+    L"test file.txt/",
+    L"test file.txt//",
+    L"test file.txt",
+  };
+
+  size_t i;
+
+  struct Mdc_Fs_Path path;
+  struct Mdc_Fs_Path* init_path;
+
+  struct Mdc_Fs_Path actual_relative_path;
+  struct Mdc_Fs_Path* init_actual_relative_path;
+
+  struct Mdc_Fs_Path expected_relative_path;
+  struct Mdc_Fs_Path* init_expected_relative_path;
+
+  for (i = 0; i < kSrcPathsCount; i += 1) {
+    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
+    assert(init_path == &path);
+
+    init_actual_relative_path = Mdc_Fs_Path_RelativePath(
+        &actual_relative_path,
+        &path
+    );
+    assert(init_actual_relative_path == &actual_relative_path);
+
+    init_expected_relative_path = Mdc_Fs_Path_InitFromCWStr(
+        &expected_relative_path,
+        kExpected[i]
+    );
+    assert(init_expected_relative_path == &expected_relative_path);
+
+    if (!Mdc_Fs_Path_Equal(&actual_relative_path, &expected_relative_path)) {
+      wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
+      wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_relative_path));
+      wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_relative_path));
+
+      assert(Mdc_Fs_Path_Equal(&actual_relative_path, &expected_relative_path));
+    }
+
+    Mdc_Fs_Path_Deinit(&expected_relative_path);
+    Mdc_Fs_Path_Deinit(&actual_relative_path);
+    Mdc_Fs_Path_Deinit(&path);
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
 void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertInitEmptyDeinit();
   Mdc_Fs_Path_AssertInitFromCWStr();
@@ -989,4 +1096,5 @@ void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertRootPath();
 
   Mdc_Fs_Path_AssertParentPath();
+  Mdc_Fs_Path_AssertRelativePath();
 }
