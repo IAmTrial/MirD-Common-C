@@ -842,6 +842,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
   root_type = Mdc_Fs_Path_RootNameTypeFromPath(path);
 
   if (!has_parent_separator) {
+    assert(root_type != Mdc_Fs_Path_RootNameType_kUnc);
+
     /*
     * If there is no path separator, then there is either no root
     * name or the root name is a drive path.
@@ -892,7 +894,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
   } else {
     assert(has_dot_ch);
 
-    stem_len = filename_cstr - &path_cstr[i_dot_ch];
+    stem_len = &path_cstr[i_dot_ch] - filename_cstr;
 
     init_stem = Mdc_Fs_Path_InitFromCWStrTop(
         stem,
