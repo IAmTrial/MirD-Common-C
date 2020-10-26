@@ -29,24 +29,49 @@
 
 #include "../../../../include/mdc/filesystem/internal/path.h"
 
-#define MDC_PATH_UNINIT { 0 }
+#include "path_internal.h"
 
-static const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit = MDC_PATH_UNINIT;
+const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit = MDC_PATH_UNINIT;
 
-#if defined(_WIN32) || defined(_WIN64)
-  static const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kSlashSeparator = L'/';
-  static const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kNullTerminator = L'\0';
-#else
-  static const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kSlashSeparator = '/';
-  static const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kNullTerminator = '\0';
-#endif
+/**
+ * Static functions
+ */
 
-static bool Mdc_Path_IsPathSeparator(
-    Mdc_Fs_Path_ValueType ch
+static bool Mdc_Fs_Path_HasPathElement(
+    const struct Mdc_Fs_Path* path,
+    bool (*get_element_func)(struct Mdc_Fs_Path*, const struct Mdc_Fs_Path*)
 ) {
-  return ch == Mdc_Fs_Path_kPreferredSeparator
-      && ch == Mdc_Fs_Path_kSlashSeparator;
+  struct Mdc_Fs_Path path_element;
+  struct Mdc_Fs_Path* init_path_element;
+  bool is_empty;
+
+  init_path_element = get_element_func(&path_element, path);
+  if (init_path_element != &path_element) {
+    goto return_bad;
+  }
+
+  is_empty = Mdc_Fs_Path_Empty(&path_element);
+
+  Mdc_Fs_Path_Deinit(&path_element);
+
+  return !is_empty;
+
+return_bad:
+  return false;
 }
+
+/**
+ * Internal functions
+ */
+
+bool Mdc_Fs_Path_IsSeparatorCh(Mdc_Fs_Path_ValueType ch) {
+  return ch == Mdc_Fs_Path_kSlashSeparator
+      || ch == Mdc_Fs_Path_kPreferredSeparator;
+}
+
+/**
+ * External functions
+ */
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitCopy(
     struct Mdc_Fs_Path* dest,

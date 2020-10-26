@@ -36,13 +36,12 @@
 #include "../../../../include/mdc/std/assert.h"
 #include "../../../../include/mdc/std/wchar.h"
 #include "../../../../include/mdc/wchar_t/wide_decoding.h"
-#include "path_separator.h"
+#include "path_internal.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 
-#define MDC_PATH_UNINIT { 0 }
-
-static const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit = MDC_PATH_UNINIT;
+const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kSlashSeparator = L'/';
+const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kNullTerminator = L'\0';
 
 /**
  * Static functions
@@ -53,32 +52,6 @@ enum Mdc_Fs_Path_RootNameType {
   Mdc_Fs_Path_RootNameType_kDrive,
   Mdc_Fs_Path_RootNameType_kUnc,
 };
-
-static struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStrTop(
-    struct Mdc_Fs_Path* path,
-    const Mdc_Fs_Path_ValueType* cstr,
-    size_t count
-) {
-  struct Mdc_BasicString* init_path_str;
-
-  init_path_str = Mdc_BasicString_InitFromCStrTop(
-      &path->path_str_,
-      Mdc_CharTraitsWChar_GetCharTraits(),
-      cstr,
-      count
-  );
-
-  if (init_path_str != &path->path_str_) {
-    goto return_bad;
-  }
-
-  return path;
-
-return_bad:
-  *path = Mdc_Fs_Path_kUninit;
-
-  return NULL;
-}
 
 static enum Mdc_Fs_Path_RootNameType Mdc_Fs_Path_RootNameTypeFromPath(
     const struct Mdc_Fs_Path* path
@@ -168,6 +141,36 @@ static bool Mdc_Fs_Path_HasExtensionFromFilename(
   }
 
   return true;
+}
+
+/**
+ * Internal functions
+ */
+
+struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStrTop(
+    struct Mdc_Fs_Path* path,
+    const Mdc_Fs_Path_ValueType* cstr,
+    size_t count
+) {
+  struct Mdc_BasicString* init_path_str;
+
+  init_path_str = Mdc_BasicString_InitFromCStrTop(
+      &path->path_str_,
+      Mdc_CharTraitsWChar_GetCharTraits(),
+      cstr,
+      count
+  );
+
+  if (init_path_str != &path->path_str_) {
+    goto return_bad;
+  }
+
+  return path;
+
+return_bad:
+  *path = Mdc_Fs_Path_kUninit;
+
+  return NULL;
 }
 
 /**
