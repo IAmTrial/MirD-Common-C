@@ -301,6 +301,69 @@ const struct Mdc_BasicString* Mdc_Fs_Path_Native(
   return &path->path_str_;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_RemoveFilename(
+    struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_Path* assign_path;
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_len;
+
+  struct Mdc_Fs_Path filename;
+  struct Mdc_Fs_Path* init_filename;
+  const struct Mdc_BasicString* filename_str;
+  size_t filename_len;
+  size_t i_filename;
+
+  struct Mdc_Fs_Path filename_less_path;
+  struct Mdc_Fs_Path* init_filename_less_path;
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_len = Mdc_BasicString_Length(path_str);
+
+  /* Get the filename length, which will determine the string top. */
+  init_filename = Mdc_Fs_Path_Filename(&filename, path);
+  if (init_filename != &filename) {
+    goto return_bad;
+  }
+
+  filename_str = Mdc_Fs_Path_Native(&filename);
+  filename_len = Mdc_BasicString_Length(filename_str);
+
+  i_filename = path_len - filename_len;
+
+  /* Assign the path top to the path. */
+  init_filename_less_path = Mdc_Fs_Path_InitFromCWStrTop(
+      &filename_less_path,
+      path_cstr,
+      i_filename
+  );
+
+  if (init_filename_less_path != &filename_less_path) {
+    goto deinit_filename;
+  }
+
+  assign_path = Mdc_Fs_Path_AssignMove(path, &filename_less_path);
+  if (assign_path != path) {
+    goto deinit_filename_less_path;
+  }
+
+  Mdc_Fs_Path_Deinit(&filename_less_path);
+  Mdc_Fs_Path_Deinit(&filename);
+
+  return path;
+
+deinit_filename_less_path:
+  Mdc_Fs_Path_Deinit(&filename_less_path);
+
+deinit_filename:
+  Mdc_Fs_Path_Deinit(&filename);
+
+return_bad:
+  return NULL;
+}
+
 const struct Mdc_BasicString* Mdc_Fs_Path_StrType(
     struct Mdc_BasicString* str,
     const struct Mdc_Fs_Path* path
