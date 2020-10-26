@@ -158,10 +158,10 @@ static bool Mdc_Fs_Path_HasExtensionFromFilename(
       return false;
     }
 
-    if (i_last_dot_char == 0 && !iswspace(filename[1])) {
+    if (i_last_dot_char == 0) {
       /*
       * ".git" returns false
-      * ". " returns true
+      * ". " returns false
       */
       return false;
     }
