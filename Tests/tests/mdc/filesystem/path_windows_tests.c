@@ -1082,6 +1082,115 @@ static void Mdc_Fs_Path_AssertRelativePath(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
+static void Mdc_Fs_Path_AssertRemoveFilename(void) {
+  static const wchar_t* const kExpected[] = {
+    // Drive paths
+    L"C:/",
+    L"C:/Hello world/",
+    L"C:Hello world/",
+    L"C:",
+    L"C:/Hello world/",
+    L"C:/Hello world/",
+    L"C:/Hello world/",
+    L"C:/Hello world/",
+    L"C:/Hello world/",
+    L"C://Hello world///",
+
+    // Relative paths
+    L"Hello world/",
+    L"Hello world/",
+    L"Hello world/",
+    L"Hello world/",
+    L"Hello world/",
+    L"Hello world/",
+    L"Hello world/",
+    L"Hello world//",
+
+    // UNC paths
+    L"//./",
+    L"//./Hello world/",
+    L"//./Hello world/",
+    L"//./Hello world/",
+    L"//./Hello world/",
+    L"//./Hello world/",
+    L"//./Hello world/",
+    L"//.//Hello world/",
+
+    // UNC paths, no extensions
+    L"//",
+    L"//test file.txt",
+    L"//.git",
+    L"//.",
+    L"//..",
+    L"//...",
+    L"//. ",
+
+    // Relative UNC paths
+    L"///",
+    L"///",
+    L"///",
+    L"///",
+    L"///",
+    L"///",
+    L"///",
+
+    // Miscellaneous
+    L"",
+    L"",
+    L"",
+    L"",
+    L"",
+    L"",
+    L"test file.txt/",
+    L"test file.txt//",
+    L"",
+  };
+
+  size_t i;
+
+  struct Mdc_Fs_Path path;
+  struct Mdc_Fs_Path* init_path;
+
+  struct Mdc_Fs_Path actual_path;
+  struct Mdc_Fs_Path* init_actual_path;
+
+  struct Mdc_Fs_Path expected_path;
+  struct Mdc_Fs_Path* init_expected_path;
+
+  for (i = 0; i < kSrcPathsCount; i += 1) {
+    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
+    assert(init_path == &path);
+
+    init_actual_path = Mdc_Fs_Path_InitCopy(
+        &actual_path,
+        &path
+    );
+    assert(init_actual_path == &actual_path);
+
+    assert(Mdc_Fs_Path_RemoveFilename(&actual_path) == &actual_path);
+
+    init_expected_path = Mdc_Fs_Path_InitFromCWStr(
+        &expected_path,
+        kExpected[i]
+    );
+    assert(init_expected_path == &expected_path);
+
+    if (!Mdc_Fs_Path_Equal(&actual_path, &expected_path)) {
+      wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
+      wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_path));
+      wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_path));
+
+      assert(Mdc_Fs_Path_Equal(&actual_path, &expected_path));
+    }
+
+    Mdc_Fs_Path_Deinit(&expected_path);
+    Mdc_Fs_Path_Deinit(&actual_path);
+    Mdc_Fs_Path_Deinit(&path);
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
 void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertInitEmptyDeinit();
   Mdc_Fs_Path_AssertInitFromCWStr();
@@ -1097,4 +1206,6 @@ void Mdc_Fs_Path_RunTests(void) {
 
   Mdc_Fs_Path_AssertParentPath();
   Mdc_Fs_Path_AssertRelativePath();
+
+  Mdc_Fs_Path_AssertRemoveFilename();
 }
