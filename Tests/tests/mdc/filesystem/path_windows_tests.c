@@ -67,7 +67,7 @@ static const wchar_t* const kSrcPaths[] = {
     L"//./Hello world/..",
     L"//./Hello world/...",
     L"//./Hello world/. ",
-    L"//.//Hello world/text.txt",
+    L"//.//Hello world/test.txt",
 
     // UNC paths, no extensions
     L"//",
