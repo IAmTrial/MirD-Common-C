@@ -160,6 +160,22 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_Filename(
     const struct Mdc_Fs_Path* path
 );
 
+DLLEXPORT bool Mdc_Fs_Path_HasExtension(const struct Mdc_Fs_Path* path);
+
+DLLEXPORT bool Mdc_Fs_Path_HasFilename(const struct Mdc_Fs_Path* path);
+
+DLLEXPORT bool Mdc_Fs_Path_HasParentPath(const struct Mdc_Fs_Path* path);
+
+DLLEXPORT bool Mdc_Fs_Path_HasRelativePath(const struct Mdc_Fs_Path* path);
+
+DLLEXPORT bool Mdc_Fs_Path_HasRootDirectory(const struct Mdc_Fs_Path* path);
+
+DLLEXPORT bool Mdc_Fs_Path_HasRootName(const struct Mdc_Fs_Path* path);
+
+DLLEXPORT bool Mdc_Fs_Path_HasRootPath(const struct Mdc_Fs_Path* path);
+
+DLLEXPORT bool Mdc_Fs_Path_HasStem(const struct Mdc_Fs_Path* path);
+
 DLLEXPORT bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path);
 
 DLLEXPORT bool Mdc_Fs_Path_IsRelative(const struct Mdc_Fs_Path* path);

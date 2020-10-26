@@ -276,6 +276,38 @@ bool Mdc_Fs_Path_Empty(const struct Mdc_Fs_Path* path) {
   return Mdc_BasicString_Empty(&path->path_str_);
 }
 
+bool Mdc_Fs_Path_HasExtension(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_Extension);
+}
+
+bool Mdc_Fs_Path_HasFilename(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_Filename);
+}
+
+bool Mdc_Fs_Path_HasParentPath(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_ParentPath);
+}
+
+bool Mdc_Fs_Path_HasRelativePath(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_RelativePath);
+}
+
+bool Mdc_Fs_Path_HasRootDirectory(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_RootDirectory);
+}
+
+bool Mdc_Fs_Path_HasRootName(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_RootName);
+}
+
+bool Mdc_Fs_Path_HasRootPath(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_RootPath);
+}
+
+bool Mdc_Fs_Path_HasStem(const struct Mdc_Fs_Path* path) {
+  Mdc_Fs_Path_HasPathElement(path, &Mdc_Fs_Path_Stem);
+}
+
 struct Mdc_Fs_Path* Mdc_Fs_Path_MakePreferred(struct Mdc_Fs_Path* path) {
   size_t i;
   size_t path_len;
