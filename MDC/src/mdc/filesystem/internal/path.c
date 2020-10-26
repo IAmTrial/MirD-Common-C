@@ -295,7 +295,9 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_MakePreferred(struct Mdc_Fs_Path* path) {
   return path;
 }
 
-const struct Mdc_BasicString* Mdc_Fs_Path_Native(const struct Mdc_Fs_Path* path) {
+const struct Mdc_BasicString* Mdc_Fs_Path_Native(
+    const struct Mdc_Fs_Path* path
+) {
   return &path->path_str_;
 }
 
@@ -316,7 +318,10 @@ return_bad:
   return NULL;
 }
 
-void Mdc_Fs_Path_Swap(struct Mdc_Fs_Path* path1, struct Mdc_Fs_Path* path2) {
+void Mdc_Fs_Path_Swap(
+    struct Mdc_Fs_Path* path1,
+    struct Mdc_Fs_Path* path2
+) {
   struct Mdc_Fs_Path temp;
 
   temp = *path1;
