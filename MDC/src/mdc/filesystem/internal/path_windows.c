@@ -761,7 +761,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootPath(
     struct Mdc_Fs_Path* root_path,
     const struct Mdc_Fs_Path* path
 ) {
-  struct Mdc_Fs_Path* append_root_path;
+  struct Mdc_Fs_Path* concat_root_path;
   struct Mdc_Fs_Path* init_root_name;
 
   struct Mdc_Fs_Path root_directory;
@@ -777,8 +777,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootPath(
     goto deinit_root_name;
   }
 
-  append_root_path = Mdc_Fs_Path_AppendPath(root_path, &root_directory);
-  if (append_root_path != root_path) {
+  concat_root_path = Mdc_Fs_Path_ConcatPath(root_path, &root_directory);
+  if (concat_root_path != root_path) {
     goto deinit_root_directory;
   }
 
