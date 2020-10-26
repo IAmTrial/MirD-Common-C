@@ -364,6 +364,29 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceFilename(
+    struct Mdc_Fs_Path* path,
+    const struct Mdc_Fs_Path* filename
+) {
+  struct Mdc_Fs_Path* remove_filename;
+  struct Mdc_Fs_Path* append_filename;
+
+  remove_filename = Mdc_Fs_Path_RemoveFilename(path);
+  if (remove_filename != path) {
+    goto return_bad;
+  }
+
+  append_filename = Mdc_Fs_Path_AppendPath(path, filename);
+  if (append_filename != path) {
+    goto return_bad;
+  }
+
+  return path;
+
+return_bad:
+  return NULL;
+}
+
 const struct Mdc_BasicString* Mdc_Fs_Path_StrType(
     struct Mdc_BasicString* str,
     const struct Mdc_Fs_Path* path
