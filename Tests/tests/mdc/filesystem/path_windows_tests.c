@@ -226,6 +226,113 @@ static void Mdc_Fs_Path_AssertIsAbsoluteRelative(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
+static void Mdc_Fs_Path_AssertStem(void) {
+  static const wchar_t* const kExpected[] = {
+      // Drive paths
+      L"",
+      L"test file",
+      L"test file",
+      L"test file",
+      L".git",
+      L".",
+      L"..",
+      L"..",
+      L". ",
+      L"test",
+
+      // Relative paths
+      L"",
+      L"test file",
+      L".git",
+      L".",
+      L"..",
+      L"..",
+      L". ",
+      L"test",
+
+      // UNC paths
+      L"",
+      L"test file",
+      L".git",
+      L".",
+      L"..",
+      L"..",
+      L". ",
+      L"test",
+
+      // UNC paths, no extensions
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+
+      // Relative UNC paths
+      L"",
+      L"test file",
+      L".git",
+      L".",
+      L"..",
+      L"..",
+      L". ",
+
+      // Miscellaneous
+      L"",
+      L".",
+      L"..",
+      L"..",
+      L". ",
+      L".git",
+      L"",
+      L"",
+      L"test file",
+  };
+
+  size_t i;
+
+  struct Mdc_Fs_Path path;
+  struct Mdc_Fs_Path* init_path;
+
+  struct Mdc_Fs_Path actual_stem;
+  struct Mdc_Fs_Path* init_actual_stem;
+
+  struct Mdc_Fs_Path expected_stem;
+  struct Mdc_Fs_Path* init_expected_stem;
+
+  for (i = 0; i < kSrcPathsCount; i += 1) {
+    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
+    assert(init_path == &path);
+
+    init_actual_stem = Mdc_Fs_Path_Stem(
+        &actual_stem,
+        &path
+    );
+    assert(init_actual_stem == &actual_stem);
+
+    init_expected_stem = Mdc_Fs_Path_InitFromCWStr(
+        &expected_stem,
+        kExpected[i]
+    );
+    assert(init_expected_stem == &expected_stem);
+
+    if (!Mdc_Fs_Path_Equal(&actual_stem, &expected_stem)) {
+      wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
+      wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_stem));
+      wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_stem));
+
+      assert(Mdc_Fs_Path_Equal(&actual_stem, &expected_stem));
+    }
+
+    Mdc_Fs_Path_Deinit(&expected_stem);
+    Mdc_Fs_Path_Deinit(&actual_stem);
+    Mdc_Fs_Path_Deinit(&path);
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
 static void Mdc_Fs_Path_AssertExtension(void) {
   static const wchar_t* const kExpected[] = {
       // Drive paths
@@ -659,6 +766,7 @@ void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertInitFromCWStr();
   Mdc_Fs_Path_AssertIsAbsoluteRelative();
 
+  Mdc_Fs_Path_AssertStem();
   Mdc_Fs_Path_AssertExtension();
 
   Mdc_Fs_Path_AssertRootName();
