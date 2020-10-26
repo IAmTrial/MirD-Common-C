@@ -663,7 +663,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
 
   init_root_directory = Mdc_Fs_Path_InitFromCWStrTop(
       root_directory,
-      path_cstr,
+      &path_cstr[root_name_len],
       root_directory_len
   );
 
