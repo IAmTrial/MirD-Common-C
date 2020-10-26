@@ -553,4 +553,5 @@ void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertIsAbsoluteRelative();
   Mdc_Fs_Path_AssertExtension();
   Mdc_Fs_Path_AssertRootName();
+  Mdc_Fs_Path_AssertRootDirectory();
 }
