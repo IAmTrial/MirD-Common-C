@@ -47,6 +47,7 @@ static const wchar_t* const kSrcPaths[] = {
     L"C:/Hello world/..",
     L"C:/Hello world/...",
     L"C:/Hello world/. ",
+    L"C://Hello world///test.txt",
 
     // Relative paths
     L"Hello world/",
@@ -56,6 +57,7 @@ static const wchar_t* const kSrcPaths[] = {
     L"Hello world/..",
     L"Hello world/...",
     L"Hello world/. ",
+    L"Hello world//test.txt",
 
     // UNC paths
     L"//./",
@@ -65,6 +67,7 @@ static const wchar_t* const kSrcPaths[] = {
     L"//./Hello world/..",
     L"//./Hello world/...",
     L"//./Hello world/. ",
+    L"//.//Hello world/text.txt",
 
     // UNC paths, no extensions
     L"//",
@@ -92,6 +95,7 @@ static const wchar_t* const kSrcPaths[] = {
     L". ",
     L".git",
     L"test file.txt/",
+    L"test file.txt//",
     L"test file.txt",
 };
 
@@ -147,6 +151,7 @@ static void Mdc_Fs_Path_AssertIsAbsoluteRelative(void) {
       true,
       true,
       true,
+      true,
 
       // Relative paths
       false,
@@ -156,8 +161,10 @@ static void Mdc_Fs_Path_AssertIsAbsoluteRelative(void) {
       false,
       false,
       false,
+      false,
 
       // UNC paths
+      true,
       true,
       true,
       true,
@@ -185,6 +192,7 @@ static void Mdc_Fs_Path_AssertIsAbsoluteRelative(void) {
       false,
 
       // Miscellaneous
+      false,
       false,
       false,
       false,
@@ -230,6 +238,7 @@ static void Mdc_Fs_Path_AssertExtension(void) {
       L"",
       L".",
       L"",
+      L".txt",
 
       // Relative paths
       L"",
@@ -239,6 +248,7 @@ static void Mdc_Fs_Path_AssertExtension(void) {
       L"",
       L".",
       L"",
+      L".txt",
 
       // UNC paths
       L"",
@@ -248,6 +258,7 @@ static void Mdc_Fs_Path_AssertExtension(void) {
       L"",
       L".",
       L"",
+      L".txt",
 
       // UNC paths, no extensions
       L"",
@@ -272,6 +283,7 @@ static void Mdc_Fs_Path_AssertExtension(void) {
       L"",
       L"",
       L".",
+      L"",
       L"",
       L"",
       L"",
@@ -333,6 +345,7 @@ static void Mdc_Fs_Path_AssertRootName(void) {
       L"C:",
       L"C:",
       L"C:",
+      L"C:",
 
       // Relative paths
       L"",
@@ -342,8 +355,10 @@ static void Mdc_Fs_Path_AssertRootName(void) {
       L"",
       L"",
       L"",
+      L"",
 
       // UNC paths
+      L"//.",
       L"//.",
       L"//.",
       L"//.",
@@ -371,6 +386,7 @@ static void Mdc_Fs_Path_AssertRootName(void) {
       L"",
 
       // Miscellaneous
+      L"",
       L"",
       L"",
       L"",
@@ -418,6 +434,113 @@ static void Mdc_Fs_Path_AssertRootName(void) {
 
     Mdc_Fs_Path_Deinit(&expected_root_name);
     Mdc_Fs_Path_Deinit(&actual_root_name);
+    Mdc_Fs_Path_Deinit(&path);
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
+static void Mdc_Fs_Path_AssertRootDirectory(void) {
+  static const wchar_t* const kExpected[] = {
+      // Drive paths
+      L"/",
+      L"/",
+      L"",
+      L"",
+      L"/",
+      L"/",
+      L"/",
+      L"/",
+      L"/",
+      L"//",
+
+      // Relative paths
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+
+      // UNC paths
+      L"/",
+      L"/",
+      L"/",
+      L"/",
+      L"/",
+      L"/",
+      L"/",
+      L"//",
+
+      // UNC paths, no extensions
+      L"",
+      L"//test file.txt",
+      L"//.git",
+      L"//.",
+      L"//..",
+      L"//...",
+      L"//. ",
+
+      // Relative UNC paths
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+
+      // Miscellaneous
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+      L"",
+  };
+
+  size_t i;
+
+  struct Mdc_Fs_Path path;
+  struct Mdc_Fs_Path* init_path;
+
+  struct Mdc_Fs_Path actual_root_directory;
+  struct Mdc_Fs_Path* init_actual_root_directory;
+
+  struct Mdc_Fs_Path expected_root_directory;
+  struct Mdc_Fs_Path* init_expected_root_directory;
+
+  for (i = 0; i < kSrcPathsCount; i += 1) {
+    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
+    assert(init_path == &path);
+
+    init_actual_root_directory = Mdc_Fs_Path_RootName(
+        &actual_root_directory,
+        &path
+    );
+    assert(init_actual_root_directory == &actual_root_directory);
+
+    init_expected_root_directory = Mdc_Fs_Path_InitFromCWStr(
+        &expected_root_directory,
+        kExpected[i]
+    );
+    assert(init_expected_root_directory == &expected_root_directory);
+
+    if (!Mdc_Fs_Path_Equal(&actual_root_directory, &expected_root_directory)) {
+      wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
+      wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_root_directory));
+      wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_root_directory));
+
+      assert(Mdc_Fs_Path_Equal(&actual_root_directory, &expected_root_directory));
+    }
+
+    Mdc_Fs_Path_Deinit(&expected_root_directory);
+    Mdc_Fs_Path_Deinit(&actual_root_directory);
     Mdc_Fs_Path_Deinit(&path);
   }
 
