@@ -178,6 +178,68 @@ return_bad:
 }
 
 /**
+ * Append functions
+ */
+
+struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPathWithPath(
+    struct Mdc_Fs_Path* dest,
+    const struct Mdc_Fs_Path* src1,
+    const struct Mdc_Fs_Path* src2
+) {
+  struct Mdc_Fs_Path* init_dest;
+  struct Mdc_Fs_Path* append_path;
+
+  init_dest = Mdc_Fs_Path_InitCopy(dest, src1);
+  if (init_dest != dest) {
+    goto return_bad;
+  }
+
+  append_path = Mdc_Fs_Path_AppendPath(dest, src2);
+  if (append_path != dest) {
+    goto deinit_dest;
+  }
+
+  return dest;
+
+deinit_dest:
+  Mdc_Fs_Path_Deinit(dest);
+
+return_bad:
+  return NULL;
+}
+
+/**
+ * Concat functions
+ */
+
+struct Mdc_Fs_Path* Mdc_Fs_Path_ConcatPathWithPath(
+    struct Mdc_Fs_Path* dest,
+    const struct Mdc_Fs_Path* src1,
+    const struct Mdc_Fs_Path* src2
+) {
+  struct Mdc_Fs_Path* init_dest;
+  struct Mdc_Fs_Path* concat_path;
+
+  init_dest = Mdc_Fs_Path_InitCopy(dest, src1);
+  if (init_dest != dest) {
+    goto return_bad;
+  }
+
+  concat_path = Mdc_Fs_Path_ConcatPath(dest, src2);
+  if (concat_path != dest) {
+    goto deinit_dest;
+  }
+
+  return dest;
+
+deinit_dest:
+  Mdc_Fs_Path_Deinit(dest);
+
+return_bad:
+  return NULL;
+}
+
+/**
  * Comparison operators
  */
 

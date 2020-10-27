@@ -115,6 +115,26 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_AssignMove(
 );
 
 /**
+ * Append functions
+ */
+
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPathWithPath(
+    struct Mdc_Fs_Path* dest,
+    const struct Mdc_Fs_Path* src1,
+    const struct Mdc_Fs_Path* src2
+);
+
+/**
+ * Concat functions
+ */
+
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ConcatPathWithPath(
+    struct Mdc_Fs_Path* dest,
+    const struct Mdc_Fs_Path* src1,
+    const struct Mdc_Fs_Path* src2
+);
+
+/**
  * Comparison operators
  */
 

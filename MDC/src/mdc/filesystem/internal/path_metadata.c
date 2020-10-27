@@ -72,20 +72,20 @@ static void* Mdc_Fs_Path_AssignMoveAsVoid(void* dest, void* src) {
  * Object arithmetic operators
  */
 
-static void* Mdc_Fs_Path_ConcatPathAsVoid(
+static void* Mdc_Fs_Path_ConcatPathWithPathAsVoid(
     void* out,
     const void* op1,
     const void* op2
 ) {
-  return Mdc_Fs_Path_ConcatPath(out, op1, op2);
+  return Mdc_Fs_Path_ConcatPathWithPath(out, op1, op2);
 }
 
-static void* Mdc_Fs_Path_AppendPathAsVoid(
+static void* Mdc_Fs_Path_AppendPathWithPathAsVoid(
     void* out,
     const void* op1,
     const void* op2
 ) {
-  return Mdc_Fs_Path_AppendPath(out, op1, op2);
+  return Mdc_Fs_Path_AppendPathWithPath(out, op1, op2);
 }
 
 /**
@@ -129,8 +129,8 @@ static struct Mdc_ObjectMetadata* Mdc_Fs_Path_InitObjectMetadata(
   metadata->functions.assign_copy = &Mdc_Fs_Path_AssignCopyAsVoid;
   metadata->functions.assign_move = &Mdc_Fs_Path_AssignMoveAsVoid;
 
-  metadata->functions.add = &Mdc_Fs_Path_ConcatPathAsVoid;
-  metadata->functions.divide = &Mdc_Fs_Path_AppendPathAsVoid;
+  metadata->functions.add = &Mdc_Fs_Path_ConcatPathWithPathAsVoid;
+  metadata->functions.divide = &Mdc_Fs_Path_AppendPathWithPathAsVoid;
 
   metadata->functions.equal = &Mdc_Fs_Path_EqualAsVoid;
   metadata->functions.compare = &Mdc_Fs_Path_CompareAsVoid;
