@@ -226,6 +226,54 @@ static void Mdc_Fs_Path_AssertIsAbsoluteRelative(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
+static void Mdc_Fs_Path_AssertClear(void) {
+  static const wchar_t* const kExpected = L"";
+
+  size_t i;
+
+  struct Mdc_Fs_Path path;
+  struct Mdc_Fs_Path* init_path;
+
+  struct Mdc_Fs_Path actual_path;
+  struct Mdc_Fs_Path* init_actual_path;
+
+  struct Mdc_Fs_Path expected_path;
+  struct Mdc_Fs_Path* init_expected_path;
+
+  for (i = 0; i < kSrcPathsCount; i += 1) {
+    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
+    assert(init_path == &path);
+
+    init_actual_path = Mdc_Fs_Path_InitCopy(
+        &actual_path,
+        &path
+    );
+    assert(init_actual_path == &actual_path);
+
+    Mdc_Fs_Path_Clear(&actual_path);
+
+    init_expected_path = Mdc_Fs_Path_InitFromCWStr(
+        &expected_path,
+        kExpected
+    );
+    assert(init_expected_path == &expected_path);
+
+    if (!Mdc_Fs_Path_Equal(&actual_path, &expected_path)) {
+      wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
+      wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_path));
+      wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_path));
+
+      assert(Mdc_Fs_Path_Equal(&actual_path, &expected_path));
+    }
+
+    Mdc_Fs_Path_Deinit(&expected_path);
+    Mdc_Fs_Path_Deinit(&actual_path);
+    Mdc_Fs_Path_Deinit(&path);
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
 static void Mdc_Fs_Path_AssertStem(void) {
   static const wchar_t* const kExpected[] = {
       // Drive paths
@@ -1439,6 +1487,8 @@ void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertInitEmptyDeinit();
   Mdc_Fs_Path_AssertInitFromCWStr();
   Mdc_Fs_Path_AssertIsAbsoluteRelative();
+
+  Mdc_Fs_Path_AssertClear();
 
   Mdc_Fs_Path_AssertStem();
   Mdc_Fs_Path_AssertExtension();
