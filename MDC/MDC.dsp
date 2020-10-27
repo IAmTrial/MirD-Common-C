@@ -245,6 +245,50 @@ SOURCE=.\src\mdc\object\short_object_metadata.c
 SOURCE=.\src\mdc\object_metadata\object_metadata.c
 # End Source File
 # End Group
+# Begin Group "filesystem_c"
+
+# PROP Default_Filter ""
+# Begin Group "filesystem_internal_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\file_status.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\file_status_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\filesystem_functions.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\filesystem_functions_windows.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path_internal.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path_windows.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\space_info.c
+# End Source File
+# End Group
+# End Group
 # End Group
 # End Group
 # Begin Group "include"
@@ -379,6 +423,42 @@ SOURCE=.\include\mdc\object\short_object.h
 # Begin Source File
 
 SOURCE=.\include\mdc\object_metadata\object_metadata.h
+# End Source File
+# End Group
+# Begin Group "filesystem_h"
+
+# PROP Default_Filter ""
+# Begin Group "filesystem_internal_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\file_status.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\file_type.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\filesystem_functions.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\path.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\perms.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\space_info.h
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\filesystem.h
 # End Source File
 # End Group
 # End Group
