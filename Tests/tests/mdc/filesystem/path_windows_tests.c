@@ -274,6 +274,111 @@ static void Mdc_Fs_Path_AssertClear(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
+static void Mdc_Fs_Path_AssertMakePreferred(void) {
+  static const wchar_t* const kExpected[] = {
+      // Drive paths
+      L"C:\\",
+      L"C:\\Hello world\\test file.txt",
+      L"C:Hello world\\test file.txt",
+      L"C:test file.txt",
+      L"C:\\Hello world\\.git",
+      L"C:\\Hello world\\.",
+      L"C:\\Hello world\\..",
+      L"C:\\Hello world\\...",
+      L"C:\\Hello world\\. ",
+      L"C:\\\\Hello world\\\\\\test.txt",
+
+      // Relative paths
+      L"Hello world\\",
+      L"Hello world\\test file.txt",
+      L"Hello world\\.git",
+      L"Hello world\\.",
+      L"Hello world\\..",
+      L"Hello world\\...",
+      L"Hello world\\. ",
+      L"Hello world\\\\test.txt",
+
+      // UNC paths
+      L"\\\\.\\",
+      L"\\\\.\\Hello world\\test file.txt",
+      L"\\\\.\\Hello world\\.git",
+      L"\\\\.\\Hello world\\.",
+      L"\\\\.\\Hello world\\..",
+      L"\\\\.\\Hello world\\...",
+      L"\\\\.\\Hello world\\. ",
+      L"\\\\.\\\\Hello world\\test.txt",
+
+      // UNC paths, no extensions
+      L"\\\\",
+      L"\\\\test file.txt",
+      L"\\\\.git",
+      L"\\\\.",
+      L"\\\\..",
+      L"\\\\...",
+      L"\\\\. ",
+
+      // Relative UNC paths
+      L"\\\\\\",
+      L"\\\\\\test file.txt",
+      L"\\\\\\.git",
+      L"\\\\\\.",
+      L"\\\\\\..",
+      L"\\\\\\...",
+      L"\\\\\\. ",
+
+      // Miscellaneous
+      L"",
+      L".",
+      L"..",
+      L"...",
+      L". ",
+      L".git",
+      L"test file.txt\\",
+      L"test file.txt\\\\",
+      L"test file.txt",
+  };
+
+  size_t i;
+
+  struct Mdc_Fs_Path path;
+  struct Mdc_Fs_Path* init_path;
+
+  struct Mdc_Fs_Path actual;
+  struct Mdc_Fs_Path* init_actual;
+  struct Mdc_Fs_Path* preferred_actual;
+
+  struct Mdc_Fs_Path expected;
+  struct Mdc_Fs_Path* init_expected;
+
+  for (i = 0; i < kSrcPathsCount; i += 1) {
+    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
+    assert(init_path == &path);
+
+    init_actual = Mdc_Fs_Path_InitCopy(&actual, &path);
+    assert(init_actual == &actual);
+
+    preferred_actual = Mdc_Fs_Path_MakePreferred(&actual);
+    assert(preferred_actual == &actual);
+
+    init_expected = Mdc_Fs_Path_InitFromCWStr(&expected, kExpected[i]);
+    assert(init_expected == &expected);
+
+    if (!Mdc_Fs_Path_Equal(&actual, &expected)) {
+      wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
+      wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected));
+      wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual));
+
+      assert(Mdc_Fs_Path_Equal(&actual, &expected));
+    }
+
+    Mdc_Fs_Path_Deinit(&expected);
+    Mdc_Fs_Path_Deinit(&actual);
+    Mdc_Fs_Path_Deinit(&path);
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
 static void Mdc_Fs_Path_AssertStem(void) {
   static const wchar_t* const kExpected[] = {
       // Drive paths
@@ -1489,6 +1594,7 @@ void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertIsAbsoluteRelative();
 
   Mdc_Fs_Path_AssertClear();
+  Mdc_Fs_Path_AssertMakePreferred();
 
   Mdc_Fs_Path_AssertStem();
   Mdc_Fs_Path_AssertExtension();
