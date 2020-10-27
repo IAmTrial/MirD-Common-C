@@ -287,4 +287,60 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_TempDirectoryPath(
+    struct Mdc_Fs_Path* temp_directory_path
+) {
+  void* realloc_result;
+
+  struct Mdc_Fs_Path* init_temp_directory_path;
+  DWORD temp_directory_path_cap;
+  DWORD get_temp_path_result;
+
+  wchar_t* temp_directory_path_cstr;
+
+  /* Alloc space for the temp directory path. */
+  temp_directory_path_cstr = Mdc_malloc(2);
+  if (temp_directory_path_cstr == NULL) {
+    goto return_bad;
+  }
+
+  temp_directory_path_cap = GetTempPathW(0, temp_directory_path_cstr);
+
+  realloc_result = Mdc_realloc(
+      temp_directory_path_cstr,
+      temp_directory_path_cap
+  );
+
+  if (realloc_result == NULL) {
+    goto free_temp_directory_path_cstr;
+  }
+
+  temp_directory_path_cstr = realloc_result;
+
+  /* Get the temp directory path and init the Path object. */
+  get_temp_path_result = GetTempPathW(
+      temp_directory_path_cap,
+      temp_directory_path_cstr
+  );
+
+  if (get_temp_path_result == 0) {
+    goto free_temp_directory_path_cstr;
+  }
+
+  init_temp_directory_path = Mdc_Fs_Path_InitFromCWStr(
+      temp_directory_path,
+      temp_directory_path_cstr
+  );
+
+  Mdc_free(temp_directory_path_cstr);
+
+  return temp_directory_path;
+
+free_temp_directory_path_cstr:
+  Mdc_free(temp_directory_path_cstr);
+
+return_bad:
+  return NULL;
+}
+
 #endif /* defined(_WIN32) || defined(_WIN64) */

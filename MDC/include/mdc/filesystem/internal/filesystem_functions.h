@@ -89,6 +89,10 @@ DLLEXPORT bool Mdc_Fs_StatusKnown(
     const struct Mdc_Fs_FileStatus* file_status
 );
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_TempDirectoryPath(
+    struct Mdc_Fs_Path* temp_directory_path
+);
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */
