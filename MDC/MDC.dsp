@@ -117,16 +117,84 @@ SOURCE=.\src\mdc\container\vector.c
 SOURCE=.\src\mdc\container\vector_metadata.c
 # End Source File
 # End Group
-# Begin Group "wchar_t_c"
+# Begin Group "filesystem_c"
+
+# PROP Default_Filter ""
+# Begin Group "filesystem_internal_c"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\src\mdc\wchar_t\wide_decoding.c
+SOURCE=.\src\mdc\filesystem\internal\file_status.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\mdc\wchar_t\wide_encoding.c
+SOURCE=.\src\mdc\filesystem\internal\file_status_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\filesystem_functions.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\filesystem_functions_windows.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path_internal.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\path_windows.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\internal\space_info.c
+# End Source File
+# End Group
+# End Group
+# Begin Group "malloc_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\malloc\malloc.c
+# End Source File
+# End Group
+# Begin Group "object_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\object\integer_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\integer_object_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\short_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\short_object_metadata.c
+# End Source File
+# End Group
+# Begin Group "object_metadata_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\object_metadata\object_metadata.c
 # End Source File
 # End Group
 # Begin Group "std_c"
@@ -209,85 +277,17 @@ SOURCE=.\src\mdc\string\basic_string_metadata.c
 SOURCE=.\src\mdc\string\char_traits.c
 # End Source File
 # End Group
-# Begin Group "malloc_c"
+# Begin Group "wchar_t_c"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\src\mdc\malloc\malloc.c
-# End Source File
-# End Group
-# Begin Group "object_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\object\integer_object.c
+SOURCE=.\src\mdc\wchar_t\wide_decoding.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\mdc\object\integer_object_metadata.c
+SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\short_object.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\short_object_metadata.c
-# End Source File
-# End Group
-# Begin Group "object_metadata_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\object_metadata\object_metadata.c
-# End Source File
-# End Group
-# Begin Group "filesystem_c"
-
-# PROP Default_Filter ""
-# Begin Group "filesystem_internal_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\file_status.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\file_status_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\filesystem_functions.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\filesystem_functions_windows.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path_internal.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path_windows.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\space_info.c
-# End Source File
-# End Group
 # End Group
 # End Group
 # End Group
@@ -313,16 +313,72 @@ SOURCE=.\include\mdc\container\pair.h
 SOURCE=.\include\mdc\container\vector.h
 # End Source File
 # End Group
-# Begin Group "wchar_t_h"
+# Begin Group "filesystem_h"
+
+# PROP Default_Filter ""
+# Begin Group "filesystem_internal_h"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\include\mdc\wchar_t\wide_decoding.h
+SOURCE=.\include\mdc\filesystem\internal\file_status.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\mdc\wchar_t\wide_encoding.h
+SOURCE=.\include\mdc\filesystem\internal\file_type.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\filesystem_functions.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\path.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\perms.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\internal\space_info.h
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\filesystem.h
+# End Source File
+# End Group
+# Begin Group "malloc_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\malloc\malloc.h
+# End Source File
+# End Group
+# Begin Group "object_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\object\integer_object.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\object\pointer.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\object\short_object.h
+# End Source File
+# End Group
+# Begin Group "object_metadata_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\object_metadata\object_metadata.h
 # End Source File
 # End Group
 # Begin Group "std_h"
@@ -393,72 +449,16 @@ SOURCE=.\include\mdc\string\basic_string.h
 SOURCE=.\include\mdc\string\char_traits.h
 # End Source File
 # End Group
-# Begin Group "malloc_h"
+# Begin Group "wchar_t_h"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\include\mdc\malloc\malloc.h
-# End Source File
-# End Group
-# Begin Group "object_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\object\integer_object.h
+SOURCE=.\include\mdc\wchar_t\wide_decoding.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\mdc\object\pointer.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\object\short_object.h
-# End Source File
-# End Group
-# Begin Group "object_metadata_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\object_metadata\object_metadata.h
-# End Source File
-# End Group
-# Begin Group "filesystem_h"
-
-# PROP Default_Filter ""
-# Begin Group "filesystem_internal_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\file_status.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\file_type.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\filesystem_functions.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\path.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\perms.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\space_info.h
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\filesystem.h
+SOURCE=.\include\mdc\wchar_t\wide_encoding.h
 # End Source File
 # End Group
 # End Group

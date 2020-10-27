@@ -154,6 +154,18 @@ SOURCE=.\tests\mdc\container\vector_tests.c
 SOURCE=.\tests\mdc\container\vector_tests.h
 # End Source File
 # End Group
+# Begin Group "filesystem"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\filesystem\path_windows_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\filesystem\path_windows_tests.h
+# End Source File
+# End Group
 # Begin Group "std"
 
 # PROP Default_Filter ""
@@ -190,6 +202,18 @@ SOURCE=.\tests\mdc\std\threads_tests.c
 SOURCE=.\tests\mdc\std\threads_tests.h
 # End Source File
 # End Group
+# Begin Group "string"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\string\basic_string_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\string\basic_string_tests.h
+# End Source File
+# End Group
 # Begin Group "wchar_t"
 
 # PROP Default_Filter ""
@@ -220,30 +244,6 @@ SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.h
-# End Source File
-# End Group
-# Begin Group "string"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\string\basic_string_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\string\basic_string_tests.h
-# End Source File
-# End Group
-# Begin Group "filesystem"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem\path_windows_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem\path_windows_tests.h
 # End Source File
 # End Group
 # Begin Source File
