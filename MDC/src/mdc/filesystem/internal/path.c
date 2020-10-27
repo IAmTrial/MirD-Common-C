@@ -203,42 +203,157 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
     struct Mdc_Fs_Path* dest,
     const struct Mdc_Fs_Path* path
 ) {
-  struct Mdc_BasicString* dest_path_str;
-  const Mdc_Fs_Path_ValueType* dest_path_cstr;
-  size_t dest_path_len;
+  struct Mdc_Fs_Path* assign_dest;
 
-  const struct Mdc_BasicString* path_str;
-  const Mdc_Fs_Path_ValueType* path_cstr;
+  struct Mdc_Fs_Path dest_root_name;
+  struct Mdc_Fs_Path* init_dest_root_name;
 
-  struct Mdc_BasicString* append_str;
-  struct Mdc_Fs_Path* concat_path;
+  struct Mdc_Fs_Path path_root_name;
+  struct Mdc_Fs_Path* init_path_root_name;
 
-  dest_path_str = &dest->path_str_;
-  dest_path_cstr = Mdc_BasicString_DataConst(dest_path_str);
-  dest_path_len = Mdc_BasicString_Length(dest_path_str);
+  struct Mdc_Fs_Path path_separator;
+  struct Mdc_Fs_Path* init_path_separator;
+  struct Mdc_Fs_Path* concat_path_separator;
 
-  path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
+  struct Mdc_Fs_Path path_root_directory;
+  struct Mdc_Fs_Path* init_path_root_directory;
+  struct Mdc_Fs_Path* concat_path_root_directory;
 
-  if (!Mdc_Path_IsPathSeparator(dest_path_cstr[dest_path_len - 1])
-      || !Mdc_Path_IsPathSeparator(path_cstr[0])) {
-    append_str = Mdc_BasicString_AppendChar(
-        dest_path_str,
-        1,
-        Mdc_Fs_Path_kPreferredSeparator
-    );
+  struct Mdc_Fs_Path path_relative_path;
+  struct Mdc_Fs_Path* init_path_relative_path;
+  struct Mdc_Fs_Path* concat_path_relative_path;
 
-    if (append_str != &dest->path_str_) {
+  if (Mdc_Fs_Path_IsAbsolute(path)) {
+    /* Replace the entire dest with path. */
+    assign_dest = Mdc_Fs_Path_AssignCopy(dest, path);
+
+    if (assign_dest != dest) {
       goto return_bad;
     }
+
+    return dest;
   }
 
-  concat_path = Mdc_Fs_Path_ConcatPath(dest, path);
-  if (concat_path != dest) {
+  if (Mdc_Fs_Path_HasRootName(path)) {
+    init_dest_root_name = Mdc_Fs_Path_RootName(&dest_root_name, dest);
+    if (init_dest_root_name != &dest_root_name) {
+      goto return_bad;
+    }
+
+    init_path_root_name = Mdc_Fs_Path_RootName(&path_root_name, dest);
+    if (init_path_root_name != &path_root_name) {
+      Mdc_Fs_Path_Deinit(&dest_root_name);
+      goto return_bad;
+    }
+
+    if (!Mdc_Fs_Path_Equal(&dest_root_name, &path_root_name)) {
+      /* Replace the entire dest with path. */
+      assign_dest = Mdc_Fs_Path_AssignCopy(dest, path);
+
+      if (assign_dest != dest) {
+        Mdc_Fs_Path_Deinit(&path_root_name);
+        Mdc_Fs_Path_Deinit(&dest_root_name);
+        goto return_bad;
+      }
+
+      Mdc_Fs_Path_Deinit(&path_root_name);
+      Mdc_Fs_Path_Deinit(&dest_root_name);
+
+      return dest;
+    }
+
+    Mdc_Fs_Path_Deinit(&path_root_name);
+    Mdc_Fs_Path_Deinit(&dest_root_name);
+  }
+
+  if (Mdc_Fs_Path_HasRootDirectory(path)) {
+    /*
+    * Remove the dest's root directory and relative path, leaving only
+    * the root name.
+    */
+    init_dest_root_name = Mdc_Fs_Path_RootName(&dest_root_name, dest);
+    if (init_dest_root_name != &dest_root_name) {
+      goto return_bad;
+    }
+
+    assign_dest = Mdc_Fs_Path_AssignMove(dest, &dest_root_name);
+    if (assign_dest != dest) {
+      Mdc_Fs_Path_Deinit(&dest_root_name);
+      goto return_bad;
+    }
+
+    Mdc_Fs_Path_Deinit(&dest_root_name);
+  } else if (Mdc_Fs_Path_HasFilename(dest)
+      || (!Mdc_Fs_Path_HasRootDirectory(dest)
+          && Mdc_Fs_Path_IsAbsolute(dest))) {
+    /* Append preferred path separator. */
+    init_path_separator = Mdc_Fs_Path_InitFromCWStrTop(
+        &path_separator,
+        &Mdc_Fs_Path_kPreferredSeparator,
+        1
+    );
+
+    if (init_path_separator != &path_separator) {
+      Mdc_Fs_Path_Deinit(&path_separator);
+      goto return_bad;
+    }
+
+    concat_path_separator = Mdc_Fs_Path_ConcatPath(dest, &path_separator);
+    if (concat_path_separator != dest) {
+      Mdc_Fs_Path_Deinit(&path_separator);
+      goto return_bad;
+    }
+
+    Mdc_Fs_Path_Deinit(&path_separator);
+  }
+
+  /* Concat path without root to dest. */
+  init_path_root_directory = Mdc_Fs_Path_RootDirectory(
+      &path_root_directory,
+      path
+  );
+
+  if (init_path_root_directory != &path_root_directory) {
     goto return_bad;
   }
 
+  init_path_relative_path = Mdc_Fs_Path_RelativePath(
+      &path_relative_path,
+      path
+  );
+
+  if (init_path_relative_path != &path_relative_path) {
+    goto deinit_path_nameless_root;
+  }
+
+  concat_path_root_directory = Mdc_Fs_Path_ConcatPath(
+      dest,
+      &path_root_directory
+  );
+
+  if (concat_path_root_directory != dest) {
+    goto deinit_path_relative_path;
+  }
+
+  concat_path_relative_path = Mdc_Fs_Path_ConcatPath(
+      dest,
+      &path_relative_path
+  );
+
+  if (concat_path_relative_path != dest) {
+    goto deinit_path_relative_path;
+  }
+
+  Mdc_Fs_Path_Deinit(&path_relative_path);
+  Mdc_Fs_Path_Deinit(&path_root_directory);
+
   return dest;
+
+deinit_path_relative_path:
+  Mdc_Fs_Path_Deinit(&path_relative_path);
+
+deinit_path_nameless_root:
+  Mdc_Fs_Path_Deinit(&path_root_directory);
 
 return_bad:
   return NULL;
