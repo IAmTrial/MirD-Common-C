@@ -27,33 +27,24 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_C_FILESYSTEM_INTERNAL_SPACE_INFO_H_
+#define MDC_C_FILESYSTEM_INTERNAL_SPACE_INFO_H_
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include "../../std/stdbool.h"
+#include "../../std/stdint.h"
 
-#include <mdc/malloc/malloc.h>
-#include "container_tests.h"
-#include "filesystem_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
+#include "../../../../dllexport_define.inc"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+struct Mdc_Fs_SpaceInfo {
+  uintmax_t capacity;
+  uintmax_t free;
+  uintmax_t available;
+};
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
+DLLEXPORT bool Mdc_Fs_SpaceInfo_Equal(
+    const struct Mdc_Fs_SpaceInfo* space_info1,
+    const struct Mdc_Fs_SpaceInfo* space_info2
+);
 
-  Mdc_Fs_RunTests();
-
-  Mdc_PrintMallocLeaks();
-
-  return 0;
-}
+#include "../../../../dllexport_undefine.inc"
+#endif /* MDC_C_FILESYSTEM_INTERNAL_SPACE_INFO_H_ */

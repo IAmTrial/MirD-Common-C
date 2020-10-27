@@ -27,33 +27,35 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_C_FILESYSTEM_INTERNAL_PERMS_H_
+#define MDC_C_FILESYSTEM_INTERNAL_PERMS_H_
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+enum Mdc_Fs_Perms {
+  Mdc_Fs_Perms_kNone = 0,
 
-#include <mdc/malloc/malloc.h>
-#include "container_tests.h"
-#include "filesystem_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
+  Mdc_Fs_Perms_kOwnerRead = 0400,
+  Mdc_Fs_Perms_kOwnerWrite = 0200,
+  Mdc_Fs_Perms_kOwnerExec = 0100,
+  Mdc_Fs_Perms_kOwnerAll = 0700,
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+  Mdc_Fs_Perms_kGroupRead = 040,
+  Mdc_Fs_Perms_kGroupWrite = 020,
+  Mdc_Fs_Perms_kGroupExec = 010,
+  Mdc_Fs_Perms_kGroupAll = 070,
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
+  Mdc_Fs_Perms_kOthersRead = 04,
+  Mdc_Fs_Perms_kOthersWrite = 02,
+  Mdc_Fs_Perms_kOthersExec = 01,
+  Mdc_Fs_Perms_kOthersAll = 07,
 
-  Mdc_Fs_RunTests();
+  Mdc_Fs_Perms_kAll = 0777,
 
-  Mdc_PrintMallocLeaks();
+  Mdc_Fs_Perms_kSetUid = 04000,
+  Mdc_Fs_Perms_kSetGid = 02000,
+  Mdc_Fs_Perms_kStickyBit = 01000,
+  Mdc_Fs_Perms_kMask = 07777,
 
-  return 0;
-}
+  Mdc_Fs_Perms_kUnknown = 0xFFFF
+};
+
+#endif /* MDC_C_FILESYSTEM_INTERNAL_PERMS_H_ */

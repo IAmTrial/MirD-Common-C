@@ -27,33 +27,25 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_C_FILESYSTEM_INTERNAL_PATH_IMPL_H_
+#define MDC_C_FILESYSTEM_INTERNAL_PATH_IMPL_H_
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include "../../../../include/mdc/filesystem/internal/path.h"
+#include "../../../../include/mdc/std/stdbool.h"
 
-#include <mdc/malloc/malloc.h>
-#include "container_tests.h"
-#include "filesystem_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
+#define MDC_PATH_UNINIT { 0 }
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit;
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
+const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kSlashSeparator;
+const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kNullTerminator;
 
-  Mdc_Fs_RunTests();
+struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStrTop(
+    struct Mdc_Fs_Path* path,
+    const Mdc_Fs_Path_ValueType* cstr,
+    size_t count
+);
 
-  Mdc_PrintMallocLeaks();
+bool Mdc_Fs_Path_IsSeparatorCh(Mdc_Fs_Path_ValueType ch);
 
-  return 0;
-}
+#endif /* MDC_C_FILESYSTEM_INTERNAL_PATH_IMPL_H_ */

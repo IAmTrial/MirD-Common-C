@@ -27,33 +27,13 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#include "../../../../include/mdc/filesystem/internal/space_info.h"
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include <string.h>
 
-#include <mdc/malloc/malloc.h>
-#include "container_tests.h"
-#include "filesystem_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
-
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
-
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
-
-  Mdc_Fs_RunTests();
-
-  Mdc_PrintMallocLeaks();
-
-  return 0;
+bool Mdc_Fs_SpaceInfo_Equal(
+    const struct Mdc_Fs_SpaceInfo* space_info1,
+    const struct Mdc_Fs_SpaceInfo* space_info2
+) {
+  return memcmp(space_info1, space_info2, sizeof(*space_info1)) == 0;
 }

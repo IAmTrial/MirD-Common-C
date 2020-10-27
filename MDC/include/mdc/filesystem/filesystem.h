@@ -27,33 +27,19 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_C_FILESYSTEM_FILESYSTEM_H_
+#define MDC_C_FILESYSTEM_FILESYSTEM_H_
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#if defined(WIN32) && !defined(MDC_ACKNOWLEDGE_LIBUNICOWS)
+  #error To use the filesystem library, please link to unicows.lib \
+      for full compatability with Windows 9X systems. Define \
+      MDC_ACKNOWLEDGE_LIBUNICOWS to stop this error.
+#endif /* defined(WIN32) && defined(MDC_ACKNOWLEDGE_LIBUNICOWS) */
 
-#include <mdc/malloc/malloc.h>
-#include "container_tests.h"
-#include "filesystem_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
+#include "internal/filesystem_functions.h"
+#include "internal/file_status.h"
+#include "internal/file_type.h"
+#include "internal/path.h"
+#include "internal/space_info.h"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
-
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
-
-  Mdc_Fs_RunTests();
-
-  Mdc_PrintMallocLeaks();
-
-  return 0;
-}
+#endif /* MDC_C_FILESYSTEM_FILESYSTEM_H_ */

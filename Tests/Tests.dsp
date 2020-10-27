@@ -65,7 +65,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "MDC_ACKNOWLEDGE_LIBUNICOWS" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -73,7 +73,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 MDCcD.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 libunicows.lib MDCcD.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -154,6 +154,18 @@ SOURCE=.\tests\mdc\container\vector_tests.c
 SOURCE=.\tests\mdc\container\vector_tests.h
 # End Source File
 # End Group
+# Begin Group "filesystem"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\filesystem\path_windows_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\filesystem\path_windows_tests.h
+# End Source File
+# End Group
 # Begin Group "std"
 
 # PROP Default_Filter ""
@@ -190,6 +202,18 @@ SOURCE=.\tests\mdc\std\threads_tests.c
 SOURCE=.\tests\mdc\std\threads_tests.h
 # End Source File
 # End Group
+# Begin Group "string"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\string\basic_string_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\string\basic_string_tests.h
+# End Source File
+# End Group
 # Begin Group "wchar_t"
 
 # PROP Default_Filter ""
@@ -222,18 +246,6 @@ SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.c
 SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.h
 # End Source File
 # End Group
-# Begin Group "string"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\string\basic_string_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\string\basic_string_tests.h
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=.\tests\mdc\container_tests.c
@@ -241,6 +253,14 @@ SOURCE=.\tests\mdc\container_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\container_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\filesystem_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\filesystem_tests.h
 # End Source File
 # Begin Source File
 

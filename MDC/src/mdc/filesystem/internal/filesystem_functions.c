@@ -27,33 +27,53 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#include "../../../../include/mdc/filesystem/internal/filesystem_functions.h"
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+bool Mdc_Fs_ExistsFromFileStatus(
+    const struct Mdc_Fs_FileStatus* file_status
+) {
+  enum Mdc_Fs_FileType file_type;
 
-#include <mdc/malloc/malloc.h>
-#include "container_tests.h"
-#include "filesystem_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
+  file_type = Mdc_Fs_FileStatus_GetType(file_status);
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+  return Mdc_Fs_StatusKnown(file_status)
+      && file_type != Mdc_Fs_FileType_kNotFound;
+}
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
+/*
+* TODO (Mir Drualga): Uncomment when Mdc_Fs_StatusFromPath is
+* complete.
 
-  Mdc_Fs_RunTests();
+bool Mdc_Fs_ExistsFromPath(
+    const struct Mdc_Fs_Path* path
+) {
+  struct Mdc_Fs_FileStatus file_status;
+  struct Mdc_Fs_FileStatus* init_file_status;
 
-  Mdc_PrintMallocLeaks();
+  bool is_exists;
 
-  return 0;
+  init_file_status = Mdc_Fs_StatusFromPath(&file_status, path);
+  if (init_file_status != &file_status) {
+    goto return_bad;
+  }
+
+  is_exists = Mdc_Fs_ExistsFromFileStatus(&file_status);
+
+  Mdc_Fs_FileStatus_Deinit(&file_status);
+
+  return is_exists;
+
+return_bad:
+  return false;
+}
+*/
+
+bool Mdc_Fs_StatusKnown(
+    const struct Mdc_Fs_FileStatus* file_status
+) {
+  enum Mdc_Fs_FileType file_type;
+
+  file_type = Mdc_Fs_FileStatus_GetType(file_status);
+
+  return file_type != Mdc_Fs_FileType_kNone;
 }
