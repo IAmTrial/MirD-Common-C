@@ -37,9 +37,12 @@ const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit = MDC_PATH_UNINIT;
  * Static functions
  */
 
+typedef struct Mdc_Fs_Path*
+(*Mdc_Fs_Path_GetPathElementFunc)(struct Mdc_Fs_Path*, const struct Mdc_Fs_Path*);
+
 static bool Mdc_Fs_Path_HasPathElement(
     const struct Mdc_Fs_Path* path,
-    bool (*get_element_func)(struct Mdc_Fs_Path*, const struct Mdc_Fs_Path*)
+    Mdc_Fs_Path_GetPathElementFunc get_element_func
 ) {
   struct Mdc_Fs_Path path_element;
   struct Mdc_Fs_Path* init_path_element;
