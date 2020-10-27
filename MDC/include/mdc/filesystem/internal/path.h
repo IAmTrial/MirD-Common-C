@@ -202,6 +202,11 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RemoveFilename(
     struct Mdc_Fs_Path* path
 );
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceExtension(
+    struct Mdc_Fs_Path* path,
+    const struct Mdc_Fs_Path* extension
+);
+
 DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceFilename(
     struct Mdc_Fs_Path* path,
     const struct Mdc_Fs_Path* filename

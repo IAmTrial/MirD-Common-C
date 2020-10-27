@@ -514,6 +514,81 @@ return_bad:
   return NULL;
 }
 
+struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceExtension(
+    struct Mdc_Fs_Path* path,
+    const struct Mdc_Fs_Path* extension
+) {
+  const struct Mdc_BasicString* path_str;
+  const Mdc_Fs_Path_ValueType* path_cstr;
+  size_t path_len;
+  struct Mdc_Fs_Path* assign_path;
+
+  struct Mdc_Fs_Path path_extension;
+  struct Mdc_Fs_Path* init_path_extension;
+  const struct Mdc_BasicString* path_extension_str;
+  size_t path_extension_len;
+
+  struct Mdc_Fs_Path new_extension_path;
+  struct Mdc_Fs_Path* init_new_extension_path;
+  struct Mdc_Fs_Path* concat_new_extension_path;
+
+  /* Remove the extension from the path. */
+  init_path_extension = Mdc_Fs_Path_Extension(
+      &path_extension,
+      path
+  );
+
+  if (init_path_extension != &path_extension) {
+    goto return_bad;
+  }
+
+  path_extension_str = Mdc_Fs_Path_Native(&path_extension);
+  path_extension_len = Mdc_BasicString_Length(path_extension_str);
+
+  path_str = Mdc_Fs_Path_Native(path);
+  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_len = Mdc_BasicString_Length(path_str);
+
+  init_new_extension_path = Mdc_Fs_Path_InitFromCWStrTop(
+      &new_extension_path,
+      path_cstr,
+      path_len - path_extension_len
+  );
+
+  if (init_new_extension_path != &new_extension_path) {
+    goto deinit_path_extension;
+  }
+
+  /* Append the new extension onto the path. */
+  concat_new_extension_path = Mdc_Fs_Path_ConcatPath(
+      &new_extension_path,
+      extension
+  );
+
+  if (concat_new_extension_path != &new_extension_path) {
+    goto deinit_new_extension_path;
+  }
+
+  assign_path = Mdc_Fs_Path_AssignMove(path, &new_extension_path);
+  if (assign_path != path) {
+    goto deinit_new_extension_path;
+  }
+
+  Mdc_Fs_Path_Deinit(&new_extension_path);
+  Mdc_Fs_Path_Deinit(&path_extension);
+
+  return path;
+
+deinit_new_extension_path:
+  Mdc_Fs_Path_Deinit(&new_extension_path);
+
+deinit_path_extension:
+  Mdc_Fs_Path_Deinit(&path_extension);
+
+return_bad:
+  return NULL;
+}
+
 struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceFilename(
     struct Mdc_Fs_Path* path,
     const struct Mdc_Fs_Path* filename
