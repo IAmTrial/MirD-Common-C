@@ -1313,6 +1313,128 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
+static void Mdc_Fs_Path_AssertReplaceExtension(void) {
+  static const wchar_t* const kReplacement =
+      L".path_test-not_a%20coincidence";
+
+  static const wchar_t* const kExpected[] = {
+      // Drive paths
+      L"C:/.path_test-not_a%20coincidence",
+      L"C:/Hello world/test file.path_test-not_a%20coincidence",
+      L"C:Hello world/test file.path_test-not_a%20coincidence",
+      L"C:test file.path_test-not_a%20coincidence",
+      L"C:/Hello world/.git.path_test-not_a%20coincidence",
+      L"C:/Hello world/..path_test-not_a%20coincidence",
+      L"C:/Hello world/...path_test-not_a%20coincidence",
+      L"C:/Hello world/...path_test-not_a%20coincidence",
+      L"C:/Hello world/. .path_test-not_a%20coincidence",
+      L"C://Hello world///test.path_test-not_a%20coincidence",
+
+      // Relative paths
+      L"Hello world/.path_test-not_a%20coincidence",
+      L"Hello world/test file.path_test-not_a%20coincidence",
+      L"Hello world/.git.path_test-not_a%20coincidence",
+      L"Hello world/..path_test-not_a%20coincidence",
+      L"Hello world/...path_test-not_a%20coincidence",
+      L"Hello world/...path_test-not_a%20coincidence",
+      L"Hello world/. .path_test-not_a%20coincidence",
+      L"Hello world//test.path_test-not_a%20coincidence",
+
+      // UNC paths
+      L"//./.path_test-not_a%20coincidence",
+      L"//./Hello world/test file.path_test-not_a%20coincidence",
+      L"//./Hello world/.git.path_test-not_a%20coincidence",
+      L"//./Hello world/..path_test-not_a%20coincidence",
+      L"//./Hello world/...path_test-not_a%20coincidence",
+      L"//./Hello world/...path_test-not_a%20coincidence",
+      L"//./Hello world/. .path_test-not_a%20coincidence",
+      L"//.//Hello world/test.path_test-not_a%20coincidence",
+
+      // UNC paths, no extensions
+      L"//.path_test-not_a%20coincidence",
+      L"//test file.txt.path_test-not_a%20coincidence",
+      L"//.git.path_test-not_a%20coincidence",
+      L"//..path_test-not_a%20coincidence",
+      L"//...path_test-not_a%20coincidence",
+      L"//....path_test-not_a%20coincidence",
+      L"//. .path_test-not_a%20coincidence",
+
+      // Relative UNC paths
+      L"///.path_test-not_a%20coincidence",
+      L"///test file.path_test-not_a%20coincidence",
+      L"///.git.path_test-not_a%20coincidence",
+      L"///..path_test-not_a%20coincidence",
+      L"///...path_test-not_a%20coincidence",
+      L"///...path_test-not_a%20coincidence",
+      L"///. .path_test-not_a%20coincidence",
+
+      // Miscellaneous
+      L".path_test-not_a%20coincidence",
+      L"..path_test-not_a%20coincidence",
+      L"...path_test-not_a%20coincidence",
+      L"...path_test-not_a%20coincidence",
+      L". .path_test-not_a%20coincidence",
+      L".git.path_test-not_a%20coincidence",
+      L"test file.txt/.path_test-not_a%20coincidence",
+      L"test file.txt//.path_test-not_a%20coincidence",
+      L"test file.path_test-not_a%20coincidence",
+  };
+
+  size_t i;
+
+  struct Mdc_Fs_Path path;
+  struct Mdc_Fs_Path* init_path;
+
+  struct Mdc_Fs_Path replacement;
+  struct Mdc_Fs_Path* init_replacement;
+
+  struct Mdc_Fs_Path actual_path;
+  struct Mdc_Fs_Path* init_actual_path;
+
+  struct Mdc_Fs_Path expected_path;
+  struct Mdc_Fs_Path* init_expected_path;
+
+  for (i = 0; i < kSrcPathsCount; i += 1) {
+    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
+    assert(init_path == &path);
+
+    init_replacement = Mdc_Fs_Path_InitFromCWStr(
+        &replacement,
+        kReplacement
+    );
+    assert(init_replacement == &replacement);
+
+    init_actual_path = Mdc_Fs_Path_InitCopy(
+        &actual_path,
+        &path
+    );
+    assert(init_actual_path == &actual_path);
+
+    assert(Mdc_Fs_Path_ReplaceExtension(&actual_path, &replacement) == &actual_path);
+
+    init_expected_path = Mdc_Fs_Path_InitFromCWStr(
+        &expected_path,
+        kExpected[i]
+    );
+    assert(init_expected_path == &expected_path);
+
+    if (!Mdc_Fs_Path_Equal(&actual_path, &expected_path)) {
+      wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
+      wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_path));
+      wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_path));
+
+      assert(Mdc_Fs_Path_Equal(&actual_path, &expected_path));
+    }
+
+    Mdc_Fs_Path_Deinit(&expected_path);
+    Mdc_Fs_Path_Deinit(&actual_path);
+    Mdc_Fs_Path_Deinit(&replacement);
+    Mdc_Fs_Path_Deinit(&path);
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
 void Mdc_Fs_Path_RunTests(void) {
   Mdc_Fs_Path_AssertInitEmptyDeinit();
   Mdc_Fs_Path_AssertInitFromCWStr();
@@ -1331,4 +1453,5 @@ void Mdc_Fs_Path_RunTests(void) {
 
   Mdc_Fs_Path_AssertRemoveFilename();
   Mdc_Fs_Path_AssertReplaceFilename();
+  Mdc_Fs_Path_AssertReplaceExtension();
 }
