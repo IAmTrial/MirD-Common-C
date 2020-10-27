@@ -143,9 +143,29 @@ DLLEXPORT bool Mdc_Fs_Path_EqualPath(
     const struct Mdc_Fs_Path* path2
 );
 
+DLLEXPORT bool Mdc_Fs_Path_EqualNativeStr(
+    const struct Mdc_Fs_Path* path1,
+    const struct Mdc_BasicString* path2
+);
+
+DLLEXPORT bool Mdc_Fs_Path_EqualNativeCStr(
+    const struct Mdc_Fs_Path* path1,
+    const Mdc_Fs_Path_ValueType* path2
+);
+
 DLLEXPORT int Mdc_Fs_Path_ComparePath(
     const struct Mdc_Fs_Path* path1,
     const struct Mdc_Fs_Path* path2
+);
+
+DLLEXPORT int Mdc_Fs_Path_CompareNativeStr(
+    const struct Mdc_Fs_Path* path1,
+    const struct Mdc_BasicString* path2
+);
+
+DLLEXPORT int Mdc_Fs_Path_CompareNativeCStr(
+    const struct Mdc_Fs_Path* path1,
+    const Mdc_Fs_Path_ValueType* path2
 );
 
 /**

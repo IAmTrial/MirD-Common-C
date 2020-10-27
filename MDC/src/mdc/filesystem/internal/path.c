@@ -250,11 +250,39 @@ bool Mdc_Fs_Path_EqualPath(
   return Mdc_BasicString_EqualStr(&path1->path_str_, &path2->path_str_);
 }
 
+bool Mdc_Fs_Path_EqualNativeStr(
+    const struct Mdc_Fs_Path* path1,
+    const struct Mdc_BasicString* path2
+) {
+  return Mdc_BasicString_EqualStr(&path1->path_str_, path2);
+}
+
+bool Mdc_Fs_Path_EqualNativeCStr(
+    const struct Mdc_Fs_Path* path1,
+    const Mdc_Fs_Path_ValueType* path2
+) {
+  return Mdc_BasicString_EqualCStr(&path1->path_str_, path2);
+}
+
 int Mdc_Fs_Path_ComparePath(
     const struct Mdc_Fs_Path* path1,
     const struct Mdc_Fs_Path* path2
 ) {
   return Mdc_BasicString_CompareStr(&path1->path_str_, &path2->path_str_);
+}
+
+int Mdc_Fs_Path_CompareNativeStr(
+    const struct Mdc_Fs_Path* path1,
+    const struct Mdc_BasicString* path2
+) {
+  return Mdc_BasicString_CompareStr(&path1->path_str_, path2);
+}
+
+int Mdc_Fs_Path_CompareNativeCStr(
+    const struct Mdc_Fs_Path* path1,
+    const Mdc_Fs_Path_ValueType* path2
+) {
+  return Mdc_BasicString_CompareCStr(&path1->path_str_, path2);
 }
 
 /**
