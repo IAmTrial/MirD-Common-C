@@ -243,14 +243,14 @@ return_bad:
  * Comparison operators
  */
 
-bool Mdc_Fs_Path_Equal(
+bool Mdc_Fs_Path_EqualPath(
     const struct Mdc_Fs_Path* path1,
     const struct Mdc_Fs_Path* path2
 ) {
   return Mdc_BasicString_EqualStr(&path1->path_str_, &path2->path_str_);
 }
 
-int Mdc_Fs_Path_Compare(
+int Mdc_Fs_Path_ComparePath(
     const struct Mdc_Fs_Path* path1,
     const struct Mdc_Fs_Path* path2
 ) {
@@ -308,7 +308,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
       goto return_bad;
     }
 
-    if (!Mdc_Fs_Path_Equal(&dest_root_name, &path_root_name)) {
+    if (!Mdc_Fs_Path_EqualPath(&dest_root_name, &path_root_name)) {
       /* Replace the entire dest with path. */
       assign_dest = Mdc_Fs_Path_AssignCopy(dest, path);
 

@@ -138,12 +138,12 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ConcatPathWithPath(
  * Comparison operators
  */
 
-DLLEXPORT bool Mdc_Fs_Path_Equal(
+DLLEXPORT bool Mdc_Fs_Path_EqualPath(
     const struct Mdc_Fs_Path* path1,
     const struct Mdc_Fs_Path* path2
 );
 
-DLLEXPORT int Mdc_Fs_Path_Compare(
+DLLEXPORT int Mdc_Fs_Path_ComparePath(
     const struct Mdc_Fs_Path* path1,
     const struct Mdc_Fs_Path* path2
 );

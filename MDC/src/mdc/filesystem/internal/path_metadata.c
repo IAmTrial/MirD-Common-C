@@ -93,11 +93,11 @@ static void* Mdc_Fs_Path_AppendPathWithPathAsVoid(
  */
 
 static bool Mdc_Fs_Path_EqualAsVoid(const void* path1, const void* path2) {
-  return Mdc_Fs_Path_Equal(path1, path2);
+  return Mdc_Fs_Path_EqualPath(path1, path2);
 }
 
 static int Mdc_Fs_Path_CompareAsVoid(const void* path1, const void* path2) {
-  return Mdc_Fs_Path_Compare(path1, path2);
+  return Mdc_Fs_Path_ComparePath(path1, path2);
 }
 
 /**

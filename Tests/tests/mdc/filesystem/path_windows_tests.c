@@ -258,12 +258,12 @@ static void Mdc_Fs_Path_AssertClear(void) {
     );
     assert(init_expected_path == &expected_path);
 
-    if (!Mdc_Fs_Path_Equal(&actual_path, &expected_path)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_path));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_path));
 
-      assert(Mdc_Fs_Path_Equal(&actual_path, &expected_path));
+      assert(Mdc_Fs_Path_EqualPath(&actual_path, &expected_path));
     }
 
     Mdc_Fs_Path_Deinit(&expected_path);
@@ -363,12 +363,12 @@ static void Mdc_Fs_Path_AssertMakePreferred(void) {
     init_expected = Mdc_Fs_Path_InitFromCWStr(&expected, kExpected[i]);
     assert(init_expected == &expected);
 
-    if (!Mdc_Fs_Path_Equal(&actual, &expected)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual, &expected)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual));
 
-      assert(Mdc_Fs_Path_Equal(&actual, &expected));
+      assert(Mdc_Fs_Path_EqualPath(&actual, &expected));
     }
 
     Mdc_Fs_Path_Deinit(&expected);
@@ -470,12 +470,12 @@ static void Mdc_Fs_Path_AssertStem(void) {
     );
     assert(init_expected_stem == &expected_stem);
 
-    if (!Mdc_Fs_Path_Equal(&actual_stem, &expected_stem)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_stem, &expected_stem)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_stem));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_stem));
 
-      assert(Mdc_Fs_Path_Equal(&actual_stem, &expected_stem));
+      assert(Mdc_Fs_Path_EqualPath(&actual_stem, &expected_stem));
     }
 
     Mdc_Fs_Path_Deinit(&expected_stem);
@@ -577,12 +577,12 @@ static void Mdc_Fs_Path_AssertExtension(void) {
     );
     assert(init_expected_extension == &expected_extension);
 
-    if (!Mdc_Fs_Path_Equal(&actual_extension, &expected_extension)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_extension, &expected_extension)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_extension));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_extension));
 
-      assert(Mdc_Fs_Path_Equal(&actual_extension, &expected_extension));
+      assert(Mdc_Fs_Path_EqualPath(&actual_extension, &expected_extension));
     }
 
     Mdc_Fs_Path_Deinit(&expected_extension);
@@ -684,12 +684,12 @@ static void Mdc_Fs_Path_AssertFilename(void) {
     );
     assert(init_expected_filename == &expected_filename);
 
-    if (!Mdc_Fs_Path_Equal(&actual_filename, &expected_filename)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_filename, &expected_filename)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_filename));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_filename));
 
-      assert(Mdc_Fs_Path_Equal(&actual_filename, &expected_filename));
+      assert(Mdc_Fs_Path_EqualPath(&actual_filename, &expected_filename));
     }
 
     Mdc_Fs_Path_Deinit(&expected_filename);
@@ -791,12 +791,12 @@ static void Mdc_Fs_Path_AssertRootName(void) {
     );
     assert(init_expected_root_name == &expected_root_name);
 
-    if (!Mdc_Fs_Path_Equal(&actual_root_name, &expected_root_name)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_root_name, &expected_root_name)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_root_name));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_root_name));
 
-      assert(Mdc_Fs_Path_Equal(&actual_root_name, &expected_root_name));
+      assert(Mdc_Fs_Path_EqualPath(&actual_root_name, &expected_root_name));
     }
 
     Mdc_Fs_Path_Deinit(&expected_root_name);
@@ -898,12 +898,12 @@ static void Mdc_Fs_Path_AssertRootDirectory(void) {
     );
     assert(init_expected_root_directory == &expected_root_directory);
 
-    if (!Mdc_Fs_Path_Equal(&actual_root_directory, &expected_root_directory)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_root_directory, &expected_root_directory)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_root_directory));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_root_directory));
 
-      assert(Mdc_Fs_Path_Equal(&actual_root_directory, &expected_root_directory));
+      assert(Mdc_Fs_Path_EqualPath(&actual_root_directory, &expected_root_directory));
     }
 
     Mdc_Fs_Path_Deinit(&expected_root_directory);
@@ -1005,12 +1005,12 @@ static void Mdc_Fs_Path_AssertRootPath(void) {
     );
     assert(init_expected_root_path == &expected_root_path);
 
-    if (!Mdc_Fs_Path_Equal(&actual_root_path, &expected_root_path)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_root_path, &expected_root_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_root_path));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_root_path));
 
-      assert(Mdc_Fs_Path_Equal(&actual_root_path, &expected_root_path));
+      assert(Mdc_Fs_Path_EqualPath(&actual_root_path, &expected_root_path));
     }
 
     Mdc_Fs_Path_Deinit(&expected_root_path);
@@ -1112,12 +1112,12 @@ static void Mdc_Fs_Path_AssertParentPath(void) {
     );
     assert(init_expected_parent_path == &expected_parent_path);
 
-    if (!Mdc_Fs_Path_Equal(&actual_parent_path, &expected_parent_path)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_parent_path, &expected_parent_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_parent_path));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_parent_path));
 
-      assert(Mdc_Fs_Path_Equal(&actual_parent_path, &expected_parent_path));
+      assert(Mdc_Fs_Path_EqualPath(&actual_parent_path, &expected_parent_path));
     }
 
     Mdc_Fs_Path_Deinit(&expected_parent_path);
@@ -1219,12 +1219,12 @@ static void Mdc_Fs_Path_AssertRelativePath(void) {
     );
     assert(init_expected_relative_path == &expected_relative_path);
 
-    if (!Mdc_Fs_Path_Equal(&actual_relative_path, &expected_relative_path)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_relative_path, &expected_relative_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_relative_path));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_relative_path));
 
-      assert(Mdc_Fs_Path_Equal(&actual_relative_path, &expected_relative_path));
+      assert(Mdc_Fs_Path_EqualPath(&actual_relative_path, &expected_relative_path));
     }
 
     Mdc_Fs_Path_Deinit(&expected_relative_path);
@@ -1328,12 +1328,12 @@ static void Mdc_Fs_Path_AssertRemoveFilename(void) {
     );
     assert(init_expected_path == &expected_path);
 
-    if (!Mdc_Fs_Path_Equal(&actual_path, &expected_path)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_path));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_path));
 
-      assert(Mdc_Fs_Path_Equal(&actual_path, &expected_path));
+      assert(Mdc_Fs_Path_EqualPath(&actual_path, &expected_path));
     }
 
     Mdc_Fs_Path_Deinit(&expected_path);
@@ -1449,12 +1449,12 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
     );
     assert(init_expected_path == &expected_path);
 
-    if (!Mdc_Fs_Path_Equal(&actual_path, &expected_path)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_path));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_path));
 
-      assert(Mdc_Fs_Path_Equal(&actual_path, &expected_path));
+      assert(Mdc_Fs_Path_EqualPath(&actual_path, &expected_path));
     }
 
     Mdc_Fs_Path_Deinit(&expected_path);
@@ -1571,12 +1571,12 @@ static void Mdc_Fs_Path_AssertReplaceExtension(void) {
     );
     assert(init_expected_path == &expected_path);
 
-    if (!Mdc_Fs_Path_Equal(&actual_path, &expected_path)) {
+    if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
       wprintf(L"Expected: \"%s\" \n", Mdc_Fs_Path_CStr(&expected_path));
       wprintf(L"Actual: \"%s\" \n", Mdc_Fs_Path_CStr(&actual_path));
 
-      assert(Mdc_Fs_Path_Equal(&actual_path, &expected_path));
+      assert(Mdc_Fs_Path_EqualPath(&actual_path, &expected_path));
     }
 
     Mdc_Fs_Path_Deinit(&expected_path);
