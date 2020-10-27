@@ -1230,12 +1230,12 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
 
     // UNC paths, no extensions
     L"//path_test-not a%20coincidence.file.txt",
-    L"//test file.txt/path_test-not a%20coincidence.file.txt",
-    L"//.git/path_test-not a%20coincidence.file.txt",
-    L"//./path_test-not a%20coincidence.file.txt",
-    L"//../path_test-not a%20coincidence.file.txt",
-    L"//.../path_test-not a%20coincidence.file.txt",
-    L"//. /path_test-not a%20coincidence.file.txt",
+    L"//test file.txt\\path_test-not a%20coincidence.file.txt",
+    L"//.git\\path_test-not a%20coincidence.file.txt",
+    L"//.\\path_test-not a%20coincidence.file.txt",
+    L"//..\\path_test-not a%20coincidence.file.txt",
+    L"//...\\path_test-not a%20coincidence.file.txt",
+    L"//. \\path_test-not a%20coincidence.file.txt",
 
     // Relative UNC paths
     L"///path_test-not a%20coincidence.file.txt",
@@ -1306,6 +1306,7 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
 
     Mdc_Fs_Path_Deinit(&expected_path);
     Mdc_Fs_Path_Deinit(&actual_path);
+    Mdc_Fs_Path_Deinit(&replacement);
     Mdc_Fs_Path_Deinit(&path);
   }
 
