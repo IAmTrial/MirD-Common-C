@@ -214,6 +214,8 @@ struct Mdc_Fs_SpaceInfo* Mdc_Fs_SpaceFromPath(
   space_info->capacity = total_space.QuadPart;
   space_info->free = free_space.QuadPart;
 
+  Mdc_Fs_Path_Deinit(&parent_path);
+
   return space_info;
 
 return_bad:
