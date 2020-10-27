@@ -34,6 +34,8 @@
 #include <windows.h>
 #include <shlwapi.h>
 
+#include "../../../../include/mdc/malloc/malloc.h"
+
 struct Mdc_Fs_Path* Mdc_Fs_AbsoluteFromPath(
     struct Mdc_Fs_Path* absolute_path,
     const struct Mdc_Fs_Path* path
@@ -78,6 +80,69 @@ bool Mdc_Fs_ExistsFromPath(
     const struct Mdc_Fs_Path* path
 ) {
   return PathFileExistsW(Mdc_Fs_Path_CStr(path));
+}
+
+struct Mdc_Fs_Path* Mdc_Fs_GetCurrentPath(
+    struct Mdc_Fs_Path* current_path
+) {
+  void* realloc_result;
+
+  struct Mdc_Fs_Path* init_current_path;
+  DWORD current_path_cap;
+  DWORD get_current_directory_result;
+
+  wchar_t* current_path_cstr;
+
+  /* Alloc space for the current path. */
+  current_path_cstr = Mdc_malloc(2);
+  if (current_path_cstr == NULL) {
+    goto return_bad;
+  }
+
+  current_path_cap = GetCurrentDirectoryW(0, current_path_cstr);
+
+  realloc_result = Mdc_realloc(current_path_cstr, current_path_cap);
+  if (realloc_result == NULL) {
+    goto free_current_path_cstr;
+  }
+
+  current_path_cstr = realloc_result;
+
+  /* Get the current path and init the Path object. */
+  get_current_directory_result = GetCurrentDirectoryW(
+      current_path_cap,
+      current_path_cstr
+  );
+
+  if (get_current_directory_result == 0) {
+    goto free_current_path_cstr;
+  }
+
+  init_current_path = Mdc_Fs_Path_InitFromCWStr(
+      current_path,
+      current_path_cstr
+  );
+
+  Mdc_free(current_path_cstr);
+
+  return current_path;
+
+free_current_path_cstr:
+  Mdc_free(current_path_cstr);
+
+return_bad:
+  return NULL;
+}
+
+void Mdc_Fs_SetCurrentPath(
+    const struct Mdc_Fs_Path* current_path
+) {
+  const Mdc_Fs_Path_ValueType* current_path_cstr;
+
+  BOOL is_set_current_directory_success;
+
+  current_path_cstr = Mdc_Fs_Path_CStr(current_path);
+  is_set_current_directory_success = SetCurrentDirectoryW(current_path_cstr);
 }
 
 struct Mdc_Fs_FileStatus* Mdc_Fs_StatusFromPath(

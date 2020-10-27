@@ -54,6 +54,14 @@ DLLEXPORT bool Mdc_Fs_ExistsFromPath(
     const struct Mdc_Fs_Path* path
 );
 
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_GetCurrentPath(
+    struct Mdc_Fs_Path* current_path
+);
+
+DLLEXPORT void Mdc_Fs_SetCurrentPath(
+    const struct Mdc_Fs_Path* current_path
+);
+
 /*
 * TODO (Mir Drualga): Uncomment when Mdc_Fs_StatusFromPath is
 * complete.
