@@ -40,19 +40,19 @@
  * Object initialization/deinitialization
  */
 
-static void* Mdc_Path_InitEmptyAsVoid(void* dest) {
+static void* Mdc_Fs_Path_InitEmptyAsVoid(void* dest) {
   return Mdc_Fs_Path_InitEmpty(dest);
 }
 
-static void* Mdc_Path_InitCopyAsVoid(void* dest, const void* src) {
+static void* Mdc_Fs_Path_InitCopyAsVoid(void* dest, const void* src) {
   return Mdc_Fs_Path_InitCopy(dest, src);
 }
 
-static void* Mdc_Path_InitMoveAsVoid(void* dest, void* src) {
+static void* Mdc_Fs_Path_InitMoveAsVoid(void* dest, void* src) {
   return Mdc_Fs_Path_InitMove(dest, src);
 }
 
-static void Mdc_Path_DeinitAsVoid(void* path) {
+static void Mdc_Fs_Path_DeinitAsVoid(void* path) {
   Mdc_Fs_Path_Deinit(path);
 }
 
@@ -60,23 +60,43 @@ static void Mdc_Path_DeinitAsVoid(void* path) {
  * Object assignment functions
  */
 
-static void* Mdc_Path_AssignCopyAsVoid(void* dest, const void* src) {
+static void* Mdc_Fs_Path_AssignCopyAsVoid(void* dest, const void* src) {
   return Mdc_Fs_Path_AssignCopy(dest, src);
 }
 
-static void* Mdc_Path_AssignMoveAsVoid(void* dest, void* src) {
+static void* Mdc_Fs_Path_AssignMoveAsVoid(void* dest, void* src) {
   return Mdc_Fs_Path_AssignMove(dest, src);
+}
+
+/**
+ * Object arithmetic operators
+ */
+
+static void* Mdc_Fs_Path_ConcatPathAsVoid(
+    void* out,
+    const void* op1,
+    const void* op2
+) {
+  return Mdc_Fs_Path_ConcatPath(out, op1, op2);
+}
+
+static void* Mdc_Fs_Path_AppendPathAsVoid(
+    void* out,
+    const void* op1,
+    const void* op2
+) {
+  return Mdc_Fs_Path_AppendPath(out, op1, op2);
 }
 
 /**
  * Object comparison operators
  */
 
-static bool Mdc_Path_EqualAsVoid(const void* path1, const void* path2) {
+static bool Mdc_Fs_Path_EqualAsVoid(const void* path1, const void* path2) {
   return Mdc_Fs_Path_Equal(path1, path2);
 }
 
-static int Mdc_Path_CompareAsVoid(const void* path1, const void* path2) {
+static int Mdc_Fs_Path_CompareAsVoid(const void* path1, const void* path2) {
   return Mdc_Fs_Path_Compare(path1, path2);
 }
 
@@ -84,7 +104,7 @@ static int Mdc_Path_CompareAsVoid(const void* path1, const void* path2) {
  * Etc. functions
  */
 
-static void Mdc_Path_SwapAsVoid(void* path1, void* path2) {
+static void Mdc_Fs_Path_SwapAsVoid(void* path1, void* path2) {
   Mdc_Fs_Path_Swap(path1, path2);
 }
 
@@ -96,28 +116,32 @@ static struct Mdc_ObjectMetadata global_metadata =
     MDC_OBJECT_METADATA_UNINIT;
 static once_flag global_metadata_init_flag = ONCE_FLAG_INIT;
 
-static struct Mdc_ObjectMetadata* Mdc_Path_InitObjectMetadata(
+static struct Mdc_ObjectMetadata* Mdc_Fs_Path_InitObjectMetadata(
     struct Mdc_ObjectMetadata* metadata
 ) {
   metadata->size = sizeof(struct Mdc_Fs_Path);
 
-  metadata->functions.init_copy = &Mdc_Path_InitCopyAsVoid;
-  metadata->functions.init_move = &Mdc_Path_InitMoveAsVoid;
-  metadata->functions.deinit = &Mdc_Path_DeinitAsVoid;
+  metadata->functions.init_default = &Mdc_Fs_Path_InitEmptyAsVoid;
+  metadata->functions.init_copy = &Mdc_Fs_Path_InitCopyAsVoid;
+  metadata->functions.init_move = &Mdc_Fs_Path_InitMoveAsVoid;
+  metadata->functions.deinit = &Mdc_Fs_Path_DeinitAsVoid;
 
-  metadata->functions.assign_copy = &Mdc_Path_AssignCopyAsVoid;
-  metadata->functions.assign_move = &Mdc_Path_AssignMoveAsVoid;
+  metadata->functions.assign_copy = &Mdc_Fs_Path_AssignCopyAsVoid;
+  metadata->functions.assign_move = &Mdc_Fs_Path_AssignMoveAsVoid;
 
-  metadata->functions.equal = &Mdc_Path_EqualAsVoid;
-  metadata->functions.compare = &Mdc_Path_CompareAsVoid;
+  metadata->functions.add = &Mdc_Fs_Path_ConcatPathAsVoid;
+  metadata->functions.divide = &Mdc_Fs_Path_AppendPathAsVoid;
 
-  metadata->functions.swap = &Mdc_Path_SwapAsVoid;
+  metadata->functions.equal = &Mdc_Fs_Path_EqualAsVoid;
+  metadata->functions.compare = &Mdc_Fs_Path_CompareAsVoid;
+
+  metadata->functions.swap = &Mdc_Fs_Path_SwapAsVoid;
 
   return metadata;
 }
 
-static void Mdc_Path_InitGlobalObjectMetadata(void) {
-  Mdc_Path_InitObjectMetadata(&global_metadata);
+static void Mdc_Fs_Path_InitGlobalObjectMetadata(void) {
+  Mdc_Fs_Path_InitObjectMetadata(&global_metadata);
 }
 
 /**
@@ -131,7 +155,7 @@ static void Mdc_Path_InitGlobalObjectMetadata(void) {
 const struct Mdc_ObjectMetadata* Mdc_Fs_Path_GetObjectMetadata(void) {
   call_once(
       &global_metadata_init_flag,
-      &Mdc_Path_InitGlobalObjectMetadata
+      &Mdc_Fs_Path_InitGlobalObjectMetadata
   );
 
   return &global_metadata;
