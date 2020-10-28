@@ -1310,6 +1310,8 @@ static void Mdc_Fs_Path_AssertRemoveFilename(void) {
   struct Mdc_Fs_Path expected_path;
   struct Mdc_Fs_Path* init_expected_path;
 
+  struct Mdc_Fs_Path* remove_filename;
+
   for (i = 0; i < kSrcPathsCount; i += 1) {
     init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
     assert(init_path == &path);
@@ -1320,7 +1322,9 @@ static void Mdc_Fs_Path_AssertRemoveFilename(void) {
     );
     assert(init_actual_path == &actual_path);
 
-    assert(Mdc_Fs_Path_RemoveFilename(&actual_path) == &actual_path);
+    remove_filename = Mdc_Fs_Path_RemoveFilename(&actual_path);
+
+    assert(remove_filename == &actual_path);
 
     init_expected_path = Mdc_Fs_Path_InitFromCWStr(
         &expected_path,
@@ -1425,6 +1429,8 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
   struct Mdc_Fs_Path expected_path;
   struct Mdc_Fs_Path* init_expected_path;
 
+  struct Mdc_Fs_Path* replace_filename;
+
   for (i = 0; i < kSrcPathsCount; i += 1) {
     init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
     assert(init_path == &path);
@@ -1441,7 +1447,12 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
     );
     assert(init_actual_path == &actual_path);
 
-    assert(Mdc_Fs_Path_ReplaceFilename(&actual_path, &replacement) == &actual_path);
+    replace_filename = Mdc_Fs_Path_ReplaceFilename(
+        &actual_path,
+        &replacement
+    );
+
+    assert(replace_filename == &actual_path);
 
     init_expected_path = Mdc_Fs_Path_InitFromCWStr(
         &expected_path,
@@ -1547,6 +1558,8 @@ static void Mdc_Fs_Path_AssertReplaceExtension(void) {
   struct Mdc_Fs_Path expected_path;
   struct Mdc_Fs_Path* init_expected_path;
 
+  struct Mdc_Fs_Path* replace_extension;
+
   for (i = 0; i < kSrcPathsCount; i += 1) {
     init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
     assert(init_path == &path);
@@ -1563,7 +1576,12 @@ static void Mdc_Fs_Path_AssertReplaceExtension(void) {
     );
     assert(init_actual_path == &actual_path);
 
-    assert(Mdc_Fs_Path_ReplaceExtension(&actual_path, &replacement) == &actual_path);
+    replace_extension = Mdc_Fs_Path_ReplaceExtension(
+        &actual_path,
+        &replacement
+    );
+
+    assert(replace_extension == &actual_path);
 
     init_expected_path = Mdc_Fs_Path_InitFromCWStr(
         &expected_path,
