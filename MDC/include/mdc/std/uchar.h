@@ -46,16 +46,24 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#if __cplusplus >= 202002L \
-      || __STDC_VERSION__ >= 999999L /* TODO: Replace once C2X finishes. */ \
-      || _MSC_VER > 999999 /* TODO: Replace when C2X is supported */
+typedef uint_least16_t char16_t;
+typedef uint_least32_t char32_t;
 
-typedef unsigned char char8_t;
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
 
 #endif
 
-typedef uint_least16_t char16_t;
-typedef uint_least32_t char32_t;
+#if __cplusplus < 202002L \
+      && __STDC_VERSION__ < 999999L /* TODO: Replace once C2X finishes. */ \
+      && _MSC_VER < 999999 /* TODO: Replace when C2X is supported */
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+typedef unsigned char char8_t;
 
 #ifdef __cplusplus
 } /* extern "C" */
