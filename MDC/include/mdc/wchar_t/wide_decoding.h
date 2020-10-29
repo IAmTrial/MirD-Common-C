@@ -30,6 +30,7 @@
 #ifndef MDC_C_WCHAR_T_WIDE_DECODING_H_
 #define MDC_C_WCHAR_T_WIDE_DECODING_H_
 
+#include "../std/uchar.h"
 #include "../std/wchar.h"
 #include "../string/basic_string.h"
 
@@ -41,9 +42,10 @@ extern "C" {
 
 /**
  * Creates a wide encoded copy of the specified 7-bit ASCII string.
- * The returned pointer must have free called on it by the client once
+ * The returned pointer must be deinitialized by the client once
  * no longer in use.
  *
+ * @param wide_str the wide string to the results
  * @param ascii_str the 7-bit ASCII to decode
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
@@ -56,9 +58,10 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeAscii(
 /**
  * Creates a wide encoded copy of the specified multibyte string. The
  * multibyte encoding is dependent on the default locale on process
- * launch. The returned pointer must have free called on it by the
- * client once no longer in use.
+ * launch. The returned pointer must be deinitialized by the client
+ * once no longer in use.
  *
+ * @param wide_str the wide string to the results
  * @param multibyte_str the multibyte string to decode
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
@@ -70,9 +73,10 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeDefaultMultibyte(
 
 /**
  * Creates a wide encoded copy of the specified UTF-8 string. The
- * returned pointer must have free called on it by the client once no
+ * returned pointer must be deinitialized by the client once no
  * longer in use.
  *
+ * @param wide_str the wide string to the results
  * @param utf8_str the UTF-8 string to decode
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
@@ -80,6 +84,21 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeDefaultMultibyte(
 DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeUtf8(
     struct Mdc_BasicString* wide_str,
     const char* utf8_str
+);
+
+/**
+ * Creates a wide encoded copy of the specified UTF-8 string. The
+ * returned pointer must be deinitialized by the client once no
+ * longer in use.
+ *
+ * @param wide_str the wide string to the results
+ * @param utf8_str the UTF-8 string to convert from
+ * @return pointer to the converted string in wide characters, or NULL
+ *    if failure
+ */
+DLLEXPORT struct Mdc_BasicString* Mdc_Wide_FromUtf8(
+    struct Mdc_BasicString* wide_str,
+    const char8_t* utf8_str
 );
 
 #ifdef __cplusplus

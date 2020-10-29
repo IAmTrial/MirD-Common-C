@@ -117,3 +117,10 @@ struct Mdc_BasicString* Mdc_Wide_DecodeUtf8(
 ) {
   return Mdc_Wide_DecodeChar(wide_str, utf8_str, CP_UTF8);
 }
+
+struct Mdc_BasicString* Mdc_Wide_FromUtf8(
+    struct Mdc_BasicString* wide_str,
+    const char8_t* utf8_str
+) {
+  return Mdc_Wide_DecodeUtf8(wide_str, (const char*) utf8_str);
+}
