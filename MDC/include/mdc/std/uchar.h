@@ -46,6 +46,14 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#if __cplusplus >= 202002L \
+      || __STDC_VERSION__ >= 999999L /* TODO: Replace once C2X finishes. */ \
+      || _MSC_VER > 999999 /* TODO: Replace when C2X is supported */
+
+typedef unsigned char char8_t;
+
+#endif
+
 typedef uint_least16_t char16_t;
 typedef uint_least32_t char32_t;
 
@@ -53,9 +61,7 @@ typedef uint_least32_t char32_t;
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
-    || _MSC_VER > 1200 */
+#endif
 
 #include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_STD_UCHAR_H_ */
