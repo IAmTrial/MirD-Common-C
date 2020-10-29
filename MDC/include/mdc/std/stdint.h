@@ -30,7 +30,9 @@
 #ifndef MDC_C_STD_STDINT_H_
 #define MDC_C_STD_STDINT_H_
 
-#if __STDC_VERSION__ >= 199901L
+#if __cplusplus >= 201103L \
+    ||  __STDC_VERSION__ >= 199901L \
+    || _MSC_VER > 1200
 
 #include <stdint.h>
 
