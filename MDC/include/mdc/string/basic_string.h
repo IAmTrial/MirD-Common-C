@@ -603,4 +603,6 @@ DLLEXPORT void Mdc_BasicString_Swap(
 
 #include "basic_string/string.h"
 #include "basic_string/tstring.h"
+#include "basic_string/u16string.h"
+#include "basic_string/u32string.h"
 #include "basic_string/wstring.h"
