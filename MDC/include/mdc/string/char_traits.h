@@ -83,5 +83,8 @@ struct Mdc_CharTraits {
 #endif /* MDC_C_STRING_CHAR_TRAITS_H_ */
 
 #include "char_traits/char_traits_char.h"
+#include "char_traits/char_traits_char8.h"
+#include "char_traits/char_traits_char16.h"
+#include "char_traits/char_traits_char32.h"
 #include "char_traits/char_traits_tchar.h"
 #include "char_traits/char_traits_wchar.h"
