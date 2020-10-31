@@ -51,7 +51,7 @@ struct Mdc_Fs_Path {
   #define Mdc_Fs_Path_ValueType char
 #endif
 
-DLLEXPORT const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator;
+DLLEXPORT extern const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator;
 
 /**
  * Initialization/deinitialization
