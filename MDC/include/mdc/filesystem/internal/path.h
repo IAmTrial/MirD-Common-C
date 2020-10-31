@@ -46,9 +46,9 @@ struct Mdc_Fs_Path {
 };
 
 #if defined(_WIN32) || defined(_WIN64)
-  #define Mdc_Fs_Path_ValueType wchar_t
+  typedef wchar_t Mdc_Fs_Path_ValueType;
 #else
-  #define Mdc_Fs_Path_ValueType char
+  typedef char Mdc_Fs_Path_ValueType;
 #endif
 
 DLLEXPORT extern const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator;
