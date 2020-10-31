@@ -177,7 +177,7 @@ return_bad:
  * External functions
  */
 
-const wchar_t Mdc_Fs_Path_kPreferredSeparator = L'\\';
+const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator = L'\\';
 
 /**
  * Initialization/deinitialization
