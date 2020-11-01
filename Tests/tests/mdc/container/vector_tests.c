@@ -75,12 +75,12 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
   struct Mdc_Vector vector;
   struct Mdc_Vector* init_vector;
 
-  struct Mdc_Integer integer1;
-  struct Mdc_Integer integer2;
-  struct Mdc_Integer integer3;
+  int integer1;
+  int integer2;
+  int integer3;
 
   size_t i;
-  struct Mdc_Integer* at_result;
+  int* at_result;
 
   init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
   assert(init_vector == &vector);
@@ -141,12 +141,12 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
   struct Mdc_Vector vector;
   struct Mdc_Vector* init_vector;
 
-  struct Mdc_Integer integer1;
-  struct Mdc_Integer integer2;
-  struct Mdc_Integer integer3;
+  int integer1;
+  int integer2;
+  int integer3;
 
   size_t i;
-  struct Mdc_Integer* at_result;
+  int* at_result;
 
   init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
   assert(init_vector == &vector);
@@ -207,10 +207,10 @@ static void Mdc_Vector_AssertClear(void) {
   struct Mdc_Vector vector;
   struct Mdc_Vector* init_vector;
 
-  struct Mdc_Integer integer;
+  int integer;
 
   size_t i;
-  struct Mdc_Integer* at_result;
+  int* at_result;
 
   init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
   assert(init_vector == &vector);

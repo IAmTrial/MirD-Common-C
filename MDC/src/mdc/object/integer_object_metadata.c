@@ -201,7 +201,7 @@ static int Mdc_Integer_CompareAsVoid(
  */
 
 static size_t Mdc_Integer_HashAsVoid(
-    const struct Mdc_Integer* integer
+    void* integer
 ) {
   return Mdc_Integer_Hash(integer);
 }
@@ -224,7 +224,7 @@ static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
 static struct Mdc_ObjectMetadata* Mdc_Integer_InitObjectMetadata(
     struct Mdc_ObjectMetadata* metadata
 ) {
-  metadata->size = sizeof(struct Mdc_Integer);
+  metadata->size = sizeof(int);
 
   metadata->functions.init_default = &Mdc_Integer_InitDefaultAsVoid;
   metadata->functions.init_copy = &Mdc_Integer_InitCopyAsVoid;

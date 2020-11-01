@@ -39,34 +39,28 @@
 extern "C" {
 #endif /* __cplusplus */
 
-struct Mdc_Integer {
-  int value_;
-};
-
 /**
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitDefault(
-    struct Mdc_Integer* integer
-);
+DLLEXPORT int* Mdc_Integer_InitDefault(int* integer);
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitFromValue(
-    struct Mdc_Integer* integer,
+DLLEXPORT int* Mdc_Integer_InitFromValue(
+    int* integer,
     int value
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitCopy(
-    struct Mdc_Integer* dest,
-    const struct Mdc_Integer* src
+DLLEXPORT int* Mdc_Integer_InitCopy(
+    int* dest,
+    const int* src
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_InitMove(
-    struct Mdc_Integer* dest,
-    struct Mdc_Integer* src
+DLLEXPORT int* Mdc_Integer_InitMove(
+    int* dest,
+    int* src
 );
 
-DLLEXPORT void Mdc_Integer_Deinit(struct Mdc_Integer* integer);
+DLLEXPORT void Mdc_Integer_Deinit(int* integer);
 
 /**
  * Metadata
@@ -79,105 +73,105 @@ Mdc_Integer_GetObjectMetadata(void);
  * Assignment functions
  */
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_AssignCopy(
-    struct Mdc_Integer* dest,
-    const struct Mdc_Integer* src
+DLLEXPORT int* Mdc_Integer_AssignCopy(
+    int* dest,
+    const int* src
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_AssignMove(
-    struct Mdc_Integer* dest,
-    struct Mdc_Integer* src
+DLLEXPORT int* Mdc_Integer_AssignMove(
+    int* dest,
+    int* src
 );
 
 /**
  * Increment/decrement operators
  */
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_PreIncrement(
-    struct Mdc_Integer* integer
+DLLEXPORT int* Mdc_Integer_PreIncrement(
+    int* integer
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_PreDecrement(
-    struct Mdc_Integer* integer
+DLLEXPORT int* Mdc_Integer_PreDecrement(
+    int* integer
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_PostIncrement(
-    struct Mdc_Integer* out,
-    struct Mdc_Integer* in
+DLLEXPORT int* Mdc_Integer_PostIncrement(
+    int* out,
+    int* in
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_PostDecrement(
-    struct Mdc_Integer* out,
-    struct Mdc_Integer* in
+DLLEXPORT int* Mdc_Integer_PostDecrement(
+    int* out,
+    int* in
 );
 
 /**
  * Arithmetic operators
  */
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_Add(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_Add(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_Subtract(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_Subtract(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_Multiply(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_Multiply(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_Divide(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_Divide(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_Modulo(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_Modulo(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseNot(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* in
+DLLEXPORT int* Mdc_Integer_BitwiseNot(
+    int* out,
+    const int* in
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseAnd(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_BitwiseAnd(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseOr(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_BitwiseOr(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseXor(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_BitwiseXor(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseLeftShift(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_BitwiseLeftShift(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
-DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseRightShift(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+DLLEXPORT int* Mdc_Integer_BitwiseRightShift(
+    int* out,
+    const int* op1,
+    const int* op2
 );
 
 /**
@@ -185,22 +179,22 @@ DLLEXPORT struct Mdc_Integer* Mdc_Integer_BitwiseRightShift(
  */
 
 DLLEXPORT bool Mdc_Integer_Equal(
-    const struct Mdc_Integer* integer1,
-    const struct Mdc_Integer* integer2
+    const int* integer1,
+    const int* integer2
 );
 
 DLLEXPORT bool Mdc_Integer_EqualValue(
-    const struct Mdc_Integer* integer,
+    const int* integer,
     int value
 );
 
 DLLEXPORT int Mdc_Integer_Compare(
-    const struct Mdc_Integer* integer1,
-    const struct Mdc_Integer* integer2
+    const int* integer1,
+    const int* integer2
 );
 
 DLLEXPORT int Mdc_Integer_CompareValue(
-    const struct Mdc_Integer* integer,
+    const int* integer,
     int value
 );
 
@@ -208,16 +202,12 @@ DLLEXPORT int Mdc_Integer_CompareValue(
  * Etc. functions
  */
 
-DLLEXPORT size_t Mdc_Integer_Hash(const struct Mdc_Integer* integer);
+DLLEXPORT size_t Mdc_Integer_Hash(const int* integer);
 
 DLLEXPORT void Mdc_Integer_Swap(
-    struct Mdc_Integer* integer1,
-    struct Mdc_Integer* integer2
+    int* integer1,
+    int* integer2
 );
-
-DLLEXPORT int Mdc_Integer_GetValue(const struct Mdc_Integer* integer);
-
-DLLEXPORT void Mdc_Integer_SetValue(struct Mdc_Integer* integer, int value);
 
 #ifdef __cplusplus
 } /* extern "C" */

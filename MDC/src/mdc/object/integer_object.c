@@ -30,15 +30,6 @@
 #include "../../../include/mdc/object/integer_object.h"
 
 /**
- * Static
- */
-
-#define MDC_INTEGER_UNINIT { 0 }
-
-static const struct Mdc_Integer Mdc_Integer_kUninit =
-    MDC_INTEGER_UNINIT;
-
-/**
  * External
  */
 
@@ -46,425 +37,214 @@ static const struct Mdc_Integer Mdc_Integer_kUninit =
  * Initialization/deinitialization
  */
 
-static struct Mdc_Integer* Mdc_Integer_Init(
-    struct Mdc_Integer* integer
-) {
-  return integer;
+int* Mdc_Integer_InitDefault(int* integer) {
+  return Mdc_Integer_InitFromValue(integer, 0);
 }
 
-struct Mdc_Integer* Mdc_Integer_InitDefault(
-    struct Mdc_Integer* integer
-) {
-  struct Mdc_Integer* init_integer;
-
-  init_integer = Mdc_Integer_Init(integer);
-  if (init_integer != integer) {
-    goto return_bad;
-  }
-
-  integer->value_ = 0;
-
-  return integer;
-
-return_bad:
-  return NULL;
-}
-
-struct Mdc_Integer* Mdc_Integer_InitFromValue(
-    struct Mdc_Integer* integer,
+int* Mdc_Integer_InitFromValue(
+    int* integer,
     int value
 ) {
-  struct Mdc_Integer* init_integer;
-
-  init_integer = Mdc_Integer_Init(integer);
-  if (init_integer != integer) {
-    goto return_bad;
-  }
-
-  integer->value_ = value;
+  *integer = value;
 
   return integer;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_InitCopy(
-    struct Mdc_Integer* dest,
-    const struct Mdc_Integer* src
+int* Mdc_Integer_InitCopy(
+    int* dest,
+    const int* src
 ) {
-  struct Mdc_Integer* init_dest;
-
-  init_dest = Mdc_Integer_Init(dest);
-  if (init_dest != dest) {
-    goto return_bad;
-  }
-
-  dest->value_ = src->value_;
+  *dest = *src;
 
   return dest;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_InitMove(
-    struct Mdc_Integer* dest,
-    struct Mdc_Integer* src
+int* Mdc_Integer_InitMove(
+    int* dest,
+    int* src
 ) {
-  struct Mdc_Integer* init_dest;
-
-  init_dest = Mdc_Integer_Init(dest);
-  if (init_dest != dest) {
-    goto return_bad;
-  }
-
-  dest->value_ = src->value_;
-  src->value_ = 0;
-
-  return dest;
-
-return_bad:
-  return NULL;
+  return Mdc_Integer_InitCopy(dest, src);
 }
 
-void Mdc_Integer_Deinit(struct Mdc_Integer* integer) {
-  *integer = Mdc_Integer_kUninit;
+void Mdc_Integer_Deinit(int* integer) {
+  /* This is left empty on purpose. */
 }
 
 /**
  * Assignment functions
  */
 
-struct Mdc_Integer* Mdc_Integer_AssignCopy(
-    struct Mdc_Integer* dest,
-    const struct Mdc_Integer* src
+int* Mdc_Integer_AssignCopy(
+    int* dest,
+    const int* src
 ) {
-  struct Mdc_Integer temp;
-  struct Mdc_Integer* init_temp;
-  struct Mdc_Integer* assign_dest;
-
-  init_temp = Mdc_Integer_InitCopy(&temp, src);
-  if (init_temp != &temp) {
-    goto return_bad;
+  if (dest == src) {
+    return dest;
   }
 
-  assign_dest = Mdc_Integer_AssignMove(dest, &temp);
-  if (assign_dest != dest) {
-    goto deinit_temp;
-  }
-
-  Mdc_Integer_Deinit(&temp);
+  *dest = *src;
 
   return dest;
-
-deinit_temp:
-  Mdc_Integer_Deinit(&temp);
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_AssignMove(
-    struct Mdc_Integer* dest,
-    struct Mdc_Integer* src
+int* Mdc_Integer_AssignMove(
+    int* dest,
+    int* src
 ) {
-  dest->value_ = src->value_;
-  src->value_ = 0;
-
-  return dest;
+  return Mdc_Integer_AssignCopy(dest, src);
 }
 
 /**
  * Increment/decrement operators
  */
 
-struct Mdc_Integer* Mdc_Integer_PreIncrement(
-    struct Mdc_Integer* integer
+int* Mdc_Integer_PreIncrement(
+    int* integer
 ) {
-  integer->value_ += 1;
+  *integer += 1;
 
   return integer;
 }
 
-struct Mdc_Integer* Mdc_Integer_PreDecrement(
-    struct Mdc_Integer* integer
+int* Mdc_Integer_PreDecrement(
+    int* integer
 ) {
-  integer->value_ -= 1;
+  *integer -= 1;
 
   return integer;
 }
 
-struct Mdc_Integer* Mdc_Integer_PostIncrement(
-    struct Mdc_Integer* out,
-    struct Mdc_Integer* in
+int* Mdc_Integer_PostIncrement(
+    int* out,
+    int* in
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(out, in->value_);
-  if (init_out != out) {
-    goto return_bad;
-  }
-
-  in->value_ += 1;
+  *out = *in;
+  *in += 1;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_PostDecrement(
-    struct Mdc_Integer* out,
-    struct Mdc_Integer* in
+int* Mdc_Integer_PostDecrement(
+    int* out,
+    int* in
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(out, in->value_);
-  if (init_out != out) {
-    goto return_bad;
-  }
-
-  in->value_ -= 1;
+  *out = *in;
+  *in -= 1;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
 /**
  * Arithmetic operators
  */
 
-struct Mdc_Integer* Mdc_Integer_Add(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_Add(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) + Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 + *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_Subtract(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_Subtract(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) - Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 - *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_Multiply(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_Multiply(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) * Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 * *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_Divide(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_Divide(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) / Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 / *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_Modulo(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_Modulo(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) % Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 % *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_BitwiseNot(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* in
+int* Mdc_Integer_BitwiseNot(
+    int* out,
+    const int* in
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      ~Mdc_Integer_GetValue(in)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = ~(*in);
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_BitwiseAnd(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_BitwiseAnd(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) & Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 & *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_BitwiseOr(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_BitwiseOr(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) | Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 | *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_BitwiseXor(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_BitwiseXor(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) ^ Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 ^ *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_BitwiseLeftShift(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_BitwiseLeftShift(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) << Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 << *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Integer* Mdc_Integer_BitwiseRightShift(
-    struct Mdc_Integer* out,
-    const struct Mdc_Integer* op1,
-    const struct Mdc_Integer* op2
+int* Mdc_Integer_BitwiseRightShift(
+    int* out,
+    const int* op1,
+    const int* op2
 ) {
-  const struct Mdc_Integer* init_out;
-
-  init_out = Mdc_Integer_InitFromValue(
-      out,
-      Mdc_Integer_GetValue(op1) >> Mdc_Integer_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 >> *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
 /**
@@ -472,56 +252,48 @@ return_bad:
  */
 
 bool Mdc_Integer_Equal(
-    const struct Mdc_Integer* integer1,
-    const struct Mdc_Integer* integer2
+    const int* integer1,
+    const int* integer2
 ) {
-  return integer1->value_ == integer2->value_;
+  return *integer1 == *integer2;
 }
 
 bool Mdc_Integer_EqualValue(
-    const struct Mdc_Integer* integer,
+    const int* integer,
     int value
 ) {
-  return integer->value_ == value;
+  return *integer == value;
 }
 
 int Mdc_Integer_Compare(
-    const struct Mdc_Integer* integer1,
-    const struct Mdc_Integer* integer2
+    const int* integer1,
+    const int* integer2
 ) {
-  return Mdc_Integer_GetValue(integer1) - Mdc_Integer_GetValue(integer2);
+  return *integer1 - *integer2;
 }
 
 int Mdc_Integer_CompareValue(
-    const struct Mdc_Integer* integer,
+    const int* integer,
     int value
 ) {
-  return Mdc_Integer_GetValue(integer) - value;
+  return *integer - value;
 }
 
 /**
  * Etc. functions
  */
 
-size_t Mdc_Integer_Hash(const struct Mdc_Integer* integer) {
-  return Mdc_Integer_GetValue(integer) % (size_t) -1;
+size_t Mdc_Integer_Hash(const int* integer) {
+  return *integer % (size_t) -1;
 }
 
 void Mdc_Integer_Swap(
-    struct Mdc_Integer* integer1,
-    struct Mdc_Integer* integer2
+    int* integer1,
+    int* integer2
 ) {
-  struct Mdc_Integer temp;
+  int temp;
 
   temp = *integer1;
   *integer1 = *integer2;
   *integer2 = temp;
-}
-
-int Mdc_Integer_GetValue(const struct Mdc_Integer* integer) {
-  return integer->value_;
-}
-
-void Mdc_Integer_SetValue(struct Mdc_Integer* integer, int value) {
-  integer->value_ = value;
 }
