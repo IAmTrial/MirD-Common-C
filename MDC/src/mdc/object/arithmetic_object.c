@@ -85,25 +85,39 @@ type* name##_AssignMove(type* dest, type* src) { \
  */ \
 \
 type* name##_PreIncrement(type* obj) { \
-  *obj += 1; \
+  *obj = name##_PreIncrementValue(*obj); \
   return obj; \
+} \
+\
+type name##_PreIncrementValue(type op) { \
+  return ++op; \
 } \
 \
 type* name##_PreDecrement(type* obj) { \
-  *obj -= 1; \
+  *obj = name##_PreDecrementValue(*obj); \
   return obj; \
 } \
 \
+type name##_PreDecrementValue(type op) { \
+  return --op; \
+} \
+\
 type* name##_PostIncrement(type* out, type* in) { \
-  *out = *in; \
-  *in += 1; \
+  *out = name##_PostIncrementValue(in); \
   return out; \
 } \
 \
+type name##_PostIncrementValue(type* op) { \
+  return (*op)++; \
+} \
+\
 type* name##_PostDecrement(type* out, type* in) { \
-  *out = *in; \
-  *in -= 1; \
+  *out = name##_PostDecrementValue(in); \
   return out; \
+} \
+\
+type name##_PostDecrementValue(type* op) { \
+  return (*op)--; \
 } \
 \
 /**
@@ -115,8 +129,12 @@ type* name##_Add( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 + *op2; \
+  *out = name##_AddValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_AddValue(type op1, type op2) { \
+  return op1 + op2; \
 } \
 \
 type* name##_Subtract( \
@@ -124,8 +142,12 @@ type* name##_Subtract( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 - *op2; \
+  *out = name##_SubtractValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_SubtractValue(type op1, type op2) { \
+  return op1 - op2; \
 } \
 \
 type* name##_Multiply( \
@@ -133,8 +155,12 @@ type* name##_Multiply( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 * *op2; \
+  *out = name##_MultiplyValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_MultiplyValue(type op1, type op2) { \
+  return op1 * op2; \
 } \
 \
 type* name##_Divide( \
@@ -142,8 +168,12 @@ type* name##_Divide( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 / *op2; \
+  *out = name##_DivideValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_DivideValue(type op1, type op2) { \
+  return op1 / op2; \
 } \
 \
 type* name##_Modulo( \
@@ -151,13 +181,21 @@ type* name##_Modulo( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 % *op2; \
+  *out = name##_ModuloValue(*op1, *op2); \
   return out; \
 } \
 \
+type name##_ModuloValue(type op1, type op2) { \
+  return op1 % op2; \
+} \
+\
 type* name##_BitwiseNot(type* out, const type* in) { \
-  *out = ~(*in); \
+  *out = name##_BitwiseNotValue(*in); \
   return out; \
+} \
+\
+type name##_BitwiseNotValue(type op) { \
+  return ~op; \
 } \
 \
 type* name##_BitwiseAnd( \
@@ -165,8 +203,12 @@ type* name##_BitwiseAnd( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 & *op2; \
+  *out = name##_BitwiseAndValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_BitwiseAndValue(type op1, type op2) { \
+  return op1 & op2; \
 } \
 \
 type* name##_BitwiseOr( \
@@ -174,8 +216,12 @@ type* name##_BitwiseOr( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 | *op2; \
+  *out = name##_BitwiseOrValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_BitwiseOrValue(type op1, type op2) { \
+  return op1 | op2; \
 } \
 \
 type* name##_BitwiseXor( \
@@ -183,8 +229,12 @@ type* name##_BitwiseXor( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 ^ *op2; \
+  *out = name##_BitwiseXorValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_BitwiseXorValue(type op1, type op2) { \
+  return op1 ^ op2; \
 } \
 \
 type* name##_BitwiseLeftShift( \
@@ -192,8 +242,12 @@ type* name##_BitwiseLeftShift( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 << *op2; \
+  *out = name##_BitwiseLeftShiftValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_BitwiseLeftShiftValue(type op1, type op2) { \
+  return op1 << op2; \
 } \
 \
 type* name##_BitwiseRightShift( \
@@ -201,8 +255,12 @@ type* name##_BitwiseRightShift( \
     const type* op1, \
     const type* op2 \
 ) { \
-  *out = *op1 >> *op2; \
+  *out = name##_BitwiseRightShiftValue(*op1, *op2); \
   return out; \
+} \
+\
+type name##_BitwiseRightShiftValue(type op1, type op2) { \
+  return op1 >> op2; \
 } \
 \
 /**
