@@ -184,8 +184,8 @@ DLLEXPORT bool Mdc_UInteger_Equal(
 );
 
 DLLEXPORT bool Mdc_UInteger_EqualValue(
-    const unsigned int* integer,
-    unsigned int value
+    unsigned int value1,
+    unsigned int value2
 );
 
 DLLEXPORT int Mdc_UInteger_Compare(
@@ -194,8 +194,8 @@ DLLEXPORT int Mdc_UInteger_Compare(
 );
 
 DLLEXPORT int Mdc_UInteger_CompareValue(
-    const unsigned int* integer,
-    unsigned int value
+    unsigned int value1,
+    unsigned int value2
 );
 
 /**

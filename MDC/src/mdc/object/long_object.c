@@ -255,28 +255,34 @@ bool Mdc_Long_Equal(
     const long* long1,
     const long* long2
 ) {
-  return *long1 == *long2;
+  return Mdc_Long_EqualValue(*long1, *long2);
 }
 
 bool Mdc_Long_EqualValue(
-    const long* lng,
-    long value
+    long value1,
+    long value2
 ) {
-  return *lng == value;
+  return value1 == value2;
 }
 
 int Mdc_Long_Compare(
     const long* long1,
     const long* long2
 ) {
-  return *long1 - *long2;
+  return Mdc_Long_CompareValue(*long1, *long2);
 }
 
 int Mdc_Long_CompareValue(
-    const long* lng,
-    long value
+    long value1,
+    long value2
 ) {
-  return *lng - value;
+  if (value1 < value2) {
+    return -1;
+  } else if (value1 > value2) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 /**

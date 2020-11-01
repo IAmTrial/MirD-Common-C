@@ -184,8 +184,8 @@ DLLEXPORT bool Mdc_Integer_Equal(
 );
 
 DLLEXPORT bool Mdc_Integer_EqualValue(
-    const int* integer,
-    int value
+    int value1,
+    int value2
 );
 
 DLLEXPORT int Mdc_Integer_Compare(
@@ -194,8 +194,8 @@ DLLEXPORT int Mdc_Integer_Compare(
 );
 
 DLLEXPORT int Mdc_Integer_CompareValue(
-    const int* integer,
-    int value
+    int value1,
+    int value2
 );
 
 /**

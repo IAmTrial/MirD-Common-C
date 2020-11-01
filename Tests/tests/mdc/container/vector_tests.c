@@ -95,15 +95,15 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
   assert(Mdc_Vector_Capacity(&vector) >= 2);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_Integer_CompareValue(at_result, 4321) == 0);
+  assert(Mdc_Integer_CompareValue(*at_result, 4321) == 0);
 
   Mdc_Vector_PopBack(&vector);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   for (i = 1; i < 5; i += 1) {
     Mdc_Integer_InitFromValue(&integer3, (int) i);
@@ -111,7 +111,7 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
     Mdc_Vector_PushBack(&vector, &integer3);
 
     at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(at_result, (int) i));
+    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
 
     Mdc_Integer_Deinit(&integer3);
   }
@@ -161,15 +161,15 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
   assert(Mdc_Vector_Capacity(&vector) >= 2);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_Integer_CompareValue(at_result, 4321) == 0);
+  assert(Mdc_Integer_CompareValue(*at_result, 4321) == 0);
 
   Mdc_Vector_PopBack(&vector);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   for (i = 1; i < 5; i += 1) {
     Mdc_Integer_InitFromValue(&integer3, (int) i);
@@ -177,7 +177,7 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
     Mdc_Vector_PushBackCopy(&vector, &integer3);
 
     at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(at_result, (int) i));
+    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
 
     Mdc_Integer_Deinit(&integer3);
   }
@@ -220,7 +220,7 @@ static void Mdc_Vector_AssertClear(void) {
     Mdc_Vector_PushBackCopy(&vector, &integer);
 
     at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(at_result, (int) i));
+    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
 
     Mdc_Integer_Deinit(&integer);
   }

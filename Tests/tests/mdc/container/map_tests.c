@@ -622,7 +622,7 @@ static void Init(void) {
     );
     assert(init_integer == &repeating_text_counts[i]);
     assert(Mdc_Integer_EqualValue(
-        &repeating_text_counts[i],
+        repeating_text_counts[i],
         kRepeatingTextCounts[i]
     ));
   }

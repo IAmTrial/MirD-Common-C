@@ -184,8 +184,8 @@ DLLEXPORT bool Mdc_Short_Equal(
 );
 
 DLLEXPORT bool Mdc_Short_EqualValue(
-    const short* shrt,
-    short value
+    short value1,
+    short value2
 );
 
 DLLEXPORT int Mdc_Short_Compare(
@@ -194,8 +194,8 @@ DLLEXPORT int Mdc_Short_Compare(
 );
 
 DLLEXPORT int Mdc_Short_CompareValue(
-    const short* shrt,
-    short value
+    short value1,
+    short value2
 );
 
 /**

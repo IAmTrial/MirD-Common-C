@@ -201,7 +201,7 @@ static int Mdc_Integer_CompareAsVoid(
  */
 
 static size_t Mdc_Integer_HashAsVoid(
-    void* integer
+    const void* integer
 ) {
   return Mdc_Integer_Hash(integer);
 }

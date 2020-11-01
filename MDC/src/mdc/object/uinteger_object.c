@@ -255,30 +255,30 @@ bool Mdc_UInteger_Equal(
     const unsigned int* integer1,
     const unsigned int* integer2
 ) {
-  return *integer1 == *integer2;
+  return Mdc_UInteger_EqualValue(*integer1, *integer2);
 }
 
 bool Mdc_UInteger_EqualValue(
-    const unsigned int* integer,
-    unsigned int value
+    unsigned int value1,
+    unsigned int value2
 ) {
-  return *integer == value;
+  return value1 == value2;
 }
 
 int Mdc_UInteger_Compare(
     const unsigned int* integer1,
     const unsigned int* integer2
 ) {
-  return Mdc_UInteger_CompareValue(integer1, *integer2);
+  return Mdc_UInteger_CompareValue(*integer1, *integer2);
 }
 
 int Mdc_UInteger_CompareValue(
-    const unsigned int* integer,
-    unsigned int value
+    unsigned int value1,
+    unsigned int value2
 ) {
-  if (*integer < value) {
+  if (value1 < value2) {
     return -1;
-  } else if (*integer > value) {
+  } else if (value1 > value2) {
     return 1;
   } else {
     return 0;

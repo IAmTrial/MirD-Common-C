@@ -255,28 +255,28 @@ bool Mdc_Short_Equal(
     const short* short1,
     const short* short2
 ) {
-  return *short1 == *short2;
+  return Mdc_Short_EqualValue(*short1, *short2);
 }
 
 bool Mdc_Short_EqualValue(
-    const short* shrt,
-    short value
+    short value1,
+    short value2
 ) {
-  return *shrt == value;
+  return value1 == value2;
 }
 
 int Mdc_Short_Compare(
     const short* short1,
     const short* short2
 ) {
-  return *short1 - *short2;
+  return Mdc_Short_CompareValue(*short1, *short2);
 }
 
 int Mdc_Short_CompareValue(
-    const short* shrt,
-    short value
+    short value1,
+    short value2
 ) {
-  return *shrt - value;
+  return value1 - value2;
 }
 
 /**

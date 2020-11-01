@@ -255,28 +255,34 @@ bool Mdc_UShort_Equal(
     const unsigned short* short1,
     const unsigned short* short2
 ) {
-  return *short1 == *short2;
+  return Mdc_UShort_EqualValue(*short1, *short2);
 }
 
 bool Mdc_UShort_EqualValue(
-    const unsigned short* shrt,
-    unsigned short value
+    unsigned short short1,
+    unsigned short short2
 ) {
-  return *shrt == value;
+  return short1 == short2;
 }
 
 int Mdc_UShort_Compare(
     const unsigned short* short1,
     const unsigned short* short2
 ) {
-  return *short1 - *short2;
+  return Mdc_UShort_CompareValue(*short1, *short2);
 }
 
 int Mdc_UShort_CompareValue(
-    const unsigned short* shrt,
-    unsigned short value
+    unsigned short short1,
+    unsigned short short2
 ) {
-  return *shrt - value;
+  if (short1 < short2) {
+    return -1;
+  } else if (short1 > short2) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 /**

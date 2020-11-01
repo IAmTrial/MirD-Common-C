@@ -184,8 +184,8 @@ DLLEXPORT bool Mdc_Long_Equal(
 );
 
 DLLEXPORT bool Mdc_Long_EqualValue(
-    const long* lng,
-    long value
+    long value1,
+    long value2
 );
 
 DLLEXPORT int Mdc_Long_Compare(
@@ -194,8 +194,8 @@ DLLEXPORT int Mdc_Long_Compare(
 );
 
 DLLEXPORT int Mdc_Long_CompareValue(
-    const long* lng,
-    long value
+    long value1,
+    long value2
 );
 
 /**

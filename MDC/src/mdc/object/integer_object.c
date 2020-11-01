@@ -255,28 +255,28 @@ bool Mdc_Integer_Equal(
     const int* integer1,
     const int* integer2
 ) {
-  return *integer1 == *integer2;
+  return Mdc_Integer_EqualValue(*integer1, *integer2);
 }
 
 bool Mdc_Integer_EqualValue(
-    const int* integer,
-    int value
+    int value1,
+    int value2
 ) {
-  return *integer == value;
+  return value1 == value2;
 }
 
 int Mdc_Integer_Compare(
     const int* integer1,
     const int* integer2
 ) {
-  return *integer1 - *integer2;
+  return Mdc_Integer_CompareValue(*integer1, *integer2);
 }
 
 int Mdc_Integer_CompareValue(
-    const int* integer,
-    int value
+    int value1,
+    int value2
 ) {
-  return *integer - value;
+  return value1 - value2;
 }
 
 /**

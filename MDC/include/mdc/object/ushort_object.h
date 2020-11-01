@@ -184,8 +184,8 @@ DLLEXPORT bool Mdc_UShort_Equal(
 );
 
 DLLEXPORT bool Mdc_UShort_EqualValue(
-    const unsigned short* shrt,
-    unsigned short value
+    unsigned short value1,
+    unsigned short value2
 );
 
 DLLEXPORT int Mdc_UShort_Compare(
@@ -194,8 +194,8 @@ DLLEXPORT int Mdc_UShort_Compare(
 );
 
 DLLEXPORT int Mdc_UShort_CompareValue(
-    const unsigned short* shrt,
-    unsigned short value
+    unsigned short value1,
+    unsigned short value2
 );
 
 /**
