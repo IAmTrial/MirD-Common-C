@@ -207,7 +207,7 @@ static int Mdc_Short_CompareAsVoid(
  */
 
 static size_t Mdc_Short_HashAsVoid(
-    const struct Mdc_Short* shrt
+    const void* shrt
 ) {
   return Mdc_Short_Hash(shrt);
 }
@@ -230,7 +230,7 @@ static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
 static struct Mdc_ObjectMetadata* Mdc_Short_InitObjectMetadata(
     struct Mdc_ObjectMetadata* metadata
 ) {
-  metadata->size = sizeof(struct Mdc_Short);
+  metadata->size = sizeof(short);
 
   metadata->functions.init_default = &Mdc_Short_InitDefaultAsVoid;
   metadata->functions.init_copy = &Mdc_Short_InitCopyAsVoid;

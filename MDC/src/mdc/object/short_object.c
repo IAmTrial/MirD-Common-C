@@ -29,20 +29,6 @@
 
 #include "../../../include/mdc/object/short_object.h"
 
-#include "../../../include/mdc/std/threads.h"
-
-/**
- * Static
- */
-
-/**
- * Object initialization/deinitialization
- */
-
-#define MDC_SHORT_UNINIT { 0 }
-
-static const struct Mdc_Short Mdc_Short_kUninit = MDC_SHORT_UNINIT;
-
 /**
  * External
  */
@@ -51,411 +37,214 @@ static const struct Mdc_Short Mdc_Short_kUninit = MDC_SHORT_UNINIT;
  * Initialization/deinitialization
  */
 
-static struct Mdc_Short* Mdc_Short_Init(struct Mdc_Short* shrt) {
-  return shrt;
+short* Mdc_Short_InitDefault(short* shrt) {
+  return Mdc_Short_InitFromValue(shrt, 0);
 }
 
-struct Mdc_Short* Mdc_Short_InitDefault(struct Mdc_Short* shrt) {
-  const struct Mdc_Short* init_short;
-
-  init_short = Mdc_Short_Init(shrt);
-  if (init_short != shrt) {
-    goto return_bad;
-  }
-
-  shrt->value_ = 0;
-
-  return shrt;
-
-return_bad:
-  return NULL;
-}
-
-struct Mdc_Short* Mdc_Short_InitFromValue(
-    struct Mdc_Short* shrt,
+short* Mdc_Short_InitFromValue(
+    short* shrt,
     short value
 ) {
-  shrt->value_ = value;
+  *shrt = value;
 
   return shrt;
 }
 
-struct Mdc_Short* Mdc_Short_InitCopy(
-    struct Mdc_Short* dest,
-    const struct Mdc_Short* src
+short* Mdc_Short_InitCopy(
+    short* dest,
+    const short* src
 ) {
-  const struct Mdc_Short* init_short;
-
-  init_short = Mdc_Short_Init(dest);
-  if (init_short != dest) {
-    goto return_bad;
-  }
-
-  dest->value_ = src->value_;
+  *dest = *src;
 
   return dest;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_InitMove(
-    struct Mdc_Short* dest,
-    struct Mdc_Short* src
+short* Mdc_Short_InitMove(
+    short* dest,
+    short* src
 ) {
-  const struct Mdc_Short* init_short;
-
-  init_short = Mdc_Short_Init(dest);
-  if (init_short != dest) {
-    goto return_bad;
-  }
-
-  dest->value_ = src->value_;
-  src->value_ = 0;
-
-  return dest;
-
-return_bad:
-  return NULL;
+  return Mdc_Short_InitCopy(dest, src);
 }
 
-void Mdc_Short_Deinit(struct Mdc_Short* shrt) {
-  *shrt = Mdc_Short_kUninit;
+void Mdc_Short_Deinit(short* shrt) {
+  /* This is left empty on purpose. */
 }
 
 /**
  * Assignment functions
  */
 
-struct Mdc_Short* Mdc_Short_AssignCopy(
-    struct Mdc_Short* dest,
-    const struct Mdc_Short* src
+short* Mdc_Short_AssignCopy(
+    short* dest,
+    const short* src
 ) {
-  struct Mdc_Short temp;
-  const struct Mdc_Short* init_temp;
-  const struct Mdc_Short* assign_dest;
-
-  init_temp = Mdc_Short_InitCopy(&temp, src);
-  if (init_temp != &temp) {
-    goto return_bad;
+  if (dest == src) {
+    return dest;
   }
 
-  assign_dest = Mdc_Short_AssignMove(dest, &temp);
-  if (assign_dest != dest) {
-    goto deinit_temp;
-  }
-
-  Mdc_Short_Deinit(&temp);
+  *dest = *src;
 
   return dest;
-
-deinit_temp:
-  Mdc_Short_Deinit(&temp);
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_AssignMove(
-    struct Mdc_Short* dest,
-    struct Mdc_Short* src
+short* Mdc_Short_AssignMove(
+    short* dest,
+    short* src
 ) {
-  dest->value_ = src->value_;
-  src->value_ = 0;
-
-  return dest;
+  return Mdc_Short_AssignCopy(dest, src);
 }
 
 /**
  * Increment/decrement operators
  */
 
-struct Mdc_Short* Mdc_Short_PreIncrement(
-    struct Mdc_Short* shrt
+short* Mdc_Short_PreIncrement(
+    short* shrt
 ) {
-  shrt->value_ += 1;
+  *shrt += 1;
 
   return shrt;
 }
 
-struct Mdc_Short* Mdc_Short_PreDecrement(
-    struct Mdc_Short* shrt
+short* Mdc_Short_PreDecrement(
+    short* shrt
 ) {
-  shrt->value_ -= 1;
+  *shrt -= 1;
 
   return shrt;
 }
 
-struct Mdc_Short* Mdc_Short_PostIncrement(
-    struct Mdc_Short* out,
-    struct Mdc_Short* in
+short* Mdc_Short_PostIncrement(
+    short* out,
+    short* in
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(out, in->value_);
-  if (init_out != out) {
-    goto return_bad;
-  }
-
-  in->value_ += 1;
+  *out = *in;
+  *in += 1;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_PostDecrement(
-    struct Mdc_Short* out,
-    struct Mdc_Short* in
+short* Mdc_Short_PostDecrement(
+    short* out,
+    short* in
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(out, in->value_);
-  if (init_out != out) {
-    goto return_bad;
-  }
-
-  in->value_ -= 1;
+  *out = *in;
+  *in -= 1;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
 /**
  * Arithmetic operators
  */
 
-struct Mdc_Short* Mdc_Short_Add(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_Add(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) + Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 + *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_Subtract(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_Subtract(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) - Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 - *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_Multiply(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_Multiply(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) * Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 * *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_Divide(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_Divide(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) / Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 / *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_Modulo(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_Modulo(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) % Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 % *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_BitwiseNot(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* in
+short* Mdc_Short_BitwiseNot(
+    short* out,
+    const short* in
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      ~Mdc_Short_GetValue(in)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = ~(*in);
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_BitwiseAnd(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_BitwiseAnd(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) & Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 & *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_BitwiseOr(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_BitwiseOr(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) | Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 | *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_BitwiseXor(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_BitwiseXor(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) ^ Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 ^ *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_BitwiseLeftShift(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_BitwiseLeftShift(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) << Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 << *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
-struct Mdc_Short* Mdc_Short_BitwiseRightShift(
-    struct Mdc_Short* out,
-    const struct Mdc_Short* op1,
-    const struct Mdc_Short* op2
+short* Mdc_Short_BitwiseRightShift(
+    short* out,
+    const short* op1,
+    const short* op2
 ) {
-  const struct Mdc_Short* init_out;
-
-  init_out = Mdc_Short_InitFromValue(
-      out,
-      Mdc_Short_GetValue(op1) >> Mdc_Short_GetValue(op2)
-  );
-  if (init_out != out) {
-    goto return_bad;
-  }
+  *out = *op1 >> *op2;
 
   return out;
-
-return_bad:
-  return NULL;
 }
 
 /**
@@ -463,56 +252,48 @@ return_bad:
  */
 
 bool Mdc_Short_Equal(
-    const struct Mdc_Short* short1,
-    const struct Mdc_Short* short2
+    const short* short1,
+    const short* short2
 ) {
-  return Mdc_Short_GetValue(short1) == Mdc_Short_GetValue(short2);
+  return *short1 == *short2;
 }
 
 bool Mdc_Short_EqualValue(
-    const struct Mdc_Short* shrt,
+    const short* shrt,
     short value
 ) {
-  return Mdc_Short_GetValue(shrt) == value;
+  return *shrt == value;
 }
 
 int Mdc_Short_Compare(
-    const struct Mdc_Short* short1,
-    const struct Mdc_Short* short2
+    const short* short1,
+    const short* short2
 ) {
-  return Mdc_Short_GetValue(short1) - Mdc_Short_GetValue(short2);
+  return *short1 - *short2;
 }
 
 int Mdc_Short_CompareValue(
-    const struct Mdc_Short* shrt,
+    const short* shrt,
     short value
 ) {
-  return Mdc_Short_GetValue(shrt) - value;
+  return *shrt - value;
 }
 
 /**
  * Etc. functions
  */
 
-size_t Mdc_Short_Hash(const struct Mdc_Short* shrt) {
-  return Mdc_Short_GetValue(shrt) % (size_t) -1;
+size_t Mdc_Short_Hash(const short* shrt) {
+  return *shrt % (size_t) -1;
 }
 
 void Mdc_Short_Swap(
-    struct Mdc_Short* short1,
-    struct Mdc_Short* short2
+    short* short1,
+    short* short2
 ) {
-  struct Mdc_Short temp;
+  short temp;
 
   temp = *short1;
   *short1 = *short2;
   *short2 = temp;
-}
-
-short Mdc_Short_GetValue(const struct Mdc_Short* shrt) {
-  return shrt->value_;
-}
-
-void Mdc_Short_SetValue(struct Mdc_Short* shrt, short value) {
-  shrt->value_ = value;
 }

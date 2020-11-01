@@ -27,8 +27,8 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_OBJECT_SHORT_H_
-#define MDC_C_OBJECT_SHORT_H_
+#ifndef MDC_C_OBJECT_SHORT_OBJECT_H_
+#define MDC_C_OBJECT_SHORT_OBJECT_H_
 
 #include "../object_metadata/object_metadata.h"
 #include "../std/stdbool.h"
@@ -39,32 +39,28 @@
 extern "C" {
 #endif /* __cplusplus */
 
-struct Mdc_Short {
-  short value_;
-};
-
 /**
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_InitDefault(struct Mdc_Short* shrt);
+DLLEXPORT short* Mdc_Short_InitDefault(short* shrt);
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_InitFromValue(
-    struct Mdc_Short* shrt,
+DLLEXPORT short* Mdc_Short_InitFromValue(
+    short* shrt,
     short value
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_InitCopy(
-    struct Mdc_Short* dest,
-    const struct Mdc_Short* src
+DLLEXPORT short* Mdc_Short_InitCopy(
+    short* dest,
+    const short* src
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_InitMove(
-    struct Mdc_Short* dest,
-    struct Mdc_Short* src
+DLLEXPORT short* Mdc_Short_InitMove(
+    short* dest,
+    short* src
 );
 
-DLLEXPORT void Mdc_Short_Deinit(struct Mdc_Short* shrt);
+DLLEXPORT void Mdc_Short_Deinit(short* shrt);
 
 /**
  * Metadata
@@ -77,105 +73,105 @@ Mdc_Short_GetObjectMetadata(void);
  * Assignment functions
  */
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_AssignCopy(
-    struct Mdc_Short* dest,
-    const struct Mdc_Short* src
+DLLEXPORT short* Mdc_Short_AssignCopy(
+    short* dest,
+    const short* src
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_AssignMove(
-    struct Mdc_Short* dest,
-    struct Mdc_Short* src
+DLLEXPORT short* Mdc_Short_AssignMove(
+    short* dest,
+    short* src
 );
 
 /**
  * Increment/decrement operators
  */
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_PreIncrement(
-    struct Mdc_Short* shrt
+DLLEXPORT short* Mdc_Short_PreIncrement(
+    short* shrt
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_PreDecrement(
-    struct Mdc_Short* shrt
+DLLEXPORT short* Mdc_Short_PreDecrement(
+    short* shrt
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_PostIncrement(
-    struct Mdc_Short* shrt_out,
-    struct Mdc_Short* shrt_in
+DLLEXPORT short* Mdc_Short_PostIncrement(
+    short* out,
+    short* in
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_PostDecrement(
-    struct Mdc_Short* shrt_out,
-    struct Mdc_Short* shrt_in
+DLLEXPORT short* Mdc_Short_PostDecrement(
+    short* out,
+    short* in
 );
 
 /**
  * Arithmetic operators
  */
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_Add(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_Add(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_Subtract(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_Subtract(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_Multiply(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_Multiply(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_Divide(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_Divide(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_Modulo(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_Modulo(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseNot(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in
+DLLEXPORT short* Mdc_Short_BitwiseNot(
+    short* out,
+    const short* in
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseAnd(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_BitwiseAnd(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseOr(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_BitwiseOr(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseXor(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_BitwiseXor(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseLeftShift(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_BitwiseLeftShift(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
-DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseRightShift(
-    struct Mdc_Short* short_out,
-    const struct Mdc_Short* short_in1,
-    const struct Mdc_Short* short_in2
+DLLEXPORT short* Mdc_Short_BitwiseRightShift(
+    short* out,
+    const short* op1,
+    const short* op2
 );
 
 /**
@@ -183,22 +179,22 @@ DLLEXPORT struct Mdc_Short* Mdc_Short_BitwiseRightShift(
  */
 
 DLLEXPORT bool Mdc_Short_Equal(
-    const struct Mdc_Short* short1,
-    const struct Mdc_Short* integer2
+    const short* short1,
+    const short* short2
 );
 
 DLLEXPORT bool Mdc_Short_EqualValue(
-    const struct Mdc_Short* shrt,
+    const short* shrt,
     short value
 );
 
 DLLEXPORT int Mdc_Short_Compare(
-    const struct Mdc_Short* short1,
-    const struct Mdc_Short* short2
+    const short* short1,
+    const short* short2
 );
 
 DLLEXPORT int Mdc_Short_CompareValue(
-    const struct Mdc_Short* shrt,
+    const short* shrt,
     short value
 );
 
@@ -206,20 +202,16 @@ DLLEXPORT int Mdc_Short_CompareValue(
  * Etc. functions
  */
 
-DLLEXPORT size_t Mdc_Short_Hash(const struct Mdc_Short* shrt);
+DLLEXPORT size_t Mdc_Short_Hash(const short* shrt);
 
 DLLEXPORT void Mdc_Short_Swap(
-    struct Mdc_Short* short1,
-    struct Mdc_Short* short2
+    short* short1,
+    short* short2
 );
-
-DLLEXPORT short Mdc_Short_GetValue(const struct Mdc_Short* shrt);
-
-DLLEXPORT void Mdc_Short_SetValue(struct Mdc_Short* shrt, short value);
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */
 
 #include "../../../dllexport_undefine.inc"
-#endif /* MDC_C_OBJECT_SHORT_H_ */
+#endif /* MDC_C_OBJECT_SHORT_OBJECT_H_ */
