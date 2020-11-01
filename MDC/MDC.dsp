@@ -174,6 +174,14 @@ SOURCE=.\src\mdc\malloc\malloc.c
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\src\mdc\object\float_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\float_object_metadata.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\object\integer_object.c
 # End Source File
 # Begin Source File
@@ -182,11 +190,19 @@ SOURCE=.\src\mdc\object\integer_object_metadata.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\mdc\object\short_object.c
+SOURCE=.\src\mdc\object\windows_float_object.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\mdc\object\short_object_metadata.c
+SOURCE=.\src\mdc\object\windows_float_object_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\windows_integer_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\windows_integer_object_metadata.c
 # End Source File
 # End Group
 # Begin Group "object_metadata_c"
@@ -362,15 +378,19 @@ SOURCE=.\include\mdc\malloc\malloc.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\include\mdc\object\float_object.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\mdc\object\integer_object.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\mdc\object\pointer.h
+SOURCE=.\include\mdc\object\windows_float_object.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\include\mdc\object\short_object.h
+SOURCE=.\include\mdc\object\windows_integer_object.h
 # End Source File
 # End Group
 # Begin Group "object_metadata_h"
