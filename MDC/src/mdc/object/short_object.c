@@ -284,7 +284,11 @@ int Mdc_Short_CompareValue(
  */
 
 size_t Mdc_Short_Hash(const short* shrt) {
-  return *shrt % (size_t) -1;
+  return Mdc_Short_HashValue(*shrt);
+}
+
+size_t Mdc_Short_HashValue(short shrt) {
+  return shrt % (size_t) -1;
 }
 
 void Mdc_Short_Swap(

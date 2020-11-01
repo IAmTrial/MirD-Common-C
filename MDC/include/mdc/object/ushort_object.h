@@ -204,6 +204,8 @@ DLLEXPORT int Mdc_UShort_CompareValue(
 
 DLLEXPORT size_t Mdc_UShort_Hash(const unsigned short* shrt);
 
+DLLEXPORT size_t Mdc_UShort_HashValue(unsigned short shrt);
+
 DLLEXPORT void Mdc_UShort_Swap(
     unsigned short* short1,
     unsigned short* short2

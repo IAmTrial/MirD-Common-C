@@ -284,7 +284,11 @@ int Mdc_Integer_CompareValue(
  */
 
 size_t Mdc_Integer_Hash(const int* integer) {
-  return *integer % (size_t) -1;
+  return Mdc_Integer_HashValue(*integer);
+}
+
+size_t Mdc_Integer_HashValue(int integer) {
+  return integer % (size_t) -1;
 }
 
 void Mdc_Integer_Swap(

@@ -290,7 +290,11 @@ int Mdc_Long_CompareValue(
  */
 
 size_t Mdc_Long_Hash(const long* lng) {
-  return *lng % (size_t) -1;
+  return Mdc_Long_HashValue(*lng);
+}
+
+size_t Mdc_Long_HashValue(long lng) {
+  return lng % (size_t) -1;
 }
 
 void Mdc_Long_Swap(

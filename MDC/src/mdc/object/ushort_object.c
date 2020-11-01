@@ -290,7 +290,11 @@ int Mdc_UShort_CompareValue(
  */
 
 size_t Mdc_UShort_Hash(const unsigned short* shrt) {
-  return *shrt % (size_t) -1;
+  return Mdc_UShort_HashValue(*shrt);
+}
+
+size_t Mdc_UShort_HashValue(unsigned short shrt) {
+  return shrt % (size_t) -1;
 }
 
 void Mdc_UShort_Swap(

@@ -204,6 +204,8 @@ DLLEXPORT int Mdc_Integer_CompareValue(
 
 DLLEXPORT size_t Mdc_Integer_Hash(const int* integer);
 
+DLLEXPORT size_t Mdc_Integer_HashValue(int integer);
+
 DLLEXPORT void Mdc_Integer_Swap(
     int* integer1,
     int* integer2

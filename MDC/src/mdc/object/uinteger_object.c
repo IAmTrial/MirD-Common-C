@@ -290,7 +290,11 @@ int Mdc_UInteger_CompareValue(
  */
 
 size_t Mdc_UInteger_Hash(const unsigned int* integer) {
-  return *integer % (size_t) -1;
+  return Mdc_UInteger_HashValue(*integer);
+}
+
+size_t Mdc_UInteger_HashValue(unsigned int integer) {
+  return integer % (size_t) -1;
 }
 
 void Mdc_UInteger_Swap(

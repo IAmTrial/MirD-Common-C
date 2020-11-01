@@ -204,6 +204,8 @@ DLLEXPORT int Mdc_Long_CompareValue(
 
 DLLEXPORT size_t Mdc_Long_Hash(const long* lng);
 
+DLLEXPORT size_t Mdc_Long_HashValue(long lng);
+
 DLLEXPORT void Mdc_Long_Swap(
     long* long1,
     long* long2

@@ -204,6 +204,8 @@ DLLEXPORT int Mdc_UInteger_CompareValue(
 
 DLLEXPORT size_t Mdc_UInteger_Hash(const unsigned int* integer);
 
+DLLEXPORT size_t Mdc_UInteger_HashValue(unsigned int integer);
+
 DLLEXPORT void Mdc_UInteger_Swap(
     unsigned int* integer1,
     unsigned int* integer2

@@ -290,7 +290,11 @@ int Mdc_ULong_CompareValue(
  */
 
 size_t Mdc_ULong_Hash(const unsigned long* lng) {
-  return *lng % (size_t) -1;
+  return Mdc_ULong_HashValue(*lng);
+}
+
+size_t Mdc_ULong_HashValue(unsigned long lng) {
+  return lng % (size_t) -1;
 }
 
 void Mdc_ULong_Swap(
