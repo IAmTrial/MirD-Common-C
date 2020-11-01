@@ -76,8 +76,7 @@ static struct Mdc_BasicString basic_example_text_str[kBasicExampleTextCount];
 static struct Mdc_BasicString repeating_text_str[kRepeatingTextCount];
 static struct Mdc_BasicString
 repeating_text_words_str[kRepeatingWordCountPairsCount];
-static struct Mdc_Integer
-repeating_text_counts[kRepeatingWordCountPairsCount];
+static int repeating_text_counts[kRepeatingWordCountPairsCount];
 
 static void Mdc_Map_AssertInitDeinit(void) {
   const struct Mdc_MapMetadata* const map_metadata =
@@ -135,11 +134,11 @@ static void Mdc_Map_AssertEmplace(void) {
   struct Mdc_BasicString key_copy;
   struct Mdc_BasicString* init_key_copy;
 
-  struct Mdc_Integer value_copy;
-  struct Mdc_Integer* init_value_copy;
+  int value_copy;
+  int* init_value_copy;
 
-  struct Mdc_Integer* actual_pair_value;
-  const struct Mdc_Integer* actual_pair_value_const;
+  int* actual_pair_value;
+  const int* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
@@ -215,11 +214,11 @@ static void Mdc_Map_AssertEmplaceKeyCopy(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  struct Mdc_Integer value_copy;
-  struct Mdc_Integer* init_value_copy;
+  int value_copy;
+  int* init_value_copy;
 
-  struct Mdc_Integer* actual_pair_value;
-  const struct Mdc_Integer* actual_pair_value_const;
+  int* actual_pair_value;
+  const int* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
@@ -288,12 +287,12 @@ static void Mdc_Map_AssertInsertOrAssignPair(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  struct Mdc_Integer value_copy;
-  struct Mdc_Integer* init_value_copy;
+  int value_copy;
+  int* init_value_copy;
 
   struct Mdc_Pair pair;
-  struct Mdc_Integer* actual_pair_value;
-  const struct Mdc_Integer* actual_pair_value_const;
+  int* actual_pair_value;
+  const int* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
@@ -371,14 +370,14 @@ static void Mdc_Map_AssertInsertOrAssignPairCopy(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  struct Mdc_Integer value_copy;
-  struct Mdc_Integer* init_value_copy;
+  int value_copy;
+  int* init_value_copy;
 
   struct Mdc_Pair pair;
   const struct Mdc_Pair* init_pair;
 
-  struct Mdc_Integer* actual_pair_value;
-  const struct Mdc_Integer* actual_pair_value_const;
+  int* actual_pair_value;
+  const int* actual_pair_value_const;
 
   size_t i;
   int value_compare_result;
@@ -453,13 +452,13 @@ static void Mdc_Map_AssertClear(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  struct Mdc_Integer value_copy;
-  struct Mdc_Integer* init_value_copy;
+  int value_copy;
+  int* init_value_copy;
 
   struct Mdc_Pair pair;
   const struct Mdc_Pair* init_pair;
 
-  struct Mdc_Integer* actual_pair_value;
+  int* actual_pair_value;
 
   size_t i;
 
@@ -521,12 +520,12 @@ static void Mdc_Map_AssertErase(void) {
   struct Mdc_Map map;
   struct Mdc_Map* init_map;
 
-  struct Mdc_Integer value_copy;
-  struct Mdc_Integer* init_value_copy;
+  int value_copy;
+  int* init_value_copy;
 
   struct Mdc_Pair pair;
   const struct Mdc_Pair* init_pair;
-  struct Mdc_Integer* actual_pair_value;
+  int* actual_pair_value;
 
   size_t i;
 
@@ -577,7 +576,7 @@ static void Init(void) {
   size_t i;
 
   struct Mdc_BasicString* init_str;
-  struct Mdc_Integer* init_integer;
+  int* init_integer;
 
   for (i = 0; i < kBasicExampleTextCount; i += 1) {
     init_str = Mdc_BasicString_InitFromCStr(
@@ -623,7 +622,7 @@ static void Init(void) {
     );
     assert(init_integer == &repeating_text_counts[i]);
     assert(Mdc_Integer_EqualValue(
-        &repeating_text_counts[i],
+        repeating_text_counts[i],
         kRepeatingTextCounts[i]
     ));
   }

@@ -27,16 +27,19 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_OBJECT_INTEGER_OBJECT_H_
-#define MDC_C_OBJECT_INTEGER_OBJECT_H_
+#ifndef MDC_C_OBJECT_WINDOWS_FLOAT_OBJECT_H_
+#define MDC_C_OBJECT_WINDOWS_FLOAT_OBJECT_H_
+
+#if defined(WIN32) || defined(WIN64)
+
+#include <windows.h>
 
 #include "../object_metadata/object_metadata.h"
 #include "../std/stdbool.h"
-#include "../std/stdint.h"
 
 #include "../../../dllexport_define.inc"
 
-#define MDC_DECLARE_INTEGER_OBJECT_FUNCS(name, type) \
+#define MDC_DECLARE_WINDOWS_FLOAT_OBJECT_FUNCS(name, type) \
 \
 /**
  * Initialization/deinitialization
@@ -123,61 +126,6 @@ DLLEXPORT type* name##_Divide( \
 \
 DLLEXPORT type name##_DivideValue(type op1, type op2); \
 \
-DLLEXPORT type* name##_Modulo( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_ModuloValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseNot( \
-    type* out, \
-    const type* in \
-); \
-\
-DLLEXPORT type name##_BitwiseNotValue(type op); \
-\
-DLLEXPORT type* name##_BitwiseAnd( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseAndValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseOr( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseOrValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseXor( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseXorValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseLeftShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseLeftShiftValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseRightShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseRightShiftValue(type op1, type op2); \
-\
 /**
  * Comparison operators
  */ \
@@ -194,71 +142,22 @@ DLLEXPORT int name##_CompareValue(type value1, type value2); \
  * Etc. functions
  */ \
 \
-DLLEXPORT size_t name##_Hash(const type* obj); \
-\
-DLLEXPORT size_t name##_HashValue(type obj); \
-\
 DLLEXPORT void name##_Swap(type* obj1, type* obj2);
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Boolean, bool);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_SChar, signed char);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Short, short);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Integer, int);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Long, long);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int8, int8_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int16, int16_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int32, int32_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int64, int64_t);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast8, int_least8_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast16, int_least16_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast32, int_least32_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast64, int_least64_t);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntMax, intmax_t);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UChar, unsigned char);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UShort, unsigned short);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInteger, unsigned int);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_ULong, unsigned long);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt8, uint8_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt16, uint16_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt32, uint32_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt64, uint64_t);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast8, uint_least8_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast16, uint_least16_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast32, uint_least32_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast64, uint_least64_t);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntMax, uintmax_t);
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Intptr, intptr_t);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntptr, uintptr_t);
-
-#if __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
-    || _MSC_VER >= 1600
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_LLong, long long);
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_ULLong, unsigned long long);
-
-#endif /* __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
-    || _MSC_VER >= 1600 */
+MDC_DECLARE_WINDOWS_FLOAT_OBJECT_FUNCS(Mdc_FLOAT, FLOAT);
+MDC_DECLARE_WINDOWS_FLOAT_OBJECT_FUNCS(Mdc_DOUBLE, DOUBLE);
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#undef MDC_DECLARE_INTEGER_OBJECT_FUNCS
+#undef MDC_DECLARE_WINDOWS_FLOAT_OBJECT_FUNCS
 
 #include "../../../dllexport_undefine.inc"
-#endif /* MDC_C_OBJECT_INTEGER_OBJECT_H_ */
+
+#endif /* defined(WIN32) || defined(WIN64) */
+#endif /* MDC_C_OBJECT_WINDOWS_FLOAT_OBJECT_H_ */

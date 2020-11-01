@@ -27,9 +27,11 @@
  *  to convey the resulting work.
  */
 
-#include "../../../include/mdc/object/integer_object.h"
+#include "../../../include/mdc/object/windows_float_object.h"
 
-#define MDC_DEFINE_INTEGER_OBJECT_FUNCS(name, type) \
+#if defined(WIN32) || defined(WIN64)
+
+#define MDC_DEFINE_WINDOWS_FLOAT_OBJECT_FUNCS(name, type) \
 \
 /**
  * External
@@ -176,93 +178,6 @@ type name##_DivideValue(type op1, type op2) { \
   return op1 / op2; \
 } \
 \
-type* name##_Modulo( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_ModuloValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_ModuloValue(type op1, type op2) { \
-  return op1 % op2; \
-} \
-\
-type* name##_BitwiseNot(type* out, const type* in) { \
-  *out = name##_BitwiseNotValue(*in); \
-  return out; \
-} \
-\
-type name##_BitwiseNotValue(type op) { \
-  return ~op; \
-} \
-\
-type* name##_BitwiseAnd( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseAndValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseAndValue(type op1, type op2) { \
-  return op1 & op2; \
-} \
-\
-type* name##_BitwiseOr( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseOrValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseOrValue(type op1, type op2) { \
-  return op1 | op2; \
-} \
-\
-type* name##_BitwiseXor( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseXorValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseXorValue(type op1, type op2) { \
-  return op1 ^ op2; \
-} \
-\
-type* name##_BitwiseLeftShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseLeftShiftValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseLeftShiftValue(type op1, type op2) { \
-  return op1 << op2; \
-} \
-\
-type* name##_BitwiseRightShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseRightShiftValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseRightShiftValue(type op1, type op2) { \
-  return op1 >> op2; \
-} \
-\
 /**
  * Comparison operators
  */ \
@@ -293,14 +208,6 @@ int name##_CompareValue(type value1, type value2) { \
  * Etc. functions
  */ \
 \
-size_t name##_Hash(const type* obj) { \
-  return name##_HashValue(*obj); \
-} \
-\
-size_t name##_HashValue(type obj) { \
-  return obj % (size_t) -1; \
-} \
-\
 void name##_Swap( \
     type* obj1, \
     type* obj2 \
@@ -310,54 +217,9 @@ void name##_Swap( \
   *obj2 = temp; \
 }
 
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Boolean, bool);
+MDC_DEFINE_WINDOWS_FLOAT_OBJECT_FUNCS(Mdc_FLOAT, FLOAT);
+MDC_DEFINE_WINDOWS_FLOAT_OBJECT_FUNCS(Mdc_DOUBLE, DOUBLE);
 
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_SChar, signed char);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Short, short);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Integer, int);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Long, long);
+#undef MDC_DEFINE_WINDOWS_FLOAT_OBJECT_FUNCS
 
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int8, int8_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int16, int16_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int32, int32_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int64, int64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast8, int_least8_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast16, int_least16_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast32, int_least32_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast64, int_least64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntMax, intmax_t);
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UChar, unsigned char);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UShort, unsigned short);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInteger, unsigned int);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_ULong, unsigned long);
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt8, uint8_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt16, uint16_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt32, uint32_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt64, uint64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast8, uint_least8_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast16, uint_least16_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast32, uint_least32_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast64, uint_least64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntMax, uintmax_t);
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Intptr, intptr_t);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntptr, uintptr_t);
-
-#if __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
-    || _MSC_VER >= 1600
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_LLong, long long);
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_ULLong, unsigned long long);
-
-#endif /* __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
-    || _MSC_VER >= 1600 */
-
-#undef MDC_DEFINE_INTEGER_OBJECT_FUNCS
+#endif /* defined(WIN32) || defined(WIN64) */

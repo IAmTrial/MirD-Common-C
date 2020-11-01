@@ -66,8 +66,8 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   struct Mdc_BasicString first;
   const struct Mdc_BasicString* init_first;
 
-  struct Mdc_Integer second;
-  const struct Mdc_Integer* init_second;
+  int second;
+  const int* init_second;
 
   struct Mdc_Pair pair;
   struct Mdc_Pair* init_pair;
@@ -83,7 +83,7 @@ static void Mdc_Pair_AssertInitDeinit(void) {
 
   init_second = Mdc_Integer_InitFromValue(&second, kSecondSrc1);
   assert(init_second == &second);
-  assert(Mdc_Integer_EqualValue(&second, kSecondSrc1));
+  assert(Mdc_Integer_EqualValue(second, kSecondSrc1));
 
   init_pair = Mdc_Pair_InitFromFirstSecond(
       &pair,
@@ -100,7 +100,7 @@ static void Mdc_Pair_AssertInitDeinit(void) {
   assert(Mdc_BasicString_EqualCStr(pair.first, kFirstSrc1));
 
   assert(pair.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair.second, kSecondSrc1));
+  assert(Mdc_Integer_Equal(pair.second, &kSecondSrc1));
 
   Mdc_Pair_Deinit(&pair);
   Mdc_Integer_Deinit(&second);
@@ -127,8 +127,8 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   struct Mdc_BasicString first;
   struct Mdc_BasicString* init_first;
 
-  struct Mdc_Integer second;
-  struct Mdc_Integer* init_second;
+  int second;
+  int* init_second;
 
   init_first = Mdc_BasicString_InitFromCStr(
       &first,
@@ -140,7 +140,7 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
 
   init_second = Mdc_Integer_InitFromValue(&second, kSecondSrc1);
   assert(init_second == &second);
-  assert(Mdc_Integer_EqualValue(&second, kSecondSrc1));
+  assert(Mdc_Integer_EqualValue(second, kSecondSrc1));
 
   init_pair = Mdc_Pair_InitFromFirstCopySecondCopy(
       &pair,
@@ -158,7 +158,7 @@ static void Mdc_Pair_AssertInitCopyDeinit(void) {
   assert(first_functions->equal(pair.first, &first));
 
   assert(pair.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair.second, kSecondSrc1));
+  assert(Mdc_Integer_Equal(pair.second, &kSecondSrc1));
   assert(second_functions->equal(pair.second, &second));
 
   Mdc_Pair_Deinit(&pair);
@@ -183,7 +183,7 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   struct Mdc_BasicString first1;
   struct Mdc_BasicString first2;
 
-  struct Mdc_Integer second;
+  int second;
 
   struct Mdc_Pair pair1;
   struct Mdc_Pair pair2;
@@ -233,7 +233,7 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   assert(Mdc_BasicString_EqualCStr(pair1.first, kFirstSrc1));
 
   assert(pair1.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair1.second, kSecondSrc1));
+  assert(Mdc_Integer_Equal(pair1.second, &kSecondSrc1));
 
   assert(pair2.metadata == pair_metadata);
 
@@ -241,7 +241,7 @@ static void Mdc_Pair_AssertCompareFirst(void) {
   assert(Mdc_BasicString_EqualCStr(pair2.first, kFirstSrc2));
 
   assert(pair2.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair2.second, kSecondSrc1));
+  assert(Mdc_Integer_Equal(pair2.second, &kSecondSrc1));
 
   Mdc_Pair_Deinit(&pair2);
   Mdc_Pair_Deinit(&pair1);
@@ -270,8 +270,8 @@ static void Mdc_Pair_AssertCompareSecond(void) {
 
   struct Mdc_BasicString first;
 
-  struct Mdc_Integer second1;
-  struct Mdc_Integer second2;
+  int second1;
+  int second2;
 
   const struct Mdc_Pair* init_pair1;
   const struct Mdc_Pair* init_pair2;
@@ -313,7 +313,7 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   assert(Mdc_BasicString_EqualCStr(pair1.first, kFirstSrc1));
 
   assert(pair1.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair1.second, kSecondSrc1));
+  assert(Mdc_Integer_Equal(pair1.second, &kSecondSrc1));
 
   assert(pair2.metadata == pair_metadata);
 
@@ -321,7 +321,7 @@ static void Mdc_Pair_AssertCompareSecond(void) {
   assert(Mdc_BasicString_EqualCStr(pair2.first, kFirstSrc1));
 
   assert(pair2.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair2.second, kSecondSrc2));
+  assert(Mdc_Integer_Equal(pair2.second, &kSecondSrc2));
 
   Mdc_Pair_Deinit(&pair2);
   Mdc_Pair_Deinit(&pair1);
@@ -351,8 +351,8 @@ static void Mdc_Pair_AssertSwap() {
   struct Mdc_BasicString first1;
   struct Mdc_BasicString first2;
 
-  struct Mdc_Integer second1;
-  struct Mdc_Integer second2;
+  int second1;
+  int second2;
 
   const struct Mdc_Pair* init_pair1;
   const struct Mdc_Pair* init_pair2;
@@ -396,7 +396,7 @@ static void Mdc_Pair_AssertSwap() {
   assert(Mdc_BasicString_EqualCStr(pair1.first, kFirstSrc2));
 
   assert(pair1.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair1.second, kSecondSrc2));
+  assert(Mdc_Integer_Equal(pair1.second, &kSecondSrc2));
 
   assert(pair2.metadata == pair_metadata);
 
@@ -404,7 +404,7 @@ static void Mdc_Pair_AssertSwap() {
   assert(Mdc_BasicString_EqualCStr(pair2.first, kFirstSrc1));
 
   assert(pair2.second != NULL);
-  assert(Mdc_Integer_EqualValue(pair2.second, kSecondSrc1));
+  assert(Mdc_Integer_Equal(pair2.second, &kSecondSrc1));
 
   Mdc_Pair_Deinit(&pair2);
   Mdc_Pair_Deinit(&pair1);

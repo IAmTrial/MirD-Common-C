@@ -75,12 +75,12 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
   struct Mdc_Vector vector;
   struct Mdc_Vector* init_vector;
 
-  struct Mdc_Integer integer1;
-  struct Mdc_Integer integer2;
-  struct Mdc_Integer integer3;
+  int integer1;
+  int integer2;
+  int integer3;
 
   size_t i;
-  struct Mdc_Integer* at_result;
+  int* at_result;
 
   init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
   assert(init_vector == &vector);
@@ -95,15 +95,15 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
   assert(Mdc_Vector_Capacity(&vector) >= 2);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_Integer_CompareValue(at_result, 4321) == 0);
+  assert(Mdc_Integer_CompareValue(*at_result, 4321) == 0);
 
   Mdc_Vector_PopBack(&vector);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   for (i = 1; i < 5; i += 1) {
     Mdc_Integer_InitFromValue(&integer3, (int) i);
@@ -111,7 +111,7 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
     Mdc_Vector_PushBack(&vector, &integer3);
 
     at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(at_result, (int) i));
+    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
 
     Mdc_Integer_Deinit(&integer3);
   }
@@ -141,12 +141,12 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
   struct Mdc_Vector vector;
   struct Mdc_Vector* init_vector;
 
-  struct Mdc_Integer integer1;
-  struct Mdc_Integer integer2;
-  struct Mdc_Integer integer3;
+  int integer1;
+  int integer2;
+  int integer3;
 
   size_t i;
-  struct Mdc_Integer* at_result;
+  int* at_result;
 
   init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
   assert(init_vector == &vector);
@@ -161,15 +161,15 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
   assert(Mdc_Vector_Capacity(&vector) >= 2);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_Integer_CompareValue(at_result, 4321) == 0);
+  assert(Mdc_Integer_CompareValue(*at_result, 4321) == 0);
 
   Mdc_Vector_PopBack(&vector);
 
   at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(at_result, 1234));
+  assert(Mdc_Integer_EqualValue(*at_result, 1234));
 
   for (i = 1; i < 5; i += 1) {
     Mdc_Integer_InitFromValue(&integer3, (int) i);
@@ -177,7 +177,7 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
     Mdc_Vector_PushBackCopy(&vector, &integer3);
 
     at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(at_result, (int) i));
+    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
 
     Mdc_Integer_Deinit(&integer3);
   }
@@ -207,10 +207,10 @@ static void Mdc_Vector_AssertClear(void) {
   struct Mdc_Vector vector;
   struct Mdc_Vector* init_vector;
 
-  struct Mdc_Integer integer;
+  int integer;
 
   size_t i;
-  struct Mdc_Integer* at_result;
+  int* at_result;
 
   init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
   assert(init_vector == &vector);
@@ -220,7 +220,7 @@ static void Mdc_Vector_AssertClear(void) {
     Mdc_Vector_PushBackCopy(&vector, &integer);
 
     at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(at_result, (int) i));
+    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
 
     Mdc_Integer_Deinit(&integer);
   }

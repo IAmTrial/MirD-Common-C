@@ -27,11 +27,11 @@
  *  to convey the resulting work.
  */
 
-#include "../../../include/mdc/object/integer_object.h"
+#include "../../../include/mdc/object/float_object.h"
 
 #include "../../../include/mdc/std/threads.h"
 
-#define MDC_DEFINE_INTEGER_OBJECT_METADATA(name, type) \
+#define MDC_DEFINE_FLOAT_OBJECT_METADATA(name, type) \
 \
 /**
  * Object initialization/deinitialization
@@ -121,61 +121,6 @@ static void* name##_DivideAsVoid( \
   return name##_Divide(out, op1, op2); \
 } \
 \
-static void* name##_ModuloAsVoid( \
-    void* out, \
-    const void* op1, \
-    const void* op2 \
-) { \
-  return name##_Modulo(out, op1, op2); \
-} \
-\
-static void* name##_BitwiseNotAsVoid( \
-    void* out, \
-    const void* in \
-) { \
-  return name##_BitwiseNot(out, in); \
-} \
-\
-static void* name##_BitwiseAndAsVoid( \
-    void* out, \
-    const void* op1, \
-    const void* op2 \
-) { \
-  return name##_BitwiseAnd(out, op1, op2); \
-} \
-\
-static void* name##_BitwiseOrAsVoid( \
-    void* out, \
-    const void* op1, \
-    const void* op2 \
-) { \
-  return name##_BitwiseOr(out, op1, op2); \
-} \
-\
-static void* name##_BitwiseXorAsVoid( \
-    void* out, \
-    const void* op1, \
-    const void* op2 \
-) { \
-  return name##_BitwiseXor(out, op1, op2); \
-} \
-\
-static void* name##_BitwiseLeftShiftAsVoid( \
-    void* out, \
-    const void* op1, \
-    const void* op2 \
-) { \
-  return name##_BitwiseLeftShift(out, op1, op2); \
-} \
-\
-static void* name##_BitwiseRightShiftAsVoid( \
-    void* out, \
-    const void* op1, \
-    const void* op2 \
-) { \
-  return name##_BitwiseRightShift(out, op1, op2); \
-} \
-\
 /**
  * Object comparison operators
  */ \
@@ -191,10 +136,6 @@ static int name##_CompareAsVoid(const void* op1, const void* op2) { \
 /**
  * Object etc. functions
  */ \
-\
-static size_t name##_HashAsVoid(const void* obj) { \
-  return name##_Hash(obj); \
-} \
 \
 static void name##_SwapAsVoid(void* obj1, void* obj2) { \
   name##_Swap(obj1, obj2); \
@@ -230,21 +171,10 @@ static struct Mdc_ObjectMetadata* name##_InitObjectMetadata( \
   metadata->functions.subtract = &name##_SubtractAsVoid; \
   metadata->functions.multiply = &name##_MultiplyAsVoid; \
   metadata->functions.divide = &name##_DivideAsVoid; \
-  metadata->functions.modulo = &name##_ModuloAsVoid; \
-\
-  metadata->functions.bitwise_not = &name##_BitwiseNotAsVoid; \
-  metadata->functions.bitwise_and = &name##_BitwiseAndAsVoid; \
-  metadata->functions.bitwise_or = &name##_BitwiseOrAsVoid; \
-  metadata->functions.bitwise_xor = &name##_BitwiseXorAsVoid; \
-  metadata->functions.bitwise_left_shift = \
-      &name##_BitwiseLeftShiftAsVoid; \
-  metadata->functions.bitwise_right_shift = \
-      &name##_BitwiseRightShiftAsVoid; \
 \
   metadata->functions.equal = &name##_EqualAsVoid; \
   metadata->functions.compare = &name##_CompareAsVoid; \
 \
-  metadata->functions.hash = &name##_HashAsVoid; \
   metadata->functions.swap = &name##_SwapAsVoid; \
 \
   return metadata; \
@@ -267,54 +197,8 @@ const struct Mdc_ObjectMetadata* name##_GetObjectMetadata(void) { \
   return &name##global_metadata; \
 }
 
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Boolean, bool);
+MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_Float, float);
+MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_Double, double);
+MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_LDouble, long double);
 
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_SChar, signed char);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Short, short);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Integer, int);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Long, long);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Int8, int8_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Int16, int16_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Int32, int32_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Int64, int64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_IntLeast8, int_least8_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_IntLeast16, int_least16_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_IntLeast32, int_least32_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_IntLeast64, int_least64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_IntMax, intmax_t);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UChar, unsigned char);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UShort, unsigned short);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UInteger, unsigned int);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_ULong, unsigned long);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UInt8, uint8_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UInt16, uint16_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UInt32, uint32_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UInt64, uint64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UIntLeast8, uint_least8_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UIntLeast16, uint_least16_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UIntLeast32, uint_least32_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UIntLeast64, uint_least64_t);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UIntMax, uintmax_t);
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_Intptr, intptr_t);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_UIntptr, uintptr_t);
-
-#if __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
-    || _MSC_VER >= 1600
-
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_LLong, long long);
-MDC_DEFINE_INTEGER_OBJECT_METADATA(Mdc_ULLong, unsigned long long);
-
-#endif /* __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
-    || _MSC_VER >= 1600 */
-
-#undef MDC_DEFINE_INTEGER_OBJECT_METADATA
+#undef MDC_DEFINE_FLOAT_OBJECT_METADATA
