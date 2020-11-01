@@ -31,7 +31,7 @@
 #define MDC_TESTS_C_CONTAINER_VECTOR_INT_VECTOR_INT_H_
 
 #include <mdc/container/vector.h>
-#include <mdc/object/integer_object.h>
+#include <mdc/object/arithmetic_object.h>
 
 const struct Mdc_VectorMetadata* Mdc_VectorInt_GetGlobalVectorMetadata(void);
 

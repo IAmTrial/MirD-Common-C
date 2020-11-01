@@ -29,7 +29,7 @@
 
 #include "vector_int.h"
 
-#include <mdc/object/integer_object.h>
+#include <mdc/object/arithmetic_object.h>
 #include <mdc/std/threads.h>
 
 /**

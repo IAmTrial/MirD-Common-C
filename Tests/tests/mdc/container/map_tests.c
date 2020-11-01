@@ -38,7 +38,7 @@
 #include <mdc/container/map.h>
 #include <mdc/container/pair.h>
 #include <mdc/malloc/malloc.h>
-#include <mdc/object/integer_object.h>
+#include <mdc/object/arithmetic_object.h>
 #include <mdc/string/basic_string.h>
 #include "map_string_int/map_string_int.h"
 #include "pair_string_int/pair_string_int.h"
