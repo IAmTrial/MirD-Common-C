@@ -224,7 +224,7 @@ static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
 static struct Mdc_ObjectMetadata* Mdc_UInteger_InitObjectMetadata(
     struct Mdc_ObjectMetadata* metadata
 ) {
-  metadata->size = sizeof(int);
+  metadata->size = sizeof(unsigned int);
 
   metadata->functions.init_default = &Mdc_UInteger_InitDefaultAsVoid;
   metadata->functions.init_copy = &Mdc_UInteger_InitCopyAsVoid;

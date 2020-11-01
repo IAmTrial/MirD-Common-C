@@ -79,18 +79,12 @@ static void* Mdc_SChar_PreDecrementAsVoid(void* ch) {
   return Mdc_SChar_PreDecrement(ch);
 }
 
-static void* Mdc_SChar_PostIncrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_SChar_PostIncrement(short_out, short_in);
+static void* Mdc_SChar_PostIncrementAsVoid(void* out, void* in) {
+  return Mdc_SChar_PostIncrement(out, in);
 }
 
-static void* Mdc_SChar_PostDecrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_SChar_PostDecrement(short_out, short_in);
+static void* Mdc_SChar_PostDecrementAsVoid(void* out, void* in) {
+  return Mdc_SChar_PostDecrement(out, in);
 }
 
 /**
@@ -98,90 +92,90 @@ static void* Mdc_SChar_PostDecrementAsVoid(
  */
 
 static void* Mdc_SChar_AddAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_Add(short_out, short_in1, short_in2);
+  return Mdc_SChar_Add(out, op1, op2);
 }
 
 static void* Mdc_SChar_SubtractAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_Subtract(short_out, short_in1, short_in2);
+  return Mdc_SChar_Subtract(out, op1, op2);
 }
 
 static void* Mdc_SChar_MultiplyAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_Multiply(short_out, short_in1, short_in2);
+  return Mdc_SChar_Multiply(out, op1, op2);
 }
 
 static void* Mdc_SChar_DivideAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_Divide(short_out, short_in1, short_in2);
+  return Mdc_SChar_Divide(out, op1, op2);
 }
 
 static void* Mdc_SChar_ModuloAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_Modulo(short_out, short_in1, short_in2);
+  return Mdc_SChar_Modulo(out, op1, op2);
 }
 
 static void* Mdc_SChar_BitwiseNotAsVoid(
-    void* short_out,
-    const void* short_in
+    void* out,
+    const void* in
 ) {
-  return Mdc_SChar_BitwiseNot(short_out, short_in);
+  return Mdc_SChar_BitwiseNot(out, in);
 }
 
 static void* Mdc_SChar_BitwiseAndAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_BitwiseAnd(short_out, short_in1, short_in2);
+  return Mdc_SChar_BitwiseAnd(out, op1, op2);
 }
 
 static void* Mdc_SChar_BitwiseOrAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_BitwiseOr(short_out, short_in1, short_in2);
+  return Mdc_SChar_BitwiseOr(out, op1, op2);
 }
 
 static void* Mdc_SChar_BitwiseXorAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_BitwiseXor(short_out, short_in1, short_in2);
+  return Mdc_SChar_BitwiseXor(out, op1, op2);
 }
 
 static void* Mdc_SChar_BitwiseLeftShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_BitwiseLeftShift(short_out, short_in1, short_in2);
+  return Mdc_SChar_BitwiseLeftShift(out, op1, op2);
 }
 
 static void* Mdc_SChar_BitwiseRightShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_SChar_BitwiseRightShift(short_out, short_in1, short_in2);
+  return Mdc_SChar_BitwiseRightShift(out, op1, op2);
 }
 
 /**
@@ -230,7 +224,7 @@ static once_flag global_metadata_once_flag = ONCE_FLAG_INIT;
 static struct Mdc_ObjectMetadata* Mdc_SChar_InitObjectMetadata(
     struct Mdc_ObjectMetadata* metadata
 ) {
-  metadata->size = sizeof(short);
+  metadata->size = sizeof(signed char);
 
   metadata->functions.init_default = &Mdc_SChar_InitDefaultAsVoid;
   metadata->functions.init_copy = &Mdc_SChar_InitCopyAsVoid;
@@ -272,10 +266,6 @@ static struct Mdc_ObjectMetadata* Mdc_SChar_InitObjectMetadata(
 static void Mdc_SChar_InitGlobalObjectMetadata(void) {
   Mdc_SChar_InitObjectMetadata(&global_metadata);
 }
-
-/**
- * External
- */
 
 /**
  * Metadata

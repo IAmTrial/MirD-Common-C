@@ -39,8 +39,8 @@
  * Object initialization/deinitialization
  */
 
-static void* Mdc_ULong_InitDefaultAsVoid(void* shrt) {
-  return Mdc_ULong_InitDefault(shrt);
+static void* Mdc_ULong_InitDefaultAsVoid(void* lng) {
+  return Mdc_ULong_InitDefault(lng);
 }
 
 static void* Mdc_ULong_InitCopyAsVoid(void* dest, const void* src) {
@@ -51,8 +51,8 @@ static void* Mdc_ULong_InitMoveAsVoid(void* dest, void* src) {
   return Mdc_ULong_InitMove(dest, src);
 }
 
-static void Mdc_ULong_DeinitAsVoid(void* shrt) {
-  Mdc_ULong_Deinit(shrt);
+static void Mdc_ULong_DeinitAsVoid(void* lng) {
+  Mdc_ULong_Deinit(lng);
 }
 
 /**
@@ -71,26 +71,20 @@ static void* Mdc_ULong_AssignMoveAsVoid(void* dest, void* src) {
  * Object increment/decrement operators
  */
 
-static void* Mdc_ULong_PreIncrementAsVoid(void* shrt) {
-  return Mdc_ULong_PreIncrement(shrt);
+static void* Mdc_ULong_PreIncrementAsVoid(void* lng) {
+  return Mdc_ULong_PreIncrement(lng);
 }
 
-static void* Mdc_ULong_PreDecrementAsVoid(void* shrt) {
-  return Mdc_ULong_PreDecrement(shrt);
+static void* Mdc_ULong_PreDecrementAsVoid(void* lng) {
+  return Mdc_ULong_PreDecrement(lng);
 }
 
-static void* Mdc_ULong_PostIncrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_ULong_PostIncrement(short_out, short_in);
+static void* Mdc_ULong_PostIncrementAsVoid(void* out, void* in) {
+  return Mdc_ULong_PostIncrement(out, in);
 }
 
-static void* Mdc_ULong_PostDecrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_ULong_PostDecrement(short_out, short_in);
+static void* Mdc_ULong_PostDecrementAsVoid(void* out, void* in) {
+  return Mdc_ULong_PostDecrement(out, in);
 }
 
 /**
@@ -98,90 +92,90 @@ static void* Mdc_ULong_PostDecrementAsVoid(
  */
 
 static void* Mdc_ULong_AddAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_Add(short_out, short_in1, short_in2);
+  return Mdc_ULong_Add(out, op1, op2);
 }
 
 static void* Mdc_ULong_SubtractAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_Subtract(short_out, short_in1, short_in2);
+  return Mdc_ULong_Subtract(out, op1, op2);
 }
 
 static void* Mdc_ULong_MultiplyAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_Multiply(short_out, short_in1, short_in2);
+  return Mdc_ULong_Multiply(out, op1, op2);
 }
 
 static void* Mdc_ULong_DivideAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_Divide(short_out, short_in1, short_in2);
+  return Mdc_ULong_Divide(out, op1, op2);
 }
 
 static void* Mdc_ULong_ModuloAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_Modulo(short_out, short_in1, short_in2);
+  return Mdc_ULong_Modulo(out, op1, op2);
 }
 
 static void* Mdc_ULong_BitwiseNotAsVoid(
-    void* short_out,
-    const void* short_in
+    void* out,
+    const void* in
 ) {
-  return Mdc_ULong_BitwiseNot(short_out, short_in);
+  return Mdc_ULong_BitwiseNot(out, in);
 }
 
 static void* Mdc_ULong_BitwiseAndAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_BitwiseAnd(short_out, short_in1, short_in2);
+  return Mdc_ULong_BitwiseAnd(out, op1, op2);
 }
 
 static void* Mdc_ULong_BitwiseOrAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_BitwiseOr(short_out, short_in1, short_in2);
+  return Mdc_ULong_BitwiseOr(out, op1, op2);
 }
 
 static void* Mdc_ULong_BitwiseXorAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_BitwiseXor(short_out, short_in1, short_in2);
+  return Mdc_ULong_BitwiseXor(out, op1, op2);
 }
 
 static void* Mdc_ULong_BitwiseLeftShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_BitwiseLeftShift(short_out, short_in1, short_in2);
+  return Mdc_ULong_BitwiseLeftShift(out, op1, op2);
 }
 
 static void* Mdc_ULong_BitwiseRightShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_ULong_BitwiseRightShift(short_out, short_in1, short_in2);
+  return Mdc_ULong_BitwiseRightShift(out, op1, op2);
 }
 
 /**
@@ -189,17 +183,17 @@ static void* Mdc_ULong_BitwiseRightShiftAsVoid(
  */
 
 static bool Mdc_ULong_EqualAsVoid(
-    const void* short1,
-    const void* short2
+    const void* long1,
+    const void* long2
 ) {
-  return Mdc_ULong_Equal(short1, short2);
+  return Mdc_ULong_Equal(long1, long2);
 }
 
 static int Mdc_ULong_CompareAsVoid(
-    const void* short1,
-    const void* short2
+    const void* long1,
+    const void* long2
 ) {
-  return Mdc_ULong_Compare(short1, short2);
+  return Mdc_ULong_Compare(long1, long2);
 }
 
 /**
@@ -207,16 +201,16 @@ static int Mdc_ULong_CompareAsVoid(
  */
 
 static size_t Mdc_ULong_HashAsVoid(
-    const void* shrt
+    const void* lng
 ) {
-  return Mdc_ULong_Hash(shrt);
+  return Mdc_ULong_Hash(lng);
 }
 
 static void Mdc_ULong_SwapAsVoid(
-    void* short1,
-    void* short2
+    void* long1,
+    void* long2
 ) {
-  Mdc_ULong_Swap(short1, short2);
+  Mdc_ULong_Swap(long1, long2);
 }
 
 /**
@@ -272,10 +266,6 @@ static struct Mdc_ObjectMetadata* Mdc_ULong_InitObjectMetadata(
 static void Mdc_ULong_InitGlobalObjectMetadata(void) {
   Mdc_ULong_InitObjectMetadata(&global_metadata);
 }
-
-/**
- * External
- */
 
 /**
  * Metadata

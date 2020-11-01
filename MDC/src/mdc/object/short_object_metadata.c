@@ -79,18 +79,12 @@ static void* Mdc_Short_PreDecrementAsVoid(void* shrt) {
   return Mdc_Short_PreDecrement(shrt);
 }
 
-static void* Mdc_Short_PostIncrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_Short_PostIncrement(short_out, short_in);
+static void* Mdc_Short_PostIncrementAsVoid(void* out, void* in) {
+  return Mdc_Short_PostIncrement(out, in);
 }
 
-static void* Mdc_Short_PostDecrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_Short_PostDecrement(short_out, short_in);
+static void* Mdc_Short_PostDecrementAsVoid(void* out, void* in) {
+  return Mdc_Short_PostDecrement(out, in);
 }
 
 /**
@@ -98,90 +92,90 @@ static void* Mdc_Short_PostDecrementAsVoid(
  */
 
 static void* Mdc_Short_AddAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_Add(short_out, short_in1, short_in2);
+  return Mdc_Short_Add(out, op1, op2);
 }
 
 static void* Mdc_Short_SubtractAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_Subtract(short_out, short_in1, short_in2);
+  return Mdc_Short_Subtract(out, op1, op2);
 }
 
 static void* Mdc_Short_MultiplyAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_Multiply(short_out, short_in1, short_in2);
+  return Mdc_Short_Multiply(out, op1, op2);
 }
 
 static void* Mdc_Short_DivideAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_Divide(short_out, short_in1, short_in2);
+  return Mdc_Short_Divide(out, op1, op2);
 }
 
 static void* Mdc_Short_ModuloAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_Modulo(short_out, short_in1, short_in2);
+  return Mdc_Short_Modulo(out, op1, op2);
 }
 
 static void* Mdc_Short_BitwiseNotAsVoid(
-    void* short_out,
-    const void* short_in
+    void* out,
+    const void* in
 ) {
-  return Mdc_Short_BitwiseNot(short_out, short_in);
+  return Mdc_Short_BitwiseNot(out, in);
 }
 
 static void* Mdc_Short_BitwiseAndAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_BitwiseAnd(short_out, short_in1, short_in2);
+  return Mdc_Short_BitwiseAnd(out, op1, op2);
 }
 
 static void* Mdc_Short_BitwiseOrAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_BitwiseOr(short_out, short_in1, short_in2);
+  return Mdc_Short_BitwiseOr(out, op1, op2);
 }
 
 static void* Mdc_Short_BitwiseXorAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_BitwiseXor(short_out, short_in1, short_in2);
+  return Mdc_Short_BitwiseXor(out, op1, op2);
 }
 
 static void* Mdc_Short_BitwiseLeftShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_BitwiseLeftShift(short_out, short_in1, short_in2);
+  return Mdc_Short_BitwiseLeftShift(out, op1, op2);
 }
 
 static void* Mdc_Short_BitwiseRightShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_Short_BitwiseRightShift(short_out, short_in1, short_in2);
+  return Mdc_Short_BitwiseRightShift(out, op1, op2);
 }
 
 /**
@@ -272,10 +266,6 @@ static struct Mdc_ObjectMetadata* Mdc_Short_InitObjectMetadata(
 static void Mdc_Short_InitGlobalObjectMetadata(void) {
   Mdc_Short_InitObjectMetadata(&global_metadata);
 }
-
-/**
- * External
- */
 
 /**
  * Metadata

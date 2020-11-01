@@ -79,18 +79,12 @@ static void* Mdc_UShort_PreDecrementAsVoid(void* shrt) {
   return Mdc_UShort_PreDecrement(shrt);
 }
 
-static void* Mdc_UShort_PostIncrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_UShort_PostIncrement(short_out, short_in);
+static void* Mdc_UShort_PostIncrementAsVoid(void* out, void* in) {
+  return Mdc_UShort_PostIncrement(out, in);
 }
 
-static void* Mdc_UShort_PostDecrementAsVoid(
-    void* short_out,
-    void* short_in
-) {
-  return Mdc_UShort_PostDecrement(short_out, short_in);
+static void* Mdc_UShort_PostDecrementAsVoid(void* out, void* in) {
+  return Mdc_UShort_PostDecrement(out, in);
 }
 
 /**
@@ -98,90 +92,90 @@ static void* Mdc_UShort_PostDecrementAsVoid(
  */
 
 static void* Mdc_UShort_AddAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_Add(short_out, short_in1, short_in2);
+  return Mdc_UShort_Add(out, op1, op2);
 }
 
 static void* Mdc_UShort_SubtractAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_Subtract(short_out, short_in1, short_in2);
+  return Mdc_UShort_Subtract(out, op1, op2);
 }
 
 static void* Mdc_UShort_MultiplyAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_Multiply(short_out, short_in1, short_in2);
+  return Mdc_UShort_Multiply(out, op1, op2);
 }
 
 static void* Mdc_UShort_DivideAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_Divide(short_out, short_in1, short_in2);
+  return Mdc_UShort_Divide(out, op1, op2);
 }
 
 static void* Mdc_UShort_ModuloAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_Modulo(short_out, short_in1, short_in2);
+  return Mdc_UShort_Modulo(out, op1, op2);
 }
 
 static void* Mdc_UShort_BitwiseNotAsVoid(
-    void* short_out,
-    const void* short_in
+    void* out,
+    const void* in
 ) {
-  return Mdc_UShort_BitwiseNot(short_out, short_in);
+  return Mdc_UShort_BitwiseNot(out, in);
 }
 
 static void* Mdc_UShort_BitwiseAndAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_BitwiseAnd(short_out, short_in1, short_in2);
+  return Mdc_UShort_BitwiseAnd(out, op1, op2);
 }
 
 static void* Mdc_UShort_BitwiseOrAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_BitwiseOr(short_out, short_in1, short_in2);
+  return Mdc_UShort_BitwiseOr(out, op1, op2);
 }
 
 static void* Mdc_UShort_BitwiseXorAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_BitwiseXor(short_out, short_in1, short_in2);
+  return Mdc_UShort_BitwiseXor(out, op1, op2);
 }
 
 static void* Mdc_UShort_BitwiseLeftShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_BitwiseLeftShift(short_out, short_in1, short_in2);
+  return Mdc_UShort_BitwiseLeftShift(out, op1, op2);
 }
 
 static void* Mdc_UShort_BitwiseRightShiftAsVoid(
-    void* short_out,
-    const void* short_in1,
-    const void* short_in2
+    void* out,
+    const void* op1,
+    const void* op2
 ) {
-  return Mdc_UShort_BitwiseRightShift(short_out, short_in1, short_in2);
+  return Mdc_UShort_BitwiseRightShift(out, op1, op2);
 }
 
 /**
@@ -272,10 +266,6 @@ static struct Mdc_ObjectMetadata* Mdc_UShort_InitObjectMetadata(
 static void Mdc_UShort_InitGlobalObjectMetadata(void) {
   Mdc_UShort_InitObjectMetadata(&global_metadata);
 }
-
-/**
- * External
- */
 
 /**
  * Metadata
