@@ -36,7 +36,7 @@
 
 #include <mdc/container/vector.h>
 #include <mdc/malloc/malloc.h>
-#include <mdc/object/arithmetic_object.h>
+#include <mdc/object/integer_object.h>
 #include "vector_int/vector_int.h"
 
 static void Mdc_Vector_AssertInitDeinit(void) {
