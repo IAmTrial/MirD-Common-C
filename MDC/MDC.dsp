@@ -190,6 +190,14 @@ SOURCE=.\src\mdc\object\integer_object_metadata.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\mdc\object\string_literal_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\string_literal_object_metadata.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\object\windows_float_object.c
 # End Source File
 # Begin Source File
@@ -383,6 +391,10 @@ SOURCE=.\include\mdc\object\float_object.h
 # Begin Source File
 
 SOURCE=.\include\mdc\object\integer_object.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\object\string_literal_object.h
 # End Source File
 # Begin Source File
 
