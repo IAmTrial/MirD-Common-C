@@ -40,15 +40,15 @@
  */ \
 \
 static void* name##_InitDefaultAsVoid(void* obj) { \
-  return name##_InitDefault(obj); \
+  return (void*) name##_InitDefault(obj); \
 } \
 \
 static void* name##_InitCopyAsVoid(void* dest, const void* src) { \
-  return name##_InitCopy(dest, src); \
+  return (void*) name##_InitCopy(dest, src); \
 } \
 \
 static void* name##_InitMoveAsVoid(void* dest, void* src) { \
-  return name##_InitMove(dest, src); \
+  return (void*) name##_InitMove(dest, src); \
 } \
 \
 static void name##_DeinitAsVoid(void* obj) { \
@@ -60,11 +60,11 @@ static void name##_DeinitAsVoid(void* obj) { \
  */ \
 \
 static void* name##_AssignCopyAsVoid(void* dest, const void* src) { \
-  return name##_AssignCopy(dest, src); \
+  return (void*) name##_AssignCopy(dest, src); \
 } \
 \
 static void* name##_AssignMoveAsVoid(void* dest, void* src) { \
-  return name##_AssignMove(dest, src); \
+  return (void*) name##_AssignMove(dest, src); \
 } \
 \
 /**
