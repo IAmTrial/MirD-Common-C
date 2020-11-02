@@ -190,6 +190,14 @@ SOURCE=.\src\mdc\object\integer_object_metadata.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\mdc\object\string_literal_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\string_literal_object_metadata.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\object\windows_float_object.c
 # End Source File
 # Begin Source File
@@ -203,6 +211,14 @@ SOURCE=.\src\mdc\object\windows_integer_object.c
 # Begin Source File
 
 SOURCE=.\src\mdc\object\windows_integer_object_metadata.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\windows_string_literal_object.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\object\windows_string_literal_object_metadata.c
 # End Source File
 # End Group
 # Begin Group "object_metadata_c"
@@ -386,11 +402,19 @@ SOURCE=.\include\mdc\object\integer_object.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\include\mdc\object\string_literal_object.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\mdc\object\windows_float_object.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\include\mdc\object\windows_integer_object.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\object\windows_string_literal_object.h
 # End Source File
 # End Group
 # Begin Group "object_metadata_h"
