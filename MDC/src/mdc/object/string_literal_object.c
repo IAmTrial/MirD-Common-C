@@ -90,8 +90,8 @@ bool name##_Equal( \
 ) { \
   size_t i; \
 \
-  for (i = 0; op1[i] != '\0' || op2[i] != '\0'; i += 1) { \
-    if (op1[i] != op2[i]) { \
+  for (i = 0; (*op1)[i] != '\0' || (*op2)[i] != '\0'; i += 1) { \
+    if ((*op1)[i] != (*op2)[i]) { \
       return false; \
     } \
   } \
@@ -105,10 +105,10 @@ int name##_Compare( \
 ) { \
   size_t i; \
 \
-  for (i = 0; op1[i] != '\0' || op2[i] != '\0'; i += 1) { \
-    if (op1[i] < op2[i]) { \
+  for (i = 0; (*op1)[i] != '\0' || (*op2)[i] != '\0'; i += 1) { \
+    if ((*op1)[i] < (*op2)[i]) { \
       return -1; \
-    } else if (op1[i] > op2[i]) { \
+    } else if ((*op1)[i] > (*op2)[i]) { \
       return 1; \
     } else { \
       return 0; \
