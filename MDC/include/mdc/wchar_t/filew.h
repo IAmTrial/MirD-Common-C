@@ -27,14 +27,23 @@
  *  to convey the resulting work.
  */
 
-#include "wchar_t_tests.h"
+#ifndef MDC_C_WCHAR_T_FILEW_H_
+#define MDC_C_WCHAR_T_FILEW_H_
 
-#include "wchar_t/filew_tests.h"
-#include "wchar_t/wide_decoding_tests.h"
-#include "wchar_t/wide_encoding_tests.h"
+#if _MSC_VER < 1600
 
-void Mdc_WChar_t_RunTests(void) {
-  Mdc_FileW_RunTests();
-  Mdc_WideDecoding_RunTests();
-  Mdc_WideEncoding_RunTests();
-}
+#define MDC_INTERNAL_CSTR_LIT_TO_CWSTR_LIT( \
+    prefix, \
+    lit \
+) prefix ## lit
+
+
+
+#define MDC_INTERNAL_EXPAND_MACRO(prefix, x) \
+    MDC_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, x)
+
+#define __FILEW__ MDC_INTERNAL_EXPAND_MACRO(L, __FILE__)
+
+#endif /* _MSC_VER < 1600 */
+
+#endif /* MDC_C_WCHAR_T_FILEW_H_ */

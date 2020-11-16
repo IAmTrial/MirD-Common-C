@@ -498,6 +498,10 @@ SOURCE=.\include\mdc\string\char_traits.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\include\mdc\wchar_t\filew.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\mdc\wchar_t\wide_decoding.h
 # End Source File
 # Begin Source File

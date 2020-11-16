@@ -232,6 +232,14 @@ SOURCE=.\tests\mdc\wchar_t\example_text\example_text.h
 # End Group
 # Begin Source File
 
+SOURCE=.\tests\mdc\wchar_t\filew_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t\filew_tests.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\tests\mdc\wchar_t\wide_decoding_tests.c
 # End Source File
 # Begin Source File
