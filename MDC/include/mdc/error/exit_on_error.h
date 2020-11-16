@@ -27,36 +27,61 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_C_EXIT_ON_ERROR_EXIT_ON_ERROR_H_
+#define MDC_C_EXIT_ON_ERROR_EXIT_ON_ERROR_H_
 
-#include <stdio.h>
-#include <stddef.h>
+#include "../std/wchar.h"
+#include "../wchar_t/filew.h"
+
+#if defined(_WIN32) || defined(_WIN64)
+
 #include <windows.h>
 
-#include <mdc/malloc/malloc.h>
-#include "container_tests.h"
-#include "error_tests.h"
-#include "filesystem_tests.h"
-#include "std_tests.h"
-#include "string_tests.h"
-#include "wchar_t_tests.h"
+#endif /* defined(_WIN32) || defined(_WIN64) */
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+enum {
+  Mdc_Error_kErrorMessageCapacity = 1024
+};
 
-  /* Mdc_Error_RunTests(); */
+void Mdc_Error_ExitOnGeneralError(
+    const wchar_t* caption_text,
+    const wchar_t* message_format,
+    const wchar_t* file_path_cwstr,
+    unsigned int line,
+    ...
+);
 
-  Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
-  Mdc_WChar_t_RunTests();
+void Mdc_Error_ExitOnConstantMappingError(
+    const wchar_t* file_path_cwstr,
+    unsigned int line,
+    int value
+);
 
-  Mdc_Fs_RunTests();
+void Mdc_Error_ExitOnMemoryAllocError(
+    const wchar_t* file_path_cwstr,
+    unsigned int line
+);
 
-  Mdc_PrintMallocLeaks();
+void Mdc_Error_ExitOnMdcFunctionError(
+    const wchar_t* file_path_cwstr,
+    unsigned int line,
+    const wchar_t* function_name
+);
 
-  return 0;
-}
+void Mdc_Error_ExitOnStaticInitError(
+    const wchar_t* file_path_cwstr,
+    unsigned int line
+);
+
+#if defined(_WIN32) || defined(_WIN64)
+
+void Mdc_Error_ExitOnWindowsFunctionError(
+    const wchar_t* file_path_cwstr,
+    unsigned int line,
+    const wchar_t* function_name,
+    DWORD last_error
+);
+
+#endif /* defined(_WIN32) || defined(_WIN64) */
+
+#endif /* MDC_C_EXIT_ON_ERROR_EXIT_ON_ERROR_H_ */
