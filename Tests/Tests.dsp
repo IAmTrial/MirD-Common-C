@@ -155,6 +155,18 @@ SOURCE=.\tests\mdc\container\vector_tests.c
 SOURCE=.\tests\mdc\container\vector_tests.h
 # End Source File
 # End Group
+# Begin Group "error"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\tests\mdc\error\exit_on_error_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\error\exit_on_error_tests.h
+# End Source File
+# End Group
 # Begin Group "filesystem"
 
 # PROP Default_Filter ""
@@ -262,6 +274,14 @@ SOURCE=.\tests\mdc\container_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\container_tests.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\error_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\error_tests.h
 # End Source File
 # Begin Source File
 

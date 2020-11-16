@@ -117,6 +117,14 @@ SOURCE=.\src\mdc\container\vector.c
 SOURCE=.\src\mdc\container\vector_metadata.c
 # End Source File
 # End Group
+# Begin Group "error_c"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\error\exit_on_error.c
+# End Source File
+# End Group
 # Begin Group "filesystem_c"
 
 # PROP Default_Filter ""
@@ -343,6 +351,14 @@ SOURCE=.\include\mdc\container\pair.h
 # Begin Source File
 
 SOURCE=.\include\mdc\container\vector.h
+# End Source File
+# End Group
+# Begin Group "error_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\error\exit_on_error.h
 # End Source File
 # End Group
 # Begin Group "filesystem_h"
