@@ -29,7 +29,7 @@
 
 #include "../../../include/mdc/object/windows_string_literal_object.h"
 
-#if defined(WIN32) || defined(WIN64)
+#if defined(_WIN32) || defined(_WIN64)
 
 #define MDC_DEFINE_WINDOWS_STRING_LITERAL_OBJECT_FUNCS(name, type) \
 \
@@ -153,4 +153,4 @@ MDC_DEFINE_WINDOWS_STRING_LITERAL_OBJECT_FUNCS(Mdc_WSTRLiteral, WCHAR);
 MDC_DEFINE_WINDOWS_STRING_LITERAL_OBJECT_FUNCS(Mdc_TSTRLiteral, TCHAR);
 
 #undef MDC_DEFINE_WINDOWS_STRING_LITERAL_OBJECT_FUNCS
-#endif /* defined(WIN32) || defined(WIN64) */
+#endif /* defined(_WIN32) || defined(_WIN64) */

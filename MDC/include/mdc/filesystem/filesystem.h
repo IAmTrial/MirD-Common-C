@@ -30,11 +30,13 @@
 #ifndef MDC_C_FILESYSTEM_FILESYSTEM_H_
 #define MDC_C_FILESYSTEM_FILESYSTEM_H_
 
-#if defined(WIN32) && !defined(MDC_ACKNOWLEDGE_LIBUNICOWS)
+#if (defined(_WIN32) && !defined(_WIN64)) \
+    && !defined(MDC_ACKNOWLEDGE_LIBUNICOWS)
   #error To use the filesystem library, please link to unicows.lib \
       for full compatability with Windows 9X systems. Define \
       MDC_ACKNOWLEDGE_LIBUNICOWS to stop this error.
-#endif /* defined(WIN32) && defined(MDC_ACKNOWLEDGE_LIBUNICOWS) */
+#endif /* (defined(_WIN32) && !defined(_WIN64)) \
+    && !defined(MDC_ACKNOWLEDGE_LIBUNICOWS) */
 
 #include "internal/filesystem_functions.h"
 #include "internal/file_status.h"
