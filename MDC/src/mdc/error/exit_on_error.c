@@ -32,6 +32,8 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#if defined(_WIN32) || defined(_WIN64)
+
 static const wchar_t* const kErrorMessageFormat =
     L"File: %ls \n"
     L"Line: %u \n"
@@ -133,8 +135,6 @@ void Mdc_Error_ExitOnStaticInitError(
       line
   );
 }
-
-#if defined(_WIN32) || defined(_WIN64)
 
 void Mdc_Error_ExitOnWindowsFunctionError(
     const wchar_t* file_path_cwstr,

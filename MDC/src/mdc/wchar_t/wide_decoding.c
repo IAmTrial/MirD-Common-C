@@ -29,6 +29,8 @@
 
 #include "../../../include/mdc/wchar_t/wide_decoding.h"
 
+#if defined(_WIN32) || defined(_WIN64)
+
 #include <stddef.h>
 #include <windows.h>
 
@@ -117,3 +119,5 @@ struct Mdc_BasicString* Mdc_Wide_DecodeUtf8(
 ) {
   return Mdc_Wide_DecodeChar(wide_str, utf8_str, CP_UTF8);
 }
+
+#endif /* defined(_WIN32) || defined(_WIN64) */

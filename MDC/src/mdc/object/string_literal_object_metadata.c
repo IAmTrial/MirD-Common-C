@@ -131,7 +131,7 @@ const struct Mdc_ObjectMetadata* name##_GetObjectMetadata(void) { \
   return &name##global_metadata; \
 }
 
-MDC_DEFINE_STRING_LITERAL_OBJECT_METADATA(Mdc_StringLiteral, char);
-MDC_DEFINE_STRING_LITERAL_OBJECT_METADATA(Mdc_WStringLiteral, wchar_t);
+MDC_DEFINE_STRING_LITERAL_OBJECT_METADATA(Mdc_StringLiteral, char)
+MDC_DEFINE_STRING_LITERAL_OBJECT_METADATA(Mdc_WStringLiteral, wchar_t)
 
 #undef MDC_DEFINE_STRING_LITERAL_OBJECT_METADATA
