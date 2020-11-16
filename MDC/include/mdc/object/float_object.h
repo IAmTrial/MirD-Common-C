@@ -145,9 +145,9 @@ DLLEXPORT void name##_Swap(type* obj1, type* obj2);
 extern "C" {
 #endif /* __cplusplus */
 
-MDC_DECLARE_FLOAT_OBJECT_FUNCS(Mdc_Float, float);
-MDC_DECLARE_FLOAT_OBJECT_FUNCS(Mdc_Double, double);
-MDC_DECLARE_FLOAT_OBJECT_FUNCS(Mdc_LDouble, long double);
+MDC_DECLARE_FLOAT_OBJECT_FUNCS(Mdc_Float, float)
+MDC_DECLARE_FLOAT_OBJECT_FUNCS(Mdc_Double, double)
+MDC_DECLARE_FLOAT_OBJECT_FUNCS(Mdc_LDouble, long double)
 
 #ifdef __cplusplus
 } /* extern "C" */

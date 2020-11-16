@@ -197,8 +197,8 @@ const struct Mdc_ObjectMetadata* name##_GetObjectMetadata(void) { \
   return &name##global_metadata; \
 }
 
-MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_Float, float);
-MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_Double, double);
-MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_LDouble, long double);
+MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_Float, float)
+MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_Double, double)
+MDC_DEFINE_FLOAT_OBJECT_METADATA(Mdc_LDouble, long double)
 
 #undef MDC_DEFINE_FLOAT_OBJECT_METADATA

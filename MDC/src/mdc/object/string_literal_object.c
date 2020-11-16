@@ -141,7 +141,7 @@ const wchar_t** Mdc_WStringLiteral_InitDefault(const wchar_t** obj) {
   return obj;
 }
 
-MDC_DEFINE_STRING_LITERAL_OBJECT_FUNCS(Mdc_StringLiteral, char);
-MDC_DEFINE_STRING_LITERAL_OBJECT_FUNCS(Mdc_WStringLiteral, wchar_t);
+MDC_DEFINE_STRING_LITERAL_OBJECT_FUNCS(Mdc_StringLiteral, char)
+MDC_DEFINE_STRING_LITERAL_OBJECT_FUNCS(Mdc_WStringLiteral, wchar_t)
 
 #undef MDC_DEFINE_STRING_LITERAL_OBJECT_FUNCS

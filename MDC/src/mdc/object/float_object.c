@@ -215,8 +215,8 @@ void name##_Swap( \
   *obj2 = temp; \
 }
 
-MDC_DEFINE_FLOAT_OBJECT_FUNCS(Mdc_Float, float);
-MDC_DEFINE_FLOAT_OBJECT_FUNCS(Mdc_Double, double);
-MDC_DEFINE_FLOAT_OBJECT_FUNCS(Mdc_LDouble, long double);
+MDC_DEFINE_FLOAT_OBJECT_FUNCS(Mdc_Float, float)
+MDC_DEFINE_FLOAT_OBJECT_FUNCS(Mdc_Double, double)
+MDC_DEFINE_FLOAT_OBJECT_FUNCS(Mdc_LDouble, long double)
 
 #undef MDC_DEFINE_FLOAT_OBJECT_FUNCS

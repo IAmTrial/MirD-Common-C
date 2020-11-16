@@ -104,8 +104,8 @@ DLLEXPORT void name##_Swap( \
 extern "C" {
 #endif /* __cplusplus */
 
-MDC_DECLARE_STRING_LITERAL_OBJECT_FUNCS(Mdc_StringLiteral, char);
-MDC_DECLARE_STRING_LITERAL_OBJECT_FUNCS(Mdc_WStringLiteral, wchar_t);
+MDC_DECLARE_STRING_LITERAL_OBJECT_FUNCS(Mdc_StringLiteral, char)
+MDC_DECLARE_STRING_LITERAL_OBJECT_FUNCS(Mdc_WStringLiteral, wchar_t)
 
 #ifdef __cplusplus
 } /* extern "C" */
