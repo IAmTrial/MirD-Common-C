@@ -27,14 +27,42 @@
  *  to convey the resulting work.
  */
 
-#include "wchar_t_tests.h"
+#include "wide_encoding_tests.h"
 
-#include "wchar_t/filew_tests.h"
-#include "wchar_t/wide_decoding_tests.h"
-#include "wchar_t/wide_encoding_tests.h"
+#include <assert.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <mdc/malloc/malloc.h>
+#include <mdc/std/wchar.h>
+#include <mdc/wchar_t/filew.h>
 
-void Mdc_WChar_t_RunTests(void) {
-  Mdc_FileW_RunTests();
-  Mdc_WideDecoding_RunTests();
-  Mdc_WideEncoding_RunTests();
+void Mdc_FileW_AssertFileW(void) {
+  enum {
+    kFileLength = sizeof(__FILEW__) / sizeof(__FILEW__[0])
+  };
+
+  size_t i;
+
+  const char* file;
+  const wchar_t* filew;
+
+  file = __FILE__;
+  filew = __FILEW__;
+
+  for (i = 0; i < kFileLength; i += 1) {
+    if (file[i] > 127 && filew[i] > 127) {
+      continue;
+    }
+
+    if (file[i] != filew[i]) {
+      printf("%u: %d == %d \n", i, file[i], filew[i]);
+      assert(file[i] == filew[i]);
+    }
+  }
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
+void Mdc_FileW_RunTests(void) {
+  Mdc_FileW_AssertFileW();
 }

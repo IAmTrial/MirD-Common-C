@@ -27,14 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "wchar_t_tests.h"
+#ifndef MDC_TESTS_C_WCHAR_T_FILEW_TESTS_H_
+#define MDC_TESTS_C_WCHAR_T_FILEW_TESTS_H_
 
-#include "wchar_t/filew_tests.h"
-#include "wchar_t/wide_decoding_tests.h"
-#include "wchar_t/wide_encoding_tests.h"
+void Mdc_FileW_RunTests(void);
 
-void Mdc_WChar_t_RunTests(void) {
-  Mdc_FileW_RunTests();
-  Mdc_WideDecoding_RunTests();
-  Mdc_WideEncoding_RunTests();
-}
+#endif /* MDC_TESTS_C_WCHAR_T_FILEW_TESTS_H_ */

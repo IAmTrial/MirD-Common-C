@@ -30,7 +30,7 @@
 #ifndef MDC_C_OBJECT_WINDOWS_FLOAT_OBJECT_H_
 #define MDC_C_OBJECT_WINDOWS_FLOAT_OBJECT_H_
 
-#if defined(WIN32) || defined(WIN64)
+#if defined(_WIN32) || defined(_WIN64)
 
 #include <windows.h>
 
@@ -159,5 +159,5 @@ MDC_DECLARE_WINDOWS_FLOAT_OBJECT_FUNCS(Mdc_DOUBLE, DOUBLE);
 
 #include "../../../dllexport_undefine.inc"
 
-#endif /* defined(WIN32) || defined(WIN64) */
+#endif /* defined(_WIN32) || defined(_WIN64) */
 #endif /* MDC_C_OBJECT_WINDOWS_FLOAT_OBJECT_H_ */

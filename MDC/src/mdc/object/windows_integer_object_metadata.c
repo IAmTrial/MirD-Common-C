@@ -29,7 +29,7 @@
 
 #include "../../../include/mdc/object/windows_integer_object.h"
 
-#if defined(WIN32) || defined(WIN64)
+#if defined(_WIN32) || defined(_WIN64)
 
 #include "../../../include/mdc/std/threads.h"
 
@@ -292,5 +292,5 @@ MDC_DEFINE_WINDOWS_INTEGER_OBJECT_METADATA(Mdc_DWORDLONG, DWORDLONG);
 MDC_DEFINE_WINDOWS_INTEGER_OBJECT_METADATA(Mdc_DWORD32, DWORD32);
 MDC_DEFINE_WINDOWS_INTEGER_OBJECT_METADATA(Mdc_DWORD64, DWORD64);
 
-#endif /* defined(WIN32) || defined(WIN64) */
+#endif /* defined(_WIN32) || defined(_WIN64) */
 #undef MDC_DEFINE_WINDOWS_INTEGER_OBJECT_METADATA

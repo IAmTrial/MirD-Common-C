@@ -30,7 +30,7 @@
 #ifndef MDC_C_OBJECT_WINDOWS_INTEGER_OBJECT_H_
 #define MDC_C_OBJECT_WINDOWS_INTEGER_OBJECT_H_
 
-#if defined(WIN32) || defined(WIN64)
+#if defined(_WIN32) || defined(_WIN64)
 
 #include <windows.h>
 
@@ -238,5 +238,5 @@ MDC_DECLARE_WINDOWS_INTEGER_OBJECT_FUNCS(Mdc_DWORD64, DWORD64);
 
 #include "../../../dllexport_undefine.inc"
 
-#endif /* defined(WIN32) || defined(WIN64) */
+#endif /* defined(_WIN32) || defined(_WIN64) */
 #endif /* MDC_C_OBJECT_WINDOWS_INTEGER_OBJECT_H_ */

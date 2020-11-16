@@ -29,7 +29,7 @@
 
 #include "../../../include/mdc/object/windows_float_object.h"
 
-#if defined(WIN32) || defined(WIN64)
+#if defined(_WIN32) || defined(_WIN64)
 
 #define MDC_DEFINE_WINDOWS_FLOAT_OBJECT_FUNCS(name, type) \
 \
@@ -222,4 +222,4 @@ MDC_DEFINE_WINDOWS_FLOAT_OBJECT_FUNCS(Mdc_DOUBLE, DOUBLE);
 
 #undef MDC_DEFINE_WINDOWS_FLOAT_OBJECT_FUNCS
 
-#endif /* defined(WIN32) || defined(WIN64) */
+#endif /* defined(_WIN32) || defined(_WIN64) */
