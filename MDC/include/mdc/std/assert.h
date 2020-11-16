@@ -35,11 +35,17 @@
 
 #include <assert.h>
 
-#if __STDC_VERSION__ < 201112L && !defined(static_assert)
+#if !defined(static_assert) && \
+    (__STDC_VERSION__ < 201112L \
+      || __cpluplus < 201103L \
+      || _MSC_VER < 1600)
 
 /* Assert hackarounds fail to work with VC++ 6. */
 #define static_assert(expression, message)
 
-#endif /* __STDC_VERSION__ >= 201112L && !defined(static_assert) */
+#endif /* !defined(static_assert) && \
+    (__STDC_VERSION__ < 201112L \
+      || __cpluplus < 201103L \
+      || _MSC_VER < 1600) */
 
 #endif /* MDC_C_STD_ASSERT_H_ */
