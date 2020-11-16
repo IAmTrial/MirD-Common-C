@@ -29,6 +29,8 @@
 
 #include "../../../include/mdc/object/windows_float_object.h"
 
+#if defined(_WIN32) || defined(_WIN64)
+
 #include "../../../include/mdc/std/threads.h"
 
 #define MDC_DEFINE_WINDOWS_FLOAT_OBJECT_METADATA(name, type) \
@@ -201,3 +203,5 @@ MDC_DEFINE_WINDOWS_FLOAT_OBJECT_METADATA(Mdc_FLOAT, FLOAT);
 MDC_DEFINE_WINDOWS_FLOAT_OBJECT_METADATA(Mdc_DOUBLE, DOUBLE);
 
 #undef MDC_DEFINE_WINDOWS_FLOAT_OBJECT_METADATA
+
+#endif /* defined(_WIN32) || defined(_WIN64) */

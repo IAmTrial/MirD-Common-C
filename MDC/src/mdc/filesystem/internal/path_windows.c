@@ -29,6 +29,8 @@
 
 #include "../../../../include/mdc/filesystem/internal/path.h"
 
+#if defined(_WIN32) || defined(_WIN64)
+
 #include <windows.h>
 #include <shlwapi.h>
 
@@ -37,8 +39,6 @@
 #include "../../../../include/mdc/std/wchar.h"
 #include "../../../../include/mdc/wchar_t/wide_decoding.h"
 #include "path_internal.h"
-
-#if defined(_WIN32) || defined(_WIN64)
 
 const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kSlashSeparator = L'/';
 const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kNullTerminator = L'\0';
