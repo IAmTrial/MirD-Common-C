@@ -67,7 +67,10 @@ void* Mdc_realloc(void* ptr, size_t new_size) {
   result = realloc(ptr, new_size);
 
   if (result != NULL) {
-    free_count += 1;
+    if (ptr != NULL) {
+      free_count += 1;
+    }
+
     malloc_count += 1;
   }
 
