@@ -27,12 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "filesystem_tests.h"
+#ifndef MDC_TESTS_C_FILESYSTEM_CURRENT_EXECUTABLE_PATH_TESTS_H_
+#define MDC_TESTS_C_FILESYSTEM_CURRENT_EXECUTABLE_PATH_TESTS_H_
 
-#include "filesystem/current_executable_path_tests.h"
-#include "filesystem/path_windows_tests.h"
+void Mdc_Fs_CurrentExecutablePath_RunTests(void);
 
-void Mdc_Fs_RunTests(void) {
-  Mdc_Fs_CurrentExecutablePath_RunTests();
-  Mdc_Fs_Path_RunTests();
-}
+#endif /* MDC_TESTS_C_FILESYSTEM_CURRENT_EXECUTABLE_PATH_TESTS_H_ */
