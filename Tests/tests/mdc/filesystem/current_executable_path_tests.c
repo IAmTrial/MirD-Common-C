@@ -27,12 +27,33 @@
  *  to convey the resulting work.
  */
 
-#include "filesystem_tests.h"
+#include "path_windows_tests.h"
 
-#include "filesystem/current_executable_path_tests.h"
-#include "filesystem/path_windows_tests.h"
+#include <stddef.h>
+#include <stdio.h>
 
-void Mdc_Fs_RunTests(void) {
-  Mdc_Fs_CurrentExecutablePath_RunTests();
-  Mdc_Fs_Path_RunTests();
+#include <mdc/filesystem/current_executable_path.h>
+#include <mdc/filesystem/filesystem.h>
+#include <mdc/std/assert.h>
+#include <mdc/malloc/malloc.h>
+#include <mdc/string/basic_string.h>
+
+static void Mdc_Fs_Path_AssertGetCurrentExecutablePath(void) {
+  struct Mdc_Fs_Path current_executable_path;
+  struct Mdc_Fs_Path* init_current_executable_path;
+
+  init_current_executable_path = Mdc_Fs_GetCurrentExecutablePath(
+      &current_executable_path
+  );
+
+  assert(init_current_executable_path == &current_executable_path);
+  assert(!Mdc_Fs_Path_Empty(&current_executable_path));
+
+  Mdc_Fs_Path_Deinit(&current_executable_path);
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
+void Mdc_Fs_CurrentExecutablePath_RunTests(void) {
+  Mdc_Fs_Path_AssertGetCurrentExecutablePath();
 }
