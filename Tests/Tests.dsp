@@ -172,6 +172,14 @@ SOURCE=.\tests\mdc\error\exit_on_error_tests.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\tests\mdc\filesystem\current_executable_path_tests.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\filesystem\current_executable_path_tests.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\tests\mdc\filesystem\path_windows_tests.c
 # End Source File
 # Begin Source File
