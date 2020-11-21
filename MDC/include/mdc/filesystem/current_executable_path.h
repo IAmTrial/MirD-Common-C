@@ -27,12 +27,16 @@
  *  to convey the resulting work.
  */
 
-#include "filesystem_tests.h"
+#ifndef MDC_C_FILESYSTEM_CURRENT_EXECUTABLE_PATH_H_
+#define MDC_C_FILESYSTEM_CURRENT_EXECUTABLE_PATH_H_
 
-#include "filesystem/current_executable_path_tests.h"
-#include "filesystem/path_windows_tests.h"
+#include "filesystem.h"
 
-void Mdc_Fs_RunTests(void) {
-  Mdc_Fs_CurrentExecutablePath_RunTests();
-  Mdc_Fs_Path_RunTests();
-}
+#include "../../../dllexport_define.inc"
+
+DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_GetCurrentExecutablePath(
+    struct Mdc_Fs_Path* current_executable_path
+);
+
+#include "../../../dllexport_undefine.inc"
+#endif /* MDC_C_FILESYSTEM_CURRENT_EXECUTABLE_PATH_H_ */

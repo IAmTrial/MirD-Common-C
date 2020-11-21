@@ -85,8 +85,6 @@ bool Mdc_Fs_ExistsFromPath(
 struct Mdc_Fs_Path* Mdc_Fs_GetCurrentPath(
     struct Mdc_Fs_Path* current_path
 ) {
-  void* realloc_result;
-
   struct Mdc_Fs_Path* init_current_path;
   DWORD current_path_cap;
   DWORD get_current_directory_result;
@@ -94,19 +92,15 @@ struct Mdc_Fs_Path* Mdc_Fs_GetCurrentPath(
   wchar_t* current_path_cstr;
 
   /* Alloc space for the current path. */
-  current_path_cstr = Mdc_malloc(2);
+  current_path_cap = GetCurrentDirectoryW(0, NULL);
+
+  current_path_cstr = Mdc_malloc(
+      current_path_cap * sizeof(current_path_cstr[0])
+  );
+
   if (current_path_cstr == NULL) {
     goto return_bad;
   }
-
-  current_path_cap = GetCurrentDirectoryW(0, current_path_cstr);
-
-  realloc_result = Mdc_realloc(current_path_cstr, current_path_cap);
-  if (realloc_result == NULL) {
-    goto free_current_path_cstr;
-  }
-
-  current_path_cstr = realloc_result;
 
   /* Get the current path and init the Path object. */
   get_current_directory_result = GetCurrentDirectoryW(

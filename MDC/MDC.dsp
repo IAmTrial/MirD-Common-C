@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /D "MDC_ACKNOWLEDGE_LIBUNICOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /D "MDC_ACKNOWLEDGE_LIBUNICOWS" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -168,6 +168,10 @@ SOURCE=.\src\mdc\filesystem\internal\path_windows.c
 SOURCE=.\src\mdc\filesystem\internal\space_info.c
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\src\mdc\filesystem\current_executable_path.c
+# End Source File
 # End Group
 # Begin Group "malloc_c"
 
@@ -392,6 +396,10 @@ SOURCE=.\include\mdc\filesystem\internal\perms.h
 SOURCE=.\include\mdc\filesystem\internal\space_info.h
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\include\mdc\filesystem\current_executable_path.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\include\mdc\filesystem\filesystem.h

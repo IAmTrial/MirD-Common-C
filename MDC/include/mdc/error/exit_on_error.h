@@ -34,16 +34,20 @@
 #include "../wchar_t/filew.h"
 
 #if defined(_WIN32) || defined(_WIN64)
-
-#include <windows.h>
-
+  #include <windows.h>
 #endif /* defined(_WIN32) || defined(_WIN64) */
+
+#include "../../../dllexport_define.inc"
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 enum {
   Mdc_Error_kErrorMessageCapacity = 1024
 };
 
-void Mdc_Error_ExitOnGeneralError(
+DLLEXPORT void Mdc_Error_ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_cwstr,
@@ -51,31 +55,31 @@ void Mdc_Error_ExitOnGeneralError(
     ...
 );
 
-void Mdc_Error_ExitOnConstantMappingError(
+DLLEXPORT void Mdc_Error_ExitOnConstantMappingError(
     const wchar_t* file_path_cwstr,
     unsigned int line,
     int value
 );
 
-void Mdc_Error_ExitOnMemoryAllocError(
+DLLEXPORT void Mdc_Error_ExitOnMemoryAllocError(
     const wchar_t* file_path_cwstr,
     unsigned int line
 );
 
-void Mdc_Error_ExitOnMdcFunctionError(
+DLLEXPORT void Mdc_Error_ExitOnMdcFunctionError(
     const wchar_t* file_path_cwstr,
     unsigned int line,
     const wchar_t* function_name
 );
 
-void Mdc_Error_ExitOnStaticInitError(
+DLLEXPORT void Mdc_Error_ExitOnStaticInitError(
     const wchar_t* file_path_cwstr,
     unsigned int line
 );
 
 #if defined(_WIN32) || defined(_WIN64)
 
-void Mdc_Error_ExitOnWindowsFunctionError(
+DLLEXPORT void Mdc_Error_ExitOnWindowsFunctionError(
     const wchar_t* file_path_cwstr,
     unsigned int line,
     const wchar_t* function_name,
@@ -84,4 +88,9 @@ void Mdc_Error_ExitOnWindowsFunctionError(
 
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
+#ifdef __cplusplus
+} /* extern "C" { */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_EXIT_ON_ERROR_EXIT_ON_ERROR_H_ */
