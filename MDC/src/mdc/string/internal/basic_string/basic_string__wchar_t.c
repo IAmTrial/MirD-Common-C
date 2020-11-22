@@ -27,25 +27,8 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STRING_INTERNAL_BASIC_STRING_H_
-#define MDC_C_STRING_INTERNAL_BASIC_STRING_H_
+#include "../../../../../include/mdc/string/internal/basic_string/basic_string__wchar_t.h"
 
-#include "char_traits.h"
-#include "basic_string/basic_string_declare_macros.h"
-#include "basic_string/basic_string_define_macros.h"
-#include "basic_string/basic_string_name_macros.h"
+#include "../../../../../include/mdc/string/internal/basic_string.h"
 
-#define MDC_DECLARE_BASIC_STRING(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_STRUCT(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_MEMBER_TYPES(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_CONSTANTS(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_FUNCTIONS(CharT)
-
-#define MDC_DEFINE_BASIC_STRING(CharT) \
-    MDC_INTERNAL_DEFINE_BASIC_STRING_CONSTANTS(CharT) \
-    MDC_INTERNAL_DEFINE_BASIC_STRING_FUNCTIONS(CharT)
-
-#endif /* MDC_C_STRING_INTERNAL_BASIC_STRING_H_ */
-
-#include "basic_string/basic_string__char.h"
-#include "basic_string/basic_string__wchar_t.h"
+MDC_DEFINE_BASIC_STRING(wchar_t)
