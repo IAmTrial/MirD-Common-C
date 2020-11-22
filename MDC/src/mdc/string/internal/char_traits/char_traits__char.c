@@ -32,24 +32,23 @@
 #include <stdio.h>
 #include <string.h>
 
-void Mdc_CharTraits_AssignChar(char, char* r, const char* a) {
+void Mdc_CharTraits_AssignChar(char)(char* r, const char* a) {
   *r = *a;
 }
 
-char* Mdc_CharTraits_AssignCStr(char, char* p, size_t count, char a) {
+char* Mdc_CharTraits_AssignCStr(char)(char* p, size_t count, char a) {
   return memset(p, a, count);
 }
 
-bool Mdc_CharTraits_EqualChar(char, char a, char b) {
+bool Mdc_CharTraits_EqualChar(char)(char a, char b) {
   return (unsigned char) a == (unsigned char) b;
 }
 
-bool Mdc_CharTraits_LessThanChar(char, char a, char b) {
+bool Mdc_CharTraits_LessThanChar(char)(char a, char b) {
   return (unsigned char) a < (unsigned char) b;
 }
 
-char* Mdc_CharTraits_CopyOverlapCStr(
-    char,
+char* Mdc_CharTraits_CopyOverlapCStr(char)(
     char* dest,
     const char* src,
     size_t count
@@ -57,8 +56,7 @@ char* Mdc_CharTraits_CopyOverlapCStr(
   return memmove(dest, src, count);
 }
 
-char* Mdc_CharTraits_CopyNonoverlapCStr(
-    char,
+char* Mdc_CharTraits_CopyNonoverlapCStr(char)(
     char* dest,
     const char* src,
     size_t count
@@ -66,8 +64,7 @@ char* Mdc_CharTraits_CopyNonoverlapCStr(
   return memcpy(dest, src, count);
 }
 
-int Mdc_CharTraits_CompareCStr(
-    char,
+int Mdc_CharTraits_CompareCStr(char)(
     const char* s1,
     const char* s2,
     size_t count
@@ -75,12 +72,11 @@ int Mdc_CharTraits_CompareCStr(
   return memcmp(s1, s2, count);
 }
 
-size_t Mdc_CharTraits_LengthCStr(char, const char* s) {
+size_t Mdc_CharTraits_LengthCStr(char)(const char* s) {
   return strlen(s);
 }
 
-const char* Mdc_CharTraits_FindCStr(
-    char,
+const char* Mdc_CharTraits_FindCStr(char)(
     const char* p,
     size_t count,
     char ch
@@ -88,24 +84,24 @@ const char* Mdc_CharTraits_FindCStr(
   return memchr(p, ch, count);
 }
 
-char Mdc_CharTraits_ToCharType(char, int c) {
+char Mdc_CharTraits_ToCharType(char)(int c) {
   return (char) c;
 }
 
-int Mdc_CharTraits_ToIntType(char, char c) {
+int Mdc_CharTraits_ToIntType(char)(char c) {
   return (int) c;
 }
 
-bool Mdc_CharTraits_EqualIntType(char, int c1, int c2) {
+bool Mdc_CharTraits_EqualIntType(char)(int c1, int c2) {
   return c1 == c2;
 }
 
-int Mdc_CharTraits_Eof(char) {
+int Mdc_CharTraits_Eof(char)(void) {
   return EOF;
 }
 
-int Mdc_CharTraits_NotEof(char, int e) {
-  return Mdc_CharTraits_EqualIntType(char, e, Mdc_CharTraits_Eof(char))
+int Mdc_CharTraits_NotEof(char)(int e) {
+  return Mdc_CharTraits_EqualIntType(char)(e, Mdc_CharTraits_Eof(char)())
       ? 0
       : e;
 }

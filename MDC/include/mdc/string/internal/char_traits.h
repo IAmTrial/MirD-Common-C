@@ -37,7 +37,7 @@
     MDC_INTERNAL_DECLARE_CHAR_TRAITS_MEMBER_TYPES(CharT) \
     MDC_INTERNAL_DECLARE_CHAR_TRAITS_FUNCTIONS(CharT)
 
+#endif /* MDC_C_STRING_INTERNAL_CHAR_TRAITS_H_ */
+
 #include "char_traits/char_traits__char.h"
 #include "char_traits/char_traits__wchar_t.h"
-
-#endif /* MDC_C_STRING_INTERNAL_CHAR_TRAITS_H_ */

@@ -49,55 +49,46 @@
  * Functions
  */
 
-#define Mdc_CharTraits_AssignChar(CharT, r, a) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __AssignChar(r, a))
+#define Mdc_CharTraits_AssignChar(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __AssignChar)
 
-#define Mdc_CharTraits_AssignCStr(CharT, p, count, a) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __AssignCStr(p, count, a))
+#define Mdc_CharTraits_AssignCStr(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __AssignCStr)
 
-#define Mdc_CharTraits_EqualChar(CharT, a, b) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __EqualChar(a, b))
+#define Mdc_CharTraits_EqualChar(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __EqualChar)
 
-#define Mdc_CharTraits_LessThanChar(CharT, a, b) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __LessThanChar(a, b))
+#define Mdc_CharTraits_LessThanChar(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __LessThanChar)
 
-#define Mdc_CharTraits_CopyOverlapCStr(CharT, dest, src, count) \
-    MDC_MACRO_CONCAT( \
-        Mdc_CharTraits(CharT), \
-        __CopyOverlapCStr(dest, src, count) \
-    )
+#define Mdc_CharTraits_CopyOverlapCStr(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __CopyOverlapCStr)
 
-#define Mdc_CharTraits_CopyNonoverlapCStr(CharT, dest, src, count) \
-    MDC_MACRO_CONCAT( \
-        Mdc_CharTraits(CharT), \
-        __CopyNonoverlapCStr(dest, src, count) \
-    )
+#define Mdc_CharTraits_CopyNonoverlapCStr(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __CopyNonoverlapCStr)
 
-#define Mdc_CharTraits_CompareCStr(CharT, s1, s2, count) \
-    MDC_MACRO_CONCAT( \
-        Mdc_CharTraits(CharT), \
-        __CompareCStr(s1, s2, count) \
-    )
+#define Mdc_CharTraits_CompareCStr(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __CompareCStr)
 
-#define Mdc_CharTraits_LengthCStr(CharT, s) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __LengthCStr(s))
+#define Mdc_CharTraits_LengthCStr(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __LengthCStr)
 
-#define Mdc_CharTraits_FindCStr(CharT, p, count, ch) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __FindCStr(p, count, ch))
+#define Mdc_CharTraits_FindCStr(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __FindCStr)
 
-#define Mdc_CharTraits_ToCharType(CharT, c) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __ToCharType(c))
+#define Mdc_CharTraits_ToCharType(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __ToCharType)
 
-#define Mdc_CharTraits_ToIntType(CharT, c) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __ToIntType(c))
+#define Mdc_CharTraits_ToIntType(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __ToIntType)
 
-#define Mdc_CharTraits_EqualIntType(CharT, c1, c2) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __EqualIntType(c1, c2))
+#define Mdc_CharTraits_EqualIntType(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __EqualIntType)
 
 #define Mdc_CharTraits_Eof(CharT) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __Eof())
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __Eof)
 
-#define Mdc_CharTraits_NotEof(CharT, e) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __NotEof(e))
+#define Mdc_CharTraits_NotEof(CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __NotEof)
 
 #endif /* MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS_NAME_MACROS_H_ */

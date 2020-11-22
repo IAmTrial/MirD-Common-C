@@ -58,91 +58,78 @@
  */
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_ASSIGN_CHAR(CharT) \
-    void Mdc_CharTraits_AssignChar( \
-        CharT, \
+    void Mdc_CharTraits_AssignChar(CharT)( \
         Mdc_CharTraits_CharType(CharT)* r, \
         const Mdc_CharTraits_CharType(CharT)* a \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_ASSIGN_CSTR(CharT) \
-    CharT* Mdc_CharTraits_AssignCStr( \
-        CharT, \
+    CharT* Mdc_CharTraits_AssignCStr(CharT)( \
         CharT* p, \
         size_t count, \
         CharT a \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_EQUAL_CHAR(CharT) \
-    bool Mdc_CharTraits_EqualChar(CharT, CharT a, CharT b);
+    bool Mdc_CharTraits_EqualChar(CharT)(CharT a, CharT b);
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_LESS_THAN_CHAR(CharT) \
-    bool Mdc_CharTraits_LessThanChar(CharT, CharT a, CharT b);
+    bool Mdc_CharTraits_LessThanChar(CharT)(CharT a, CharT b);
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_COPY_OVERLAP_CSTR(CharT) \
-    CharT* Mdc_CharTraits_CopyOverlapCStr( \
-        CharT, \
+    CharT* Mdc_CharTraits_CopyOverlapCStr(CharT)( \
         CharT* dest, \
         const CharT* src, \
         size_t count \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_COPY_NONOVERLAP_CSTR(CharT) \
-    CharT* Mdc_CharTraits_CopyNonoverlapCStr( \
-        CharT, \
+    CharT* Mdc_CharTraits_CopyNonoverlapCStr(CharT)( \
         CharT* dest, \
         const CharT* src, \
         size_t count \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_COMPARE_CSTR(CharT) \
-    int Mdc_CharTraits_CompareCStr( \
-        CharT, \
+    int Mdc_CharTraits_CompareCStr(CharT)( \
         const CharT* s1, \
         const CharT* s2, \
         size_t count \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_LENGTH_CSTR(CharT) \
-    size_t Mdc_CharTraits_LengthCStr( \
-        CharT, \
+    size_t Mdc_CharTraits_LengthCStr(CharT)( \
         const CharT* s \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_FIND_CSTR(CharT) \
-    const CharT* Mdc_CharTraits_FindCStr( \
-        CharT, \
+    const CharT* Mdc_CharTraits_FindCStr(CharT)( \
         const CharT* p, \
         size_t count, \
         CharT ch \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_TO_CHAR_TYPE(CharT) \
-    CharT Mdc_CharTraits_ToCharType( \
-        CharT, \
+    CharT Mdc_CharTraits_ToCharType(CharT)( \
         Mdc_CharTraits_IntType(CharT) c \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_TO_INT_TYPE(CharT) \
-    Mdc_CharTraits_IntType(CharT) Mdc_CharTraits_ToIntType( \
-        CharT, \
+    Mdc_CharTraits_IntType(CharT) Mdc_CharTraits_ToIntType(CharT)( \
         CharT c \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_EQUAL_INT_TYPE(CharT) \
-    bool Mdc_CharTraits_EqualIntType( \
-        CharT, \
+    bool Mdc_CharTraits_EqualIntType(CharT)( \
         Mdc_CharTraits_IntType(CharT) c1, \
         Mdc_CharTraits_IntType(CharT) c2 \
     );
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_EOF(CharT) \
-    Mdc_CharTraits_IntType(CharT) Mdc_CharTraits_Eof( \
-        CharT \
-    );
+    Mdc_CharTraits_IntType(CharT) Mdc_CharTraits_Eof(CharT)(void);
 
 #define MDC_INTERNAL_DECLARE_CHAR_TRAITS_NOT_EOF(CharT) \
-    Mdc_CharTraits_IntType(CharT) Mdc_CharTraits_NotEof( \
-        CharT, \
+    Mdc_CharTraits_IntType(CharT) Mdc_CharTraits_NotEof(CharT)( \
         Mdc_CharTraits_IntType(CharT) e \
     );
 
