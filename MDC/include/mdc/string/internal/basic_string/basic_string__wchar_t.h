@@ -40,11 +40,25 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/**
+ * Types
+ */
+
+#define Mdc_BasicString__wchar_t__ValueType wchar_t
+
+/**
+ * Declarations
+ */
+
 MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING(wchar_t)
+
+/**
+ * Aliases
+ */
 
 #define Mdc_WString Mdc_BasicString(wchar_t)
 
-#define Mdc_WString_ValueType Mdc_BasicString_ValueType(wchar_t)
+#define Mdc_WString_ValueType wchar_t
 
 #define Mdc_WString_kNpos Mdc_BasicString_kNpos(wchar_t)
 
@@ -53,7 +67,7 @@ MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING(wchar_t)
 #define Mdc_WString_InitStrTail Mdc_BasicString_InitStrTail(wchar_t)
 #define Mdc_WString_InitSubstr Mdc_BasicString_InitSubstr(wchar_t)
 #define Mdc_WString_InitFromCStr Mdc_BasicString_InitFromCStr(wchar_t)
-#define Mdc_WString_InitInitFromCStrTop Mdc_BasicString_InitFromCStrTop(wchar_t)
+#define Mdc_WString_InitFromCStrTop Mdc_BasicString_InitFromCStrTop(wchar_t)
 #define Mdc_WString_InitCopy Mdc_BasicString_InitCopy(wchar_t)
 #define Mdc_WString_InitMove Mdc_BasicString_InitMove(wchar_t)
 

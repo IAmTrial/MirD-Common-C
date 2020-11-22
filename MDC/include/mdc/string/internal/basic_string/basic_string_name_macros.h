@@ -33,17 +33,7 @@
 #include "../../../macro/concat_macro.h"
 
 #define Mdc_BasicString(CharT) \
-    Mdc_BasicString__##CharT
-
-/**
- * Types
- */
-
-#define Mdc_BasicString_TraitsType(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __TraitsType)
-
-#define Mdc_BasicString_ValueType(CharT) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits(CharT), __ValueType)
+    MDC_MACRO_CONCAT(Mdc_BasicString__, CharT)
 
 /**
  * Constants

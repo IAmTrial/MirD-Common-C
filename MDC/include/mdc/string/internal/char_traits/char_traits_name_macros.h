@@ -33,7 +33,7 @@
 #include "../../../macro/concat_macro.h"
 
 #define Mdc_CharTraits(CharT) \
-    Mdc_CharTraits__##CharT
+    MDC_MACRO_CONCAT(Mdc_CharTraits__, CharT)
 
 /**
  * Types
