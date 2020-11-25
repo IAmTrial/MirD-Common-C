@@ -33,7 +33,7 @@
 #include "../../object_metadata/object_metadata.h"
 #include "../../std/stdbool.h"
 #include "../../std/wchar.h"
-#include "../../string/basic_string.h"
+#include "../../string/string.h"
 
 #include "../../../../dllexport_define.inc"
 
@@ -41,15 +41,17 @@
 extern "C" {
 #endif /* __cplusplus */
 
-struct Mdc_Fs_Path {
-  struct Mdc_BasicString path_str_;
-};
-
 #if defined(_WIN32) || defined(_WIN64)
-  typedef wchar_t Mdc_Fs_Path_ValueType;
+  #define Mdc_Fs_Path_ValueType wchar_t
 #else
-  typedef char Mdc_Fs_Path_ValueType;
+  #define Mdc_Fs_Path_ValueType char
 #endif
+
+#define Mdc_Fs_Path_StringType Mdc_BasicString(Mdc_Fs_Path_ValueType)
+
+struct Mdc_Fs_Path {
+  struct Mdc_Fs_Path_StringType path_str_;
+};
 
 DLLEXPORT extern const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator;
 
@@ -145,7 +147,7 @@ DLLEXPORT bool Mdc_Fs_Path_EqualPath(
 
 DLLEXPORT bool Mdc_Fs_Path_EqualNativeStr(
     const struct Mdc_Fs_Path* path1,
-    const struct Mdc_BasicString* path2
+    const struct Mdc_Fs_Path_StringType* path2
 );
 
 DLLEXPORT bool Mdc_Fs_Path_EqualNativeCStr(
@@ -160,7 +162,7 @@ DLLEXPORT int Mdc_Fs_Path_ComparePath(
 
 DLLEXPORT int Mdc_Fs_Path_CompareNativeStr(
     const struct Mdc_Fs_Path* path1,
-    const struct Mdc_BasicString* path2
+    const struct Mdc_Fs_Path_StringType* path2
 );
 
 DLLEXPORT int Mdc_Fs_Path_CompareNativeCStr(
@@ -224,7 +226,7 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_MakePreferred(
     struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT const struct Mdc_BasicString* Mdc_Fs_Path_Native(
+DLLEXPORT const struct Mdc_Fs_Path_StringType* Mdc_Fs_Path_Native(
     const struct Mdc_Fs_Path* path
 );
 
@@ -267,8 +269,8 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RootPath(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT const struct Mdc_BasicString* Mdc_Fs_Path_StrType(
-    struct Mdc_BasicString* str,
+DLLEXPORT const struct Mdc_Fs_Path_StringType* Mdc_Fs_Path_StrType(
+    struct Mdc_Fs_Path_StringType* str,
     const struct Mdc_Fs_Path* path
 );
 

@@ -56,13 +56,13 @@ enum Mdc_Fs_Path_RootNameType {
 static enum Mdc_Fs_Path_RootNameType Mdc_Fs_Path_RootNameTypeFromPath(
     const struct Mdc_Fs_Path* path
 ) {
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_str_len;
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
-  path_str_len = Mdc_BasicString_Length(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
+  path_str_len = Mdc_WString_Length(path_str);
 
   if (path_str_len < 2) {
     return Mdc_Fs_Path_RootNameType_kNone;
@@ -152,11 +152,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStrTop(
     const Mdc_Fs_Path_ValueType* cstr,
     size_t count
 ) {
-  struct Mdc_BasicString* init_path_str;
+  struct Mdc_WString* init_path_str;
 
-  init_path_str = Mdc_BasicString_InitFromCStrTop(
+  init_path_str = Mdc_WString_InitFromCStrTop(
       &path->path_str_,
-      Mdc_CharTraitsWChar_GetCharTraits(),
       cstr,
       count
   );
@@ -184,11 +183,10 @@ const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator = L'\\';
  */
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitEmpty(struct Mdc_Fs_Path* path) {
-  struct Mdc_BasicString* init_path_str;
+  struct Mdc_WString* init_path_str;
 
-  init_path_str = Mdc_BasicString_InitEmpty(
-      &path->path_str_,
-      Mdc_CharTraitsWChar_GetCharTraits()
+  init_path_str = Mdc_WString_InitEmpty(
+      &path->path_str_
   );
 
   if (init_path_str != &path->path_str_) {
@@ -207,7 +205,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromAsciiCStr(
     struct Mdc_Fs_Path* path,
     const char* src
 ) {
-  struct Mdc_BasicString* init_str;
+  struct Mdc_WString* init_str;
 
   init_str = Mdc_Wide_DecodeAscii(&path->path_str_, src);
   if (init_str != &path->path_str_) {
@@ -226,7 +224,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromDefaultMultibyteCStr(
     struct Mdc_Fs_Path* path,
     const char* src
 ) {
-  struct Mdc_BasicString* init_str;
+  struct Mdc_WString* init_str;
 
   init_str = Mdc_Wide_DecodeDefaultMultibyte(&path->path_str_, src);
   if (init_str != &path->path_str_) {
@@ -245,7 +243,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromUtf8CStr(
     struct Mdc_Fs_Path* path,
     const char* src
 ) {
-  struct Mdc_BasicString* init_str;
+  struct Mdc_WString* init_str;
 
   init_str = Mdc_Wide_DecodeUtf8(&path->path_str_, src);
   if (init_str != &path->path_str_) {
@@ -264,11 +262,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStr(
     struct Mdc_Fs_Path* path,
     const wchar_t* src
 ) {
-  struct Mdc_BasicString* init_str;
+  struct Mdc_WString* init_str;
 
-  init_str = Mdc_BasicString_InitFromCStr(
+  init_str = Mdc_WString_InitFromCStr(
       &path->path_str_,
-      Mdc_CharTraitsWChar_GetCharTraits(),
       src
   );
 
@@ -296,7 +293,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
 
   struct Mdc_Fs_Path* init_extension;
 
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_len;
 
@@ -309,8 +306,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
   enum Mdc_Fs_Path_RootNameType root_type;
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
-  path_len = Mdc_BasicString_Length(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
+  path_len = Mdc_WString_Length(path_str);
 
   /* Locate the last path separator. */
   has_parent_separator = false;
@@ -436,15 +433,15 @@ return_bad:
 }
 
 bool Mdc_Fs_Path_IsAbsolute(const struct Mdc_Fs_Path* path) {
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_str_len;
 
   enum Mdc_Fs_Path_RootNameType root_type;
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
-  path_str_len = Mdc_BasicString_Length(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
+  path_str_len = Mdc_WString_Length(path_str);
 
   root_type = Mdc_Fs_Path_RootNameTypeFromPath(path);
 
@@ -483,24 +480,24 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
   size_t parent_path_len;
   size_t relative_parent_path_len;
 
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
 
   struct Mdc_Fs_Path relative_path;
   struct Mdc_Fs_Path* init_relative_path;
-  const struct Mdc_BasicString* relative_path_str;
+  const struct Mdc_WString* relative_path_str;
   const Mdc_Fs_Path_ValueType* relative_path_cstr;
   size_t relative_path_len;
 
   struct Mdc_Fs_Path filename;
   struct Mdc_Fs_Path* init_filename;
-  const struct Mdc_BasicString* filename_str;
+  const struct Mdc_WString* filename_str;
   const Mdc_Fs_Path_ValueType* filename_cstr;
   size_t filename_len;
 
   struct Mdc_Fs_Path root_path;
   struct Mdc_Fs_Path* init_root_path;
-  const struct Mdc_BasicString* root_path_str;
+  const struct Mdc_WString* root_path_str;
   size_t root_path_len;
 
   /*
@@ -513,8 +510,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
   }
 
   relative_path_str = Mdc_Fs_Path_Native(&relative_path);
-  relative_path_cstr = Mdc_BasicString_DataConst(relative_path_str);
-  relative_path_len = Mdc_BasicString_Length(relative_path_str);
+  relative_path_cstr = Mdc_WString_DataConst(relative_path_str);
+  relative_path_len = Mdc_WString_Length(relative_path_str);
 
   init_filename = Mdc_Fs_Path_Filename(&filename, path);
   if (init_filename != &filename) {
@@ -522,8 +519,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
   }
 
   filename_str = Mdc_Fs_Path_Native(&filename);
-  filename_cstr = Mdc_BasicString_DataConst(filename_str);
-  filename_len = Mdc_BasicString_Length(filename_str);
+  filename_cstr = Mdc_WString_DataConst(filename_str);
+  filename_len = Mdc_WString_Length(filename_str);
 
   /* Exclude the path separator. */
   relative_parent_path_len = relative_path_len - filename_len;
@@ -544,10 +541,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
   }
 
   root_path_str = Mdc_Fs_Path_Native(&root_path);
-  root_path_len = Mdc_BasicString_Length(root_path_str);
+  root_path_len = Mdc_WString_Length(root_path_str);
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
 
   parent_path_len = root_path_len + relative_parent_path_len;
 
@@ -586,16 +583,16 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RelativePath(
 ) {
   struct Mdc_Fs_Path* init_relative_path;
 
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
 
   struct Mdc_Fs_Path root_path;
   struct Mdc_Fs_Path* init_root_path;
-  const struct Mdc_BasicString* root_path_str;
+  const struct Mdc_WString* root_path_str;
   size_t root_path_len;
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
 
   init_root_path = Mdc_Fs_Path_RootPath(&root_path, path);
   if (init_root_path != &root_path) {
@@ -603,7 +600,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RelativePath(
   }
 
   root_path_str = Mdc_Fs_Path_Native(&root_path);
-  root_path_len = Mdc_BasicString_Length(root_path_str);
+  root_path_len = Mdc_WString_Length(root_path_str);
 
   init_relative_path = Mdc_Fs_Path_InitFromCWStr(
       relative_path,
@@ -633,19 +630,19 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
 
   struct Mdc_Fs_Path* init_root_directory;
 
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_len;
   size_t root_directory_len;
 
   struct Mdc_Fs_Path root_name;
   struct Mdc_Fs_Path* init_root_name;
-  const struct Mdc_BasicString* root_name_str;
+  const struct Mdc_WString* root_name_str;
   size_t root_name_len;
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
-  path_len = Mdc_BasicString_Length(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
+  path_len = Mdc_WString_Length(path_str);
 
   /* Use the root name to determine the start of the root directory. */
   init_root_name = Mdc_Fs_Path_RootName(&root_name, path);
@@ -654,7 +651,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
   }
 
   root_name_str = Mdc_Fs_Path_Native(&root_name);
-  root_name_len = Mdc_BasicString_Length(root_name_str);
+  root_name_len = Mdc_WString_Length(root_name_str);
 
   for (i = root_name_len; i < path_len; i += 1) {
     if (!Mdc_Fs_Path_IsSeparatorCh(path_cstr[i])) {
@@ -693,7 +690,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootName(
 
   struct Mdc_Fs_Path* init_root_name;
 
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_len;
 
@@ -701,8 +698,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RootName(
   size_t i_unc_root_name_end;
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
-  path_len = Mdc_BasicString_Length(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
+  path_len = Mdc_WString_Length(path_str);
 
   root_name_type = Mdc_Fs_Path_RootNameTypeFromPath(path);
 
@@ -807,7 +804,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
 
   struct Mdc_Fs_Path* init_stem;
 
-  const struct Mdc_BasicString* path_str;
+  const struct Mdc_WString* path_str;
   const Mdc_Fs_Path_ValueType* path_cstr;
   size_t path_len;
 
@@ -821,8 +818,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
   enum Mdc_Fs_Path_RootNameType root_type;
 
   path_str = Mdc_Fs_Path_Native(path);
-  path_cstr = Mdc_BasicString_DataConst(path_str);
-  path_len = Mdc_BasicString_Length(path_str);
+  path_cstr = Mdc_WString_DataConst(path_str);
+  path_len = Mdc_WString_Length(path_str);
 
   /* Locate the last path separator. */
   has_parent_separator = false;

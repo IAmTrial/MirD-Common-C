@@ -35,26 +35,26 @@
 
 #include <mdc/malloc/malloc.h>
 #include <mdc/std/wchar.h>
-#include <mdc/string/basic_string.h>
+#include <mdc/string/string.h>
 #include <mdc/wchar_t/wide_encoding.h>
 #include "example_text/example_text.h"
 
 static void Mdc_WideEncoding_AssertEncodeAscii(void) {
-  struct Mdc_BasicString ascii_str;
-  struct Mdc_BasicString* init_ascii_str;
+  struct Mdc_String ascii_str;
+  struct Mdc_String* init_ascii_str;
 
   init_ascii_str = Mdc_Wide_EncodeAscii(&ascii_str, kAsciiExampleTextWide);
   assert(init_ascii_str == &ascii_str);
-  assert(Mdc_BasicString_CompareCStr(&ascii_str, kAsciiExampleText) == 0);
+  assert(Mdc_String_CompareCStr(&ascii_str, kAsciiExampleText) == 0);
 
-  Mdc_BasicString_Deinit(&ascii_str);
+  Mdc_String_Deinit(&ascii_str);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
-  struct Mdc_BasicString multibyte_ascii_str;
-  struct Mdc_BasicString* init_multibyte_ascii_str;
+  struct Mdc_String multibyte_ascii_str;
+  struct Mdc_String* init_multibyte_ascii_str;
 
   int compare_result;
 
@@ -64,26 +64,26 @@ static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
   );
   assert(init_multibyte_ascii_str == &multibyte_ascii_str);
 
-  compare_result = Mdc_BasicString_CompareCStr(
+  compare_result = Mdc_String_CompareCStr(
       &multibyte_ascii_str,
       kAsciiExampleText
   );
   assert(compare_result == 0);
 
-  Mdc_BasicString_Deinit(&multibyte_ascii_str);
+  Mdc_String_Deinit(&multibyte_ascii_str);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_WideEncoding_AssertEncodeUtf8(void) {
-  struct Mdc_BasicString utf8_str;
-  struct Mdc_BasicString* init_utf8_str;
+  struct Mdc_String utf8_str;
+  struct Mdc_String* init_utf8_str;
 
   init_utf8_str = Mdc_Wide_EncodeUtf8(&utf8_str, kUtf8ExampleTextWide);
   assert(init_utf8_str == &utf8_str);
-  assert(Mdc_BasicString_CompareCStr(&utf8_str, kUtf8ExampleText) == 0);
+  assert(Mdc_String_CompareCStr(&utf8_str, kUtf8ExampleText) == 0);
 
-  Mdc_BasicString_Deinit(&utf8_str);
+  Mdc_String_Deinit(&utf8_str);
 
   assert(Mdc_GetMallocDifference() == 0);
 }

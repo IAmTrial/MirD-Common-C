@@ -36,7 +36,7 @@
 #include <mdc/filesystem/filesystem.h>
 #include <mdc/std/assert.h>
 #include <mdc/malloc/malloc.h>
-#include <mdc/string/basic_string.h>
+#include <mdc/string/string.h>
 
 static void Mdc_Fs_Path_AssertGetCurrentExecutablePath(void) {
   struct Mdc_Fs_Path current_executable_path;

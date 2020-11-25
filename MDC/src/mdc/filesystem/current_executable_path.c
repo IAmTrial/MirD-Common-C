@@ -99,8 +99,6 @@ struct Mdc_Fs_Path* Mdc_Fs_GetCurrentExecutablePath(
 
 free_current_executable_path_cstr:
   Mdc_free(current_executable_path_cstr);
-
-return_bad:
   return NULL;
 }
 

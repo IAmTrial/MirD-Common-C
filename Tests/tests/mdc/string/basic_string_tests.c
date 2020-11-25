@@ -32,8 +32,9 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include <mdc/macro/concat_macro.h>
 #include <mdc/malloc/malloc.h>
-#include <mdc/string/basic_string.h>
+#include <mdc/string/string.h>
 
 enum {
   kHelloWorld,
@@ -62,274 +63,265 @@ static const wchar_t* kTestCWStrings[] = {
   L"hello world!"
 };
 
-#if _UNICODE
+/**
+ * Names
+ */
 
-#define kTestCTStrings kTestCWStrings
+#define Mdc_BasicString_RunTest(CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __RunTest)
 
-#else
+#define Mdc_BasicString_AssertInitEmptyAndDeinit(CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssertInitEmptyAndDeinit)
 
-#define kTestCTStrings kTestCStrings
+#define Mdc_BasicString_AssertAtAndAccess(CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssertAtAndAccess)
 
-#endif
+#define Mdc_BasicString_AssertFrontAndBack(CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssertFrontAndBack)
 
-static void Mdc_BasicString_AssertInitEmptyDeinit(
-    const struct Mdc_CharTraits* char_traits,
-    const void** c_strings
-) {
-  struct Mdc_BasicString string;
-  struct Mdc_BasicString* init_string;
+#define Mdc_BasicString_AssertCompareAndEqual(CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssertCompareAndEqual)
 
-  init_string = Mdc_BasicString_InitEmpty(&string, char_traits);
+#define Mdc_BasicString_AssertAppend(CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssertAppend)
 
-  assert(init_string == &string);
-  assert(Mdc_BasicString_Length(&string) == 0);
-  assert(Mdc_BasicString_Length(&string) == Mdc_BasicString_Size(&string));
-  assert(*(char*) Mdc_BasicString_AccessConst(&string, 0) == '\0');
-  assert(Mdc_BasicString_Empty(&string));
+#define Mdc_BasicString_AssertPushBackAndPopBack(CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssertPushBackAndPopBack)
 
-  Mdc_BasicString_Deinit(&string);
+/**
+ * Defines
+ */
 
-  assert(Mdc_GetMallocDifference() == 0);
+#define MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_INIT_EMPTY_AND_DEINIT(CharT) \
+    static void Mdc_BasicString_AssertInitEmptyAndDeinit(CharT)( \
+        const CharT** c_strs \
+    ) { \
+      struct Mdc_BasicString(CharT) str; \
+      struct Mdc_BasicString(CharT)* init_str; \
+\
+      init_str = Mdc_BasicString_InitEmpty(CharT)(&str); \
+      assert(init_str == &str); \
+\
+      assert(Mdc_BasicString_Length(CharT)(&str) == 0); \
+      assert(Mdc_BasicString_Length(CharT)(&str) \
+          == Mdc_BasicString_Size(CharT)(&str)); \
+      assert(*Mdc_BasicString_FrontConst(CharT)(&str) == '\0'); \
+      assert(Mdc_BasicString_Empty(CharT)(&str)); \
+\
+      Mdc_BasicString_Deinit(CharT)(&str); \
+\
+      assert(Mdc_GetMallocDifference() == 0); \
+    }
+
+#define MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_AT_AND_ACCESS(CharT) \
+    static void Mdc_BasicString_AssertAtAndAccess(CharT)( \
+        const CharT** c_strs \
+    ) { \
+      enum { \
+        kHelloWorldLength = 12 \
+      }; \
+\
+      struct Mdc_BasicString(CharT) str; \
+      struct Mdc_BasicString(CharT)* init_str; \
+\
+      CharT* at_result; \
+      const CharT* at_const_result; \
+      CharT* access_result; \
+      const CharT* access_const_result; \
+      const CharT* null_term_ptr; \
+\
+      init_str = Mdc_BasicString_InitFromCStr(CharT)( \
+          &str, \
+          c_strs[kHelloWorld] \
+      ); \
+\
+      assert(init_str == &str); \
+\
+      at_result = Mdc_BasicString_At(CharT)(&str, 3); \
+      at_const_result = Mdc_BasicString_AtConst(CharT)(&str, 3); \
+      access_result = Mdc_BasicString_Access(CharT)(&str, 3); \
+      access_const_result = Mdc_BasicString_AccessConst(CharT)(&str, 3); \
+\
+      assert(*at_result == 'l'); \
+      assert(at_result == at_const_result); \
+      assert(at_const_result == access_result); \
+      assert(access_result == access_const_result); \
+\
+      assert(Mdc_BasicString_Length(CharT)(&str) == kHelloWorldLength); \
+      assert(Mdc_BasicString_Length(CharT)(&str) \
+          == Mdc_BasicString_Size(CharT)(&str)); \
+\
+      *at_result = '2'; \
+      assert(*at_result == '2'); \
+\
+      null_term_ptr = Mdc_BasicString_AccessConst(CharT)( \
+          &str, \
+          kHelloWorldLength \
+      ); \
+\
+      assert(*null_term_ptr == '\0'); \
+      assert(!Mdc_BasicString_Empty(CharT)(&str)); \
+\
+      Mdc_BasicString_Deinit(CharT)(&str); \
+\
+      assert(Mdc_GetMallocDifference() == 0); \
+    }
+
+#define MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FRONT_AND_BACK(CharT) \
+static void Mdc_BasicString_AssertFrontAndBack(CharT)( \
+    const CharT** c_strs \
+) { \
+  struct Mdc_BasicString(CharT) str; \
+\
+  CharT* data_ptr; \
+  CharT* front_ptr; \
+  const CharT* front_const_ptr; \
+  CharT* back_ptr; \
+  const CharT* back_const_ptr; \
+\
+  Mdc_BasicString_InitFromCStr(CharT)(&str, c_strs[kHelloWorld]); \
+\
+  data_ptr = Mdc_BasicString_Data(CharT)(&str); \
+\
+  back_ptr = Mdc_BasicString_Back(CharT)(&str); \
+  back_const_ptr = Mdc_BasicString_BackConst(CharT)(&str); \
+\
+  front_ptr = Mdc_BasicString_Front(CharT)(&str); \
+  front_const_ptr = Mdc_BasicString_FrontConst(CharT)(&str); \
+\
+  assert(data_ptr == front_ptr); \
+  assert(front_ptr == front_const_ptr); \
+  assert(*front_ptr == 'H'); \
+\
+  assert(back_ptr == back_const_ptr); \
+  assert(*back_ptr == '!'); \
+\
+  Mdc_BasicString_Deinit(CharT)(&str); \
+\
+  assert(Mdc_GetMallocDifference() == 0); \
 }
 
-static void Mdc_BasicString_AssertInitConcat(
-    const struct Mdc_CharTraits* char_traits,
-    const void** c_strings
-) {
-  struct Mdc_BasicString string1;
-  struct Mdc_BasicString string2;
-  struct Mdc_BasicString concat_string1;
-  struct Mdc_BasicString concat_string2;
+#define MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_COMPARE_AND_EQUAL(CharT) \
+    static void Mdc_BasicString_AssertCompareAndEqual(CharT)( \
+        const CharT** c_strs \
+    ) { \
+      struct Mdc_BasicString(CharT) str1; \
+      struct Mdc_BasicString(CharT) str2; \
+\
+      CharT* str1_data; \
+      CharT* str2_data; \
+\
+      Mdc_BasicString_InitFromCStr(CharT)(&str1, c_strs[kHelloWorld]); \
+      Mdc_BasicString_InitFromCStr(CharT)(&str2, c_strs[khelloworld]); \
+\
+      str1_data = Mdc_BasicString_Data(CharT)(&str1); \
+      str2_data = Mdc_BasicString_Data(CharT)(&str2); \
+\
+      assert(Mdc_BasicString_CompareStr(CharT)(&str1, &str2) < 0); \
+      assert(!Mdc_BasicString_EqualStr(CharT)(&str1, &str2)); \
+\
+      Mdc_CharTraits_AssignCStr(CharT)(str2_data, 1, 'H'); \
+\
+      assert(Mdc_BasicString_CompareStr(CharT)(&str1, &str2) == 0); \
+      assert(Mdc_BasicString_EqualStr(CharT)(&str1, &str2)); \
+\
+      Mdc_CharTraits_AssignCStr(CharT)(str1_data, 1, 'h'); \
+\
+      assert(Mdc_BasicString_CompareStr(CharT)(&str1, &str2) > 0); \
+      assert(!Mdc_BasicString_EqualStr(CharT)(&str1, &str2)); \
+\
+      Mdc_BasicString_Deinit(CharT)(&str2); \
+      Mdc_BasicString_Deinit(CharT)(&str1); \
+\
+      assert(Mdc_GetMallocDifference() == 0); \
+    }
 
-  const struct Mdc_BasicString* init_concat1;
-  const struct Mdc_BasicString* init_concat2;
+#define MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_APPEND(CharT) \
+    static void Mdc_BasicString_AssertAppend(CharT)( \
+        const CharT** c_strs \
+    ) { \
+      struct Mdc_BasicString(CharT) str; \
+\
+      int compare_result; \
+\
+      Mdc_BasicString_InitFromCStr(CharT)(&str, c_strs[kHelloWorld]); \
+\
+      Mdc_BasicString_AppendCStr(CharT)(&str, c_strs[k5a]); \
+      assert(Mdc_BasicString_EqualCStr(CharT)( \
+          &str, \
+          c_strs[kHelloWorld5a]) \
+      ); \
+\
+      compare_result = Mdc_BasicString_CompareCStr(CharT)( \
+          &str, \
+          c_strs[kHelloWorld5a] \
+      ); \
+\
+      assert(compare_result == 0); \
+\
+      Mdc_BasicString_Deinit(CharT)(&str); \
+\
+      assert(Mdc_GetMallocDifference() == 0); \
+    }
 
-  Mdc_BasicString_InitFromCStr(&string1, char_traits, c_strings[kHelloWorld]);
-  Mdc_BasicString_InitFromCStr(&string2, char_traits, c_strings[kDog]);
+#define MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_PUSH_BACK_AND_POP_BACK(CharT) \
+    static void Mdc_BasicString_AssertPushBackAndPopBack(CharT)( \
+        const CharT** c_strs \
+    ) { \
+      struct Mdc_BasicString(CharT) str; \
+\
+      int compare_result; \
+\
+      Mdc_BasicString_InitFromCStr(CharT)(&str, c_strs[kHelloWorld]); \
+\
+      Mdc_BasicString_PushBack(CharT)(&str, 'a'); \
+      assert(Mdc_BasicString_EqualCStr(CharT)(&str, c_strs[kHelloWorlda])); \
+\
+      compare_result = Mdc_BasicString_CompareCStr(CharT)( \
+          &str, \
+          c_strs[kHelloWorlda] \
+      ); \
+      assert(compare_result == 0); \
+\
+      Mdc_BasicString_PopBack(CharT)(&str); \
+      assert(Mdc_BasicString_EqualCStr(CharT)(&str, c_strs[kHelloWorld])); \
+\
+      compare_result = Mdc_BasicString_CompareCStr(CharT)( \
+          &str, \
+          c_strs[kHelloWorld] \
+      ); \
+      assert(compare_result == 0); \
+\
+      Mdc_BasicString_Deinit(CharT)(&str); \
+\
+      assert(Mdc_GetMallocDifference() == 0); \
+    }
 
-  init_concat1 = Mdc_BasicString_ConcatStrCopyWithCStr(
-      &concat_string1,
-      &string1,
-      c_strings[1]
-  );
-  assert(init_concat1 == &concat_string1);
+#define MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FUNCTIONS(CharT) \
+    MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_INIT_EMPTY_AND_DEINIT(CharT) \
+    MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_AT_AND_ACCESS(CharT) \
+    MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FRONT_AND_BACK(CharT) \
+    MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_COMPARE_AND_EQUAL(CharT) \
+    MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_APPEND(CharT) \
+    MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_PUSH_BACK_AND_POP_BACK(CharT)
 
-  init_concat2 = Mdc_BasicString_ConcatStrCopyWithCStr(
-      &concat_string2,
-      &string1,
-      &string2
-  );
-  assert(init_concat2 == &concat_string2);
+#define MDC_TESTS_DEFINE_BASIC_STRING_RUN_TEST(CharT, c_strs) \
+    static void Mdc_BasicString_RunTest(CharT)(void) { \
+        Mdc_BasicString_AssertInitEmptyAndDeinit(CharT)(c_strs); \
+        Mdc_BasicString_AssertAtAndAccess(CharT)(c_strs); \
+        Mdc_BasicString_AssertFrontAndBack(CharT)(c_strs); \
+        Mdc_BasicString_AssertCompareAndEqual(CharT)(c_strs); \
+        Mdc_BasicString_AssertAppend(CharT)(c_strs); \
+        Mdc_BasicString_AssertPushBackAndPopBack(CharT)(c_strs); \
+    }
 
-  Mdc_BasicString_EqualStr(&concat_string1, &concat_string2);
+MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FUNCTIONS(char)
+MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FUNCTIONS(wchar_t)
 
-  Mdc_BasicString_Deinit(&concat_string2);
-  Mdc_BasicString_Deinit(&concat_string1);
-  Mdc_BasicString_Deinit(&string2);
-  Mdc_BasicString_Deinit(&string1);
-
-  assert(Mdc_GetMallocDifference() == 0);
-}
-
-static void Mdc_BasicString_AssertAtAndAccess(
-    const struct Mdc_CharTraits* char_traits,
-    const void** c_strings
-) {
-  enum {
-    kHelloWorldLength = 12
-  };
-
-  struct Mdc_BasicString string;
-
-  void* at_result;
-  const void* at_const_result;
-  void* access_result;
-  const void* access_const_result;
-  const void* null_term_ptr;
-
-  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
-
-  at_result = Mdc_BasicString_At(&string, 3);
-  at_const_result = Mdc_BasicString_AtConst(&string, 3);
-  access_result = Mdc_BasicString_Access(&string, 3);
-  access_const_result = Mdc_BasicString_AccessConst(&string, 3);
-
-  assert(*(char*) at_result == 'l');
-  assert(at_result == at_const_result);
-  assert(at_const_result == access_result);
-  assert(access_result == access_const_result);
-
-  assert(Mdc_BasicString_Length(&string) == kHelloWorldLength);
-  assert(Mdc_BasicString_Length(&string) == Mdc_BasicString_Size(&string));
-
-  *(char*) at_result = '2';
-  assert(*(char*) at_result == '2');
-
-  null_term_ptr = Mdc_BasicString_AccessConst(&string, kHelloWorldLength);
-  assert(*(char*) null_term_ptr == '\0');
-  assert(!Mdc_BasicString_Empty(&string));
-
-  Mdc_BasicString_Deinit(&string);
-
-  assert(Mdc_GetMallocDifference() == 0);
-}
-
-static void Mdc_BasicString_AssertFrontAndBack(
-    const struct Mdc_CharTraits* char_traits,
-    const void** c_strings
-) {
-  struct Mdc_BasicString string;
-
-  void* data_ptr;
-  void* front_ptr;
-  const void* front_const_ptr;
-  void* back_ptr;
-  const void* back_const_ptr;
-
-  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
-
-  data_ptr = Mdc_BasicString_Data(&string);
-
-  back_ptr = Mdc_BasicString_Back(&string);
-  back_const_ptr = Mdc_BasicString_BackConst(&string);
-
-  front_ptr = Mdc_BasicString_Front(&string);
-  front_const_ptr = Mdc_BasicString_FrontConst(&string);
-
-  assert(data_ptr == front_ptr);
-  assert(front_ptr == front_const_ptr);
-  assert(*(char*) front_ptr == 'H');
-
-  assert(back_ptr == back_const_ptr);
-  assert(*(char*) back_ptr == '!');
-
-  Mdc_BasicString_Deinit(&string);
-
-  assert(Mdc_GetMallocDifference() == 0);
-}
-
-static void Mdc_BasicString_AssertCompareAndEqual(
-    const struct Mdc_CharTraits* char_traits,
-    const void** c_strings
-) {
-  struct Mdc_BasicString string1;
-  struct Mdc_BasicString string2;
-
-  void* string1_data;
-  void* string2_data;
-
-  Mdc_BasicString_InitFromCStr(&string1, char_traits, c_strings[kHelloWorld]);
-  Mdc_BasicString_InitFromCStr(&string2, char_traits, c_strings[khelloworld]);
-
-  string1_data = Mdc_BasicString_Data(&string1);
-  string2_data = Mdc_BasicString_Data(&string2);
-
-  assert(Mdc_BasicString_CompareStr(&string1, &string2) < 0);
-  assert(!Mdc_BasicString_EqualStr(&string1, &string2));
-
-  char_traits->functions.assign_str(string2_data, 1, 'H');
-
-  assert(Mdc_BasicString_CompareStr(&string1, &string2) == 0);
-  assert(Mdc_BasicString_EqualStr(&string1, &string2));
-
-  char_traits->functions.assign_str(string1_data, 1, 'h');
-
-  assert(Mdc_BasicString_CompareStr(&string1, &string2) > 0);
-  assert(!Mdc_BasicString_EqualStr(&string1, &string2));
-
-  Mdc_BasicString_Deinit(&string2);
-  Mdc_BasicString_Deinit(&string1);
-
-  assert(Mdc_GetMallocDifference() == 0);
-}
-
-static void Mdc_BasicString_AssertAppend(
-    const struct Mdc_CharTraits* char_traits,
-    const void** c_strings
-) {
-  struct Mdc_BasicString string;
-
-  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
-
-  Mdc_BasicString_AppendCStr(&string, c_strings[k5a]);
-  assert(Mdc_BasicString_EqualCStr(&string, c_strings[kHelloWorld5a]));
-  assert(Mdc_BasicString_CompareCStr(&string, c_strings[kHelloWorld5a]) == 0);
-
-  Mdc_BasicString_Deinit(&string);
-
-  assert(Mdc_GetMallocDifference() == 0);
-}
-
-static void Mdc_BasicString_AssertPushBackAndPopBack(
-    const struct Mdc_CharTraits* char_traits,
-    const void** c_strings
-) {
-  struct Mdc_BasicString string;
-
-  Mdc_BasicString_InitFromCStr(&string, char_traits, c_strings[kHelloWorld]);
-
-  Mdc_BasicString_PushBack(&string, 'a');
-  assert(Mdc_BasicString_EqualCStr(&string, c_strings[kHelloWorlda]));
-  assert(Mdc_BasicString_CompareCStr(&string, c_strings[kHelloWorlda]) == 0);
-
-  Mdc_BasicString_PopBack(&string);
-  assert(Mdc_BasicString_EqualCStr(&string, c_strings[kHelloWorld]));
-  assert(Mdc_BasicString_CompareCStr(&string, c_strings[kHelloWorld]) == 0);
-
-  Mdc_BasicString_Deinit(&string);
-
-  assert(Mdc_GetMallocDifference() == 0);
-}
+MDC_TESTS_DEFINE_BASIC_STRING_RUN_TEST(char, kTestCStrings)
+MDC_TESTS_DEFINE_BASIC_STRING_RUN_TEST(wchar_t, kTestCWStrings)
 
 void Mdc_BasicString_RunTests(void) {
-  enum {
-    kStringSpecializationCount = 3
-  };
-
-  struct {
-    const struct Mdc_CharTraits* char_traits;
-    const void** c_strings;
-  } test_args[kStringSpecializationCount];
-
-  size_t i;
-
-  test_args[0].char_traits = Mdc_CharTraitsChar_GetCharTraits();
-  test_args[0].c_strings = kTestCStrings;
-
-  test_args[1].char_traits = Mdc_CharTraitsWChar_GetCharTraits();
-  test_args[1].c_strings = kTestCWStrings;
-
-  test_args[2].char_traits = Mdc_CharTraitsTChar_GetCharTraits();
-  test_args[2].c_strings = kTestCTStrings;
-
-  for (i = 0; i < kStringSpecializationCount; i += 1) {
-    Mdc_BasicString_AssertInitEmptyDeinit(
-        test_args[i].char_traits,
-        test_args[i].c_strings
-    );
-    Mdc_BasicString_AssertInitConcat(
-        test_args[i].char_traits,
-        test_args[i].c_strings
-    );
-    Mdc_BasicString_AssertAtAndAccess(
-        test_args[i].char_traits,
-        test_args[i].c_strings
-    );
-    Mdc_BasicString_AssertFrontAndBack(
-        test_args[i].char_traits,
-        test_args[i].c_strings
-    );
-    Mdc_BasicString_AssertCompareAndEqual(
-        test_args[i].char_traits,
-        test_args[i].c_strings
-    );
-    Mdc_BasicString_AssertAppend(
-        test_args[i].char_traits,
-        test_args[i].c_strings
-    );
-    Mdc_BasicString_AssertPushBackAndPopBack(
-        test_args[i].char_traits,
-        test_args[i].c_strings
-    );
-  }
+  Mdc_BasicString_RunTest(char)();
+  Mdc_BasicString_RunTest(wchar_t)();
 }

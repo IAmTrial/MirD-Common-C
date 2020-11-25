@@ -31,7 +31,7 @@
 #define MDC_C_WCHAR_T_WIDE_ENCODING_H_
 
 #include "../std/wchar.h"
-#include "../string/basic_string.h"
+#include "../string/string.h"
 
 #include "../../../dllexport_define.inc"
 
@@ -48,8 +48,8 @@ extern "C" {
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeAscii(
-    struct Mdc_BasicString* char_str,
+DLLEXPORT struct Mdc_String* Mdc_Wide_EncodeAscii(
+    struct Mdc_String* char_str,
     const wchar_t* wide_str
 );
 
@@ -63,8 +63,8 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeAscii(
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeDefaultMultibyte(
-    struct Mdc_BasicString* char_str,
+DLLEXPORT struct Mdc_String* Mdc_Wide_EncodeDefaultMultibyte(
+    struct Mdc_String* char_str,
     const wchar_t* wide_str
 );
 
@@ -77,8 +77,8 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeDefaultMultibyte(
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeUtf8(
-    struct Mdc_BasicString* char_str,
+DLLEXPORT struct Mdc_String* Mdc_Wide_EncodeUtf8(
+    struct Mdc_String* char_str,
     const wchar_t* wide_str
 );
 
