@@ -29,335 +29,55 @@
 
 #include "../../../include/mdc/object/integer_object.h"
 
-#define MDC_DEFINE_INTEGER_OBJECT_FUNCS(name, type) \
-\
-/**
- * External
- */ \
-\
-/**
- * Initialization/deinitialization
- */ \
-\
-type* name##_InitDefault(type* obj) { \
-  return name##_InitFromValue(obj, 0); \
-} \
-\
-type* name##_InitFromValue(type* obj, type value) { \
-  *obj = value; \
-  return obj; \
-} \
-\
-type* name##_InitCopy(type* dest, const type* src) { \
-  *dest = *src; \
-  return dest; \
-} \
-\
-type* name##_InitMove( \
-    type* dest, \
-    type* src \
-) { \
-  return name##_InitCopy(dest, src); \
-} \
-\
-void name##_Deinit(type* obj) { \
-  /* This is left empty on purpose. */ \
-} \
-\
-/**
- * Assignment functions
- */ \
-\
-type* name##_AssignCopy(type* dest, const type* src) { \
-  if (dest == src) { \
-    return dest; \
-  } \
-  *dest = *src; \
-  return dest; \
-} \
-\
-type* name##_AssignMove(type* dest, type* src) { \
-  return name##_AssignCopy(dest, src); \
-} \
-\
-/**
- * Increment/decrement operators
- */ \
-\
-type* name##_PreIncrement(type* obj) { \
-  *obj = name##_PreIncrementValue(*obj); \
-  return obj; \
-} \
-\
-type name##_PreIncrementValue(type op) { \
-  return ++op; \
-} \
-\
-type* name##_PreDecrement(type* obj) { \
-  *obj = name##_PreDecrementValue(*obj); \
-  return obj; \
-} \
-\
-type name##_PreDecrementValue(type op) { \
-  return --op; \
-} \
-\
-type* name##_PostIncrement(type* out, type* in) { \
-  *out = name##_PostIncrementValue(in); \
-  return out; \
-} \
-\
-type name##_PostIncrementValue(type* op) { \
-  return (*op)++; \
-} \
-\
-type* name##_PostDecrement(type* out, type* in) { \
-  *out = name##_PostDecrementValue(in); \
-  return out; \
-} \
-\
-type name##_PostDecrementValue(type* op) { \
-  return (*op)--; \
-} \
-\
-/**
- * Arithmetic operators
- */ \
-\
-type* name##_Add( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_AddValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_AddValue(type op1, type op2) { \
-  return op1 + op2; \
-} \
-\
-type* name##_Subtract( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_SubtractValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_SubtractValue(type op1, type op2) { \
-  return op1 - op2; \
-} \
-\
-type* name##_Multiply( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_MultiplyValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_MultiplyValue(type op1, type op2) { \
-  return op1 * op2; \
-} \
-\
-type* name##_Divide( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_DivideValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_DivideValue(type op1, type op2) { \
-  return op1 / op2; \
-} \
-\
-type* name##_Modulo( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_ModuloValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_ModuloValue(type op1, type op2) { \
-  return op1 % op2; \
-} \
-\
-type* name##_BitwiseNot(type* out, const type* in) { \
-  *out = name##_BitwiseNotValue(*in); \
-  return out; \
-} \
-\
-type name##_BitwiseNotValue(type op) { \
-  return ~op; \
-} \
-\
-type* name##_BitwiseAnd( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseAndValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseAndValue(type op1, type op2) { \
-  return op1 & op2; \
-} \
-\
-type* name##_BitwiseOr( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseOrValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseOrValue(type op1, type op2) { \
-  return op1 | op2; \
-} \
-\
-type* name##_BitwiseXor( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseXorValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseXorValue(type op1, type op2) { \
-  return op1 ^ op2; \
-} \
-\
-type* name##_BitwiseLeftShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseLeftShiftValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseLeftShiftValue(type op1, type op2) { \
-  return op1 << op2; \
-} \
-\
-type* name##_BitwiseRightShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-) { \
-  *out = name##_BitwiseRightShiftValue(*op1, *op2); \
-  return out; \
-} \
-\
-type name##_BitwiseRightShiftValue(type op1, type op2) { \
-  return op1 >> op2; \
-} \
-\
-/**
- * Comparison operators
- */ \
-\
-bool name##_Equal(const type* op1, const type* op2) { \
-  return name##_EqualValue(*op1, *op2); \
-} \
-\
-bool name##_EqualValue(type value1, type value2) { \
-  return value1 == value2; \
-} \
-\
-int name##_Compare(const type* op1, const type* op2) { \
-  return name##_CompareValue(*op1, *op2); \
-} \
-\
-int name##_CompareValue(type value1, type value2) { \
-  if (value1 < value2) { \
-    return -1; \
-  } else if (value1 > value2) { \
-    return 1; \
-  } else { \
-    return 0; \
-  } \
-} \
-\
-/**
- * Etc. functions
- */ \
-\
-size_t name##_Hash(const type* obj) { \
-  return name##_HashValue(*obj); \
-} \
-\
-size_t name##_HashValue(type obj) { \
-  return obj % (size_t) -1; \
-} \
-\
-void name##_Swap( \
-    type* obj1, \
-    type* obj2 \
-) { \
-  type temp = *obj1; \
-  *obj1 = *obj2; \
-  *obj2 = temp; \
-}
+#include "../../../dllexport_define.inc"
 
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Boolean, bool)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_SChar)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Short)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Int)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Long)
 
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_SChar, signed char)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Short, short)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Integer, int)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Long, long)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int8, int8_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int16, int16_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int32, int32_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Int64, int64_t)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast8, int_least8_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast16, int_least16_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast32, int_least32_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast64, int_least64_t)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_IntMax, intmax_t)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UChar, unsigned char)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UShort, unsigned short)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInteger, unsigned int)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_ULong, unsigned long)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt8, uint8_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt16, uint16_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt32, uint32_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UInt64, uint64_t)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast8, uint_least8_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast16, uint_least16_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast32, uint_least32_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast64, uint_least64_t)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntMax, uintmax_t)
-
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_Intptr, intptr_t)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_UIntptr, uintptr_t)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UChar)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UShort)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UInt)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_ULong)
 
 #if __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
+    || __STDC_VERSION__ >= 199901L \
     || _MSC_VER >= 1600
 
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_LLong, long long)
-MDC_DEFINE_INTEGER_OBJECT_FUNCS(Mdc_ULLong, unsigned long long)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_LLong)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_ULLong)
 
 #endif /* __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
+    || __STDC_VERSION__ >= 199901L \
     || _MSC_VER >= 1600 */
 
-#undef MDC_DEFINE_INTEGER_OBJECT_FUNCS
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Int8)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Int16)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Int32)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Int64)
+
+MDC_DEFINE_SIGNED_INTEGER(Mdc_IntLeast8)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_IntLeast16)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_IntLeast32)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_IntLeast64)
+
+MDC_DEFINE_SIGNED_INTEGER(Mdc_IntMax)
+
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UInt8)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UInt16)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UInt32)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UInt64)
+
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UIntLeast8)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UIntLeast16)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UIntLeast32)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UIntLeast64)
+
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UIntMax)
+
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Intptr)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_UIntptr)
+
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_Size)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_Ptrdiff)

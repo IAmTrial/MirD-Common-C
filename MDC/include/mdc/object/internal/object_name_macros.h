@@ -79,9 +79,27 @@
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
+#define Mdc_Object_DefaultAssignAdd(T) \
+    Mdc_Object_AssignAdd(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignAddConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignAddConst), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
 #define Mdc_Object_AssignSubtract(T, A1) \
     MDC_MACRO_CONCAT( \
         MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignSubtract), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
+#define Mdc_Object_DefaultAssignSubtract(T) \
+    Mdc_Object_AssignSubtract(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignSubtractConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignSubtractConst), \
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
@@ -91,9 +109,27 @@
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
+#define Mdc_Object_DefaultAssignMultiply(T) \
+    Mdc_Object_AssignMultiply(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignMultiplyConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignMultiplyConst), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
 #define Mdc_Object_AssignDivide(T, A1) \
     MDC_MACRO_CONCAT( \
         MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignDivide), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
+#define Mdc_Object_DefaultAssignDivide(T) \
+    Mdc_Object_AssignDivide(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignDivideConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignDivideConst), \
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
@@ -103,9 +139,27 @@
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
+#define Mdc_Object_DefaultAssignModulo(T) \
+    Mdc_Object_AssignModulo(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignModuloConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignModulusConst), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
 #define Mdc_Object_AssignBitwiseAnd(T, A1) \
     MDC_MACRO_CONCAT( \
         MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseAnd), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
+#define Mdc_Object_DefaultAssignBitwiseAnd(T) \
+    Mdc_Object_AssignBitwiseAnd(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignBitwiseAndConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseAndConst), \
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
@@ -115,9 +169,27 @@
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
+#define Mdc_Object_DefaultAssignBitwiseOr(T) \
+    Mdc_Object_AssignBitwiseOr(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignBitwiseOrConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseOrConst), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
 #define Mdc_Object_AssignBitwiseXor(T, A1) \
     MDC_MACRO_CONCAT( \
         MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseXor), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
+#define Mdc_Object_DefaultAssignBitwiseXor(T) \
+    Mdc_Object_AssignBitwiseXor(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignBitwiseXorConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseXorConst), \
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
@@ -127,9 +199,33 @@
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
+#define Mdc_Object_DefaultAssignBitwiseLeftShift(T) \
+    Mdc_Object_AssignBitwiseLeftShift(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignBitwiseLeftShiftConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT( \
+            Mdc_Object_Prefix(T), \
+            AssignBitwiseLeftShiftConst \
+        ), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
 #define Mdc_Object_AssignBitwiseRightShift(T, A1) \
     MDC_MACRO_CONCAT( \
         MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseRightShift), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
+#define Mdc_Object_DefaultAssignBitwiseRightShift(T) \
+    Mdc_Object_AssignBitwiseRightShift(T, MDC_T_PC(T))
+
+#define Mdc_Object_AssignBitwiseRightShiftConst(T, A1) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT( \
+            Mdc_Object_Prefix(T), \
+            AssignBitwiseRightShiftConst \
+        ), \
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
@@ -183,11 +279,17 @@
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultAdd(TA1, TA2) \
+    Mdc_Object_Add(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_Subtract(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(Subtract), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
+
+#define Mdc_Object_DefaultSubtract(TA1, TA2) \
+    Mdc_Object_Subtract(MDC_T_PC(TA1), MDC_T_PC(TA2))
 
 #define Mdc_Object_Multiply(A1, A2) \
     MDC_MACRO_CONCAT( \
@@ -195,17 +297,26 @@
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultMultiply(TA1, TA2) \
+    Mdc_Object_Multiply(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_Divide(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(Divide), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultDivide(TA1, TA2) \
+    Mdc_Object_Divide(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_Modulo(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(Modulo), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
+
+#define Mdc_Object_DefaultModulo(TA1, TA2) \
+    Mdc_Object_Modulo(MDC_T_PC(TA1), MDC_T_PC(TA2))
 
 #define Mdc_Object_BitwiseNot(T) \
     MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), BitwiseNot)
@@ -219,11 +330,17 @@
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultBitwiseAnd(TA1, TA2) \
+    Mdc_Object_BitwiseAnd(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_BitwiseOr(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(BitwiseOr), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
+
+#define Mdc_Object_DefaultBitwiseOr(TA1, TA2) \
+    Mdc_Object_BitwiseOr(MDC_T_PC(TA1), MDC_T_PC(TA2))
 
 #define Mdc_Object_BitwiseXor(A1, A2) \
     MDC_MACRO_CONCAT( \
@@ -231,17 +348,26 @@
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultBitwiseXor(TA1, TA2) \
+    Mdc_Object_BitwiseXor(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_BitwiseLeftShift(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(BitwiseLeftShift), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultBitwiseLeftShift(TA1, TA2) \
+    Mdc_Object_BitwiseLeftShift(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_BitwiseRightShift(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(BitwiseRightShift), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
+
+#define Mdc_Object_DefaultBitwiseRightShift(TA1, TA2) \
+    Mdc_Object_BitwiseRightShift(MDC_T_PC(TA1), MDC_T_PC(TA2))
 
 /**
  * Logical
@@ -250,17 +376,26 @@
 #define Mdc_Object_LogicalNot(T) \
     MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), LogicalNot)
 
+#define Mdc_Object_LogicalNotConst(T) \
+    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), LogicalNotConst)
+
 #define Mdc_Object_LogicalAnd(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(LogicalAnd), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultLogicalAnd(TA1, TA2) \
+    Mdc_Object_LogicalAnd(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_LogicalOr(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(LogicalOr), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
+
+#define Mdc_Object_DefaultLogicalOr(TA1, TA2) \
+    Mdc_Object_LogicalOr(MDC_T_PC(TA1), MDC_T_PC(TA2))
 
 /**
  * Comparison
@@ -272,11 +407,17 @@
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
+#define Mdc_Object_DefaultEqual(TA1, TA2) \
+    Mdc_Object_Equal(MDC_T_PC(TA1), MDC_T_PC(TA2))
+
 #define Mdc_Object_Compare(A1, A2) \
     MDC_MACRO_CONCAT( \
         Mdc_Object_Prefix(Compare), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
+
+#define Mdc_Object_DefaultCompare(TA1, TA2) \
+    Mdc_Object_Compare(MDC_T_PC(TA1), MDC_T_PC(TA2))
 
 /**
  * Member access

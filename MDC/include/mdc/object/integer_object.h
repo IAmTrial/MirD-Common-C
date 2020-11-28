@@ -30,235 +30,75 @@
 #ifndef MDC_C_OBJECT_INTEGER_OBJECT_H_
 #define MDC_C_OBJECT_INTEGER_OBJECT_H_
 
-#include "../object_metadata/object_metadata.h"
-#include "../std/stdbool.h"
-#include "../std/stdint.h"
+#include "internal/integer_object/integer_object_declare_macros.h"
+#include "internal/integer_object/integer_object_define_macros.h"
+#include "internal/integer_object/integer_object_name_macros.h"
+#include "internal/integer_object/integer_object_typedef.h"
 
 #include "../../../dllexport_define.inc"
 
-#define MDC_DECLARE_INTEGER_OBJECT_FUNCS(name, type) \
-\
-/**
- * Initialization/deinitialization
- */ \
-\
-DLLEXPORT type* name##_InitDefault(type* obj); \
-\
-DLLEXPORT type* name##_InitFromValue(type* obj, type value); \
-\
-DLLEXPORT type* name##_InitCopy(type* dest, const type* src); \
-\
-DLLEXPORT type* name##_InitMove(type* dest, type* src); \
-\
-DLLEXPORT void name##_Deinit(type* obj); \
-\
-/**
- * Metadata
- */ \
-\
-DLLEXPORT const struct Mdc_ObjectMetadata* \
-name##_GetObjectMetadata(void); \
-\
-/**
- * Assignment functions
- */ \
-\
-DLLEXPORT type* name##_AssignCopy(type* dest, const type* src); \
-\
-DLLEXPORT type* name##_AssignMove(type* dest, type* src); \
-\
-/**
- * Increment/decrement operators
- */ \
-\
-DLLEXPORT type* name##_PreIncrement(type* obj); \
-\
-DLLEXPORT type name##_PreIncrementValue(type op); \
-\
-DLLEXPORT type* name##_PreDecrement(type* obj); \
-\
-DLLEXPORT type name##_PreDecrementValue(type op); \
-\
-DLLEXPORT type* name##_PostIncrement(type* out, type* in); \
-\
-DLLEXPORT type name##_PostIncrementValue(type* op); \
-\
-DLLEXPORT type* name##_PostDecrement(type* out, type* in); \
-\
-DLLEXPORT type name##_PostDecrementValue(type* op); \
-\
-/**
- * Arithmetic operators
- */ \
-\
-DLLEXPORT type* name##_Add( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_AddValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_Subtract( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_SubtractValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_Multiply( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_MultiplyValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_Divide( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_DivideValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_Modulo( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_ModuloValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseNot( \
-    type* out, \
-    const type* in \
-); \
-\
-DLLEXPORT type name##_BitwiseNotValue(type op); \
-\
-DLLEXPORT type* name##_BitwiseAnd( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseAndValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseOr( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseOrValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseXor( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseXorValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseLeftShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseLeftShiftValue(type op1, type op2); \
-\
-DLLEXPORT type* name##_BitwiseRightShift( \
-    type* out, \
-    const type* op1, \
-    const type* op2 \
-); \
-\
-DLLEXPORT type name##_BitwiseRightShiftValue(type op1, type op2); \
-\
-/**
- * Comparison operators
- */ \
-\
-DLLEXPORT bool name##_Equal(const type* op1, const type* op2); \
-\
-DLLEXPORT bool name##_EqualValue(type value1, type value2); \
-\
-DLLEXPORT int name##_Compare(const type* op1, const type* op2); \
-\
-DLLEXPORT int name##_CompareValue(type value1, type value2); \
-\
-/**
- * Etc. functions
- */ \
-\
-DLLEXPORT size_t name##_Hash(const type* obj); \
-\
-DLLEXPORT size_t name##_HashValue(type obj); \
-\
-DLLEXPORT void name##_Swap(type* obj1, type* obj2);
+#define MDC_DECLARE_SIGNED_INTEGER(T_IntT) \
+    MDC_INTERNAL_DECLARE_SIGNED_INTEGER(T_IntT)
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#define MDC_DEFINE_SIGNED_INTEGER(T_IntT) \
+    MDC_INTERNAL_DEFINE_SIGNED_INTEGER_FUNCTIONS(T_IntT)
 
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Boolean, bool)
+#define MDC_DECLARE_UNSIGNED_INTEGER(T_IntT) \
+    MDC_INTERNAL_DECLARE_UNSIGNED_INTEGER(T_IntT)
 
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_SChar, signed char)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Short, short)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Integer, int)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Long, long)
+#define MDC_DEFINE_UNSIGNED_INTEGER(T_IntT) \
+    MDC_INTERNAL_DEFINE_UNSIGNED_INTEGER_FUNCTIONS(T_IntT)
 
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int8, int8_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int16, int16_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int32, int32_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Int64, int64_t)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_SChar)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Short)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Int)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Long)
 
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast8, int_least8_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast16, int_least16_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast32, int_least32_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntLeast64, int_least64_t)
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_IntMax, intmax_t)
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UChar, unsigned char)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UShort, unsigned short)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInteger, unsigned int)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_ULong, unsigned long)
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt8, uint8_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt16, uint16_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt32, uint32_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UInt64, uint64_t)
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast8, uint_least8_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast16, uint_least16_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast32, uint_least32_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntLeast64, uint_least64_t)
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntMax, uintmax_t)
-
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_Intptr, intptr_t)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_UIntptr, uintptr_t)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UChar)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UShort)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UInt)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_ULong)
 
 #if __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
+    || __STDC_VERSION__ >= 199901L \
     || _MSC_VER >= 1600
 
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_LLong, long long)
-MDC_DECLARE_INTEGER_OBJECT_FUNCS(Mdc_ULLong, unsigned long long)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_LLong)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_ULLong)
 
 #endif /* __cplusplus >= 201103L \
-    || __STDC_VERSION__ >= 201112L \
+    || __STDC_VERSION__ >= 199901L \
     || _MSC_VER >= 1600 */
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Int8)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Int16)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Int32)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Int64)
 
-#undef MDC_DECLARE_INTEGER_OBJECT_FUNCS
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_IntLeast8)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_IntLeast16)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_IntLeast32)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_IntLeast64)
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_IntMax)
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UInt8)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UInt16)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UInt32)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UInt64)
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UIntLeast8)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UIntLeast16)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UIntLeast32)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UIntLeast64)
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UIntMax)
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Intptr)
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UIntptr)
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_Size)
+MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Ptrdiff)
 
 #include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_OBJECT_INTEGER_OBJECT_H_ */

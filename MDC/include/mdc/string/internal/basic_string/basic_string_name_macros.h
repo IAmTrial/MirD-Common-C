@@ -48,7 +48,7 @@
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), kNpos)
 
 /**
- * Functions
+ * Initialize / Deinitialize
  */
 
 #define Mdc_BasicString_InitEmpty(T_CharT) \
@@ -78,11 +78,59 @@
 #define Mdc_BasicString_Deinit(T_CharT) \
     Mdc_Object_Deinit(Mdc_BasicString(T_CharT))
 
+/**
+ * Assignment
+ */
+
 #define Mdc_BasicString_AssignCopy(T_CharT) \
     Mdc_Object_AssignCopy(Mdc_BasicString(T_CharT))
 
 #define Mdc_BasicString_AssignMove(T_CharT) \
     Mdc_Object_AssignMove(Mdc_BasicString(T_CharT))
+
+/**
+ * Comparison
+ */
+
+#define Mdc_BasicString_EqualStr(T_CharT) \
+    Mdc_Object_Equal( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(Mdc_BasicString(T_CharT)) \
+    )
+
+#define Mdc_BasicString_EqualCStr(T_CharT) \
+    Mdc_Object_Equal( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(T_CharT) \
+    )
+
+#define Mdc_BasicString_CompareStr(T_CharT) \
+    Mdc_Object_Compare( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(Mdc_BasicString(T_CharT)) \
+    )
+
+#define Mdc_BasicString_CompareSubstr(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareSubstr)
+
+#define Mdc_BasicString_CompareSubstrs(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareSubstrs)
+
+#define Mdc_BasicString_CompareCStr(T_CharT) \
+    Mdc_Object_Compare( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(T_CharT) \
+    )
+
+#define Mdc_BasicString_CompareCSubstr(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareCSubstr)
+
+#define Mdc_BasicString_CompareCSubstrs(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareCSubstrs)
+
+/**
+ * General Functions
+ */
 
 #define Mdc_BasicString_Access(T_CharT) \
     Mdc_Object_Subscript(Mdc_BasicString(T_CharT), MDC_T(size_t))
@@ -120,30 +168,6 @@
 #define Mdc_BasicString_Capacity(T_CharT) \
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Capacity)
 
-#define Mdc_BasicString_CompareStr(T_CharT) \
-    Mdc_Object_Compare( \
-        MDC_T_PC(Mdc_BasicString(T_CharT)), \
-        MDC_T_PC(Mdc_BasicString(T_CharT)) \
-    )
-
-#define Mdc_BasicString_CompareSubstr(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareSubstr)
-
-#define Mdc_BasicString_CompareSubstrs(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareSubstrs)
-
-#define Mdc_BasicString_CompareCStr(T_CharT) \
-    Mdc_Object_Compare( \
-        MDC_T_PC(Mdc_BasicString(T_CharT)), \
-        MDC_T_PC(T_CharT) \
-    )
-
-#define Mdc_BasicString_CompareCSubstr(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareCSubstr)
-
-#define Mdc_BasicString_CompareCSubstrs(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareCSubstrs)
-
 #define Mdc_BasicString_Clear(T_CharT) \
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Clear)
 
@@ -158,18 +182,6 @@
 
 #define Mdc_BasicString_Empty(T_CharT) \
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Empty)
-
-#define Mdc_BasicString_EqualStr(T_CharT) \
-    Mdc_Object_Equal( \
-        MDC_T_PC(Mdc_BasicString(T_CharT)), \
-        MDC_T_PC(Mdc_BasicString(T_CharT)) \
-    )
-
-#define Mdc_BasicString_EqualCStr(T_CharT) \
-    Mdc_Object_Equal( \
-        MDC_T_PC(Mdc_BasicString(T_CharT)), \
-        MDC_T_PC(T_CharT) \
-    )
 
 #define Mdc_BasicString_Front(T_CharT) \
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Front)

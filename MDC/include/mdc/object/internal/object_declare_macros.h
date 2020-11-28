@@ -45,6 +45,9 @@
 #define MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR(func_name, R, A) \
     R func_name(A obj);
 
+#define MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR_CONST(func_name, R, A) \
+    R func_name(A obj);
+
 #define MDC_INTERNAL_DECLARE_OBJECT_BINARY_OPERATOR(func_name, R, A1, A2) \
     R func_name( \
         A1 op1, \
@@ -175,7 +178,7 @@
     MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
         Mdc_Object_PreDecrement(T), \
         R, \
-        T \
+        MDC_T_P(T) \
     )
 
 #define MDC_DECLARE_OBJECT_DEFAULT_PRE_DECREMENT(T) \
@@ -185,7 +188,7 @@
     MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
         Mdc_Object_PostIncrement(T), \
         R, \
-        T \
+        MDC_T_P(T) \
     )
 
 #define MDC_DECLARE_OBJECT_DEFAULT_POST_INCREMENT(T) \
@@ -195,7 +198,7 @@
     MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
         Mdc_Object_PostDecrement(T), \
         R, \
-        T \
+        MDC_T_P(T) \
     )
 
 #define MDC_DECLARE_OBJECT_DEFAULT_POST_DECREMENT(T) \
@@ -209,21 +212,35 @@
     MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
         Mdc_Object_UnaryPlus(T), \
         R, \
-        T \
+        MDC_T_P(T) \
     )
 
-#define MDC_DECLARE_OBJECT_DEFAULT_UNARY_PLUS(T) \
-    MDC_DECLARE_OBJECT_UNARY_PLUS(MDC_T(T), T)
+#define MDC_DECLARE_OBJECT_UNARY_PLUS_CONST(R, T) \
+    MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
+        Mdc_Object_UnaryPlusConst(T), \
+        R, \
+        MDC_T_PC(T) \
+    )
+
+#define MDC_DECLARE_OBJECT_DEFAULT_UNARY_PLUS_CONST(T) \
+    MDC_DECLARE_OBJECT_UNARY_PLUS_CONST(MDC_T(T), T)
 
 #define MDC_DECLARE_OBJECT_UNARY_MINUS(R, T) \
     MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
         Mdc_Object_UnaryMinus(T), \
         R, \
-        T \
+        MDC_T_P(T) \
     )
 
-#define MDC_DECLARE_OBJECT_DEFAULT_UNARY_MINUS(T) \
-    MDC_DECLARE_OBJECT_UNARY_MINUS(MDC_T(T), T)
+#define MDC_DECLARE_OBJECT_UNARY_MINUS_CONST(R, T) \
+    MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
+        Mdc_Object_UnaryMinusConst(T), \
+        R, \
+        MDC_T_PC(T) \
+    )
+
+#define MDC_DECLARE_OBJECT_DEFAULT_UNARY_MINUS_CONST(T) \
+    MDC_DECLARE_OBJECT_UNARY_MINUS_CONST(MDC_T(T), T)
 
 #define MDC_DECLARE_OBJECT_ADD(R, A1, A2) \
     MDC_INTERNAL_DECLARE_OBJECT_BINARY_OPERATOR( \
@@ -284,11 +301,18 @@
     MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
         Mdc_Object_BitwiseNot(T), \
         R, \
-        T \
+        MDC_T_P(T) \
     )
 
-#define MDC_DECLARE_OBJECT_DEFAULT_BITWISE_NOT(T) \
-    MDC_DECLARE_OBJECT_BITWISE_NOT(MDC_T(T), T)
+#define MDC_DECLARE_OBJECT_BITWISE_NOT_CONST(R, T) \
+    MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
+        Mdc_Object_BitwiseNotConst(T), \
+        R, \
+        MDC_T_PC(T) \
+    )
+
+#define MDC_DECLARE_OBJECT_DEFAULT_BITWISE_NOT_CONST(T) \
+    MDC_DECLARE_OBJECT_BITWISE_NOT_CONST(MDC_T(T), T)
 
 #define MDC_DECLARE_OBJECT_BITWISE_AND(R, A1, A2) \
     MDC_INTERNAL_DECLARE_OBJECT_BINARY_OPERATOR( \
@@ -323,7 +347,7 @@
 #define MDC_DECLARE_OBJECT_DEFAULT_BITWISE_XOR(T1, T2) \
     MDC_DECLARE_OBJECT_BITWISE_XOR(MDC_T(T1), MDC_T_PC(T1), MDC_T_PC(T2))
 
-#define MDC_DECLARE_OBJECT_BITWISE_LEFT_SHIFT(R, T1, T2) \
+#define MDC_DECLARE_OBJECT_BITWISE_LEFT_SHIFT(R, A1, A2) \
     MDC_INTERNAL_DECLARE_OBJECT_BINARY_OPERATOR( \
         Mdc_Object_BitwiseLeftShift(A1, A2), \
         R, \
@@ -338,7 +362,7 @@
         MDC_T_PC(T2) \
     )
 
-#define MDC_DECLARE_OBJECT_BITWISE_RIGHT_SHIFT(R, T1, T2) \
+#define MDC_DECLARE_OBJECT_BITWISE_RIGHT_SHIFT(R, A1, A2) \
     MDC_INTERNAL_DECLARE_OBJECT_BINARY_OPERATOR( \
         Mdc_Object_BitwiseRightShift(A1, A2), \
         R, \
@@ -359,13 +383,20 @@
 
 #define MDC_DECLARE_OBJECT_LOGICAL_NOT(R, T) \
     MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
-        Mdc_Object_LogicalNot(A1, A2), \
+        Mdc_Object_LogicalNot(T), \
         R, \
-        T \
+        MDC_T_P(T) \
     )
 
-#define MDC_DECLARE_OBJECT_DEFAULT_LOGICAL_NOT(T) \
-    MDC_DECLARE_OBJECT_LOGICAL_NOT(bool, T)
+#define MDC_DECLARE_OBJECT_LOGICAL_NOT_CONST(R, T) \
+    MDC_INTERNAL_DECLARE_OBJECT_UNARY_OPERATOR( \
+        Mdc_Object_LogicalNotConst(T), \
+        R, \
+        MDC_T_PC(T) \
+    )
+
+#define MDC_DECLARE_OBJECT_DEFAULT_LOGICAL_NOT_CONST(T) \
+    MDC_DECLARE_OBJECT_LOGICAL_NOT_CONST(bool, T)
 
 #define MDC_DECLARE_OBJECT_LOGICAL_AND(R, A1, A2) \
     MDC_INTERNAL_DECLARE_OBJECT_BINARY_OPERATOR( \
@@ -418,7 +449,7 @@
 
 #define MDC_DECLARE_OBJECT_COMPARE(R, A1, A2) \
     MDC_INTERNAL_DECLARE_OBJECT_BINARY_OPERATOR( \
-        Mdc_Object_Equal(A1, A2), \
+        Mdc_Object_Compare(A1, A2), \
         R, \
         A1, \
         A2 \
@@ -444,103 +475,187 @@
 #define MDC_DECLARE_OBJECT_CALL_0(R, T) \
     R Mdc_Object_Call_0(T)(MDC_T_P(T) obj);
 
-#define MDC_DECLARE_OBJECT_CALL_0_CONST(R, T) \
-    R Mdc_Object_Call_0(T)(MDC_T_PC(T) obj);
+#define MDC_DECLARE_OBJECT_CALL_CONST_0(R, T) \
+    R Mdc_Object_CallConst_0(T)(MDC_T_PC(T) obj);
 
 #define MDC_DECLARE_OBJECT_CALL_1(R, T, A1) \
     R Mdc_Object_Call_1(T, A1)( \
-        MDC_T_PC(T) obj, \
-        A1* arg1 \
+        MDC_T_P(T) obj, \
+        A1 arg1 \
     );
 
-#define MDC_DECLARE_OBJECT_CALL_1_CONST(R, T, A1) \
-    R Mdc_Object_Call_1(T, A1)( \
-        T* obj, \
-        A1* arg1 \
+#define MDC_DECLARE_OBJECT_CALL_CONST_1(R, T, A1) \
+    R Mdc_Object_CallConst_1(T, A1)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_2(R, T, A1, A2) \
     R Mdc_Object_Call_2(T, A1, A2)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_2(R, T, A1, A2) \
+    R Mdc_Object_CallConst_2(T, A1, A2)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_3(R, T, A1, A2, A3) \
     R Mdc_Object_Call_3(T, A1, A2, A3)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2, \
-        A3* arg3 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_3(R, T, A1, A2, A3) \
+    R Mdc_Object_CallConst_3(T, A1, A2, A3)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_4(R, T, A1, A2, A3, A4) \
     R Mdc_Object_Call_4(T, A1, A2, A3, A4)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2, \
-        A3* arg3, \
-        A4* arg4 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_4(R, T, A1, A2, A3, A4) \
+    R Mdc_Object_CallConst_4(T, A1, A2, A3, A4)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_5(R, T, A1, A2, A3, A4, A5) \
     R Mdc_Object_Call_5(T, A1, A2, A3, A4, A5)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2, \
-        A3* arg3, \
-        A4* arg4, \
-        A5* arg5 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_5(R, T, A1, A2, A3, A4, A5) \
+    R Mdc_Object_CallConst_5(T, A1, A2, A3, A4, A5)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_6(R, T, A1, A2, A3, A4, A5, A6) \
     R Mdc_Object_Call_6(T, A1, A2, A3, A4, A5, A6)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2, \
-        A3* arg3, \
-        A4* arg4, \
-        A5* arg5, \
-        A6* arg6 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_6(R, T, A1, A2, A3, A4, A5, A6) \
+    R Mdc_Object_CallConst_6(T, A1, A2, A3, A4, A5, A6)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_7(R, T, A1, A2, A3, A4, A5, A6, A7) \
     R Mdc_Object_Call_7(T, A1, A2, A3, A4, A5, A6, A7)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2, \
-        A3* arg3, \
-        A4* arg4, \
-        A5* arg5, \
-        A6* arg6, \
-        A7* arg7 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6, \
+        A7 arg7 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_7(R, T, A1, A2, A3, A4, A5, A6, A7) \
+    R Mdc_Object_CallConst_7(T, A1, A2, A3, A4, A5, A6, A7)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6, \
+        A7 arg7 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_8(R, T, A1, A2, A3, A4, A5, A6, A7, A8) \
     R Mdc_Object_Call_8(T, A1, A2, A3, A4, A5, A6, A7, A8)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2, \
-        A3* arg3, \
-        A4* arg4, \
-        A5* arg5, \
-        A6* arg6, \
-        A7* arg7, \
-        A8* arg8 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6, \
+        A7 arg7, \
+        A8 arg8 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_8(R, T, A1, A2, A3, A4, A5, A6, A7, A8) \
+    R Mdc_Object_CallConst_8(T, A1, A2, A3, A4, A5, A6, A7, A8)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6, \
+        A7 arg7, \
+        A8 arg8 \
     );
 
 #define MDC_DECLARE_OBJECT_CALL_9(R, T, A1, A2, A3, A4, A5, A6, A7, A8, A9) \
     R Mdc_Object_Call_9(T, A1, A2, A3, A4, A5, A6, A7, A8, A9)( \
-        T* obj, \
-        A1* arg1, \
-        A2* arg2, \
-        A3* arg3, \
-        A4* arg4, \
-        A5* arg5, \
-        A6* arg6, \
-        A7* arg7, \
-        A8* arg8, \
-        A9* arg9 \
+        MDC_T_P(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6, \
+        A7 arg7, \
+        A8 arg8, \
+        A9 arg9 \
+    );
+
+#define MDC_DECLARE_OBJECT_CALL_CONST_9(R, T, A1, A2, A3, A4, A5, A6, A7, A8, A9) \
+    R Mdc_Object_CallConst_9(T, A1, A2, A3, A4, A5, A6, A7, A8, A9)( \
+        MDC_T_PC(T) obj, \
+        A1 arg1, \
+        A2 arg2, \
+        A3 arg3, \
+        A4 arg4, \
+        A5 arg5, \
+        A6 arg6, \
+        A7 arg7, \
+        A8 arg8, \
+        A9 arg9 \
     );
 
 /**
@@ -548,6 +663,6 @@
  */
 
 #define MDC_DECLARE_OBJECT_SWAP(T) \
-    void Mdc_Object_Swap(T)(T* obj1, T* obj2);
+    void Mdc_Object_Swap(T)(MDC_T_P(T) obj1, MDC_T_P(T) obj2);
 
 #endif /* MDC_C_OBJECT_INTERNAL_OBJECT_DECLARE_MACROS_H_ */
