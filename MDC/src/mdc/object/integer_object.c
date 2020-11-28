@@ -29,8 +29,6 @@
 
 #include "../../../include/mdc/object/integer_object.h"
 
-#include "../../../dllexport_define.inc"
-
 MDC_DEFINE_SIGNED_INTEGER(Mdc_SChar)
 MDC_DEFINE_SIGNED_INTEGER(Mdc_Short)
 MDC_DEFINE_SIGNED_INTEGER(Mdc_Int)
@@ -45,8 +43,8 @@ MDC_DEFINE_UNSIGNED_INTEGER(Mdc_ULong)
     || __STDC_VERSION__ >= 199901L \
     || _MSC_VER >= 1600
 
-MDC_DEFINE_SIGNED_INTEGER(Mdc_LLong)
-MDC_DEFINE_UNSIGNED_INTEGER(Mdc_ULLong)
+MDC_DEFINE_SIGNED_INTEGER(Mdc_LongLong)
+MDC_DEFINE_UNSIGNED_INTEGER(Mdc_ULongLong)
 
 #endif /* __cplusplus >= 201103L \
     || __STDC_VERSION__ >= 199901L \

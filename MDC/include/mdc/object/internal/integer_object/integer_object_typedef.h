@@ -54,8 +54,8 @@ typedef unsigned long Mdc_ULong;
     || __STDC_VERSION__ >= 201112L \
     || _MSC_VER >= 1600
 
-typedef long long Mdc_LLong;
-typedef unsigned long long Mdc_ULLong;
+typedef long long Mdc_LongLong;
+typedef unsigned long long Mdc_ULongLong;
 
 #endif /* __cplusplus >= 201103L \
     || __STDC_VERSION__ >= 201112L \
