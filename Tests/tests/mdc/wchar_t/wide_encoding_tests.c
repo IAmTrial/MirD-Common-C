@@ -41,10 +41,8 @@
 
 static void Mdc_WideEncoding_AssertEncodeAscii(void) {
   struct Mdc_String ascii_str;
-  struct Mdc_String* init_ascii_str;
 
-  init_ascii_str = Mdc_Wide_EncodeAscii(&ascii_str, kAsciiExampleTextWide);
-  assert(init_ascii_str == &ascii_str);
+  ascii_str = Mdc_Wide_EncodeAscii(kAsciiExampleTextWide);
   assert(Mdc_String_CompareCStr(&ascii_str, kAsciiExampleText) == 0);
 
   Mdc_String_Deinit(&ascii_str);
@@ -54,15 +52,12 @@ static void Mdc_WideEncoding_AssertEncodeAscii(void) {
 
 static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
   struct Mdc_String multibyte_ascii_str;
-  struct Mdc_String* init_multibyte_ascii_str;
 
   int compare_result;
 
-  init_multibyte_ascii_str = Mdc_Wide_EncodeDefaultMultibyte(
-      &multibyte_ascii_str,
+  multibyte_ascii_str = Mdc_Wide_EncodeDefaultMultibyte(
       kAsciiExampleTextWide
   );
-  assert(init_multibyte_ascii_str == &multibyte_ascii_str);
 
   compare_result = Mdc_String_CompareCStr(
       &multibyte_ascii_str,
@@ -77,10 +72,8 @@ static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
 
 static void Mdc_WideEncoding_AssertEncodeUtf8(void) {
   struct Mdc_String utf8_str;
-  struct Mdc_String* init_utf8_str;
 
-  init_utf8_str = Mdc_Wide_EncodeUtf8(&utf8_str, kUtf8ExampleTextWide);
-  assert(init_utf8_str == &utf8_str);
+  utf8_str = Mdc_Wide_EncodeUtf8(kUtf8ExampleTextWide);
   assert(Mdc_String_CompareCStr(&utf8_str, kUtf8ExampleText) == 0);
 
   Mdc_String_Deinit(&utf8_str);

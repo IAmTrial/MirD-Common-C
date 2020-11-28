@@ -30,6 +30,7 @@
 #ifndef MDC_C_WCHAR_T_WIDE_DECODING_H_
 #define MDC_C_WCHAR_T_WIDE_DECODING_H_
 
+#include "../macro/template_macro.h"
 #include "../std/wchar.h"
 #include "../string/string.h"
 
@@ -48,8 +49,7 @@ extern "C" {
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_WString* Mdc_Wide_DecodeAscii(
-    struct Mdc_WString* wide_str,
+DLLEXPORT struct Mdc_WString Mdc_Wide_DecodeAscii(
     const char* ascii_str
 );
 
@@ -63,8 +63,7 @@ DLLEXPORT struct Mdc_WString* Mdc_Wide_DecodeAscii(
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_WString* Mdc_Wide_DecodeDefaultMultibyte(
-    struct Mdc_WString* wide_str,
+DLLEXPORT struct Mdc_WString Mdc_Wide_DecodeDefaultMultibyte(
     const char* multibyte_str
 );
 
@@ -77,8 +76,7 @@ DLLEXPORT struct Mdc_WString* Mdc_Wide_DecodeDefaultMultibyte(
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_WString* Mdc_Wide_DecodeUtf8(
-    struct Mdc_WString* wide_str,
+DLLEXPORT struct Mdc_WString Mdc_Wide_DecodeUtf8(
     const char* utf8_str
 );
 

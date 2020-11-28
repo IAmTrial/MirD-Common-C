@@ -27,52 +27,30 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/string/basic_string/string.h"
-
-#include "../../../../include/mdc/std/threads.h"
-
-/**
- * Initialization/deinitialization
- */
-
-static void* Mdc_String_InitEmptyAsVoid(void* str) {
-  return Mdc_String_InitEmpty(str);
-}
+#ifndef MDC_C_OBJECT_OBJECT_H_
+#define MDC_C_OBJECT_OBJECT_H_
 
 /**
- * Metadata
+ * The following macro arg prefix indicates the following:
+ * R: return type, specifies the complete identifier of the type or
+ *    any alias (e.g. const struct Mdc_String*, MDC_T_PC(Mdc_String)).
+ * T: type, specifies the tag name of the type identifier
+ *    (e.g. Mdc_String). Typedef aliases will fail.
+ * A: arg, specifies the MDC typedef names using MDC_T family of
+ *    qualifier function-macros (e.g. MDC_T_PC(Mdc_String)).
+ * Q: qualifier function-macro name, specifies the name of the MDC_T
+ *    qualifier function-macro to use in combination with a successive
+ *    "T" arg (e.g. MDC_T, MDC_T_PCV). This is required for template
+ *    types.
+ *
+ * Only the first prefix applies. All other successive characters are
+ * purely used for naming (e.g. TA1 uses the "T" rule).
+ *
+ * All T can be converted to A with Q or an explicit MDC_T
+ * function-macro, and all A can be used in place of R.
  */
 
-static struct Mdc_ObjectMetadata* Mdc_String_InitObjectMetadata(
-    struct Mdc_ObjectMetadata* metadata
-) {
-  *metadata = *Mdc_BasicString_GetObjectMetadataTemplate();
+#include "internal/object_declare_macros.h"
+#include "internal/object_name_macros.h"
 
-  metadata->functions.init_default = &Mdc_String_InitEmptyAsVoid;
-
-  return metadata;
-}
-
-static struct Mdc_ObjectMetadata global_metadata;
-static once_flag global_metadata_init_flag = ONCE_FLAG_INIT;
-
-static void Mdc_String_InitGlobalObjectMetadata(void) {
-  Mdc_String_InitObjectMetadata(&global_metadata);
-}
-
-/**
- * External
- */
-
-/**
- * Metadata
- */
-
-const struct Mdc_ObjectMetadata* Mdc_String_GetObjectMetadata(void) {
-  call_once(
-      &global_metadata_init_flag,
-      &Mdc_String_InitGlobalObjectMetadata
-  );
-
-  return &global_metadata;
-}
+#endif /* MDC_C_OBJECT_OBJECT_H_ */

@@ -37,12 +37,11 @@
 #include "../../../include/mdc/malloc/malloc.h"
 #include "../../../include/mdc/std/threads.h"
 
-static struct Mdc_WString* Mdc_Wide_DecodeChar(
-    struct Mdc_WString* wide_str,
+static struct Mdc_WString Mdc_Wide_DecodeChar(
     const char* char_str,
     UINT code_page
 ) {
-  struct Mdc_WString* init_wide_str;
+  struct Mdc_WString wide_str;
   size_t wide_str_len;
 
   size_t converted_chars_with_null_count;
@@ -64,14 +63,10 @@ static struct Mdc_WString* Mdc_Wide_DecodeChar(
   wide_str_len -= 1;
 
   /* Allocate the wide string. */
-  init_wide_str = Mdc_WString_InitFromChar(
-      wide_str,
+  wide_str = Mdc_WString_InitFromChar(
       wide_str_len,
       L'\0'
   );
-  if (init_wide_str != wide_str) {
-    goto return_bad;
-  }
 
   /* Convert the char string to wide string. */
   converted_chars_with_null_count = MultiByteToWideChar(
@@ -79,7 +74,7 @@ static struct Mdc_WString* Mdc_Wide_DecodeChar(
       0,
       char_str,
       -1,
-      Mdc_WString_Data(wide_str),
+      Mdc_WString_Data(&wide_str),
       wide_str_len + 1
   );
 
@@ -91,31 +86,28 @@ static struct Mdc_WString* Mdc_Wide_DecodeChar(
   return wide_str;
 
 deinit_wide_str:
-  Mdc_WString_Deinit(wide_str);
+  Mdc_WString_Deinit(&wide_str);
 
 return_bad:
   return wide_str;
 }
 
-struct Mdc_WString* Mdc_Wide_DecodeAscii(
-    struct Mdc_WString* wide_str,
+struct Mdc_WString Mdc_Wide_DecodeAscii(
     const char* ascii_str
 ) {
-  return Mdc_Wide_DecodeChar(wide_str, ascii_str, 20127);
+  return Mdc_Wide_DecodeChar(ascii_str, 20127);
 }
 
-struct Mdc_WString* Mdc_Wide_DecodeDefaultMultibyte(
-    struct Mdc_WString* wide_str,
+struct Mdc_WString Mdc_Wide_DecodeDefaultMultibyte(
     const char* multibyte_str
 ) {
-  return Mdc_Wide_DecodeChar(wide_str, multibyte_str, CP_ACP);
+  return Mdc_Wide_DecodeChar(multibyte_str, CP_ACP);
 }
 
-struct Mdc_WString* Mdc_Wide_DecodeUtf8(
-    struct Mdc_WString* wide_str,
+struct Mdc_WString Mdc_Wide_DecodeUtf8(
     const char* utf8_str
 ) {
-  return Mdc_Wide_DecodeChar(wide_str, utf8_str, CP_UTF8);
+  return Mdc_Wide_DecodeChar(utf8_str, CP_UTF8);
 }
 
 #endif /* defined(_WIN32) || defined(_WIN64) */

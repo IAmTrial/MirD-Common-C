@@ -152,24 +152,12 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStrTop(
     const Mdc_Fs_Path_ValueType* cstr,
     size_t count
 ) {
-  struct Mdc_WString* init_path_str;
-
-  init_path_str = Mdc_WString_InitFromCStrTop(
-      &path->path_str_,
+  path->path_str_ = Mdc_WString_InitFromCStrTop(
       cstr,
       count
   );
 
-  if (init_path_str != &path->path_str_) {
-    goto return_bad;
-  }
-
   return path;
-
-return_bad:
-  *path = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 /**
@@ -183,102 +171,45 @@ const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator = L'\\';
  */
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitEmpty(struct Mdc_Fs_Path* path) {
-  struct Mdc_WString* init_path_str;
-
-  init_path_str = Mdc_WString_InitEmpty(
-      &path->path_str_
-  );
-
-  if (init_path_str != &path->path_str_) {
-    goto return_bad;
-  }
+  path->path_str_ = Mdc_WString_InitEmpty();
 
   return path;
-
-return_bad:
-  *path = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromAsciiCStr(
     struct Mdc_Fs_Path* path,
     const char* src
 ) {
-  struct Mdc_WString* init_str;
-
-  init_str = Mdc_Wide_DecodeAscii(&path->path_str_, src);
-  if (init_str != &path->path_str_) {
-    goto return_bad;
-  }
+  path->path_str_ = Mdc_Wide_DecodeAscii(src);
 
   return path;
-
-return_bad:
-  *path = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromDefaultMultibyteCStr(
     struct Mdc_Fs_Path* path,
     const char* src
 ) {
-  struct Mdc_WString* init_str;
-
-  init_str = Mdc_Wide_DecodeDefaultMultibyte(&path->path_str_, src);
-  if (init_str != &path->path_str_) {
-    goto return_bad;
-  }
+  path->path_str_ = Mdc_Wide_DecodeDefaultMultibyte(src);
 
   return path;
-
-return_bad:
-  *path = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromUtf8CStr(
     struct Mdc_Fs_Path* path,
     const char* src
 ) {
-  struct Mdc_WString* init_str;
-
-  init_str = Mdc_Wide_DecodeUtf8(&path->path_str_, src);
-  if (init_str != &path->path_str_) {
-    goto return_bad;
-  }
+  path->path_str_ = Mdc_Wide_DecodeUtf8(src);
 
   return path;
-
-return_bad:
-  *path = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStr(
     struct Mdc_Fs_Path* path,
     const wchar_t* src
 ) {
-  struct Mdc_WString* init_str;
-
-  init_str = Mdc_WString_InitFromCStr(
-      &path->path_str_,
-      src
-  );
-
-  if (init_str != &path->path_str_) {
-    goto return_bad;
-  }
+  path->path_str_ = Mdc_WString_InitFromCStr(src);
 
   return path;
-
-return_bad:
-  *path = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 /**

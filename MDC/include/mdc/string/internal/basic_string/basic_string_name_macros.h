@@ -31,154 +31,171 @@
 #define MDC_C_STRING_INTERNAL_BASIC_STRING_BASIC_STRING_NAME_MACROS_H_
 
 #include "../../../macro/concat_macro.h"
+#include "../../../macro/template_macro.h"
+#include "../../../object/object.h"
 
-#define Mdc_BasicString(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString__, CharT)
+#define Mdc_BasicString(T_CharT) \
+    MDC_MACRO_CONCAT( \
+        Mdc_BasicString, \
+        MDC_MACRO_TEMPLATE_1(MDC_T(T_CharT)) \
+    )
 
 /**
  * Constants
  */
 
-#define Mdc_BasicString_kNpos(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __kNpos)
+#define Mdc_BasicString_kNpos(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), kNpos)
 
 /**
  * Functions
  */
 
-#define Mdc_BasicString_InitEmpty(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitEmpty)
+#define Mdc_BasicString_InitEmpty(T_CharT) \
+    Mdc_Object_InitDefault(Mdc_BasicString(T_CharT))
 
-#define Mdc_BasicString_InitFromChar(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitFromChar)
+#define Mdc_BasicString_InitFromChar(T_CharT) \
+    Mdc_Object_InitFrom(Mdc_BasicString(T_CharT), MDC_T(char))
 
-#define Mdc_BasicString_InitStrTail(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitStrTail)
+#define Mdc_BasicString_InitStrTail(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), InitStrTail)
 
-#define Mdc_BasicString_InitSubstr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitSubstr)
+#define Mdc_BasicString_InitSubstr(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), InitSubstr)
 
-#define Mdc_BasicString_InitFromCStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitFromCStr)
+#define Mdc_BasicString_InitFromCStr(T_CharT) \
+    Mdc_Object_InitFrom(Mdc_BasicString(T_CharT), MDC_T_PC(char))
 
-#define Mdc_BasicString_InitFromCStrTop(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitFromCStrTop)
+#define Mdc_BasicString_InitFromCStrTop(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), InitFromCStrTop)
 
-#define Mdc_BasicString_InitCopy(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitCopy)
+#define Mdc_BasicString_InitCopy(T_CharT) \
+    Mdc_Object_InitCopy(Mdc_BasicString(T_CharT))
 
-#define Mdc_BasicString_InitMove(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __InitMove)
+#define Mdc_BasicString_InitMove(T_CharT) \
+    Mdc_Object_InitMove(Mdc_BasicString(T_CharT))
 
-#define Mdc_BasicString_Deinit(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Deinit)
+#define Mdc_BasicString_Deinit(T_CharT) \
+    Mdc_Object_Deinit(Mdc_BasicString(T_CharT))
 
-#define Mdc_BasicString_AssignCopy(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssignCopy)
+#define Mdc_BasicString_AssignCopy(T_CharT) \
+    Mdc_Object_AssignCopy(Mdc_BasicString(T_CharT))
 
-#define Mdc_BasicString_AssignMove(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AssignMove)
+#define Mdc_BasicString_AssignMove(T_CharT) \
+    Mdc_Object_AssignMove(Mdc_BasicString(T_CharT))
 
-#define Mdc_BasicString_Access(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Access)
+#define Mdc_BasicString_Access(T_CharT) \
+    Mdc_Object_Subscript(Mdc_BasicString(T_CharT), MDC_T(size_t))
 
-#define Mdc_BasicString_AccessConst(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AccessConst)
+#define Mdc_BasicString_AccessConst(T_CharT) \
+    Mdc_Object_SubscriptConst(Mdc_BasicString(T_CharT), MDC_T(size_t))
 
-#define Mdc_BasicString_At(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __At)
+#define Mdc_BasicString_At(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), At)
 
-#define Mdc_BasicString_AtConst(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AtConst)
+#define Mdc_BasicString_AtConst(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), AtConst)
 
-#define Mdc_BasicString_AppendStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AppendStr)
+#define Mdc_BasicString_AppendStr(T_CharT) \
+    Mdc_Object_AssignAdd(Mdc_BasicString(T_CharT), Mdc_BasicString(T_CharT))
 
-#define Mdc_BasicString_AppendStrTail(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AppendStrTail)
+#define Mdc_BasicString_AppendStrTail(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), AppendStrTail)
 
-#define Mdc_BasicString_AppendSubstr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AppendSubstr)
+#define Mdc_BasicString_AppendSubstr(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), AppendSubstr)
 
-#define Mdc_BasicString_AppendCStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AppendCStr)
+#define Mdc_BasicString_AppendCStr(T_CharT) \
+    Mdc_Object_AssignAdd(Mdc_BasicString(T_CharT), MDC_T_PC(T_CharT))
 
-#define Mdc_BasicString_AppendCStrTop(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __AppendCStrTop)
+#define Mdc_BasicString_AppendCStrTop(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), AppendCStrTop)
 
-#define Mdc_BasicString_Back(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Back)
+#define Mdc_BasicString_Back(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Back)
 
-#define Mdc_BasicString_BackConst(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __BackConst)
+#define Mdc_BasicString_BackConst(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), BackConst)
 
-#define Mdc_BasicString_Capacity(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Capacity)
+#define Mdc_BasicString_Capacity(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Capacity)
 
-#define Mdc_BasicString_CompareStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __CompareStr)
+#define Mdc_BasicString_CompareStr(T_CharT) \
+    Mdc_Object_Compare( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(Mdc_BasicString(T_CharT)) \
+    )
 
-#define Mdc_BasicString_CompareSubstr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __CompareSubstr)
+#define Mdc_BasicString_CompareSubstr(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareSubstr)
 
-#define Mdc_BasicString_CompareSubstrs(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __CompareSubstrs)
+#define Mdc_BasicString_CompareSubstrs(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareSubstrs)
 
-#define Mdc_BasicString_CompareCStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __CompareCStr)
+#define Mdc_BasicString_CompareCStr(T_CharT) \
+    Mdc_Object_Compare( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(T_CharT) \
+    )
 
-#define Mdc_BasicString_CompareCSubstr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __CompareCSubstr)
+#define Mdc_BasicString_CompareCSubstr(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareCSubstr)
 
-#define Mdc_BasicString_CompareCSubstrs(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __CompareCSubstrs)
+#define Mdc_BasicString_CompareCSubstrs(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareCSubstrs)
 
-#define Mdc_BasicString_Clear(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Clear)
+#define Mdc_BasicString_Clear(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Clear)
 
-#define Mdc_BasicString_CStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __CStr)
+#define Mdc_BasicString_CStr(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CStr)
 
-#define Mdc_BasicString_Data(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Data)
+#define Mdc_BasicString_Data(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Data)
 
-#define Mdc_BasicString_DataConst(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __DataConst)
+#define Mdc_BasicString_DataConst(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), DataConst)
 
-#define Mdc_BasicString_Empty(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Empty)
+#define Mdc_BasicString_Empty(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Empty)
 
-#define Mdc_BasicString_EqualStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __EqualStr)
+#define Mdc_BasicString_EqualStr(T_CharT) \
+    Mdc_Object_Equal( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(Mdc_BasicString(T_CharT)) \
+    )
 
-#define Mdc_BasicString_EqualCStr(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __EqualCStr)
+#define Mdc_BasicString_EqualCStr(T_CharT) \
+    Mdc_Object_Equal( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T_PC(T_CharT) \
+    )
 
-#define Mdc_BasicString_Front(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Front)
+#define Mdc_BasicString_Front(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Front)
 
-#define Mdc_BasicString_FrontConst(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __FrontConst)
+#define Mdc_BasicString_FrontConst(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), FrontConst)
 
-#define Mdc_BasicString_Length(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Length)
+#define Mdc_BasicString_Length(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Length)
 
-#define Mdc_BasicString_PopBack(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __PopBack)
+#define Mdc_BasicString_PopBack(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), PopBack)
 
-#define Mdc_BasicString_PushBack(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __PushBack)
+#define Mdc_BasicString_PushBack(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), PushBack)
 
-#define Mdc_BasicString_Reserve(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Reserve)
+#define Mdc_BasicString_Reserve(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Reserve)
 
-#define Mdc_BasicString_ShrinkToFit(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __ShrinkToFit)
+#define Mdc_BasicString_ShrinkToFit(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), ShrinkToFit)
 
-#define Mdc_BasicString_Size(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Size)
+#define Mdc_BasicString_Size(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), Size)
 
-#define Mdc_BasicString_Swap(CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(CharT), __Swap)
+#define Mdc_BasicString_Swap(T_CharT) \
+    Mdc_Object_Swap(Mdc_BasicString(T_CharT))
 
 #endif /* MDC_C_STRING_INTERNAL_BASIC_STRING_BASIC_STRING_NAME_MACROS_H_ */

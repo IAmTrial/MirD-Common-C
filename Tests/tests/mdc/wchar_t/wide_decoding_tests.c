@@ -41,10 +41,8 @@
 
 static void Mdc_WideDecoding_AssertDecodeAscii(void) {
   struct Mdc_WString wide_str;
-  struct Mdc_WString* init_wide_str;
 
-  init_wide_str = Mdc_Wide_DecodeAscii(&wide_str, kAsciiExampleText);
-  assert(init_wide_str == &wide_str);
+  wide_str = Mdc_Wide_DecodeAscii(kAsciiExampleText);
   assert(Mdc_WString_CompareCStr(&wide_str, kAsciiExampleTextWide) == 0);
 
   Mdc_WString_Deinit(&wide_str);
@@ -54,13 +52,10 @@ static void Mdc_WideDecoding_AssertDecodeAscii(void) {
 
 static void Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii(void) {
   struct Mdc_WString wide_str;
-  struct Mdc_WString* init_wide_str;
 
-  init_wide_str = Mdc_Wide_DecodeDefaultMultibyte(
-      &wide_str,
+  wide_str = Mdc_Wide_DecodeDefaultMultibyte(
       kAsciiExampleText
   );
-  assert(init_wide_str == &wide_str);
   assert(Mdc_WString_CompareCStr(&wide_str, kAsciiExampleTextWide) == 0);
 
   Mdc_WString_Deinit(&wide_str);
@@ -70,10 +65,8 @@ static void Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii(void) {
 
 static void Mdc_WideDecoding_AssertDecodeUtf8(void) {
   struct Mdc_WString wide_str;
-  struct Mdc_WString* init_wide_str;
 
-  init_wide_str = Mdc_Wide_DecodeUtf8(&wide_str, kUtf8ExampleText);
-  assert(init_wide_str == &wide_str);
+  wide_str = Mdc_Wide_DecodeUtf8(kUtf8ExampleText);
   assert(Mdc_WString_CompareCStr(&wide_str, kUtf8ExampleTextWide) == 0);
 
   Mdc_WString_Deinit(&wide_str);

@@ -33,6 +33,7 @@
 #include <stddef.h>
 
 #include "../../../macro/concat_macro.h"
+#include "../../../macro/template_macro.h"
 #include "../../../std/stdbool.h"
 #include "../char_traits/char_traits_name_macros.h"
 #include "basic_string_name_macros.h"
@@ -41,398 +42,394 @@
  * Struct
  */
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_STRUCT(CharT) \
-    struct Mdc_BasicString(CharT) { \
-      CharT* c_str_; \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_STRUCT(T_CharT) \
+    MDC_T_DECLARE_TYPEDEFS(T_CharT) \
+    struct Mdc_BasicString(T_CharT) { \
+      MDC_T_P(T_CharT) c_str_; \
       size_t length_; \
       size_t capacity_; \
-    };
+    }; \
+    MDC_T_DECLARE_DATA_TYPE_TYPEDEFS(struct, Mdc_BasicString(T_CharT))
 
 /**
  * Constants
  */
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_K_NPOS(CharT) \
-    const size_t Mdc_BasicString_kNpos(CharT);
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_K_NPOS(T_CharT) \
+    extern const size_t Mdc_BasicString_kNpos(T_CharT);
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_CONSTANTS(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_K_NPOS(CharT);
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_CONSTANTS(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_K_NPOS(T_CharT);
+
+#define MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING_CONSTANTS(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_K_NPOS(T_CharT);
 
 /**
  * Functions
  */
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_EMPTY(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitEmpty(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
-    );
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_EMPTY(T_CharT) \
+    MDC_DECLARE_OBJECT_INIT_DEFAULT(Mdc_BasicString(T_CharT))
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_CHAR(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitFromChar(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_CHAR(T_CharT) \
+    MDC_T(Mdc_BasicString(T_CharT)) Mdc_BasicString_InitFromChar(T_CharT)( \
         size_t count, \
-        CharT ch \
+        MDC_T(T_CharT) ch \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_STR_TAIL(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitStrTail(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
-        const struct Mdc_BasicString(CharT)* src, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_STR_TAIL(T_CharT) \
+    MDC_T(Mdc_BasicString(T_CharT)) Mdc_BasicString_InitStrTail(T_CharT)( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)) src, \
         size_t pos \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_SUBSTR(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitSubstr(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
-        const struct Mdc_BasicString(CharT)* src, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_SUBSTR(T_CharT) \
+    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitSubstr(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* src, \
         size_t pos, \
         size_t count \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitFromCStr(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
-        const CharT* c_str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR(T_CharT) \
+    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitFromCStr(T_CharT)( \
+        const T_CharT* c_str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR_TOP(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitFromCStrTop(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
-        const CharT* c_str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR_TOP(T_CharT) \
+    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitFromCStrTop(T_CharT)( \
+        const T_CharT* c_str, \
         size_t count \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_COPY(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitCopy(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        const struct Mdc_BasicString(CharT)* src \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_COPY(T_CharT) \
+    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitCopy(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* src \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_MOVE(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_InitMove(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        struct Mdc_BasicString(CharT)* src \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_MOVE(T_CharT) \
+    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitMove(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* src \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_DEINIT(CharT) \
-    void Mdc_BasicString_Deinit(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_DEINIT(T_CharT) \
+    void Mdc_BasicString_Deinit(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_COPY(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_AssignCopy(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        const struct Mdc_BasicString(CharT)* src \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_COPY(T_CharT) \
+    struct Mdc_BasicString(T_CharT)* Mdc_BasicString_AssignCopy(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* dest, \
+        const struct Mdc_BasicString(T_CharT)* src \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_MOVE(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_AssignMove(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        struct Mdc_BasicString(CharT)* src \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_MOVE(T_CharT) \
+    struct Mdc_BasicString(T_CharT)* Mdc_BasicString_AssignMove(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* dest, \
+        struct Mdc_BasicString(T_CharT)* src \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS(CharT) \
-    CharT* Mdc_BasicString_Access(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS(T_CharT) \
+    T_CharT* Mdc_BasicString_Access(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str, \
         size_t pos \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS_CONST(CharT) \
-    const CharT* Mdc_BasicString_AccessConst(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS_CONST(T_CharT) \
+    const T_CharT* Mdc_BasicString_AccessConst(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str, \
         size_t pos \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_AT(CharT) \
-    CharT* Mdc_BasicString_At(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_AT(T_CharT) \
+    T_CharT* Mdc_BasicString_At(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str, \
         size_t pos \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_AT_CONST(CharT) \
-    const CharT* Mdc_BasicString_AtConst(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_AT_CONST(T_CharT) \
+    const T_CharT* Mdc_BasicString_AtConst(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str, \
         size_t pos \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_AppendStr(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        const struct Mdc_BasicString(CharT)* src \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR(T_CharT) \
+    struct Mdc_BasicString(T_CharT)* Mdc_BasicString_AppendStr(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* dest, \
+        const struct Mdc_BasicString(T_CharT)* src \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR_TAIL(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_AppendStrTail(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        const struct Mdc_BasicString(CharT)* src, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR_TAIL(T_CharT) \
+    struct Mdc_BasicString(T_CharT)* Mdc_BasicString_AppendStrTail(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* dest, \
+        const struct Mdc_BasicString(T_CharT)* src, \
         size_t pos \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_SUBSTR(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_AppendSubstr(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        const struct Mdc_BasicString(CharT)* src, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_SUBSTR(T_CharT) \
+    struct Mdc_BasicString(T_CharT)* Mdc_BasicString_AppendSubstr(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* dest, \
+        const struct Mdc_BasicString(T_CharT)* src, \
         size_t pos, \
         size_t count \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_AppendCStr(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        const CharT* src \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR(T_CharT) \
+    struct Mdc_BasicString(T_CharT)* Mdc_BasicString_AppendCStr(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* dest, \
+        const T_CharT* src \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR_TOP(CharT) \
-    struct Mdc_BasicString(CharT)* Mdc_BasicString_AppendCStrTop(CharT)( \
-        struct Mdc_BasicString(CharT)* dest, \
-        const CharT* src, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR_TOP(T_CharT) \
+    struct Mdc_BasicString(T_CharT)* Mdc_BasicString_AppendCStrTop(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* dest, \
+        const T_CharT* src, \
         size_t count \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_BACK(CharT) \
-    CharT* Mdc_BasicString_Back(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_BACK(T_CharT) \
+    T_CharT* Mdc_BasicString_Back(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_BACK_CONST(CharT) \
-    const CharT* Mdc_BasicString_BackConst(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_BACK_CONST(T_CharT) \
+    const T_CharT* Mdc_BasicString_BackConst(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_CAPACITY(CharT) \
-    size_t Mdc_BasicString_Capacity(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_CAPACITY(T_CharT) \
+    size_t Mdc_BasicString_Capacity(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_STR(CharT) \
-  int Mdc_BasicString_CompareStr(CharT)( \
-      const struct Mdc_BasicString(CharT)* str1, \
-      const struct Mdc_BasicString(CharT)* str2 \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_STR(T_CharT) \
+  int Mdc_BasicString_CompareStr(T_CharT)( \
+      const struct Mdc_BasicString(T_CharT)* str1, \
+      const struct Mdc_BasicString(T_CharT)* str2 \
   );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTR(CharT) \
-    int Mdc_BasicString_CompareSubstr(CharT)( \
-        const struct Mdc_BasicString(CharT)* str1, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTR(T_CharT) \
+    int Mdc_BasicString_CompareSubstr(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str1, \
         size_t pos1, \
         size_t count1, \
-        const struct Mdc_BasicString(CharT)* str2 \
+        const struct Mdc_BasicString(T_CharT)* str2 \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTRS(CharT) \
-    int Mdc_BasicString_CompareSubstrs(CharT)( \
-        const struct Mdc_BasicString(CharT)* str1, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTRS(T_CharT) \
+    int Mdc_BasicString_CompareSubstrs(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str1, \
         size_t pos1, \
         size_t count1, \
-        const struct Mdc_BasicString(CharT)* str2, \
+        const struct Mdc_BasicString(T_CharT)* str2, \
         size_t pos2, \
         size_t count2 \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_STR(CharT) \
-    int Mdc_BasicString_CompareCStr(CharT)( \
-        const struct Mdc_BasicString(CharT)* str, \
-        const CharT* c_str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_STR(T_CharT) \
+    int Mdc_BasicString_CompareCStr(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str, \
+        const T_CharT* c_str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTR(CharT) \
-    int Mdc_BasicString_CompareCSubstr(CharT)( \
-        const struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTR(T_CharT) \
+    int Mdc_BasicString_CompareCSubstr(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str, \
         size_t pos1, \
         size_t count1, \
-        const CharT* c_str \
+        const T_CharT* c_str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTRS(CharT) \
-    int Mdc_BasicString_CompareCSubstrs(CharT)( \
-        const struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTRS(T_CharT) \
+    int Mdc_BasicString_CompareCSubstrs(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str, \
         size_t pos1, \
         size_t count1, \
-        const CharT* c_str, \
+        const T_CharT* c_str, \
         size_t count2 \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_CLEAR(CharT) \
-    void Mdc_BasicString_Clear(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_CLEAR(T_CharT) \
+    void Mdc_BasicString_Clear(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_C_STR(CharT) \
-    const CharT* Mdc_BasicString_CStr(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_C_STR(T_CharT) \
+    const T_CharT* Mdc_BasicString_CStr(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_DATA(CharT) \
-    CharT* Mdc_BasicString_Data(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_DATA(T_CharT) \
+    T_CharT* Mdc_BasicString_Data(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_DATA_CONST(CharT) \
-    const CharT* Mdc_BasicString_DataConst(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_DATA_CONST(T_CharT) \
+    const T_CharT* Mdc_BasicString_DataConst(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_EMPTY(CharT) \
-    bool Mdc_BasicString_Empty(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_EMPTY(T_CharT) \
+    bool Mdc_BasicString_Empty(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_STR(CharT) \
-    bool Mdc_BasicString_EqualStr(CharT)( \
-        const struct Mdc_BasicString(CharT)* str1, \
-        const struct Mdc_BasicString(CharT)* str2 \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_STR(T_CharT) \
+    bool Mdc_BasicString_EqualStr(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str1, \
+        const struct Mdc_BasicString(T_CharT)* str2 \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_C_STR(CharT) \
-    bool Mdc_BasicString_EqualCStr(CharT)( \
-        const struct Mdc_BasicString(CharT)* str, \
-        const CharT* c_str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_C_STR(T_CharT) \
+    bool Mdc_BasicString_EqualCStr(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str, \
+        const T_CharT* c_str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT(CharT) \
-    CharT* Mdc_BasicString_Front(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT(T_CharT) \
+    T_CharT* Mdc_BasicString_Front(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT_CONST(CharT) \
-    const CharT* Mdc_BasicString_FrontConst(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT_CONST(T_CharT) \
+    const T_CharT* Mdc_BasicString_FrontConst(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_LENGTH(CharT) \
-    size_t Mdc_BasicString_Length(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_LENGTH(T_CharT) \
+    size_t Mdc_BasicString_Length(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_POP_BACK(CharT) \
-    void Mdc_BasicString_PopBack(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_POP_BACK(T_CharT) \
+    void Mdc_BasicString_PopBack(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_PUSH_BACK(CharT) \
-    void Mdc_BasicString_PushBack(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
-        CharT ch \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_PUSH_BACK(T_CharT) \
+    void Mdc_BasicString_PushBack(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str, \
+        T_CharT ch \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_RESERVE(CharT) \
-    void Mdc_BasicString_Reserve(CharT)( \
-        struct Mdc_BasicString(CharT)* str, \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_RESERVE(T_CharT) \
+    void Mdc_BasicString_Reserve(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str, \
         size_t new_capacity \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_SHRINK_TO_FIT(CharT) \
-    void Mdc_BasicString_ShrinkToFit(CharT)( \
-        struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_SHRINK_TO_FIT(T_CharT) \
+    void Mdc_BasicString_ShrinkToFit(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_SIZE(CharT) \
-    size_t Mdc_BasicString_Size(CharT)( \
-        const struct Mdc_BasicString(CharT)* str \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_SIZE(T_CharT) \
+    size_t Mdc_BasicString_Size(T_CharT)( \
+        const struct Mdc_BasicString(T_CharT)* str \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_SWAP(CharT) \
-    void Mdc_BasicString_Swap(CharT)( \
-        struct Mdc_BasicString(CharT)* str1, \
-        struct Mdc_BasicString(CharT)* str2 \
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_SWAP(T_CharT) \
+    void Mdc_BasicString_Swap(T_CharT)( \
+        struct Mdc_BasicString(T_CharT)* str1, \
+        struct Mdc_BasicString(T_CharT)* str2 \
     );
 
-#define MDC_INTERNAL_DECLARE_BASIC_STRING_FUNCTIONS(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_EMPTY(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_CHAR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_STR_TAIL(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_SUBSTR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR_TOP(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_COPY(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_MOVE(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_DEINIT(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_COPY(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_MOVE(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS_CONST(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_AT(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_AT_CONST(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR_TAIL(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_SUBSTR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR_TOP(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_BACK(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_BACK_CONST(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_CAPACITY(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTRS(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTRS(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_CLEAR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_C_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_DATA(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_DATA_CONST(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_EMPTY(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_C_STR(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT_CONST(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_LENGTH(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_POP_BACK(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_PUSH_BACK(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_RESERVE(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_SHRINK_TO_FIT(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_SIZE(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_SWAP(CharT)
+#define MDC_INTERNAL_DECLARE_BASIC_STRING_FUNCTIONS(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_EMPTY(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_CHAR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_STR_TAIL(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_SUBSTR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR_TOP(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_COPY(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_MOVE(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_DEINIT(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_COPY(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_MOVE(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS_CONST(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_AT(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_AT_CONST(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR_TAIL(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_SUBSTR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR_TOP(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_BACK(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_BACK_CONST(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_CAPACITY(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTRS(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTRS(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_CLEAR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_C_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_DATA(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_DATA_CONST(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_EMPTY(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_C_STR(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT_CONST(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_LENGTH(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_POP_BACK(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_PUSH_BACK(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_RESERVE(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_SHRINK_TO_FIT(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_SIZE(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_SWAP(T_CharT)
 
-#define MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING_FUNCTIONS(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_EMPTY(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_CHAR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_STR_TAIL(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_SUBSTR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR_TOP(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_COPY(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_MOVE(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_DEINIT(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_COPY(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_MOVE(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS_CONST(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_AT(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_AT_CONST(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR_TAIL(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_SUBSTR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR_TOP(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_BACK(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_BACK_CONST(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_CAPACITY(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTRS(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTRS(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_CLEAR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_C_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_DATA(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_DATA_CONST(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_EMPTY(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_C_STR(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT_CONST(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_LENGTH(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_POP_BACK(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_PUSH_BACK(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_RESERVE(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_SHRINK_TO_FIT(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_SIZE(CharT) \
-    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_SWAP(CharT)
+#define MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING_FUNCTIONS(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_EMPTY(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_CHAR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_STR_TAIL(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_SUBSTR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR_TOP(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_COPY(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_MOVE(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_DEINIT(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_COPY(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ASSIGN_MOVE(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_ACCESS_CONST(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_AT(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_AT_CONST(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_STR_TAIL(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_SUBSTR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_APPEND_C_STR_TOP(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_BACK(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_BACK_CONST(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_CAPACITY(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_SUBSTRS(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_COMPARE_C_SUBSTRS(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_CLEAR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_C_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_DATA(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_DATA_CONST(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_EMPTY(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_EQUAL_C_STR(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_FRONT_CONST(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_LENGTH(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_POP_BACK(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_PUSH_BACK(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_RESERVE(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_SHRINK_TO_FIT(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_SIZE(T_CharT) \
+    DLLEXPORT MDC_INTERNAL_DECLARE_BASIC_STRING_SWAP(T_CharT)
 
-#define MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_STRUCT(CharT) \
-    MDC_INTERNAL_DECLARE_BASIC_STRING_CONSTANTS(CharT) \
-    MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING_FUNCTIONS(CharT)
+#define MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_STRUCT(T_CharT) \
+    MDC_INTERNAL_DECLARE_BASIC_STRING_CONSTANTS(T_CharT) \
+    MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING_FUNCTIONS(T_CharT)
 
 #endif /* MDC_C_STRING_INTERNAL_BASIC_STRING_BASIC_STRING_DECLARE_MACROS_H_ */

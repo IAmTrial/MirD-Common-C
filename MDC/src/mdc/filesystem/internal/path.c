@@ -82,46 +82,22 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_InitCopy(
     struct Mdc_Fs_Path* dest,
     const struct Mdc_Fs_Path* src
 ) {
-  struct Mdc_Fs_Path_StringType* init_dest_path_str;
-
-  init_dest_path_str = Mdc_BasicString_InitCopy(Mdc_Fs_Path_ValueType)(
-      &dest->path_str_,
+  dest->path_str_ = Mdc_BasicString_InitCopy(Mdc_Fs_Path_ValueType)(
       &src->path_str_
   );
 
-  if (init_dest_path_str != &dest->path_str_) {
-    goto return_bad;
-  }
-
   return dest;
-
-return_bad:
-  *dest = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 struct Mdc_Fs_Path* Mdc_Fs_Path_InitMove(
     struct Mdc_Fs_Path* dest,
     struct Mdc_Fs_Path* src
 ) {
-  struct Mdc_Fs_Path_StringType* init_dest_path_str;
-
-  init_dest_path_str = Mdc_BasicString_InitMove(Mdc_Fs_Path_ValueType)(
-      &dest->path_str_,
+  Mdc_BasicString_InitMove(Mdc_Fs_Path_ValueType)(
       &src->path_str_
   );
 
-  if (init_dest_path_str != &dest->path_str_) {
-    goto return_bad;
-  }
-
   return dest;
-
-return_bad:
-  *dest = Mdc_Fs_Path_kUninit;
-
-  return NULL;
 }
 
 void Mdc_Fs_Path_Deinit(struct Mdc_Fs_Path* path) {
@@ -162,21 +138,12 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AssignMove(
     struct Mdc_Fs_Path* dest,
     struct Mdc_Fs_Path* src
 ) {
-  struct Mdc_Fs_Path_StringType* assign_dest_path_str;
-
-  assign_dest_path_str = Mdc_BasicString_AssignMove(Mdc_Fs_Path_ValueType)(
+  Mdc_BasicString_AssignMove(Mdc_Fs_Path_ValueType)(
       &dest->path_str_,
       &src->path_str_
   );
 
-  if (assign_dest_path_str != &dest->path_str_) {
-    goto return_bad;
-  }
-
   return dest;
-
-return_bad:
-  return NULL;
 }
 
 /**
@@ -733,30 +700,19 @@ const struct Mdc_Fs_Path_StringType* Mdc_Fs_Path_StrType(
     struct Mdc_Fs_Path_StringType* str,
     const struct Mdc_Fs_Path* path
 ) {
-  struct Mdc_Fs_Path_StringType* init_str;
-
-  init_str = Mdc_BasicString_InitCopy(Mdc_Fs_Path_ValueType)(
-      str,
+  *str = Mdc_BasicString_InitCopy(Mdc_Fs_Path_ValueType)(
       &path->path_str_
   );
 
-  if (init_str != &path->path_str_) {
-    goto return_bad;
-  }
-
   return str;
-
-return_bad:
-  return NULL;
 }
 
 void Mdc_Fs_Path_Swap(
     struct Mdc_Fs_Path* path1,
     struct Mdc_Fs_Path* path2
 ) {
-  struct Mdc_Fs_Path temp;
-
-  temp = *path1;
-  *path1 = *path2;
-  *path2 = temp;
+  Mdc_BasicString_Swap(Mdc_Fs_Path_ValueType)(
+      &path1->path_str_,
+      &path2->path_str_
+  );
 }
