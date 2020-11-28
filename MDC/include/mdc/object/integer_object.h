@@ -37,6 +37,10 @@
 
 #include "../../../dllexport_define.inc"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 #define MDC_DECLARE_SIGNED_INTEGER(T_IntT) \
     MDC_INTERNAL_DECLARE_SIGNED_INTEGER(T_IntT)
 
@@ -99,6 +103,11 @@ MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_UIntptr)
 
 MDC_INTERNAL_DECLARE_DLLEXPORT_UNSIGNED_INTEGER(Mdc_Size)
 MDC_INTERNAL_DECLARE_DLLEXPORT_SIGNED_INTEGER(Mdc_Ptrdiff)
+
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
 
 #include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_OBJECT_INTEGER_OBJECT_H_ */
