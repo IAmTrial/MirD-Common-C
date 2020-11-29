@@ -40,6 +40,7 @@
 
 #define MDC_DEFINE_FLOATING_INIT_DEFAULT(T_FloatingT) \
     MDC_T(T_FloatingT) Mdc_Floating_InitDefault(T_FloatingT)(void) { \
+      /* Should actually return an unspecified value. */ \
       return 0; \
     }
 

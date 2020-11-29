@@ -37,7 +37,7 @@
 #define Mdc_Pair(T_FirstT, T_SecondT) \
     MDC_MACRO_CONCAT( \
         Mdc_Pair, \
-        MDC_MACRO_TEMPLATE_1(MDC_T(T_CharT)) \
+        MDC_MACRO_TEMPLATE_2(T_FirstT, T_SecondT) \
     )
 
 /**

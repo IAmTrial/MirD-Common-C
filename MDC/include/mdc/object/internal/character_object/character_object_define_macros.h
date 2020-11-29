@@ -41,6 +41,7 @@
 
 #define MDC_DEFINE_CHARACTER_INIT_DEFAULT(T_CharacterT) \
     MDC_T(T_CharacterT) Mdc_Character_InitDefault(T_CharacterT)(void) { \
+      /* Should actually return an unspecified value. */ \
       return 0; \
     }
 

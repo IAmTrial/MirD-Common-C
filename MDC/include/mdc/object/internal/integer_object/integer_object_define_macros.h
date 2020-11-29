@@ -40,6 +40,7 @@
 
 #define MDC_DEFINE_INTEGER_INIT_DEFAULT(T_IntT) \
     MDC_T(T_IntT) Mdc_Integer_InitDefault(T_IntT)(void) { \
+      /* Should actually return an unspecified value. */ \
       return 0; \
     }
 

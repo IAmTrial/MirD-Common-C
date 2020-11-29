@@ -86,14 +86,14 @@
       pair = Mdc_Pair_InitFromFirstCopySecondCopy(T_FirstT, T_SecondT)( \
           &src->first, \
           &src->second \
-      ) \
+      ); \
 \
       return pair; \
     }
 
 #define MDC_INTERNAL_DEFINE_PAIR_INIT_MOVE(T_FirstT, T_SecondT) \
     MDC_T(Mdc_Pair(T_FirstT, T_SecondT)) \
-    Mdc_Pair_InitCopy(T_FirstT, T_SecondT)( \
+    Mdc_Pair_InitMove(T_FirstT, T_SecondT)( \
         MDC_T_P(Mdc_Pair(T_FirstT, T_SecondT)) src \
     ) { \
       MDC_T(Mdc_Pair(T_FirstT, T_SecondT)) pair; \

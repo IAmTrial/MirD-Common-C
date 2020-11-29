@@ -29,34 +29,4 @@
 
 #include "pair_string_int.h"
 
-#include <mdc/object/integer_object.h>
-#include <mdc/std/threads.h>
-#include <mdc/string/basic_string.h>
-
-/**
- * Static functions
- */
-
-static struct Mdc_PairMetadata global_pair_metadata;
-static once_flag global_pair_metadata_init_flag = ONCE_FLAG_INIT;
-
-static void Mdc_PairStringInt_InitGlobalPairMetadata(void) {
-  Mdc_PairMetadata_Init(
-      &global_pair_metadata,
-      Mdc_String_GetObjectMetadata(),
-      Mdc_Integer_GetObjectMetadata()
-  );
-}
-
-/**
- * External functions
- */
-
-const struct Mdc_PairMetadata* Mdc_PairStringInt_GetGlobalPairMetadata(void) {
-  call_once(
-      &global_pair_metadata_init_flag,
-      &Mdc_PairStringInt_InitGlobalPairMetadata
-  );
-
-  return &global_pair_metadata;
-}
+MDC_DEFINE_PAIR(Mdc_String, Mdc_Int)
