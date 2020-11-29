@@ -62,10 +62,7 @@
     MDC_T(T) Mdc_Object_InitDefault(T)(void);
 
 #define MDC_DECLARE_OBJECT_INIT_FROM(T, A1) \
-    MDC_T(T) Mdc_Object_InitFrom(T, A1)(A1 arg1);
-
-#define MDC_DECLARE_OBJECT_DEFAULT_INIT_FROM(T, TA1) \
-    MDC_DECLARE_OBJECT_INIT_FROM(T, MDC_T_PC(TA1))
+    MDC_T(T) Mdc_Object_InitFrom_1(T, A1)(A1 arg1);
 
 #define MDC_DECLARE_OBJECT_INIT_COPY(T) \
     MDC_T(T) Mdc_Object_InitCopy(T)(MDC_T_PC(T) src);

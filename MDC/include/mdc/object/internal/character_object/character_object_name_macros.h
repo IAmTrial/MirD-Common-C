@@ -42,7 +42,7 @@
     Mdc_Object_InitDefault(T_CharacterT)
 
 #define Mdc_Character_InitFromValue(T_CharacterT) \
-    Mdc_Object_InitFrom(T_CharacterT, MDC_T(T_CharacterT))
+    Mdc_Object_InitFrom_1(T_CharacterT, MDC_T(T_CharacterT))
 
 #define Mdc_Character_InitCopy(T_CharacterT) \
     Mdc_Object_InitCopy(T_CharacterT)

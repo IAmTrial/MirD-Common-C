@@ -42,17 +42,71 @@
 #define Mdc_Object_InitDefault(T) \
     MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitDefault)
 
-#define Mdc_Object_InitFrom(T, A1) \
+#define Mdc_Object_InitFrom_0(T) \
+    Mdc_Object_InitDefault(T)
+
+#define Mdc_Object_InitFrom_1(T, A1) \
     MDC_MACRO_CONCAT( \
         MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
         MDC_MACRO_TEMPLATE_1(A1) \
     )
 
+#define Mdc_Object_InitFrom_2(T, A1, A2) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_2(A1, A2) \
+    )
+
+#define Mdc_Object_InitFrom_3(T, A1, A2, A3) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_3(A1, A2, A3) \
+    )
+
+#define Mdc_Object_InitFrom_4(T, A1, A2, A3, A4) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_4(A1, A2, A3, A4) \
+    )
+
+#define Mdc_Object_InitFrom_5(T, A1, A2, A3, A4, A5) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_5(A1, A2, A3, A4, A5) \
+    )
+
+#define Mdc_Object_InitFrom_6(T, A1, A2, A3, A4, A5, A6) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_6(A1, A2, A3, A4, A5, A6) \
+    )
+
+#define Mdc_Object_InitFrom_7(T, A1, A2, A3, A4, A5, A6, A7) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_7(A1, A2, A3, A4, A5, A6, A7) \
+    )
+
+#define Mdc_Object_InitFrom_8(T, A1, A2, A3, A4, A5, A6, A7, A8) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_8(A1, A2, A3, A4, A5, A6, A7, A8) \
+    )
+
+#define Mdc_Object_InitFrom_9(T, A1, A2, A3, A4, A5, A6, A7, A8, A9) \
+    MDC_MACRO_CONCAT( \
+        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
+        MDC_MACRO_TEMPLATE_9(A1, A2, A3, A4, A5, A6, A7, A8, A9) \
+    )
+
+#define Mdc_Object_InitFrom(N, AL) \
+    MDC_MACRO_CONCAT(MDC_MACRO_CONCAT(Mdc_Object_InitFrom_, N), AL)
+
 #define Mdc_Object_InitCopy(T) \
-    Mdc_Object_InitFrom(T, MDC_T_PC(T))
+    Mdc_Object_InitFrom_1(T, MDC_T_PC(T))
 
 #define Mdc_Object_InitMove(T) \
-    Mdc_Object_InitFrom(T, MDC_T_P(T))
+    Mdc_Object_InitFrom_1(T, MDC_T_P(T))
 
 #define Mdc_Object_Deinit(T) \
     MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), Deinit)

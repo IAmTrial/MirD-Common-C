@@ -55,19 +55,36 @@
     Mdc_Object_InitDefault(Mdc_BasicString(T_CharT))
 
 #define Mdc_BasicString_InitFromChar(T_CharT) \
-    Mdc_Object_InitFrom(Mdc_BasicString(T_CharT), MDC_T(char))
+    Mdc_Object_InitFrom_2( \
+        Mdc_BasicString(T_CharT), \
+        MDC_T(Mdc_Size), \
+        MDC_T(T_CharT) \
+    )
 
 #define Mdc_BasicString_InitStrTail(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), InitStrTail)
+    Mdc_Object_InitFrom_2( \
+        Mdc_BasicString(T_CharT), \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T(Mdc_Size) \
+    )
 
 #define Mdc_BasicString_InitSubstr(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), InitSubstr)
+    Mdc_Object_InitFrom_3( \
+        Mdc_BasicString(T_CharT), \
+        MDC_T_PC(Mdc_BasicString(T_CharT)), \
+        MDC_T(Mdc_Size), \
+        MDC_T(Mdc_Size) \
+    )
 
 #define Mdc_BasicString_InitFromCStr(T_CharT) \
-    Mdc_Object_InitFrom(Mdc_BasicString(T_CharT), MDC_T_PC(char))
+    Mdc_Object_InitFrom_1(Mdc_BasicString(T_CharT), MDC_T_PC(T_CharT))
 
 #define Mdc_BasicString_InitFromCStrTop(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), InitFromCStrTop)
+    Mdc_Object_InitFrom_2( \
+        Mdc_BasicString(T_CharT), \
+        MDC_T_PC(T_CharT), \
+        MDC_T(Mdc_Size) \
+    )
 
 #define Mdc_BasicString_InitCopy(T_CharT) \
     Mdc_Object_InitCopy(Mdc_BasicString(T_CharT))

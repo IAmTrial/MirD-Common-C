@@ -42,7 +42,7 @@
     Mdc_Object_InitDefault(T_IntT)
 
 #define Mdc_Integer_InitFromValue(T_IntT) \
-    Mdc_Object_InitFrom(T_IntT, MDC_T(T_IntT))
+    Mdc_Object_InitFrom_1(T_IntT, MDC_T(T_IntT))
 
 #define Mdc_Integer_InitCopy(T_IntT) \
     Mdc_Object_InitCopy(T_IntT)

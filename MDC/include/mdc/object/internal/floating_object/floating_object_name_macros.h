@@ -42,7 +42,7 @@
     Mdc_Object_InitDefault(T_FloatingT)
 
 #define Mdc_Floating_InitFromValue(T_FloatingT) \
-    Mdc_Object_InitFrom(T_FloatingT, MDC_T(T_FloatingT))
+    Mdc_Object_InitFrom_1(T_FloatingT, MDC_T(T_FloatingT))
 
 #define Mdc_Floating_InitCopy(T_FloatingT) \
     Mdc_Object_InitCopy(T_FloatingT)
