@@ -1,0 +1,228 @@
+/**
+ * Mir Drualga Common For C
+ * Copyright (C) 2020  Mir Drualga
+ *
+ * This file is part of Mir Drualga Common For C.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as published
+ *  by the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU Affero General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Affero General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  Additional permissions under GNU Affero General Public License version 3
+ *  section 7
+ *
+ *  If you modify this Program, or any covered work, by linking or combining
+ *  it with any program (or a modified version of that program and its
+ *  libraries), containing parts covered by the terms of an incompatible
+ *  license, the licensors of this Program grant you additional permission
+ *  to convey the resulting work.
+ */
+
+#ifndef MDC_C_OBJECT_INTERNAL_FLOATING_OBJECT_FLOATING_OBJECT_DECLARE_MACROS_H_
+#define MDC_C_OBJECT_INTERNAL_FLOATING_OBJECT_FLOATING_OBJECT_DECLARE_MACROS_H_
+
+#include "../../../macro/template_macro.h"
+#include "../object_declare_macros.h"
+#include "floating_object_name_macros.h"
+#include "floating_object_typedef.h"
+
+/**
+ * Initialize / Deinitialize
+ */
+
+#define MDC_DECLARE_FLOATING_INIT_DEFAULT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_INIT_DEFAULT(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_INIT_FROM_VALUE(T_FloatingT) \
+    MDC_DECLARE_OBJECT_INIT_FROM(T_FloatingT, MDC_T(T_FloatingT))
+
+#define MDC_DECLARE_FLOATING_INIT_COPY(T_FloatingT) \
+    MDC_DECLARE_OBJECT_INIT_COPY(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_INIT_MOVE(T_FloatingT) \
+    MDC_DECLARE_OBJECT_INIT_MOVE(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_DEINIT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEINIT(T_FloatingT)
+
+/**
+ * Assignment
+ */
+
+#define MDC_DECLARE_FLOATING_ASSIGN_COPY(T_FloatingT) \
+    MDC_DECLARE_OBJECT_ASSIGN_COPY(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_ASSIGN_MOVE(T_FloatingT) \
+    MDC_DECLARE_OBJECT_ASSIGN_MOVE(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_ASSIGN_ADD(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_ASSIGN_ADD(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_ASSIGN_SUBTRACT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_ASSIGN_SUBTRACT(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_ASSIGN_MULTIPLY(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_ASSIGN_MULTIPLY(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_ASSIGN_DIVIDE(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_ASSIGN_DIVIDE(T_FloatingT, T_FloatingT)
+
+/**
+ * Increment / Decrement
+ */
+
+#define MDC_DECLARE_FLOATING_PRE_INCREMENT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_PRE_INCREMENT(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_PRE_DECREMENT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_PRE_DECREMENT(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_POST_INCREMENT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_POST_INCREMENT(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_POST_DECREMENT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_POST_DECREMENT(T_FloatingT)
+
+/**
+ * Arithmetic
+ */
+
+#define MDC_DECLARE_FLOATING_UNARY_PLUS(T_FloatingT) \
+    MDC_DECLARE_OBJECT_UNARY_PLUS(MDC_T(T_FloatingT), T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_UNARY_PLUS_CONST(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_UNARY_PLUS_CONST(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_UNARY_MINUS(T_FloatingT) \
+    MDC_DECLARE_OBJECT_UNARY_MINUS(MDC_T(T_FloatingT), T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_UNARY_MINUS_CONST(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_UNARY_MINUS_CONST(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_ADD(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_ADD(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_SUBTRACT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_SUBTRACT(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_MULTIPLY(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_MULTIPLY(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_DIVIDE(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_DIVIDE(T_FloatingT, T_FloatingT)
+
+/**
+ * Logical
+ */
+
+#define MDC_DECLARE_FLOATING_LOGICAL_NOT(T_FloatingT) \
+    MDC_DECLARE_OBJECT_LOGICAL_NOT(bool, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_LOGICAL_NOT_CONST(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_LOGICAL_NOT_CONST(T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_LOGICAL_AND(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_LOGICAL_AND(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_LOGICAL_OR(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_LOGICAL_OR(T_FloatingT, T_FloatingT)
+
+/**
+ * Comparison
+ */
+
+#define MDC_DECLARE_FLOATING_EQUAL(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_EQUAL(T_FloatingT, T_FloatingT)
+
+#define MDC_DECLARE_FLOATING_COMPARE(T_FloatingT) \
+    MDC_DECLARE_OBJECT_DEFAULT_COMPARE(T_FloatingT, T_FloatingT)
+
+/**
+ * General Functions
+ */
+
+#define MDC_DECLARE_FLOATING_SWAP(T_FloatingT) \
+    MDC_DECLARE_OBJECT_SWAP(T_FloatingT)
+
+#define MDC_INTERNAL_DECLARE_FLOATING_FUNCTIONS(T_FloatingT) \
+    MDC_DECLARE_FLOATING_INIT_DEFAULT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_INIT_FROM_VALUE(T_FloatingT) \
+    MDC_DECLARE_FLOATING_INIT_COPY(T_FloatingT) \
+    MDC_DECLARE_FLOATING_INIT_MOVE(T_FloatingT) \
+    MDC_DECLARE_FLOATING_DEINIT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_ASSIGN_COPY(T_FloatingT) \
+    MDC_DECLARE_FLOATING_ASSIGN_MOVE(T_FloatingT) \
+    MDC_DECLARE_FLOATING_ASSIGN_ADD(T_FloatingT) \
+    MDC_DECLARE_FLOATING_ASSIGN_SUBTRACT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_ASSIGN_MULTIPLY(T_FloatingT) \
+    MDC_DECLARE_FLOATING_ASSIGN_DIVIDE(T_FloatingT) \
+    MDC_DECLARE_FLOATING_PRE_INCREMENT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_PRE_DECREMENT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_POST_INCREMENT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_POST_DECREMENT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_UNARY_PLUS(T_FloatingT) \
+    MDC_DECLARE_FLOATING_UNARY_PLUS_CONST(T_FloatingT) \
+    MDC_DECLARE_FLOATING_UNARY_MINUS(T_FloatingT) \
+    MDC_DECLARE_FLOATING_UNARY_MINUS_CONST(T_FloatingT) \
+    MDC_DECLARE_FLOATING_ADD(T_FloatingT) \
+    MDC_DECLARE_FLOATING_SUBTRACT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_MULTIPLY(T_FloatingT) \
+    MDC_DECLARE_FLOATING_DIVIDE(T_FloatingT) \
+    MDC_DECLARE_FLOATING_LOGICAL_NOT(T_FloatingT) \
+    MDC_DECLARE_FLOATING_LOGICAL_NOT_CONST(T_FloatingT) \
+    MDC_DECLARE_FLOATING_LOGICAL_AND(T_FloatingT) \
+    MDC_DECLARE_FLOATING_LOGICAL_OR(T_FloatingT) \
+    MDC_DECLARE_FLOATING_EQUAL(T_FloatingT) \
+    MDC_DECLARE_FLOATING_COMPARE(T_FloatingT) \
+    MDC_DECLARE_OBJECT_SWAP(T_FloatingT)
+
+#define MDC_INTERNAL_DECLARE_DLLEXPORT_FLOATING_FUNCTIONS(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_INIT_DEFAULT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_INIT_FROM_VALUE(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_INIT_COPY(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_INIT_MOVE(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_DEINIT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_ASSIGN_COPY(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_ASSIGN_MOVE(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_ASSIGN_ADD(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_ASSIGN_SUBTRACT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_ASSIGN_MULTIPLY(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_ASSIGN_DIVIDE(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_PRE_INCREMENT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_PRE_DECREMENT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_POST_INCREMENT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_POST_DECREMENT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_UNARY_PLUS(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_UNARY_PLUS_CONST(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_UNARY_MINUS(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_UNARY_MINUS_CONST(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_ADD(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_SUBTRACT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_MULTIPLY(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_DIVIDE(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_LOGICAL_NOT(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_LOGICAL_NOT_CONST(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_LOGICAL_AND(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_LOGICAL_OR(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_EQUAL(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_FLOATING_COMPARE(T_FloatingT) \
+    DLLEXPORT MDC_DECLARE_OBJECT_SWAP(T_FloatingT)
+
+#define MDC_INTERNAL_DECLARE_FLOATING(T_FloatingT) \
+    MDC_T_DECLARE_TYPEDEFS(T_FloatingT) \
+    MDC_INTERNAL_DECLARE_FLOATING_FUNCTIONS(T_FloatingT)
+
+#define MDC_INTERNAL_DECLARE_DLLEXPORT_FLOATING(T_FloatingT) \
+    MDC_T_DECLARE_TYPEDEFS(T_FloatingT) \
+    MDC_INTERNAL_DECLARE_DLLEXPORT_FLOATING_FUNCTIONS(T_FloatingT)
+
+#endif /* MDC_C_OBJECT_INTERNAL_FLOATING_OBJECT_FLOATING_OBJECT_DECLARE_MACROS_H_ */
