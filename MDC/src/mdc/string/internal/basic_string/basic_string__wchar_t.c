@@ -31,4 +31,4 @@
 
 #include "../../../../../include/mdc/string/internal/basic_string.h"
 
-MDC_DEFINE_BASIC_STRING(wchar_t)
+MDC_DEFINE_BASIC_STRING(Mdc_WChar)

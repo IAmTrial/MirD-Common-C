@@ -43,7 +43,6 @@
  */
 
 #define MDC_INTERNAL_DECLARE_BASIC_STRING_STRUCT(T_CharT) \
-    MDC_T_DECLARE_TYPEDEFS(T_CharT) \
     struct Mdc_BasicString(T_CharT) { \
       MDC_T_P(T_CharT) c_str_; \
       size_t length_; \

@@ -27,28 +27,40 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_
-#define MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_
+#ifndef MDC_C_OBJECT_INTERNAL_CHARACTER_OBJECT_CHARACTER_OBJECT_TYPEDEF_H_
+#define MDC_C_OBJECT_INTERNAL_CHARACTER_OBJECT_CHARACTER_OBJECT_TYPEDEF_H_
 
 #include "../../../std/wchar.h"
 
-#include "../../../object/character_object.h"
-#include "../../../object/integer_object.h"
-#include "char_traits_declare_macros.h"
-#include "char_traits_name_macros.h"
+#if __STDC_VERSION__ >= 201112L \
+    || _MSC_VER > 1200
 
-#include "../../../../../dllexport_define.inc"
+  #include <uchar.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#endif
 
-MDC_INTERNAL_DECLARE_CHAR_TRAITS_MEMBER_TYPES(Mdc_WChar, Mdc_WInt)
-MDC_INTERNAL_DECLARE_DLLEXPORT_CHAR_TRAITS_FUNCTIONS(Mdc_WChar)
+/**
+ * These typedefs are provided to allow the standard types to be used
+ * in templates. The reason for this is that the template macros
+ * cannot tolerate spaces in the type name.
+ */
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+typedef char Mdc_Char;
+typedef wchar_t Mdc_WChar;
 
-#include "../../../../../dllexport_undefine.inc"
-#endif /* MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_ */
+#if __cplusplus >= 201103L \
+    || __STDC_VERSION__ >= 201112L \
+    || _MSC_VER > 1200
+
+typedef char16_t Mdc_Char16;
+typedef char32_t Mdc_Char32;
+
+#endif
+
+#if __cplusplus >= 202002L
+
+typedef char8_t Mdc_Char8;
+
+#endif
+
+#endif /* MDC_C_OBJECT_INTERNAL_CHARACTER_OBJECT_CHARACTER_OBJECT_TYPEDEF_H_ */

@@ -32,84 +32,84 @@
 #include <stdio.h>
 #include <string.h>
 
-void Mdc_CharTraits_AssignChar(wchar_t)(wchar_t* r, const wchar_t* a) {
+void Mdc_CharTraits_AssignChar(Mdc_WChar)(Mdc_WChar* r, const Mdc_WChar* a) {
   *r = *a;
 }
 
-wchar_t* Mdc_CharTraits_AssignCStr(wchar_t)(
-    wchar_t* p,
+Mdc_WChar* Mdc_CharTraits_AssignCStr(Mdc_WChar)(
+    Mdc_WChar* p,
     size_t count,
-    wchar_t a
+    Mdc_WChar a
 ) {
   return wmemset(p, a, count);
 }
 
-bool Mdc_CharTraits_EqualChar(wchar_t)(wchar_t a, wchar_t b) {
+bool Mdc_CharTraits_EqualChar(Mdc_WChar)(Mdc_WChar a, Mdc_WChar b) {
   return a == b;
 }
 
-bool Mdc_CharTraits_LessThanChar(wchar_t)(wchar_t a, wchar_t b) {
+bool Mdc_CharTraits_LessThanChar(Mdc_WChar)(Mdc_WChar a, Mdc_WChar b) {
   return a < b;
 }
 
-wchar_t* Mdc_CharTraits_CopyOverlapCStr(wchar_t)(
-    wchar_t* dest,
-    const wchar_t* src,
+Mdc_WChar* Mdc_CharTraits_CopyOverlapCStr(Mdc_WChar)(
+    Mdc_WChar* dest,
+    const Mdc_WChar* src,
     size_t count
 ) {
   return wmemmove(dest, src, count);
 }
 
-wchar_t* Mdc_CharTraits_CopyNonoverlapCStr(wchar_t)(
-    wchar_t* dest,
-    const wchar_t* src,
+Mdc_WChar* Mdc_CharTraits_CopyNonoverlapCStr(Mdc_WChar)(
+    Mdc_WChar* dest,
+    const Mdc_WChar* src,
     size_t count
 ) {
   return memcpy(dest, src, count);
 }
 
-int Mdc_CharTraits_CompareCStr(wchar_t)(
-    const wchar_t* s1,
-    const wchar_t* s2,
+int Mdc_CharTraits_CompareCStr(Mdc_WChar)(
+    const Mdc_WChar* s1,
+    const Mdc_WChar* s2,
     size_t count
 ) {
   return wmemcmp(s1, s2, count);
 }
 
-size_t Mdc_CharTraits_LengthCStr(wchar_t)(const wchar_t* s) {
+size_t Mdc_CharTraits_LengthCStr(Mdc_WChar)(const Mdc_WChar* s) {
   return wcslen(s);
 }
 
-const wchar_t* Mdc_CharTraits_FindCStr(wchar_t)(
-    const wchar_t* p,
+const Mdc_WChar* Mdc_CharTraits_FindCStr(Mdc_WChar)(
+    const Mdc_WChar* p,
     size_t count,
-    wchar_t ch
+    Mdc_WChar ch
 ) {
   return wmemchr(p, ch, count);
 }
 
-wchar_t Mdc_CharTraits_ToCharType(wchar_t)(wint_t c) {
-  return (wchar_t) c;
+Mdc_WChar Mdc_CharTraits_ToCharType(Mdc_WChar)(Mdc_WInt c) {
+  return (Mdc_WChar) c;
 }
 
-wint_t Mdc_CharTraits_ToIntType(wchar_t)(wchar_t c) {
-  return (wint_t) c;
+Mdc_WInt Mdc_CharTraits_ToIntType(Mdc_WChar)(Mdc_WChar c) {
+  return (Mdc_WInt) c;
 }
 
-bool Mdc_CharTraits_EqualIntType(wchar_t)(wint_t c1, wint_t c2) {
+bool Mdc_CharTraits_EqualIntType(Mdc_WChar)(Mdc_WInt c1, Mdc_WInt c2) {
   return c1 == c2;
 }
 
-wint_t Mdc_CharTraits_Eof(wchar_t)(void) {
+Mdc_WInt Mdc_CharTraits_Eof(Mdc_WChar)(void) {
   return EOF;
 }
 
-wint_t Mdc_CharTraits_NotEof(wchar_t)(wint_t e) {
+Mdc_WInt Mdc_CharTraits_NotEof(Mdc_WChar)(Mdc_WInt e) {
   bool equal_int_type;
 
-  equal_int_type = Mdc_CharTraits_EqualIntType(wchar_t)(
+  equal_int_type = Mdc_CharTraits_EqualIntType(Mdc_WChar)(
       e,
-      Mdc_CharTraits_Eof(wchar_t)()
+      Mdc_CharTraits_Eof(Mdc_WChar)()
   );
 
   return equal_int_type

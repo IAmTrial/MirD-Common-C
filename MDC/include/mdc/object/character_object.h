@@ -27,28 +27,47 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_
-#define MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_
+#ifndef MDC_C_OBJECT_CHARACTER_OBJECT_H_
+#define MDC_C_OBJECT_CHARACTER_OBJECT_H_
 
-#include "../../../std/wchar.h"
+#include "internal/character_object/character_object_declare_macros.h"
+#include "internal/character_object/character_object_define_macros.h"
+#include "internal/character_object/character_object_name_macros.h"
+#include "internal/character_object/character_object_typedef.h"
 
-#include "../../../object/character_object.h"
-#include "../../../object/integer_object.h"
-#include "char_traits_declare_macros.h"
-#include "char_traits_name_macros.h"
-
-#include "../../../../../dllexport_define.inc"
+#include "../../../dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-MDC_INTERNAL_DECLARE_CHAR_TRAITS_MEMBER_TYPES(Mdc_WChar, Mdc_WInt)
-MDC_INTERNAL_DECLARE_DLLEXPORT_CHAR_TRAITS_FUNCTIONS(Mdc_WChar)
+#define MDC_DECLARE_CHARACTER(T_CharacterT) \
+    MDC_INTERNAL_DECLARE_CHARACTER(T_CharacterT)
+
+#define MDC_DEFINE_CHARACTER(T_CharacterT) \
+    MDC_INTERNAL_DEFINE_CHARACTER_FUNCTIONS(T_CharacterT)
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_CHARACTER(Mdc_Char)
+MDC_INTERNAL_DECLARE_DLLEXPORT_CHARACTER(Mdc_WChar)
+
+#if __cplusplus >= 201103L \
+    || __STDC_VERSION__ >= 201112L \
+    || _MSC_VER > 1200
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_CHARACTER(Mdc_Char16)
+MDC_INTERNAL_DECLARE_DLLEXPORT_CHARACTER(Mdc_Char32)
+
+#endif
+
+#if __cplusplus >= 202002L
+
+MDC_INTERNAL_DECLARE_DLLEXPORT_CHARACTER(Mdc_Char8)
+
+#endif
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "../../../../../dllexport_undefine.inc"
-#endif /* MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_ */
+#include "../../../dllexport_undefine.inc"
+#endif /* MDC_C_OBJECT_CHARACTER_OBJECT_H_ */

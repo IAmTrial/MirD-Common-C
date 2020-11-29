@@ -33,7 +33,6 @@
 #include "../../../macro/template_macro.h"
 #include "../object_declare_macros.h"
 #include "floating_object_name_macros.h"
-#include "floating_object_typedef.h"
 
 /**
  * Initialize / Deinitialize

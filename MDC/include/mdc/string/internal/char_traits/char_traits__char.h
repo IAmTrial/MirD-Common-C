@@ -30,6 +30,8 @@
 #ifndef MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__CHAR_H_
 #define MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__CHAR_H_
 
+#include "../../../object/character_object.h"
+#include "../../../object/integer_object.h"
 #include "char_traits_declare_macros.h"
 #include "char_traits_name_macros.h"
 
@@ -39,8 +41,8 @@
 extern "C" {
 #endif /* __cplusplus */
 
-MDC_INTERNAL_DECLARE_CHAR_TRAITS_MEMBER_TYPES(char, int)
-MDC_INTERNAL_DECLARE_DLLEXPORT_CHAR_TRAITS_FUNCTIONS(char)
+MDC_INTERNAL_DECLARE_CHAR_TRAITS_MEMBER_TYPES(Mdc_Char, Mdc_Int)
+MDC_INTERNAL_DECLARE_DLLEXPORT_CHAR_TRAITS_FUNCTIONS(Mdc_Char)
 
 #ifdef __cplusplus
 } /* extern "C" */

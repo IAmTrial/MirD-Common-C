@@ -32,7 +32,6 @@
 
 #include "../../../macro/template_macro.h"
 #include "../../../std/stdbool.h"
-#include "floating_object_typedef.h"
 #include "floating_object_name_macros.h"
 
 /**

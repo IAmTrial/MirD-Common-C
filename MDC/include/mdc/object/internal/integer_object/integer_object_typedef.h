@@ -33,6 +33,7 @@
 #include <stddef.h>
 
 #include "../../../std/stdint.h"
+#include "../../../std/wchar.h"
 
 /**
  * These typedefs are provided to allow the standard types to be used
@@ -95,5 +96,7 @@ typedef uintptr_t Mdc_UIntptr;
 
 typedef size_t Mdc_Size;
 typedef ptrdiff_t Mdc_Ptrdiff;
+
+typedef wint_t Mdc_WInt;
 
 #endif /* MDC_C_OBJECT_INTERNAL_INTEGER_OBJECT_INTEGER_OBJECT_TYPEDEF_H_ */

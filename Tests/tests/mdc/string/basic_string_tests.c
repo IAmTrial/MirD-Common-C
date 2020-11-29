@@ -309,13 +309,13 @@ static const wchar_t* kTestCWStrings[] = {
         Mdc_BasicString_AssertPushBackAndPopBack(CharT)(c_strs); \
     }
 
-MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FUNCTIONS(char)
-MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FUNCTIONS(wchar_t)
+MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FUNCTIONS(Mdc_Char)
+MDC_TESTS_DEFINE_BASIC_STRING_ASSERT_FUNCTIONS(Mdc_WChar)
 
-MDC_TESTS_DEFINE_BASIC_STRING_RUN_TEST(char, kTestCStrings)
-MDC_TESTS_DEFINE_BASIC_STRING_RUN_TEST(wchar_t, kTestCWStrings)
+MDC_TESTS_DEFINE_BASIC_STRING_RUN_TEST(Mdc_Char, kTestCStrings)
+MDC_TESTS_DEFINE_BASIC_STRING_RUN_TEST(Mdc_WChar, kTestCWStrings)
 
 void Mdc_BasicString_RunTests(void) {
-  Mdc_BasicString_RunTest(char)();
-  Mdc_BasicString_RunTest(wchar_t)();
+  Mdc_BasicString_RunTest(Mdc_Char)();
+  Mdc_BasicString_RunTest(Mdc_WChar)();
 }

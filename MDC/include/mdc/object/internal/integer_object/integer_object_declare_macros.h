@@ -32,7 +32,6 @@
 
 #include "../object_declare_macros.h"
 #include "integer_object_name_macros.h"
-#include "integer_object_typedef.h"
 
 /**
  * Initialize / Deinitialize

@@ -30,7 +30,6 @@
 #ifndef MDC_C_FILESYSTEM_INTERNAL_PATH_H_
 #define MDC_C_FILESYSTEM_INTERNAL_PATH_H_
 
-#include "../../object_metadata/object_metadata.h"
 #include "../../std/stdbool.h"
 #include "../../std/wchar.h"
 #include "../../string/string.h"
@@ -42,9 +41,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 #if defined(_WIN32) || defined(_WIN64)
-  #define Mdc_Fs_Path_ValueType wchar_t
+  #define Mdc_Fs_Path_ValueType Mdc_WChar
 #else
-  #define Mdc_Fs_Path_ValueType char
+  #define Mdc_Fs_Path_ValueType Mdc_Char
 #endif
 
 #define Mdc_Fs_Path_StringType Mdc_BasicString(Mdc_Fs_Path_ValueType)

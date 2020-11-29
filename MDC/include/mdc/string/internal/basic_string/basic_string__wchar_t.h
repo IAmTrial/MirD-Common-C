@@ -44,72 +44,72 @@ extern "C" {
  * Types
  */
 
-#define Mdc_BasicString__wchar_t__ValueType wchar_t
+#define Mdc_BasicString__Mdc_WChar__ValueType Mdc_WChar
 
 /**
  * Declarations
  */
 
-MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING(wchar_t)
+MDC_INTERNAL_DECLARE_DLLEXPORT_BASIC_STRING(Mdc_WChar)
 
 /**
  * Aliases
  */
 
-#define Mdc_WString Mdc_BasicString(wchar_t)
+#define Mdc_WString Mdc_BasicString(Mdc_WChar)
 
-#define Mdc_WString_ValueType wchar_t
+#define Mdc_WString_ValueType Mdc_WChar
 
-#define Mdc_WString_kNpos Mdc_BasicString_kNpos(wchar_t)
+#define Mdc_WString_kNpos Mdc_BasicString_kNpos(Mdc_WChar)
 
-#define Mdc_WString_InitEmpty Mdc_BasicString_InitEmpty(wchar_t)
-#define Mdc_WString_InitFromChar Mdc_BasicString_InitFromChar(wchar_t)
-#define Mdc_WString_InitStrTail Mdc_BasicString_InitStrTail(wchar_t)
-#define Mdc_WString_InitSubstr Mdc_BasicString_InitSubstr(wchar_t)
-#define Mdc_WString_InitFromCStr Mdc_BasicString_InitFromCStr(wchar_t)
-#define Mdc_WString_InitFromCStrTop Mdc_BasicString_InitFromCStrTop(wchar_t)
-#define Mdc_WString_InitCopy Mdc_BasicString_InitCopy(wchar_t)
-#define Mdc_WString_InitMove Mdc_BasicString_InitMove(wchar_t)
+#define Mdc_WString_InitEmpty Mdc_BasicString_InitEmpty(Mdc_WChar)
+#define Mdc_WString_InitFromChar Mdc_BasicString_InitFromChar(Mdc_WChar)
+#define Mdc_WString_InitStrTail Mdc_BasicString_InitStrTail(Mdc_WChar)
+#define Mdc_WString_InitSubstr Mdc_BasicString_InitSubstr(Mdc_WChar)
+#define Mdc_WString_InitFromCStr Mdc_BasicString_InitFromCStr(Mdc_WChar)
+#define Mdc_WString_InitFromCStrTop Mdc_BasicString_InitFromCStrTop(Mdc_WChar)
+#define Mdc_WString_InitCopy Mdc_BasicString_InitCopy(Mdc_WChar)
+#define Mdc_WString_InitMove Mdc_BasicString_InitMove(Mdc_WChar)
 
-#define Mdc_WString_Deinit Mdc_BasicString_Deinit(wchar_t)
+#define Mdc_WString_Deinit Mdc_BasicString_Deinit(Mdc_WChar)
 
-#define Mdc_WString_AssignCopy Mdc_BasicString_AssignCopy(wchar_t)
-#define Mdc_WString_AssignMove Mdc_BasicString_AssignMove(wchar_t)
+#define Mdc_WString_AssignCopy Mdc_BasicString_AssignCopy(Mdc_WChar)
+#define Mdc_WString_AssignMove Mdc_BasicString_AssignMove(Mdc_WChar)
 
-#define Mdc_WString_Access Mdc_BasicString_Access(wchar_t)
-#define Mdc_WString_AccessConst Mdc_BasicString_AccessConst(wchar_t)
-#define Mdc_WString_At Mdc_BasicString_At(wchar_t)
-#define Mdc_WString_AtConst Mdc_BasicString_AtConst(wchar_t)
-#define Mdc_WString_AppendStr Mdc_BasicString_AppendStr(wchar_t)
-#define Mdc_WString_AppendStrTail Mdc_BasicString_AppendStrTail(wchar_t)
-#define Mdc_WString_AppendSubstr Mdc_BasicString_AppendSubstr(wchar_t)
-#define Mdc_WString_AppendCStr Mdc_BasicString_AppendCStr(wchar_t)
-#define Mdc_WString_AppendCStrTop Mdc_BasicString_AppendCStrTop(wchar_t)
-#define Mdc_WString_Back Mdc_BasicString_Back(wchar_t)
-#define Mdc_WString_BackConst Mdc_BasicString_BackConst(wchar_t)
-#define Mdc_WString_Capacity Mdc_BasicString_Capacity(wchar_t)
-#define Mdc_WString_CompareStr Mdc_BasicString_CompareStr(wchar_t)
-#define Mdc_WString_CompareSubstr Mdc_BasicString_CompareSubstr(wchar_t)
-#define Mdc_WString_CompareSubstrs Mdc_BasicString_CompareSubstrs(wchar_t)
-#define Mdc_WString_CompareCStr Mdc_BasicString_CompareCStr(wchar_t)
-#define Mdc_WString_CompareCSubstr Mdc_BasicString_CompareCSubstr(wchar_t)
-#define Mdc_WString_CompareCSubstrs Mdc_BasicString_CompareCSubstrs(wchar_t)
-#define Mdc_WString_Clear Mdc_BasicString_Clear(wchar_t)
-#define Mdc_WString_CStr Mdc_BasicString_CStr(wchar_t)
-#define Mdc_WString_Data Mdc_BasicString_Data(wchar_t)
-#define Mdc_WString_DataConst Mdc_BasicString_DataConst(wchar_t)
-#define Mdc_WString_Empty Mdc_BasicString_Empty(wchar_t)
-#define Mdc_WString_EqualStr Mdc_BasicString_EqualStr(wchar_t)
-#define Mdc_WString_EqualCStr Mdc_BasicString_EqualCStr(wchar_t)
-#define Mdc_WString_Front Mdc_BasicString_Front(wchar_t)
-#define Mdc_WString_FrontConst Mdc_BasicString_FrontConst(wchar_t)
-#define Mdc_WString_Length Mdc_BasicString_Length(wchar_t)
-#define Mdc_WString_PopBack Mdc_BasicString_PopBack(wchar_t)
-#define Mdc_WString_PushBack Mdc_BasicString_PushBack(wchar_t)
-#define Mdc_WString_Reserve Mdc_BasicString_Reserve(wchar_t)
-#define Mdc_WString_ShrinkToFit Mdc_BasicString_ShrinkToFit(wchar_t)
-#define Mdc_WString_Size Mdc_BasicString_Size(wchar_t)
-#define Mdc_WString_Swap Mdc_BasicString_Swap(wchar_t)
+#define Mdc_WString_Access Mdc_BasicString_Access(Mdc_WChar)
+#define Mdc_WString_AccessConst Mdc_BasicString_AccessConst(Mdc_WChar)
+#define Mdc_WString_At Mdc_BasicString_At(Mdc_WChar)
+#define Mdc_WString_AtConst Mdc_BasicString_AtConst(Mdc_WChar)
+#define Mdc_WString_AppendStr Mdc_BasicString_AppendStr(Mdc_WChar)
+#define Mdc_WString_AppendStrTail Mdc_BasicString_AppendStrTail(Mdc_WChar)
+#define Mdc_WString_AppendSubstr Mdc_BasicString_AppendSubstr(Mdc_WChar)
+#define Mdc_WString_AppendCStr Mdc_BasicString_AppendCStr(Mdc_WChar)
+#define Mdc_WString_AppendCStrTop Mdc_BasicString_AppendCStrTop(Mdc_WChar)
+#define Mdc_WString_Back Mdc_BasicString_Back(Mdc_WChar)
+#define Mdc_WString_BackConst Mdc_BasicString_BackConst(Mdc_WChar)
+#define Mdc_WString_Capacity Mdc_BasicString_Capacity(Mdc_WChar)
+#define Mdc_WString_CompareStr Mdc_BasicString_CompareStr(Mdc_WChar)
+#define Mdc_WString_CompareSubstr Mdc_BasicString_CompareSubstr(Mdc_WChar)
+#define Mdc_WString_CompareSubstrs Mdc_BasicString_CompareSubstrs(Mdc_WChar)
+#define Mdc_WString_CompareCStr Mdc_BasicString_CompareCStr(Mdc_WChar)
+#define Mdc_WString_CompareCSubstr Mdc_BasicString_CompareCSubstr(Mdc_WChar)
+#define Mdc_WString_CompareCSubstrs Mdc_BasicString_CompareCSubstrs(Mdc_WChar)
+#define Mdc_WString_Clear Mdc_BasicString_Clear(Mdc_WChar)
+#define Mdc_WString_CStr Mdc_BasicString_CStr(Mdc_WChar)
+#define Mdc_WString_Data Mdc_BasicString_Data(Mdc_WChar)
+#define Mdc_WString_DataConst Mdc_BasicString_DataConst(Mdc_WChar)
+#define Mdc_WString_Empty Mdc_BasicString_Empty(Mdc_WChar)
+#define Mdc_WString_EqualStr Mdc_BasicString_EqualStr(Mdc_WChar)
+#define Mdc_WString_EqualCStr Mdc_BasicString_EqualCStr(Mdc_WChar)
+#define Mdc_WString_Front Mdc_BasicString_Front(Mdc_WChar)
+#define Mdc_WString_FrontConst Mdc_BasicString_FrontConst(Mdc_WChar)
+#define Mdc_WString_Length Mdc_BasicString_Length(Mdc_WChar)
+#define Mdc_WString_PopBack Mdc_BasicString_PopBack(Mdc_WChar)
+#define Mdc_WString_PushBack Mdc_BasicString_PushBack(Mdc_WChar)
+#define Mdc_WString_Reserve Mdc_BasicString_Reserve(Mdc_WChar)
+#define Mdc_WString_ShrinkToFit Mdc_BasicString_ShrinkToFit(Mdc_WChar)
+#define Mdc_WString_Size Mdc_BasicString_Size(Mdc_WChar)
+#define Mdc_WString_Swap Mdc_BasicString_Swap(Mdc_WChar)
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -32,7 +32,6 @@
 
 #include "../../../macro/template_macro.h"
 #include "../../../std/stdbool.h"
-#include "integer_object_typedef.h"
 #include "integer_object_name_macros.h"
 
 /**

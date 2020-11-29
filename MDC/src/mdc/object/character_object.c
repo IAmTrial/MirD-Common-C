@@ -27,28 +27,22 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_
-#define MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_
+#include "../../../include/mdc/object/character_object.h"
 
-#include "../../../std/wchar.h"
+MDC_DEFINE_CHARACTER(Mdc_Char)
+MDC_DEFINE_CHARACTER(Mdc_WChar)
 
-#include "../../../object/character_object.h"
-#include "../../../object/integer_object.h"
-#include "char_traits_declare_macros.h"
-#include "char_traits_name_macros.h"
+#if __cplusplus >= 201103L \
+    || __STDC_VERSION__ >= 201112L \
+    || _MSC_VER > 1200
 
-#include "../../../../../dllexport_define.inc"
+MDC_DEFINE_CHARACTER(Mdc_Char16)
+MDC_DEFINE_CHARACTER(Mdc_Char32)
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+#endif
 
-MDC_INTERNAL_DECLARE_CHAR_TRAITS_MEMBER_TYPES(Mdc_WChar, Mdc_WInt)
-MDC_INTERNAL_DECLARE_DLLEXPORT_CHAR_TRAITS_FUNCTIONS(Mdc_WChar)
+#if __cplusplus >= 202002L
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+MDC_DEFINE_CHARACTER(Mdc_Char8)
 
-#include "../../../../../dllexport_undefine.inc"
-#endif /* MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS__WCHAR_T_H_ */
+#endif
