@@ -38,16 +38,14 @@
  *    (e.g. Mdc_String). Typedef aliases will fail.
  * A: arg, specifies the MDC typedef names using MDC_T family of
  *    qualifier function-macros (e.g. MDC_T_PC(Mdc_String)).
- * Q: qualifier function-macro name, specifies the name of the MDC_T
- *    qualifier function-macro to use in combination with a successive
- *    "T" arg (e.g. MDC_T, MDC_T_PCV). This is required for template
- *    types.
  *
  * Only the first prefix applies. All other successive characters are
  * purely used for naming (e.g. TA1 uses the "T" rule).
  *
  * All T can be converted to A with Q or an explicit MDC_T
  * function-macro, and all A can be used in place of R.
+ *
+ * Const and volatile qualifiers are not supported for "T" rule.
  */
 
 #include "internal/object_declare_macros.h"
