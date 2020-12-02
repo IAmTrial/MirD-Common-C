@@ -34,46 +34,24 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <mdc/container/vector.h>
 #include <mdc/malloc/malloc.h>
-#include <mdc/object/integer_object.h>
 #include "vector_int/vector_int.h"
 
-static void Mdc_Vector_AssertInitDeinit(void) {
-  const struct Mdc_VectorMetadata* const vector_metadata =
-      Mdc_VectorInt_GetGlobalVectorMetadata();
-  const struct Mdc_ObjectMetadata* const element_metadata =
-      vector_metadata->element_metadata;
-  const size_t element_size = element_metadata->size;
-  const struct Mdc_ObjectFunctions* const element_functions =
-      &element_metadata->functions;
+static void Mdc_Vector_AssertInitAndDeinit(void) {
+  struct Mdc_Vector(Mdc_Int) vector;
 
-  struct Mdc_Vector vector;
-  struct Mdc_Vector* init_vector;
+  vector = Mdc_Vector_InitEmpty(Mdc_Int)();
 
-  init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
+  assert(Mdc_Vector_Size(Mdc_Int)(&vector) == 0);
+  assert(Mdc_Vector_Empty(Mdc_Int)(&vector));
 
-  assert(init_vector == &vector);
-  assert(vector.metadata == vector_metadata);
-  assert(Mdc_Vector_Size(&vector) == 0);
-  assert(Mdc_Vector_Empty(&vector));
-
-  Mdc_Vector_Deinit(&vector);
+  Mdc_Vector_Deinit(Mdc_Int)(&vector);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Vector_AssertPushAndPopBack(void) {
-  const struct Mdc_VectorMetadata* const vector_metadata =
-      Mdc_VectorInt_GetGlobalVectorMetadata();
-  const struct Mdc_ObjectMetadata* const element_metadata =
-      vector_metadata->element_metadata;
-  const size_t element_size = element_metadata->size;
-  const struct Mdc_ObjectFunctions* const element_functions =
-      &element_metadata->functions;
-
-  struct Mdc_Vector vector;
-  struct Mdc_Vector* init_vector;
+  struct Mdc_Vector(Mdc_Int) vector;
 
   int integer1;
   int integer2;
@@ -82,64 +60,50 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
   size_t i;
   int* at_result;
 
-  init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
-  assert(init_vector == &vector);
+  vector = Mdc_Vector_InitEmpty(Mdc_Int)();
 
-  Mdc_Integer_InitFromValue(&integer1, 1234);
-  Mdc_Vector_PushBack(&vector, &integer1);
+  integer1 = 1234;
+  Mdc_Vector_PushBack(Mdc_Int)(&vector, &integer1);
 
-  Mdc_Integer_InitFromValue(&integer2, 4321);
-  Mdc_Vector_PushBack(&vector, &integer2);
+  integer2 = 4321;
+  Mdc_Vector_PushBack(Mdc_Int)(&vector, &integer2);
 
-  assert(Mdc_Vector_Size(&vector) == 2);
-  assert(Mdc_Vector_Capacity(&vector) >= 2);
+  assert(Mdc_Vector_Size(Mdc_Int)(&vector) == 2);
+  assert(Mdc_Vector_Capacity(Mdc_Int)(&vector) >= 2);
 
-  at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(*at_result, 1234));
+  at_result = Mdc_Vector_At(Mdc_Int)(&vector, 0);
+  assert(*at_result == 1234);
 
-  at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_Integer_CompareValue(*at_result, 4321) == 0);
+  at_result = Mdc_Vector_At(Mdc_Int)(&vector, 1);
+  assert(*at_result == 4321);
 
-  Mdc_Vector_PopBack(&vector);
+  Mdc_Vector_PopBack(Mdc_Int)(&vector);
 
-  at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(*at_result, 1234));
+  at_result = Mdc_Vector_At(Mdc_Int)(&vector, 0);
+  assert(*at_result == 1234);
 
   for (i = 1; i < 5; i += 1) {
-    Mdc_Integer_InitFromValue(&integer3, (int) i);
+    integer3 = i;
 
-    Mdc_Vector_PushBack(&vector, &integer3);
+    Mdc_Vector_PushBack(Mdc_Int)(&vector, &integer3);
 
-    at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
-
-    Mdc_Integer_Deinit(&integer3);
+    at_result = Mdc_Vector_At(Mdc_Int)(&vector, i);
+    assert(*at_result == (int) i);
   }
 
-  while (Mdc_Vector_Size(&vector) > 0) {
-    Mdc_Vector_PopBack(&vector);
+  while (Mdc_Vector_Size(Mdc_Int)(&vector) > 0) {
+    Mdc_Vector_PopBack(Mdc_Int)(&vector);
   }
 
-  assert(Mdc_Vector_Empty(&vector));
+  assert(Mdc_Vector_Empty(Mdc_Int)(&vector));
 
-  Mdc_Integer_Deinit(&integer2);
-  Mdc_Integer_Deinit(&integer1);
-  Mdc_Vector_Deinit(&vector);
+  Mdc_Vector_Deinit(Mdc_Int)(&vector);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
-  const struct Mdc_VectorMetadata* const vector_metadata =
-      Mdc_VectorInt_GetGlobalVectorMetadata();
-  const struct Mdc_ObjectMetadata* const element_metadata =
-      vector_metadata->element_metadata;
-  const size_t element_size = element_metadata->size;
-  const struct Mdc_ObjectFunctions* const element_functions =
-      &element_metadata->functions;
-
-  struct Mdc_Vector vector;
-  struct Mdc_Vector* init_vector;
+  struct Mdc_Vector(Mdc_Int) vector;
 
   int integer1;
   int integer2;
@@ -148,94 +112,77 @@ static void Mdc_Vector_AssertPushAndPopBackCopy(void) {
   size_t i;
   int* at_result;
 
-  init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
-  assert(init_vector == &vector);
+  vector = Mdc_Vector_InitEmpty(Mdc_Int)();
 
-  Mdc_Integer_InitFromValue(&integer1, 1234);
-  Mdc_Vector_PushBackCopy(&vector, &integer1);
+  integer1 = 1234;
+  Mdc_Vector_PushBackCopy(Mdc_Int)(&vector, &integer1);
 
-  Mdc_Integer_InitFromValue(&integer2, 4321);
-  Mdc_Vector_PushBackCopy(&vector, &integer2);
+  integer2 = 4321;
+  Mdc_Vector_PushBackCopy(Mdc_Int)(&vector, &integer2);
 
-  assert(Mdc_Vector_Size(&vector) == 2);
-  assert(Mdc_Vector_Capacity(&vector) >= 2);
+  assert(Mdc_Vector_Size(Mdc_Int)(&vector) == 2);
+  assert(Mdc_Vector_Capacity(Mdc_Int)(&vector) >= 2);
 
-  at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(*at_result, 1234));
+  at_result = Mdc_Vector_At(Mdc_Int)(&vector, 0);
+  assert(*at_result == 1234);
 
-  at_result = Mdc_Vector_At(&vector, 1);
-  assert(Mdc_Integer_CompareValue(*at_result, 4321) == 0);
+  at_result = Mdc_Vector_At(Mdc_Int)(&vector, 1);
+  assert(*at_result == 4321);
 
-  Mdc_Vector_PopBack(&vector);
+  Mdc_Vector_PopBack(Mdc_Int)(&vector);
 
-  at_result = Mdc_Vector_At(&vector, 0);
-  assert(Mdc_Integer_EqualValue(*at_result, 1234));
+  at_result = Mdc_Vector_At(Mdc_Int)(&vector, 0);
+  assert(*at_result == 1234);
 
   for (i = 1; i < 5; i += 1) {
-    Mdc_Integer_InitFromValue(&integer3, (int) i);
+    integer3 = (int) i;
 
-    Mdc_Vector_PushBackCopy(&vector, &integer3);
+    Mdc_Vector_PushBackCopy(Mdc_Int)(&vector, &integer3);
 
-    at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
-
-    Mdc_Integer_Deinit(&integer3);
+    at_result = Mdc_Vector_At(Mdc_Int)(&vector, i);
+    assert(*at_result == (int) i);
   }
 
-  while (Mdc_Vector_Size(&vector) > 0) {
-    Mdc_Vector_PopBack(&vector);
+  while (Mdc_Vector_Size(Mdc_Int)(&vector) > 0) {
+    Mdc_Vector_PopBack(Mdc_Int)(&vector);
   }
 
-  assert(Mdc_Vector_Empty(&vector));
+  assert(Mdc_Vector_Empty(Mdc_Int)(&vector));
 
-  Mdc_Integer_Deinit(&integer2);
-  Mdc_Integer_Deinit(&integer1);
-  Mdc_Vector_Deinit(&vector);
+  Mdc_Vector_Deinit(Mdc_Int)(&vector);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_Vector_AssertClear(void) {
-  const struct Mdc_VectorMetadata* const vector_metadata =
-      Mdc_VectorInt_GetGlobalVectorMetadata();
-  const struct Mdc_ObjectMetadata* const element_metadata =
-      vector_metadata->element_metadata;
-  const size_t element_size = element_metadata->size;
-  const struct Mdc_ObjectFunctions* const element_functions =
-      &element_metadata->functions;
-
-  struct Mdc_Vector vector;
-  struct Mdc_Vector* init_vector;
+  struct Mdc_Vector(Mdc_Int) vector;
 
   int integer;
 
   size_t i;
   int* at_result;
 
-  init_vector = Mdc_Vector_InitEmpty(&vector, vector_metadata);
-  assert(init_vector == &vector);
+  vector = Mdc_Vector_InitEmpty(Mdc_Int)();
 
   for (i = 0; i < 32; i += 1) {
-    Mdc_Integer_InitFromValue(&integer, (int) i);
-    Mdc_Vector_PushBackCopy(&vector, &integer);
+    integer = (int) i;
+    Mdc_Vector_PushBackCopy(Mdc_Int)(&vector, &integer);
 
-    at_result = Mdc_Vector_At(&vector, i);
-    assert(Mdc_Integer_EqualValue(*at_result, (int) i));
-
-    Mdc_Integer_Deinit(&integer);
+    at_result = Mdc_Vector_At(Mdc_Int)(&vector, i);
+    assert(*at_result == (int) i);
   }
 
-  Mdc_Vector_Clear(&vector);
+  Mdc_Vector_Clear(Mdc_Int)(&vector);
 
-  assert(Mdc_Vector_Empty(&vector));
+  assert(Mdc_Vector_Empty(Mdc_Int)(&vector));
 
-  Mdc_Vector_Deinit(&vector);
+  Mdc_Vector_Deinit(Mdc_Int)(&vector);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 void Mdc_Vector_RunTests(void) {
-  Mdc_Vector_AssertInitDeinit();
+  Mdc_Vector_AssertInitAndDeinit();
   Mdc_Vector_AssertPushAndPopBack();
   Mdc_Vector_AssertPushAndPopBackCopy();
   Mdc_Vector_AssertClear();

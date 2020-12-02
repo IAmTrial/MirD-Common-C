@@ -33,6 +33,6 @@
 #include <mdc/container/vector.h>
 #include <mdc/object/integer_object.h>
 
-const struct Mdc_VectorMetadata* Mdc_VectorInt_GetGlobalVectorMetadata(void);
+MDC_DECLARE_VECTOR(Mdc_Int)
 
 #endif /* MDC_TESTS_C_CONTAINER_VECTOR_INT_VECTOR_INT_H_ */

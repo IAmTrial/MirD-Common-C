@@ -29,32 +29,4 @@
 
 #include "vector_int.h"
 
-#include <mdc/object/integer_object.h>
-#include <mdc/std/threads.h>
-
-/**
- * Static functions
- */
-
-static struct Mdc_VectorMetadata global_vector_metadata;
-static once_flag global_vector_metadata_init_flag = ONCE_FLAG_INIT;
-
-static void Mdc_VectorInt_InitGlobalVectorMetadata(void) {
-  Mdc_VectorMetadata_Init(
-      &global_vector_metadata,
-      Mdc_Integer_GetObjectMetadata()
-  );
-}
-
-/**
- * External functions
- */
-
-const struct Mdc_VectorMetadata* Mdc_VectorInt_GetGlobalVectorMetadata(void) {
-  call_once(
-      &global_vector_metadata_init_flag,
-      &Mdc_VectorInt_InitGlobalVectorMetadata
-  );
-
-  return &global_vector_metadata;
-}
+MDC_DEFINE_VECTOR(Mdc_Int)
