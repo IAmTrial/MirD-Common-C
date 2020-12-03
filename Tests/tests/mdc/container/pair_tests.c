@@ -35,7 +35,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <mdc/container/map.h>
 #include <mdc/malloc/malloc.h>
 #include <mdc/object/integer_object.h>
 #include <mdc/string/string.h>
@@ -108,7 +107,7 @@ static void Mdc_Pair_AssertInitCopyAndDeinit(void) {
       &second
   );
 
-  pair2 = Mdc_Pair_InitCopy(Mdc_String, Mdc_Int)(&pair2);
+  pair2 = Mdc_Pair_InitCopy(Mdc_String, Mdc_Int)(&pair1);
 
   /* Check that the initialization completed correctly. */
   assert(Mdc_String_EqualCStr(&pair1.first, kFirstSrc1));

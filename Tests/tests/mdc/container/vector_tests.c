@@ -83,7 +83,7 @@ static void Mdc_Vector_AssertPushAndPopBack(void) {
   assert(*at_result == 1234);
 
   for (i = 1; i < 5; i += 1) {
-    integer3 = i;
+    integer3 = (int) i;
 
     Mdc_Vector_PushBack(Mdc_Int)(&vector, &integer3);
 

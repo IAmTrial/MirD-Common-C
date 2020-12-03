@@ -50,6 +50,10 @@
  * Functions
  */
 
+/**
+ * Initialize / Deinitialize
+ */
+
 #define MDC_INTERNAL_DECLARE_PAIR_INIT_DEFAULT(T_FirstT, T_SecondT) \
     MDC_DECLARE_OBJECT_INIT_DEFAULT(Mdc_Pair(T_FirstT, T_SecondT))
 

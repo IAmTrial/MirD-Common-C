@@ -40,13 +40,9 @@
 
 static void Mdc_Fs_Path_AssertGetCurrentExecutablePath(void) {
   struct Mdc_Fs_Path current_executable_path;
-  struct Mdc_Fs_Path* init_current_executable_path;
 
-  init_current_executable_path = Mdc_Fs_GetCurrentExecutablePath(
-      &current_executable_path
-  );
+  current_executable_path = Mdc_Fs_GetCurrentExecutablePath();
 
-  assert(init_current_executable_path == &current_executable_path);
   assert(!Mdc_Fs_Path_Empty(&current_executable_path));
 
   Mdc_Fs_Path_Deinit(&current_executable_path);

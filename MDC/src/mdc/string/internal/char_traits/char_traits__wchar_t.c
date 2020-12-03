@@ -65,7 +65,7 @@ Mdc_WChar* Mdc_CharTraits_CopyNonoverlapCStr(Mdc_WChar)(
     const Mdc_WChar* src,
     size_t count
 ) {
-  return memcpy(dest, src, count);
+  return wmemcpy(dest, src, count);
 }
 
 int Mdc_CharTraits_CompareCStr(Mdc_WChar)(

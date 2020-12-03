@@ -128,8 +128,6 @@
     void Mdc_Vector_Deinit(T_ValueT)( \
         MDC_T_P(Mdc_Vector(T_ValueT)) vector \
     ) { \
-      size_t i; \
-\
       if (vector->data_ != NULL) { \
         Mdc_Vector_Clear(T_ValueT)(vector); \
         Mdc_free(vector->data_); \
@@ -148,14 +146,12 @@
         MDC_T_P(Mdc_Vector(T_ValueT)) dest, \
         MDC_T_PC(Mdc_Vector(T_ValueT)) src \
     ) { \
-      size_t i; \
-\
       if (dest == src) { \
         return dest; \
       } \
 \
       /* Deinit all previous elements. */ \
-      Mdc_Vector_Clear(T_ValueT)(vector); \
+      Mdc_Vector_Clear(T_ValueT)(dest); \
 \
       if (dest->capacity_ < src->count_) { \
         Mdc_Vector_Reserve(T_ValueT)(dest, src->capacity_); \
@@ -171,20 +167,18 @@
         MDC_T_P(Mdc_Vector(T_ValueT)) dest, \
         MDC_T_P(Mdc_Vector(T_ValueT)) src \
     ) { \
-      size_t i; \
-\
       if (dest == src) { \
         return dest; \
       } \
 \
       /* Deinit all previous elements. */ \
-      Mdc_Vector_Clear(T_ValueT)(vector); \
+      Mdc_Vector_Clear(T_ValueT)(dest); \
       Mdc_free(dest->data_); \
 \
-      vector = *src; \
+      *dest = *src; \
       *src = Mdc_Vector_kUninit(T_ValueT); \
 \
-      return vector; \
+      return dest; \
     }
 
 /**
@@ -359,7 +353,7 @@
     bool Mdc_Vector_Empty(T_ValueT)( \
         MDC_T_PC(Mdc_Vector(T_ValueT)) vector \
     ) { \
-      return vector->count_ > 0; \
+      return vector->count_ == 0; \
     }
 
 #define MDC_INTERNAL_DEFINE_VECTOR_FRONT(T_ValueT) \
@@ -395,6 +389,7 @@
       } \
 \
       vector->data_[vector->count_] = Mdc_Object_InitMove(T_ValueT)(value); \
+      vector->count_ += 1; \
     }
 
 #define MDC_INTERNAL_DEFINE_VECTOR_PUSH_BACK_COPY(T_ValueT) \
@@ -407,6 +402,7 @@
       } \
 \
       vector->data_[vector->count_] = Mdc_Object_InitCopy(T_ValueT)(value); \
+      vector->count_ += 1; \
     }
 
 #define MDC_INTERNAL_DEFINE_VECTOR_RESIZE(T_ValueT) \
@@ -444,7 +440,7 @@
         MDC_T_P(Mdc_Vector(T_ValueT)) vector, \
         size_t new_cap \
     ) { \
-      MDC_T_P(Mdc_Vector(T_ValueT)) realloc_result; \
+      MDC_T_P(T_ValueT) realloc_result; \
 \
       if (new_cap <= vector->capacity_) { \
         return; \
@@ -460,14 +456,14 @@
       } \
 \
       vector->data_ = realloc_result; \
-      vector->capacity = new_cap; \
+      vector->capacity_ = new_cap; \
     }
 
 #define MDC_INTERNAL_DEFINE_VECTOR_SHRINK_TO_FIT(T_ValueT) \
     void Mdc_Vector_ShrinkToFit(T_ValueT)( \
         MDC_T_P(Mdc_Vector(T_ValueT)) vector \
     ) { \
-      MDC_T_P(Mdc_Vector(T_ValueT)) realloc_result; \
+      MDC_T_P(T_ValueT) realloc_result; \
 \
       if (vector->count_ == vector->capacity_) { \
         return; \
@@ -511,7 +507,7 @@
 #define MDC_INTERNAL_DEFINE_VECTOR_FUNCTIONS(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_UNINIT_CONST(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_INIT_EMPTY(T_ValueT) \
-    //MDC_INTERNAL_DEFINE_VECTOR_INIT_COPY(T_ValueT) \
+    MDC_INTERNAL_DEFINE_VECTOR_INIT_COPY(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_INIT_MOVE(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_DEINIT(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_ASSIGN_COPY(T_ValueT) \
@@ -534,6 +530,7 @@
     MDC_INTERNAL_DEFINE_VECTOR_POP_BACK(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_PUSH_BACK(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_PUSH_BACK_COPY(T_ValueT) \
+    MDC_INTERNAL_DEFINE_VECTOR_RESERVE(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_RESIZE(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_SHRINK_TO_FIT(T_ValueT) \
     MDC_INTERNAL_DEFINE_VECTOR_SIZE(T_ValueT) \

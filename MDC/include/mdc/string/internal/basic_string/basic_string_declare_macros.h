@@ -83,30 +83,30 @@
     );
 
 #define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_SUBSTR(T_CharT) \
-    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitSubstr(T_CharT)( \
-        const struct Mdc_BasicString(T_CharT)* src, \
+    MDC_T(Mdc_BasicString(T_CharT)) Mdc_BasicString_InitSubstr(T_CharT)( \
+        MDC_T_PC(Mdc_BasicString(T_CharT)) src, \
         size_t pos, \
         size_t count \
     );
 
 #define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR(T_CharT) \
-    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitFromCStr(T_CharT)( \
+    MDC_T(Mdc_BasicString(T_CharT)) Mdc_BasicString_InitFromCStr(T_CharT)( \
         const T_CharT* c_str \
     );
 
 #define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_FROM_C_STR_TOP(T_CharT) \
-    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitFromCStrTop(T_CharT)( \
+    MDC_T(Mdc_BasicString(T_CharT)) Mdc_BasicString_InitFromCStrTop(T_CharT)( \
         const T_CharT* c_str, \
         size_t count \
     );
 
 #define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_COPY(T_CharT) \
-    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitCopy(T_CharT)( \
+    MDC_T(Mdc_BasicString(T_CharT)) Mdc_BasicString_InitCopy(T_CharT)( \
         const struct Mdc_BasicString(T_CharT)* src \
     );
 
 #define MDC_INTERNAL_DECLARE_BASIC_STRING_INIT_MOVE(T_CharT) \
-    struct Mdc_BasicString(T_CharT) Mdc_BasicString_InitMove(T_CharT)( \
+    MDC_T(Mdc_BasicString(T_CharT)) Mdc_BasicString_InitMove(T_CharT)( \
         struct Mdc_BasicString(T_CharT)* src \
     );
 

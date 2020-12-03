@@ -82,10 +82,10 @@
  */
 
 #define Mdc_Vector_Access(T_ValueT) \
-    Mdc_Object_Subscript(Mdc_Vector(T_ValueT), MDC_T_PC(Mdc_Size))
+    Mdc_Object_Subscript(Mdc_Vector(T_ValueT), MDC_T(Mdc_Size))
 
 #define Mdc_Vector_AccessConst(T_ValueT) \
-    Mdc_Object_SubscriptConst(Mdc_Vector(T_ValueT), MDC_T_PC(Mdc_Size))
+    Mdc_Object_SubscriptConst(Mdc_Vector(T_ValueT), MDC_T(Mdc_Size))
 
 /**
  * General Functions

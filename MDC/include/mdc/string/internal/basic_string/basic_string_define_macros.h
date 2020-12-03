@@ -33,6 +33,9 @@
 #include <stddef.h>
 
 #include "../../../malloc/malloc.h"
+#include "../../../std/stdbool.h"
+#include "../char_traits/char_traits_name_macros.h"
+#include "basic_string_name_macros.h"
 
 #define MDC_INTERNAL_BASIC_STRING_DEINIT { 0 }
 
@@ -40,7 +43,7 @@
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), __kUninit)
 
 #define MDC_INTERNAL_DEFINE_BASIC_STRING_DEINIT_CONST(T_CharT) \
-    static const struct Mdc_BasicString(T_CharT) \
+    static MDC_T_C(Mdc_BasicString(T_CharT)) \
     Mdc_BasicString_kUninit(T_CharT) = MDC_INTERNAL_BASIC_STRING_DEINIT;
 
 /**
@@ -48,21 +51,26 @@
  */
 
 #define MDC_INTERNAL_DEFINE_BASIC_STRING_K_NPOS(T_CharT) \
-    const size_t Mdc_BasicString_kNpos(T_CharT) = (size_t) -1;
+    const Mdc_Size Mdc_BasicString_kNpos(T_CharT) = (Mdc_Size) -1;
 
 #define Mdc_BasicString_kNullChar(T_CharT) \
-    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), __kNullChar)
+    MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), kNullChar)
 
-#define MDC_INTERNAL_DEFINE_K_NULL_CHAR(T_CharT) \
+#define MDC_INTERNAL_DEFINE_BASIC_STRING_K_NULL_CHAR(T_CharT) \
     const T_CharT Mdc_BasicString_kNullChar(T_CharT) = '\0';
+
+#define Mdc_BasicString_kInitialCapacity(T_CharT) \
+    Mdc_Object_Member(Mdc_BasicString(T_CharT), kInitialCapacity)
+
+#define MDC_INTERNAL_DEFINE_BASIC_STRING_K_INITIAL_CAPACITY(T_CharT) \
+    enum { \
+      Mdc_BasicString_kInitialCapacity(T_CharT) = 4, \
+    };
 
 #define MDC_INTERNAL_DEFINE_BASIC_STRING_CONSTANTS(T_CharT) \
     MDC_INTERNAL_DEFINE_BASIC_STRING_K_NPOS(T_CharT) \
-    MDC_INTERNAL_DEFINE_K_NULL_CHAR(T_CharT)
-
-enum {
-  kInitialCapacity = 4
-};
+    MDC_INTERNAL_DEFINE_BASIC_STRING_K_NULL_CHAR(T_CharT) \
+    MDC_INTERNAL_DEFINE_BASIC_STRING_K_INITIAL_CAPACITY(T_CharT)
 
 /**
  * Functions
@@ -74,7 +82,7 @@ enum {
     ) { \
       struct Mdc_BasicString(T_CharT) str; \
 \
-      str.capacity_ = kInitialCapacity; \
+      str.capacity_ = Mdc_BasicString_kInitialCapacity(T_CharT); \
       str.c_str_ = Mdc_malloc(str.capacity_ * sizeof(str.c_str_[0])); \
       if (str.c_str_ == NULL) { \
         return Mdc_BasicString_kUninit(T_CharT); \

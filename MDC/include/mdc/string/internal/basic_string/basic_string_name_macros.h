@@ -37,7 +37,7 @@
 #define Mdc_BasicString(T_CharT) \
     MDC_MACRO_CONCAT( \
         Mdc_BasicString, \
-        MDC_MACRO_TEMPLATE_1(MDC_T(T_CharT)) \
+        MDC_MACRO_TEMPLATE_1(T_CharT) \
     )
 
 /**
@@ -146,14 +146,18 @@
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), CompareCSubstrs)
 
 /**
- * General Functions
+ * Member access
  */
 
 #define Mdc_BasicString_Access(T_CharT) \
-    Mdc_Object_Subscript(Mdc_BasicString(T_CharT), MDC_T(size_t))
+    Mdc_Object_Subscript(Mdc_BasicString(T_CharT), MDC_T(Mdc_Size))
 
 #define Mdc_BasicString_AccessConst(T_CharT) \
-    Mdc_Object_SubscriptConst(Mdc_BasicString(T_CharT), MDC_T(size_t))
+    Mdc_Object_SubscriptConst(Mdc_BasicString(T_CharT), MDC_T(Mdc_Size))
+
+/**
+ * General Functions
+ */
 
 #define Mdc_BasicString_At(T_CharT) \
     MDC_MACRO_CONCAT(Mdc_BasicString(T_CharT), At)

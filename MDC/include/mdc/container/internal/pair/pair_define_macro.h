@@ -39,7 +39,7 @@
 #define Mdc_Pair_kUninit(T_FirstT, T_SecondT) \
     MDC_MACRO_CONCAT(Mdc_Pair(T_FirstT, T_SecondT), kUninit)
 
-#define MDC_INTERNAL_DEFINE_PAIR_UNINIT_CONST(T_CharT) \
+#define MDC_INTERNAL_DEFINE_PAIR_UNINIT_CONST(T_FirstT, T_SecondT) \
     static MDC_T(Mdc_Pair(T_FirstT, T_SecondT)) \
     Mdc_Pair_kUninit(T_FirstT, T_SecondT) = \
         MDC_INTERNAL_PAIR_UNINIT;
@@ -110,6 +110,8 @@
     ) { \
       Mdc_Object_Deinit(T_SecondT)(&pair->second); \
       Mdc_Object_Deinit(T_FirstT)(&pair->first); \
+\
+      *pair = Mdc_Pair_kUninit(T_FirstT, T_SecondT); \
     }
 
 /**
@@ -216,6 +218,7 @@
     }
 
 #define MDC_INTERNAL_DEFINE_PAIR_FUNCTIONS(T_FirstT, T_SecondT) \
+    MDC_INTERNAL_DEFINE_PAIR_UNINIT_CONST(T_FirstT, T_SecondT) \
     MDC_INTERNAL_DEFINE_PAIR_INIT_DEFAULT(T_FirstT, T_SecondT) \
     MDC_INTERNAL_DEFINE_PAIR_INIT_FROM_FIRST_COPY_SECOND_COPY( \
         T_FirstT, \

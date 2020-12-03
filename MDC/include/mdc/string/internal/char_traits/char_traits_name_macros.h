@@ -31,9 +31,10 @@
 #define MDC_C_STRING_INTERNAL_CHAR_TRAITS_CHAR_TRAITS_NAME_MACROS_H_
 
 #include "../../../macro/concat_macro.h"
+#include "../../../macro/template_macro.h"
 
-#define Mdc_CharTraits(CharT) \
-    MDC_MACRO_CONCAT(Mdc_CharTraits__, CharT)
+#define Mdc_CharTraits(T_CharT) \
+    MDC_MACRO_CONCAT(Mdc_CharTraits, MDC_MACRO_TEMPLATE_1(T_CharT))
 
 /**
  * Types

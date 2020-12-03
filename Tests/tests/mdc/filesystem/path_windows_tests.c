@@ -103,12 +103,10 @@ enum {
   kSrcPathsCount = sizeof(kSrcPaths) / sizeof(kSrcPaths[0])
 };
 
-static void Mdc_Fs_Path_AssertInitEmptyDeinit(void) {
+static void Mdc_Fs_Path_AssertInitEmptyAndDeinit(void) {
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
 
-  init_path = Mdc_Fs_Path_InitEmpty(&path);
-  assert(init_path == &path);
+  path = Mdc_Fs_Path_InitEmpty();
 
   assert(wcscmp(Mdc_Fs_Path_CStr(&path), L"") == 0);
 
@@ -121,11 +119,9 @@ static void Mdc_Fs_Path_AssertInitFromCWStr(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
 
     if (wcscmp(Mdc_Fs_Path_CStr(&path), kSrcPaths[i]) != 0) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -206,11 +202,9 @@ static void Mdc_Fs_Path_AssertIsAbsoluteRelative(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
 
     if (Mdc_Fs_Path_IsAbsolute(&path) != kExpected[i]
         || Mdc_Fs_Path_IsRelative(&path) == kExpected[i]) {
@@ -232,31 +226,16 @@ static void Mdc_Fs_Path_AssertClear(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_path;
-  struct Mdc_Fs_Path* init_actual_path;
-
   struct Mdc_Fs_Path expected_path;
-  struct Mdc_Fs_Path* init_expected_path;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual_path = Mdc_Fs_Path_InitCopy(
-        &actual_path,
-        &path
-    );
-    assert(init_actual_path == &actual_path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual_path = Mdc_Fs_Path_InitCopy(&path);
 
     Mdc_Fs_Path_Clear(&actual_path);
 
-    init_expected_path = Mdc_Fs_Path_InitFromCWStr(
-        &expected_path,
-        kExpected
-    );
-    assert(init_expected_path == &expected_path);
+    expected_path = Mdc_Fs_Path_InitFromCWStr(kExpected);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -341,27 +320,18 @@ static void Mdc_Fs_Path_AssertMakePreferred(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
 
   struct Mdc_Fs_Path actual;
-  struct Mdc_Fs_Path* init_actual;
   struct Mdc_Fs_Path* preferred_actual;
 
   struct Mdc_Fs_Path expected;
-  struct Mdc_Fs_Path* init_expected;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual = Mdc_Fs_Path_InitCopy(&actual, &path);
-    assert(init_actual == &actual);
-
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual = Mdc_Fs_Path_InitCopy(&path);
     preferred_actual = Mdc_Fs_Path_MakePreferred(&actual);
-    assert(preferred_actual == &actual);
 
-    init_expected = Mdc_Fs_Path_InitFromCWStr(&expected, kExpected[i]);
-    assert(init_expected == &expected);
+    expected = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual, &expected)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -446,29 +416,14 @@ static void Mdc_Fs_Path_AssertStem(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_stem;
-  struct Mdc_Fs_Path* init_actual_stem;
-
   struct Mdc_Fs_Path expected_stem;
-  struct Mdc_Fs_Path* init_expected_stem;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
 
-    init_actual_stem = Mdc_Fs_Path_Stem(
-        &actual_stem,
-        &path
-    );
-    assert(init_actual_stem == &actual_stem);
-
-    init_expected_stem = Mdc_Fs_Path_InitFromCWStr(
-        &expected_stem,
-        kExpected[i]
-    );
-    assert(init_expected_stem == &expected_stem);
+    actual_stem = Mdc_Fs_Path_Stem(&path);
+    expected_stem = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_stem, &expected_stem)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -553,29 +508,14 @@ static void Mdc_Fs_Path_AssertExtension(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_extension;
-  struct Mdc_Fs_Path* init_actual_extension;
-
   struct Mdc_Fs_Path expected_extension;
-  struct Mdc_Fs_Path* init_expected_extension;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
 
-    init_actual_extension = Mdc_Fs_Path_Extension(
-        &actual_extension,
-        &path
-    );
-    assert(init_actual_extension == &actual_extension);
-
-    init_expected_extension = Mdc_Fs_Path_InitFromCWStr(
-        &expected_extension,
-        kExpected[i]
-    );
-    assert(init_expected_extension == &expected_extension);
+    actual_extension = Mdc_Fs_Path_Extension(&path);
+    expected_extension = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_extension, &expected_extension)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -660,29 +600,13 @@ static void Mdc_Fs_Path_AssertFilename(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_filename;
-  struct Mdc_Fs_Path* init_actual_filename;
-
   struct Mdc_Fs_Path expected_filename;
-  struct Mdc_Fs_Path* init_expected_filename;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual_filename = Mdc_Fs_Path_Filename(
-        &actual_filename,
-        &path
-    );
-    assert(init_actual_filename == &actual_filename);
-
-    init_expected_filename = Mdc_Fs_Path_InitFromCWStr(
-        &expected_filename,
-        kExpected[i]
-    );
-    assert(init_expected_filename == &expected_filename);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual_filename = Mdc_Fs_Path_Filename(&path);
+    expected_filename = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_filename, &expected_filename)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -767,29 +691,14 @@ static void Mdc_Fs_Path_AssertRootName(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_root_name;
-  struct Mdc_Fs_Path* init_actual_root_name;
-
   struct Mdc_Fs_Path expected_root_name;
-  struct Mdc_Fs_Path* init_expected_root_name;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
 
-    init_actual_root_name = Mdc_Fs_Path_RootName(
-        &actual_root_name,
-        &path
-    );
-    assert(init_actual_root_name == &actual_root_name);
-
-    init_expected_root_name = Mdc_Fs_Path_InitFromCWStr(
-        &expected_root_name,
-        kExpected[i]
-    );
-    assert(init_expected_root_name == &expected_root_name);
+    actual_root_name = Mdc_Fs_Path_RootName(&path);
+    expected_root_name = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_root_name, &expected_root_name)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -874,29 +783,13 @@ static void Mdc_Fs_Path_AssertRootDirectory(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_root_directory;
-  struct Mdc_Fs_Path* init_actual_root_directory;
-
   struct Mdc_Fs_Path expected_root_directory;
-  struct Mdc_Fs_Path* init_expected_root_directory;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual_root_directory = Mdc_Fs_Path_RootDirectory(
-        &actual_root_directory,
-        &path
-    );
-    assert(init_actual_root_directory == &actual_root_directory);
-
-    init_expected_root_directory = Mdc_Fs_Path_InitFromCWStr(
-        &expected_root_directory,
-        kExpected[i]
-    );
-    assert(init_expected_root_directory == &expected_root_directory);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual_root_directory = Mdc_Fs_Path_RootDirectory(&path);
+    expected_root_directory = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_root_directory, &expected_root_directory)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -981,29 +874,13 @@ static void Mdc_Fs_Path_AssertRootPath(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_root_path;
-  struct Mdc_Fs_Path* init_actual_root_path;
-
   struct Mdc_Fs_Path expected_root_path;
-  struct Mdc_Fs_Path* init_expected_root_path;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual_root_path = Mdc_Fs_Path_RootPath(
-        &actual_root_path,
-        &path
-    );
-    assert(init_actual_root_path == &actual_root_path);
-
-    init_expected_root_path = Mdc_Fs_Path_InitFromCWStr(
-        &expected_root_path,
-        kExpected[i]
-    );
-    assert(init_expected_root_path == &expected_root_path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual_root_path = Mdc_Fs_Path_RootPath(&path);
+    expected_root_path = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_root_path, &expected_root_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -1088,29 +965,13 @@ static void Mdc_Fs_Path_AssertParentPath(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_parent_path;
-  struct Mdc_Fs_Path* init_actual_parent_path;
-
   struct Mdc_Fs_Path expected_parent_path;
-  struct Mdc_Fs_Path* init_expected_parent_path;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual_parent_path = Mdc_Fs_Path_ParentPath(
-        &actual_parent_path,
-        &path
-    );
-    assert(init_actual_parent_path == &actual_parent_path);
-
-    init_expected_parent_path = Mdc_Fs_Path_InitFromCWStr(
-        &expected_parent_path,
-        kExpected[i]
-    );
-    assert(init_expected_parent_path == &expected_parent_path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual_parent_path = Mdc_Fs_Path_ParentPath(&path);
+    expected_parent_path = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_parent_path, &expected_parent_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -1195,29 +1056,13 @@ static void Mdc_Fs_Path_AssertRelativePath(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_relative_path;
-  struct Mdc_Fs_Path* init_actual_relative_path;
-
   struct Mdc_Fs_Path expected_relative_path;
-  struct Mdc_Fs_Path* init_expected_relative_path;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual_relative_path = Mdc_Fs_Path_RelativePath(
-        &actual_relative_path,
-        &path
-    );
-    assert(init_actual_relative_path == &actual_relative_path);
-
-    init_expected_relative_path = Mdc_Fs_Path_InitFromCWStr(
-        &expected_relative_path,
-        kExpected[i]
-    );
-    assert(init_expected_relative_path == &expected_relative_path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual_relative_path = Mdc_Fs_Path_RelativePath(&path);
+    expected_relative_path = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_relative_path, &expected_relative_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -1302,35 +1147,20 @@ static void Mdc_Fs_Path_AssertRemoveFilename(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path actual_path;
-  struct Mdc_Fs_Path* init_actual_path;
-
   struct Mdc_Fs_Path expected_path;
-  struct Mdc_Fs_Path* init_expected_path;
 
   struct Mdc_Fs_Path* remove_filename;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_actual_path = Mdc_Fs_Path_InitCopy(
-        &actual_path,
-        &path
-    );
-    assert(init_actual_path == &actual_path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    actual_path = Mdc_Fs_Path_InitCopy(&path);
 
     remove_filename = Mdc_Fs_Path_RemoveFilename(&actual_path);
 
     assert(remove_filename == &actual_path);
 
-    init_expected_path = Mdc_Fs_Path_InitFromCWStr(
-        &expected_path,
-        kExpected[i]
-    );
-    assert(init_expected_path == &expected_path);
+    expected_path = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -1418,34 +1248,16 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path replacement;
-  struct Mdc_Fs_Path* init_replacement;
-
   struct Mdc_Fs_Path actual_path;
-  struct Mdc_Fs_Path* init_actual_path;
-
   struct Mdc_Fs_Path expected_path;
-  struct Mdc_Fs_Path* init_expected_path;
 
   struct Mdc_Fs_Path* replace_filename;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_replacement = Mdc_Fs_Path_InitFromCWStr(
-        &replacement,
-        kReplacement
-    );
-    assert(init_replacement == &replacement);
-
-    init_actual_path = Mdc_Fs_Path_InitCopy(
-        &actual_path,
-        &path
-    );
-    assert(init_actual_path == &actual_path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    replacement = Mdc_Fs_Path_InitFromCWStr(kReplacement);
+    actual_path = Mdc_Fs_Path_InitCopy(&path);
 
     replace_filename = Mdc_Fs_Path_ReplaceFilename(
         &actual_path,
@@ -1454,11 +1266,7 @@ static void Mdc_Fs_Path_AssertReplaceFilename(void) {
 
     assert(replace_filename == &actual_path);
 
-    init_expected_path = Mdc_Fs_Path_InitFromCWStr(
-        &expected_path,
-        kExpected[i]
-    );
-    assert(init_expected_path == &expected_path);
+    expected_path = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -1547,34 +1355,16 @@ static void Mdc_Fs_Path_AssertReplaceExtension(void) {
   size_t i;
 
   struct Mdc_Fs_Path path;
-  struct Mdc_Fs_Path* init_path;
-
   struct Mdc_Fs_Path replacement;
-  struct Mdc_Fs_Path* init_replacement;
-
   struct Mdc_Fs_Path actual_path;
-  struct Mdc_Fs_Path* init_actual_path;
-
   struct Mdc_Fs_Path expected_path;
-  struct Mdc_Fs_Path* init_expected_path;
 
   struct Mdc_Fs_Path* replace_extension;
 
   for (i = 0; i < kSrcPathsCount; i += 1) {
-    init_path = Mdc_Fs_Path_InitFromCWStr(&path, kSrcPaths[i]);
-    assert(init_path == &path);
-
-    init_replacement = Mdc_Fs_Path_InitFromCWStr(
-        &replacement,
-        kReplacement
-    );
-    assert(init_replacement == &replacement);
-
-    init_actual_path = Mdc_Fs_Path_InitCopy(
-        &actual_path,
-        &path
-    );
-    assert(init_actual_path == &actual_path);
+    path = Mdc_Fs_Path_InitFromCWStr(kSrcPaths[i]);
+    replacement = Mdc_Fs_Path_InitFromCWStr(kReplacement);
+    actual_path = Mdc_Fs_Path_InitCopy(&path);
 
     replace_extension = Mdc_Fs_Path_ReplaceExtension(
         &actual_path,
@@ -1583,11 +1373,7 @@ static void Mdc_Fs_Path_AssertReplaceExtension(void) {
 
     assert(replace_extension == &actual_path);
 
-    init_expected_path = Mdc_Fs_Path_InitFromCWStr(
-        &expected_path,
-        kExpected[i]
-    );
-    assert(init_expected_path == &expected_path);
+    expected_path = Mdc_Fs_Path_InitFromCWStr(kExpected[i]);
 
     if (!Mdc_Fs_Path_EqualPath(&actual_path, &expected_path)) {
       wprintf(L"Path: \"%s\" \n", Mdc_Fs_Path_CStr(&path));
@@ -1607,7 +1393,7 @@ static void Mdc_Fs_Path_AssertReplaceExtension(void) {
 }
 
 void Mdc_Fs_Path_RunTests(void) {
-  Mdc_Fs_Path_AssertInitEmptyDeinit();
+  Mdc_Fs_Path_AssertInitEmptyAndDeinit();
   Mdc_Fs_Path_AssertInitFromCWStr();
   Mdc_Fs_Path_AssertIsAbsoluteRelative();
 

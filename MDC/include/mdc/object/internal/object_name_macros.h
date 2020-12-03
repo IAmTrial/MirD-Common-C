@@ -35,72 +35,141 @@
 
 #define Mdc_Object_Prefix(T) MDC_MACRO_CONCAT(T, _)
 
+#define Mdc_Object_Member(T, member_name) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Prefix(T), \
+        member_name \
+    )
+
+#define Mdc_Object_MemberFunction_0(T, func_name) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_1(void) \
+    )
+
+#define Mdc_Object_MemberFunction_1( \
+    T, func_name, \
+    A1 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_1(A1) \
+    )
+
+#define Mdc_Object_MemberFunction_2( \
+    T, func_name, \
+    A1, A2 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_2(A1, A2) \
+    )
+
+#define Mdc_Object_MemberFunction_3( \
+    T, func_name, \
+    A1, A2, A3 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_3(A1, A2, A3) \
+    )
+
+#define Mdc_Object_MemberFunction_4( \
+    T, func_name, \
+    A1, A2, A3, A4 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_4(A1, A2, A3, A4) \
+    )
+
+#define Mdc_Object_MemberFunction_5( \
+    T, func_name, \
+    A1, A2, A3, A4, A5 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_5(A1, A2, A3, A4, A5) \
+    )
+
+#define Mdc_Object_MemberFunction_6( \
+    T, func_name, \
+    A1, A2, A3, A4, A5, A6 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_6(A1, A2, A3, A4, A5, A6) \
+    )
+
+#define Mdc_Object_MemberFunction_7( \
+    T, func_name, \
+    A1, A2, A3, A4, A5, A6, A7 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_7(A1, A2, A3, A4, A5, A6, A7) \
+    )
+
+#define Mdc_Object_MemberFunction_8( \
+    T, func_name, \
+    A1, A2, A3, A4, A5, A6, A7, A8 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_8(A1, A2, A3, A4, A5, A6, A7, A8) \
+    )
+
+#define Mdc_Object_MemberFunction_9( \
+    T, func_name, \
+    A1, A2, A3, A4, A5, A6, A7, A8, A9 \
+) \
+    MDC_MACRO_CONCAT( \
+        Mdc_Object_Member(T, func_name), \
+        MDC_MACRO_TEMPLATE_9(A1, A2, A3, A4, A5, A6, A7, A8, A9) \
+    )
+
 /**
  * Initialize / Deinitialize
  */
 
-#define Mdc_Object_InitDefault(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitDefault)
-
 #define Mdc_Object_InitFrom_0(T) \
-    Mdc_Object_InitDefault(T)
+    Mdc_Object_MemberFunction_0(T, InitFrom)
 
 #define Mdc_Object_InitFrom_1(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, InitFrom, A1)
 
 #define Mdc_Object_InitFrom_2(T, A1, A2) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_2(A1, A2) \
-    )
+    Mdc_Object_MemberFunction_2(T, InitFrom, A1, A2)
 
 #define Mdc_Object_InitFrom_3(T, A1, A2, A3) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_3(A1, A2, A3) \
-    )
+    Mdc_Object_MemberFunction_3(T, InitFrom, A1, A2, A3)
 
 #define Mdc_Object_InitFrom_4(T, A1, A2, A3, A4) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_4(A1, A2, A3, A4) \
-    )
+    Mdc_Object_MemberFunction_4(T, InitFrom, A1, A2, A3, A4)
 
 #define Mdc_Object_InitFrom_5(T, A1, A2, A3, A4, A5) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_5(A1, A2, A3, A4, A5) \
-    )
+    Mdc_Object_MemberFunction_5(T, InitFrom, A1, A2, A3, A4, A5)
 
 #define Mdc_Object_InitFrom_6(T, A1, A2, A3, A4, A5, A6) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_6(A1, A2, A3, A4, A5, A6) \
-    )
+    Mdc_Object_MemberFunction_6(T, InitFrom, A1, A2, A3, A4, A5, A6)
 
 #define Mdc_Object_InitFrom_7(T, A1, A2, A3, A4, A5, A6, A7) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_7(A1, A2, A3, A4, A5, A6, A7) \
-    )
+    Mdc_Object_MemberFunction_7(T, InitFrom, A1, A2, A3, A4, A5, A6, A7)
 
 #define Mdc_Object_InitFrom_8(T, A1, A2, A3, A4, A5, A6, A7, A8) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_8(A1, A2, A3, A4, A5, A6, A7, A8) \
-    )
+    Mdc_Object_MemberFunction_8(T, InitFrom, A1, A2, A3, A4, A5, A6, A7, A8)
 
 #define Mdc_Object_InitFrom_9(T, A1, A2, A3, A4, A5, A6, A7, A8, A9) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), InitFrom), \
-        MDC_MACRO_TEMPLATE_9(A1, A2, A3, A4, A5, A6, A7, A8, A9) \
+    Mdc_Object_MemberFunction_9( \
+        T, InitFrom, \
+        A1, A2, A3, A4, A5, A6, A7, A8, A9 \
     )
 
-#define Mdc_Object_InitFrom(N, AL) \
-    MDC_MACRO_CONCAT(MDC_MACRO_CONCAT(Mdc_Object_InitFrom_, N), AL)
+#define Mdc_Object_InitFrom(N_args) \
+    MDC_MACRO_CONCAT(Mdc_Object_InitFrom_, N_args)
+
+#define Mdc_Object_InitDefault(T) \
+    Mdc_Object_InitFrom_0(T)
 
 #define Mdc_Object_InitCopy(T) \
     Mdc_Object_InitFrom_1(T, MDC_T_PC(T))
@@ -109,17 +178,14 @@
     Mdc_Object_InitFrom_1(T, MDC_T_P(T))
 
 #define Mdc_Object_Deinit(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), Deinit)
+    Mdc_Object_MemberFunction_0(T, DeinitInst)
 
 /**
  * Assignment
  */
 
 #define Mdc_Object_AssignFrom(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignFrom), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignFrom, A1)
 
 #define Mdc_Object_AssignCopy(T) \
     Mdc_Object_AssignFrom(T, MDC_T_PC(T))
@@ -128,208 +194,142 @@
     Mdc_Object_AssignFrom(T, MDC_T_P(T))
 
 #define Mdc_Object_AssignAdd(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignAdd), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignAdd, A1)
 
 #define Mdc_Object_DefaultAssignAdd(T) \
     Mdc_Object_AssignAdd(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignAddConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignAddConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignAddConst, A1)
 
 #define Mdc_Object_AssignSubtract(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignSubtract), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignSubtract, A1)
 
 #define Mdc_Object_DefaultAssignSubtract(T) \
     Mdc_Object_AssignSubtract(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignSubtractConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignSubtractConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignSubtractConst, A1)
 
 #define Mdc_Object_AssignMultiply(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignMultiply), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignMultiply, A1)
 
 #define Mdc_Object_DefaultAssignMultiply(T) \
     Mdc_Object_AssignMultiply(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignMultiplyConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignMultiplyConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignMultiplyConst, A1)
 
 #define Mdc_Object_AssignDivide(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignDivide), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignDivide, A1)
 
 #define Mdc_Object_DefaultAssignDivide(T) \
     Mdc_Object_AssignDivide(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignDivideConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignDivideConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignDivideConst, A1)
 
 #define Mdc_Object_AssignModulo(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignModulus), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignModulus, A1)
 
 #define Mdc_Object_DefaultAssignModulo(T) \
     Mdc_Object_AssignModulo(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignModuloConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignModulusConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignModulusConst, A1)
 
 #define Mdc_Object_AssignBitwiseAnd(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseAnd), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseAnd, A1)
 
 #define Mdc_Object_DefaultAssignBitwiseAnd(T) \
     Mdc_Object_AssignBitwiseAnd(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignBitwiseAndConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseAndConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseAndConst, A1)
 
 #define Mdc_Object_AssignBitwiseOr(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseOr), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseOr, A1)
 
 #define Mdc_Object_DefaultAssignBitwiseOr(T) \
     Mdc_Object_AssignBitwiseOr(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignBitwiseOrConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseOrConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseOrConst, A1)
 
 #define Mdc_Object_AssignBitwiseXor(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseXor), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseXor, A1)
 
 #define Mdc_Object_DefaultAssignBitwiseXor(T) \
     Mdc_Object_AssignBitwiseXor(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignBitwiseXorConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseXorConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseXorConst, A1)
 
 #define Mdc_Object_AssignBitwiseLeftShift(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseLeftShift), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseLeftShift, A1)
 
 #define Mdc_Object_DefaultAssignBitwiseLeftShift(T) \
     Mdc_Object_AssignBitwiseLeftShift(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignBitwiseLeftShiftConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT( \
-            Mdc_Object_Prefix(T), \
-            AssignBitwiseLeftShiftConst \
-        ), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseLeftShiftConst, A1)
 
 #define Mdc_Object_AssignBitwiseRightShift(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AssignBitwiseRightShift), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseRightShift, A1)
 
 #define Mdc_Object_DefaultAssignBitwiseRightShift(T) \
     Mdc_Object_AssignBitwiseRightShift(T, MDC_T_PC(T))
 
 #define Mdc_Object_AssignBitwiseRightShiftConst(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT( \
-            Mdc_Object_Prefix(T), \
-            AssignBitwiseRightShiftConst \
-        ), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, AssignBitwiseRightShiftConst, A1)
 
 /**
  * Increment / Decrement
  */
 
 #define Mdc_Object_PreIncrement(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PreIncrement)
+    Mdc_Object_MemberFunction_0(T, PreIncrement)
 
 #define Mdc_Object_PreIncrementConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PreIncrementConst)
+    Mdc_Object_MemberFunction_0(T, PreIncrementConst)
 
 #define Mdc_Object_PreDecrement(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PreDecrement)
+    Mdc_Object_MemberFunction_0(T, PreDecrement)
 
 #define Mdc_Object_PreDecrementConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PreDecrementConst)
+    Mdc_Object_MemberFunction_0(T, PreDecrementConst)
 
 #define Mdc_Object_PostIncrement(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PostIncrement)
+    Mdc_Object_MemberFunction_0(T, PostIncrement)
 
 #define Mdc_Object_PostIncrementConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PostIncrementConst)
+    Mdc_Object_MemberFunction_0(T, PostIncrementConst)
 
 #define Mdc_Object_PostDecrement(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PostDecrement)
+    Mdc_Object_MemberFunction_0(T, PostDecrement)
 
 #define Mdc_Object_PostDecrementConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), PostDecrementConst)
+    Mdc_Object_MemberFunction_0(T, PostDecrementConst)
 
 /**
  * Arithmetic
  */
 
 #define Mdc_Object_UnaryPlus(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), UnaryPlus)
+    Mdc_Object_MemberFunction_0(T, UnaryPlus)
 
 #define Mdc_Object_UnaryPlusConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), UnaryPlusConst)
+    Mdc_Object_MemberFunction_0(T, UnaryPlusConst)
 
 #define Mdc_Object_UnaryMinus(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), UnaryMinus)
+    Mdc_Object_MemberFunction_0(T, UnaryMinus)
 
 #define Mdc_Object_UnaryMinusConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), UnaryMinusConst)
+    Mdc_Object_MemberFunction_0(T, UnaryMinusConst)
 
 #define Mdc_Object_Add(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(Add), \
+        Mdc_Object_Prefix(Mdc_Add), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -338,7 +338,7 @@
 
 #define Mdc_Object_Subtract(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(Subtract), \
+        Mdc_Object_Prefix(Mdc_Subtract), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -347,7 +347,7 @@
 
 #define Mdc_Object_Multiply(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(Multiply), \
+        Mdc_Object_Prefix(Mdc_Multiply), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -356,7 +356,7 @@
 
 #define Mdc_Object_Divide(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(Divide), \
+        Mdc_Object_Prefix(Mdc_Divide), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -365,7 +365,7 @@
 
 #define Mdc_Object_Modulo(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(Modulo), \
+        Mdc_Object_Prefix(Mdc_Modulo), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -373,14 +373,14 @@
     Mdc_Object_Modulo(MDC_T_PC(TA1), MDC_T_PC(TA2))
 
 #define Mdc_Object_BitwiseNot(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), BitwiseNot)
+    Mdc_Object_MemberFunction_0(T, BitwiseNot)
 
 #define Mdc_Object_BitwiseNotConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), BitwiseNotConst)
+    Mdc_Object_MemberFunction_0(T, BitwiseNotConst)
 
 #define Mdc_Object_BitwiseAnd(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(BitwiseAnd), \
+        Mdc_Object_Prefix(Mdc_BitwiseAnd), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -389,7 +389,7 @@
 
 #define Mdc_Object_BitwiseOr(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(BitwiseOr), \
+        Mdc_Object_Prefix(Mdc_BitwiseOr), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -398,7 +398,7 @@
 
 #define Mdc_Object_BitwiseXor(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(BitwiseXor), \
+        Mdc_Object_Prefix(Mdc_BitwiseXor), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -407,7 +407,7 @@
 
 #define Mdc_Object_BitwiseLeftShift(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(BitwiseLeftShift), \
+        Mdc_Object_Prefix(Mdc_BitwiseLeftShift), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -416,7 +416,7 @@
 
 #define Mdc_Object_BitwiseRightShift(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(BitwiseRightShift), \
+        Mdc_Object_Prefix(Mdc_BitwiseRightShift), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -428,14 +428,14 @@
  */
 
 #define Mdc_Object_LogicalNot(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), LogicalNot)
+    Mdc_Object_MemberFunction_0(T, LogicalNot)
 
 #define Mdc_Object_LogicalNotConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), LogicalNotConst)
+    Mdc_Object_MemberFunction_0(T, LogicalNotConst)
 
 #define Mdc_Object_LogicalAnd(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(LogicalAnd), \
+        Mdc_Object_Prefix(Mdc_LogicalAnd), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -444,7 +444,7 @@
 
 #define Mdc_Object_LogicalOr(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(LogicalOr), \
+        Mdc_Object_Prefix(Mdc_LogicalOr), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -457,7 +457,7 @@
 
 #define Mdc_Object_Equal(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(Equal), \
+        Mdc_Object_Prefix(Mdc_Equal), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -466,7 +466,7 @@
 
 #define Mdc_Object_Compare(A1, A2) \
     MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(Compare), \
+        Mdc_Object_Prefix(Mdc_Compare), \
         MDC_MACRO_TEMPLATE_2(A1, A2) \
     )
 
@@ -478,152 +478,101 @@
  */
 
 #define Mdc_Object_Subscript(T, A1) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), Subscript), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, Subscript, A1)
 
-#define Mdc_Object_SubscriptConst(T, K) \
-    MDC_MACRO_CONCAT( \
-        MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), SubscriptConst), \
-        MDC_MACRO_TEMPLATE_1(K) \
-    )
+#define Mdc_Object_SubscriptConst(T, A1) \
+    Mdc_Object_MemberFunction_1(T, SubscriptConst, A1)
 
 #define Mdc_Object_Indirect(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), Indirect)
+    Mdc_Object_MemberFunction_0(T, Indirect)
 
 #define Mdc_Object_IndirectConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), IndirectConst)
+    Mdc_Object_MemberFunction_0(T, IndirectConst)
 
 #define Mdc_Object_AddressOf(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AddressOf)
+    Mdc_Object_MemberFunction_0(T, AddressOf)
 
 #define Mdc_Object_AddressOfConst(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), AddressOfConst)
+    Mdc_Object_MemberFunction_0(T, AddressOfConst)
 
 /**
  * Other
  */
 
 #define Mdc_Object_Call_0(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), Call)
+    Mdc_Object_MemberFunction_0(T, Call)
 
 #define Mdc_Object_CallConst_0(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), CallConst)
+    Mdc_Object_MemberFunction_0(T, CallConst)
 
 #define Mdc_Object_Call_1(T, A1) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, Call, A1)
 
 #define Mdc_Object_CallConst_1(T, A1) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_1(A1) \
-    )
+    Mdc_Object_MemberFunction_1(T, CallConst, A1)
 
 #define Mdc_Object_Call_2(T, A1, A2) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_2(A1, A2) \
-    )
+    Mdc_Object_MemberFunction_2(T, Call, A1, A2)
 
 #define Mdc_Object_CallConst_2(T, A1, A2) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_2(A1, A2) \
-    )
+    Mdc_Object_MemberFunction_2(T, CallConst, A1, A2)
 
 #define Mdc_Object_Call_3(T, A1, A2, A3) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_3(A1, A2, A3) \
-    )
+    Mdc_Object_MemberFunction_3(T, Call, A1, A2, A3)
 
 #define Mdc_Object_CallConst_3(T, A1, A2, A3) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_3(A1, A2, A3) \
-    )
+    Mdc_Object_MemberFunction_3(T, CallConst, A1, A2, A3)
 
 #define Mdc_Object_Call_4(T, A1, A2, A3, A4) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_4(A1, A2, A3, A4) \
-    )
+    Mdc_Object_MemberFunction_4(T, Call, A1, A2, A3, A4)
 
 #define Mdc_Object_CallConst_4(T, A1, A2, A3, A4) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_4(A1, A2, A3, A4) \
-    )
+    Mdc_Object_MemberFunction_4(T, CallConst, A1, A2, A3, A4)
 
 #define Mdc_Object_Call_5(T, A1, A2, A3, A4, A5) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_5(A1, A2, A3, A4, A5) \
-    )
+    Mdc_Object_MemberFunction_5(T, Call, A1, A2, A3, A4, A5)
 
 #define Mdc_Object_CallConst_5(T, A1, A2, A3, A4, A5) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_5(A1, A2, A3, A4, A5) \
-    )
+    Mdc_Object_MemberFunction_5(T, CallConst, A1, A2, A3, A4, A5)
 
 #define Mdc_Object_Call_6(T, A1, A2, A3, A4, A5, A6) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_6(A1, A2, A3, A4, A5, A6) \
-    )
+    Mdc_Object_MemberFunction_6(T, Call, A1, A2, A3, A4, A5, A6)
 
 #define Mdc_Object_CallConst_6(T, A1, A2, A3, A4, A5, A6) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_6(A1, A2, A3, A4, A5, A6) \
-    )
+    Mdc_Object_MemberFunction_6(T, CallConst, A1, A2, A3, A4, A5, A6)
 
 #define Mdc_Object_Call_7(T, A1, A2, A3, A4, A5, A6, A7) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_7(A1, A2, A3, A4, A5, A6, A7) \
-    )
+    Mdc_Object_MemberFunction_7(T, Call, A1, A2, A3, A4, A5, A6, A7)
 
 #define Mdc_Object_CallConst_7(T, A1, A2, A3, A4, A5, A6, A7) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_7(A1, A2, A3, A4, A5, A6, A7) \
-    )
+    Mdc_Object_MemberFunction_7(T, CallConst, A1, A2, A3, A4, A5, A6, A7)
 
 #define Mdc_Object_Call_8(T, A1, A2, A3, A4, A5, A6, A7, A8) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_8(A1, A2, A3, A4, A5, A6, A7, A8) \
-    )
+    Mdc_Object_MemberFunction_8(T, Call, A1, A2, A3, A4, A5, A6, A7, A8)
 
 #define Mdc_Object_CallConst_8(T, A1, A2, A3, A4, A5, A6, A7, A8) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_8(A1, A2, A3, A4, A5, A6, A7, A8) \
-    )
+    Mdc_Object_MemberFunction_8(T, CallConst, A1, A2, A3, A4, A5, A6, A7, A8)
 
 #define Mdc_Object_Call_9(T, A1, A2, A3, A4, A5, A6, A7, A8, A9) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), Call), \
-        MDC_MACRO_TEMPLATE_9(A1, A2, A3, A4, A5, A6, A7, A8, A9) \
-    )
+    Mdc_Object_MemberFunction_9(T, Call, A1, A2, A3, A4, A5, A6, A7, A8, A9)
 
 #define Mdc_Object_CallConst_9(T, A1, A2, A3, A4, A5, A6, A7, A8, A9) \
-    MDC_MACRO_CONCAT( \
-        Mdc_Object_Prefix(T), CallConst), \
-        MDC_MACRO_TEMPLATE_9(A1, A2, A3, A4, A5, A6, A7, A8, A9) \
+    Mdc_Object_MemberFunction_9( \
+        T, CallConst, \
+        A1, A2, A3, A4, A5, A6, A7, A8, A9 \
     )
+
+#define Mdc_Object_Call(N_args) \
+    MDC_MACRO_CONCAT(Mdc_Object_Call_, N_args)
+
+#define Mdc_Object_CallConst(N_args) \
+    MDC_MACRO_CONCAT(Mdc_Object_CallConst_, N_args)
 
 /**
  * General Functions
  */
 
 #define Mdc_Object_Swap(T) \
-    MDC_MACRO_CONCAT(Mdc_Object_Prefix(T), Swap)
+    Mdc_Object_MemberFunction_1(T, Swap, MDC_T_P(T))
 
 #endif /* MDC_C_OBJECT_INTERNAL_OBJECT_NAME_MACROS_H_ */

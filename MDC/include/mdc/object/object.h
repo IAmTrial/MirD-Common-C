@@ -38,6 +38,8 @@
  *    (e.g. Mdc_String). Typedef aliases will fail.
  * A: arg, specifies the MDC typedef names using MDC_T family of
  *    qualifier function-macros (e.g. MDC_T_PC(Mdc_String)).
+ * N: integer literal, can specify the number of arguments, but may
+ *    also be used for other purposes.
  *
  * Only the first prefix applies. All other successive characters are
  * purely used for naming (e.g. TA1 uses the "T" rule).

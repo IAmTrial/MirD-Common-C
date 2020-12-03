@@ -45,7 +45,7 @@ enum {
   khelloworld
 };
 
-static const char* kTestCStrings[] = {
+static const char* const kTestCStrings[] = {
   "Hello world!",
   "dog",
   "aaaaa",
@@ -54,7 +54,7 @@ static const char* kTestCStrings[] = {
   "hello world!"
 };
 
-static const wchar_t* kTestCWStrings[] = {
+static const wchar_t* const kTestCWStrings[] = {
   L"Hello world!",
   L"dog",
   L"aaaaa",
