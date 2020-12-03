@@ -40,8 +40,7 @@ const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit;
 const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kSlashSeparator;
 const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kNullTerminator;
 
-struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStrTop(
-    struct Mdc_Fs_Path* path,
+struct Mdc_Fs_Path Mdc_Fs_Path_InitFromCWStrTop(
     const Mdc_Fs_Path_ValueType* cstr,
     size_t count
 );

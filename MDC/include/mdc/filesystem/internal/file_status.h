@@ -30,7 +30,8 @@
 #ifndef MDC_C_FILESYSTEM_INTERNAL_FILE_STATUS_H_
 #define MDC_C_FILESYSTEM_INTERNAL_FILE_STATUS_H_
 
-#include "../../object_metadata/object_metadata.h"
+#include "../../macro/template_macro.h"
+#include "../../object/object.h"
 #include "file_type.h"
 #include "perms.h"
 
@@ -45,85 +46,118 @@ struct Mdc_Fs_FileStatus {
   enum Mdc_Fs_Perms permissions_;
 };
 
+MDC_T_DECLARE_DATA_TYPE_TYPEDEFS(struct, Mdc_Fs_FileStatus)
+
 /**
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitNone(
-    struct Mdc_Fs_FileStatus* file_status
-);
+#define Mdc_Fs_FileStatus_InitNone \
+    Mdc_Object_InitDefault(Mdc_Fs_FileStatus)
 
-DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitFromType(
-    struct Mdc_Fs_FileStatus* file_status,
+DLLEXPORT MDC_DECLARE_OBJECT_INIT_DEFAULT(Mdc_Fs_FileStatus)
+
+DLLEXPORT struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitNone(void);
+
+#define Mdc_Fs_FileStatus_InitFromType \
+    Mdc_Object_InitFrom_1(Mdc_Fs_FileStatus, MDC_T(Mdc_Fs_FileType))
+
+DLLEXPORT struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitFromType(
     enum Mdc_Fs_FileType type
 );
 
-DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitFromTypeAndPerms(
-    struct Mdc_Fs_FileStatus* file_status,
+#define Mdc_Fs_FileStatus_InitFromTypeAndPerms \
+    Mdc_Object_InitFrom_2( \
+        Mdc_Fs_FileStatus, \
+        MDC_T(Mdc_Fs_FileType), \
+        MDC_T(Mdc_Fs_Perms) \
+    )
+
+DLLEXPORT struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitFromTypeAndPerms(
     enum Mdc_Fs_FileType type,
     enum Mdc_Fs_Perms permissions
 );
 
-DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitCopy(
-    struct Mdc_Fs_FileStatus* dest,
-    const struct Mdc_Fs_FileStatus* src
-);
+#define Mdc_Fs_FileStatus_InitCopy \
+    Mdc_Object_InitCopy(Mdc_Fs_FileStatus)
 
-DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitMove(
-    struct Mdc_Fs_FileStatus* dest,
-    struct Mdc_Fs_FileStatus* src
-);
+DLLEXPORT MDC_DECLARE_OBJECT_INIT_COPY(Mdc_Fs_FileStatus)
 
-DLLEXPORT void Mdc_Fs_FileStatus_Deinit(
-    struct Mdc_Fs_FileStatus* file_status
-);
+#define Mdc_Fs_FileStatus_InitMove \
+    Mdc_Object_InitMove(Mdc_Fs_FileStatus)
 
-/**
- * Metadata
- */
+DLLEXPORT MDC_DECLARE_OBJECT_INIT_MOVE(Mdc_Fs_FileStatus)
 
-DLLEXPORT const struct Mdc_ObjectMetadata*
-Mdc_Fs_FileStatus_GetObjectMetadata(void);
+#define Mdc_Fs_FileStatus_Deinit \
+    Mdc_Object_Deinit(Mdc_Fs_FileStatus)
+
+DLLEXPORT MDC_DECLARE_OBJECT_DEINIT(Mdc_Fs_FileStatus)
 
 /**
  * Assignment
  */
 
-DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_AssignCopy(
-    struct Mdc_Fs_FileStatus* dest,
-    const struct Mdc_Fs_FileStatus* src
-);
+#define Mdc_Fs_FileStatus_AssignCopy \
+    Mdc_Object_AssignCopy(Mdc_Fs_FileStatus)
 
-DLLEXPORT struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_AssignMove(
-    struct Mdc_Fs_FileStatus* dest,
-    struct Mdc_Fs_FileStatus* src
-);
+DLLEXPORT MDC_DECLARE_OBJECT_ASSIGN_COPY(Mdc_Fs_FileStatus)
+
+#define Mdc_Fs_FileStatus_AssignMove \
+    Mdc_Object_AssignMove(Mdc_Fs_FileStatus)
+
+DLLEXPORT MDC_DECLARE_OBJECT_ASSIGN_MOVE(Mdc_Fs_FileStatus)
 
 /**
  * Comparison functions
  */
 
-DLLEXPORT bool Mdc_Fs_FileStatus_Equal(
-    const struct Mdc_Fs_FileStatus* file_status1,
-    const struct Mdc_Fs_FileStatus* file_status2
-);
+#define Mdc_Fs_FileStatus_Equal \
+    Mdc_Object_DefaultEqual(Mdc_Fs_FileStatus, Mdc_Fs_FileStatus)
+
+DLLEXPORT MDC_DECLARE_OBJECT_DEFAULT_EQUAL( \
+    Mdc_Fs_FileStatus, \
+    Mdc_Fs_FileStatus \
+)
 
 /**
  * Etc. functions
  */
 
+#define Mdc_Fs_FileStatus_GetType \
+    Mdc_Object_MemberFunction_0(Mdc_Fs_FileStatus, GetType)
+
 DLLEXPORT enum Mdc_Fs_FileType Mdc_Fs_FileStatus_GetType(
     const struct Mdc_Fs_FileStatus* file_status
 );
+
+#define Mdc_Fs_FileStatus_SetType \
+    Mdc_Object_MemberFunction_1( \
+        Mdc_Fs_FileStatus, \
+        SetType, \
+        MDC_T(Mdc_Fs_FileType) \
+    )
 
 DLLEXPORT void Mdc_Fs_FileStatus_SetType(
     struct Mdc_Fs_FileStatus* file_status,
     enum Mdc_Fs_FileType type
 );
 
+#define Mdc_Fs_FileStatus_GetPermissions \
+    Mdc_Object_MemberFunction_0( \
+        Mdc_Fs_FileStatus, \
+        GetPermissions \
+    )
+
 DLLEXPORT enum Mdc_Fs_Perms Mdc_Fs_FileStatus_GetPermissions(
     const struct Mdc_Fs_FileStatus* file_status
 );
+
+#define Mdc_Fs_FileStatus_SetPermissions \
+    Mdc_Object_MemberFunction_1( \
+        Mdc_Fs_FileStatus, \
+        SetPermissions, \
+        MDC_T(Mdc_Fs_Perms) \
+    )
 
 DLLEXPORT void Mdc_Fs_FileStatus_SetPermissions(
     struct Mdc_Fs_FileStatus* file_status,

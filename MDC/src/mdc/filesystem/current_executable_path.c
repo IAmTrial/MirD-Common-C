@@ -35,16 +35,14 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 
-struct Mdc_Fs_Path* Mdc_Fs_GetCurrentExecutablePath(
-    struct Mdc_Fs_Path* current_executable_path
-) {
+struct Mdc_Fs_Path Mdc_Fs_GetCurrentExecutablePath(void) {
   enum {
     kPathInitialCapacity = 8
   };
 
   void* realloc_result;
 
-  struct Mdc_Fs_Path* init_current_executable_path;
+  struct Mdc_Fs_Path current_executable_path;
   wchar_t* current_executable_path_cstr;
   size_t current_executable_path_capacity;
   size_t current_executable_path_new_capacity;
@@ -84,14 +82,9 @@ struct Mdc_Fs_Path* Mdc_Fs_GetCurrentExecutablePath(
   } while (current_executable_path_back_value != L'\0');
 
   /* The C string now contains the exectuable path. Init the path. */
-  init_current_executable_path = Mdc_Fs_Path_InitFromCWStr(
-      current_executable_path,
+  current_executable_path = Mdc_Fs_Path_InitFromCWStr(
       current_executable_path_cstr
   );
-
-  if (init_current_executable_path != current_executable_path) {
-    goto free_current_executable_path_cstr;
-  }
 
   Mdc_free(current_executable_path_cstr);
 
@@ -99,7 +92,6 @@ struct Mdc_Fs_Path* Mdc_Fs_GetCurrentExecutablePath(
 
 free_current_executable_path_cstr:
   Mdc_free(current_executable_path_cstr);
-  return NULL;
 }
 
 #endif

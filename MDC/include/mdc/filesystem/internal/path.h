@@ -58,37 +58,29 @@ DLLEXPORT extern const Mdc_Fs_Path_ValueType Mdc_Fs_Path_kPreferredSeparator;
  * Initialization/deinitialization
  */
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_InitEmpty(
-    struct Mdc_Fs_Path* path
-);
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_InitEmpty(void);
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromAsciiCStr(
-    struct Mdc_Fs_Path* path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_InitFromAsciiCStr(
     const char* src
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromDefaultMultibyteCStr(
-    struct Mdc_Fs_Path* path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_InitFromDefaultMultibyteCStr(
     const char* src
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromUtf8CStr(
-    struct Mdc_Fs_Path* path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_InitFromUtf8CStr(
     const char* src
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_InitFromCWStr(
-    struct Mdc_Fs_Path* path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_InitFromCWStr(
     const wchar_t* src
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_InitCopy(
-    struct Mdc_Fs_Path* dest,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_InitCopy(
     const struct Mdc_Fs_Path* src
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_InitMove(
-    struct Mdc_Fs_Path* dest,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_InitMove(
     struct Mdc_Fs_Path* src
 );
 
@@ -119,8 +111,7 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_AssignMove(
  * Append functions
  */
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPathWithPath(
-    struct Mdc_Fs_Path* dest,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_AppendPathWithPath(
     const struct Mdc_Fs_Path* src1,
     const struct Mdc_Fs_Path* src2
 );
@@ -129,8 +120,7 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPathWithPath(
  * Concat functions
  */
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ConcatPathWithPath(
-    struct Mdc_Fs_Path* dest,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_ConcatPathWithPath(
     const struct Mdc_Fs_Path* src1,
     const struct Mdc_Fs_Path* src2
 );
@@ -191,13 +181,11 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ConcatPath(
 
 DLLEXPORT bool Mdc_Fs_Path_Empty(const struct Mdc_Fs_Path* path);
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_Extension(
-    struct Mdc_Fs_Path* extension,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_Extension(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_Filename(
-    struct Mdc_Fs_Path* filename,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_Filename(
     const struct Mdc_Fs_Path* path
 );
 
@@ -229,13 +217,11 @@ DLLEXPORT const struct Mdc_Fs_Path_StringType* Mdc_Fs_Path_Native(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ParentPath(
-    struct Mdc_Fs_Path* parent_path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_ParentPath(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RelativePath(
-    struct Mdc_Fs_Path* relative_path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_RelativePath(
     const struct Mdc_Fs_Path* path
 );
 
@@ -253,18 +239,15 @@ DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceFilename(
     const struct Mdc_Fs_Path* filename
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RootDirectory(
-    struct Mdc_Fs_Path* root_directory,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_RootDirectory(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RootName(
-    struct Mdc_Fs_Path* root_name,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_RootName(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_RootPath(
-    struct Mdc_Fs_Path* root_path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_RootPath(
     const struct Mdc_Fs_Path* path
 );
 
@@ -273,8 +256,7 @@ DLLEXPORT const struct Mdc_Fs_Path_StringType* Mdc_Fs_Path_StrType(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_Path_Stem(
-    struct Mdc_Fs_Path* stem,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_Path_Stem(
     const struct Mdc_Fs_Path* path
 );
 

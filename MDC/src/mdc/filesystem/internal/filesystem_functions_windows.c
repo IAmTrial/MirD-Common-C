@@ -36,14 +36,13 @@
 
 #include "../../../../include/mdc/malloc/malloc.h"
 
-struct Mdc_Fs_Path* Mdc_Fs_AbsoluteFromPath(
-    struct Mdc_Fs_Path* absolute_path,
+struct Mdc_Fs_Path Mdc_Fs_AbsoluteFromPath(
     const struct Mdc_Fs_Path* path
 ) {
-  const Mdc_Fs_Path_ValueType* path_cstr;
-
+  struct Mdc_Fs_Path absolute_path;
   Mdc_Fs_Path_ValueType* absolute_path_cstr;
-  struct Mdc_Fs_Path* init_absolute_path;
+
+  const Mdc_Fs_Path_ValueType* path_cstr;
 
   path_cstr = Mdc_Fs_Path_CStr(path);
 
@@ -52,14 +51,9 @@ struct Mdc_Fs_Path* Mdc_Fs_AbsoluteFromPath(
     goto return_bad;
   }
 
-  init_absolute_path = Mdc_Fs_Path_InitFromCWStr(
-      absolute_path,
+  absolute_path = Mdc_Fs_Path_InitFromCWStr(
       absolute_path_cstr
   );
-
-  if (init_absolute_path != absolute_path) {
-    goto free_absolute_path_cstr;
-  }
 
   free(absolute_path_cstr);
 
@@ -69,7 +63,7 @@ free_absolute_path_cstr:
   free(absolute_path_cstr);
 
 return_bad:
-  return NULL;
+  ;
 }
 
 /*
@@ -82,10 +76,9 @@ bool Mdc_Fs_ExistsFromPath(
   return PathFileExistsW(Mdc_Fs_Path_CStr(path));
 }
 
-struct Mdc_Fs_Path* Mdc_Fs_GetCurrentPath(
-    struct Mdc_Fs_Path* current_path
-) {
-  struct Mdc_Fs_Path* init_current_path;
+struct Mdc_Fs_Path Mdc_Fs_GetCurrentPath(void) {
+  struct Mdc_Fs_Path current_path;
+
   DWORD current_path_cap;
   DWORD get_current_directory_result;
 
@@ -112,10 +105,7 @@ struct Mdc_Fs_Path* Mdc_Fs_GetCurrentPath(
     goto free_current_path_cstr;
   }
 
-  init_current_path = Mdc_Fs_Path_InitFromCWStr(
-      current_path,
-      current_path_cstr
-  );
+  current_path = Mdc_Fs_Path_InitFromCWStr(current_path_cstr);
 
   Mdc_free(current_path_cstr);
 
@@ -125,7 +115,7 @@ free_current_path_cstr:
   Mdc_free(current_path_cstr);
 
 return_bad:
-  return NULL;
+  ;
 }
 
 void Mdc_Fs_SetCurrentPath(
@@ -139,13 +129,12 @@ void Mdc_Fs_SetCurrentPath(
   is_set_current_directory_success = SetCurrentDirectoryW(current_path_cstr);
 }
 
-struct Mdc_Fs_FileStatus* Mdc_Fs_StatusFromPath(
-    struct Mdc_Fs_FileStatus* file_status,
+struct Mdc_Fs_FileStatus Mdc_Fs_StatusFromPath(
     const struct Mdc_Fs_Path* path
 ) {
   /* TODO (Mir Drualga): Complete this function. */
+  struct Mdc_Fs_FileStatus file_status;
 
-  struct Mdc_Fs_FileStatus* init_file_status;
   const wchar_t* path_cstr;
   DWORD file_attributes;
   DWORD binary_type;
@@ -169,28 +158,18 @@ struct Mdc_Fs_FileStatus* Mdc_Fs_StatusFromPath(
       file_type = Mdc_Fs_FileType_kNone;
     }
 
-    init_file_status = Mdc_Fs_FileStatus_InitFromType(
-        file_status,
+    file_status = Mdc_Fs_FileStatus_InitFromType(
         file_type
     );
-
-    if (init_file_status != file_status) {
-      goto return_bad;
-    }
 
     return file_status;
   }
 
   file_attributes = GetFileAttributesW(path_cstr);
   if (file_attributes == -1) {
-    init_file_status = Mdc_Fs_FileStatus_InitFromType(
-        file_status,
+    file_status = Mdc_Fs_FileStatus_InitFromType(
         Mdc_Fs_FileType_kUnknown
     );
-
-    if (init_file_status != file_status) {
-      goto return_bad;
-    }
 
     return file_status;
   }
@@ -220,20 +199,15 @@ struct Mdc_Fs_FileStatus* Mdc_Fs_StatusFromPath(
   }
 
   if ((file_attributes & FILE_ATTRIBUTE_DIRECTORY) != 0) {
-    init_file_status = Mdc_Fs_FileStatus_InitFromType(
-        file_status,
+    file_status = Mdc_Fs_FileStatus_InitFromType(
         Mdc_Fs_FileType_kDirectory
     );
-
-    if (init_file_status != file_status) {
-      goto return_bad;
-    }
 
     return file_status;
   }
 
 return_bad:
-  return NULL;
+  ;
 }
 
 struct Mdc_Fs_SpaceInfo* Mdc_Fs_SpaceFromPath(
@@ -247,7 +221,6 @@ struct Mdc_Fs_SpaceInfo* Mdc_Fs_SpaceFromPath(
   ULARGE_INTEGER free_space;
 
   struct Mdc_Fs_Path parent_path;
-  struct Mdc_Fs_Path* init_parent_path;
 
   const Mdc_Fs_Path_ValueType* parent_path_cstr;
 
@@ -255,10 +228,7 @@ struct Mdc_Fs_SpaceInfo* Mdc_Fs_SpaceFromPath(
     goto return_bad;
   }
 
-  init_parent_path = Mdc_Fs_Path_ParentPath(&parent_path, path);
-  if (init_parent_path != &parent_path) {
-    goto return_bad;
-  }
+  parent_path = Mdc_Fs_Path_ParentPath(path);
 
   parent_path_cstr = Mdc_Fs_Path_CStr(&parent_path);
 
@@ -281,19 +251,17 @@ return_bad:
   return NULL;
 }
 
-struct Mdc_Fs_Path* Mdc_Fs_TempDirectoryPath(
-    struct Mdc_Fs_Path* temp_directory_path
-) {
+struct Mdc_Fs_Path Mdc_Fs_TempDirectoryPath(void) {
   void* realloc_result;
 
-  struct Mdc_Fs_Path* init_temp_directory_path;
+  struct Mdc_Fs_Path temp_directory_path;
   DWORD temp_directory_path_cap;
   DWORD get_temp_path_result;
 
   wchar_t* temp_directory_path_cstr;
 
   /* Alloc space for the temp directory path. */
-  temp_directory_path_cstr = Mdc_malloc(2);
+  temp_directory_path_cstr = Mdc_malloc(sizeof(wchar_t));
   if (temp_directory_path_cstr == NULL) {
     goto return_bad;
   }
@@ -321,8 +289,7 @@ struct Mdc_Fs_Path* Mdc_Fs_TempDirectoryPath(
     goto free_temp_directory_path_cstr;
   }
 
-  init_temp_directory_path = Mdc_Fs_Path_InitFromCWStr(
-      temp_directory_path,
+  temp_directory_path = Mdc_Fs_Path_InitFromCWStr(
       temp_directory_path_cstr
   );
 
@@ -334,7 +301,7 @@ free_temp_directory_path_cstr:
   Mdc_free(temp_directory_path_cstr);
 
 return_bad:
-  return NULL;
+  ;
 }
 
 #endif /* defined(_WIN32) || defined(_WIN64) */

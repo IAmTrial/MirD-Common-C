@@ -30,6 +30,8 @@
 #ifndef MDC_C_FILESYSTEM_INTERNAL_FILE_TYPE_H_
 #define MDC_C_FILESYSTEM_INTERNAL_FILE_TYPE_H_
 
+#include "../../macro/template_macro.h"
+
 enum Mdc_Fs_FileType {
   Mdc_Fs_FileType_kNone,
   Mdc_Fs_FileType_kNotFound,
@@ -42,5 +44,7 @@ enum Mdc_Fs_FileType {
   Mdc_Fs_FileType_kSocket,
   Mdc_Fs_FileType_kUnknown,
 };
+
+MDC_T_DECLARE_DATA_TYPE_TYPEDEFS(enum, Mdc_Fs_FileType)
 
 #endif /* MDC_C_FILESYSTEM_INTERNAL_FILE_TYPE_H_ */

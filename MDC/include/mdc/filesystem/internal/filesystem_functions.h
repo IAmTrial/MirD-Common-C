@@ -41,8 +41,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_AbsoluteFromPath(
-    struct Mdc_Fs_Path* absolute_path,
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_AbsoluteFromPath(
     const struct Mdc_Fs_Path* path
 );
 
@@ -54,9 +53,7 @@ DLLEXPORT bool Mdc_Fs_ExistsFromPath(
     const struct Mdc_Fs_Path* path
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_GetCurrentPath(
-    struct Mdc_Fs_Path* current_path
-);
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_GetCurrentPath(void);
 
 DLLEXPORT void Mdc_Fs_SetCurrentPath(
     const struct Mdc_Fs_Path* current_path
@@ -89,9 +86,7 @@ DLLEXPORT bool Mdc_Fs_StatusKnown(
     const struct Mdc_Fs_FileStatus* file_status
 );
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_TempDirectoryPath(
-    struct Mdc_Fs_Path* temp_directory_path
-);
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_TempDirectoryPath(void);
 
 #ifdef __cplusplus
 } /* extern "C" */

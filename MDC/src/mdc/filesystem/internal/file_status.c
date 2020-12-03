@@ -40,48 +40,45 @@ static const struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_kUninit =
  * Initialization/deinitialization
  */
 
-struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitNone(
-    struct Mdc_Fs_FileStatus* file_status
-) {
-  return Mdc_Fs_FileStatus_InitFromType(file_status, Mdc_Fs_FileType_kNone);
+struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitNone(void) {
+  return Mdc_Fs_FileStatus_InitFromType(Mdc_Fs_FileType_kNone);
 }
 
-struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitFromType(
-    struct Mdc_Fs_FileStatus* file_status,
+struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitFromType(
     enum Mdc_Fs_FileType type
 ) {
   return Mdc_Fs_FileStatus_InitFromTypeAndPerms(
-      file_status,
       type,
       Mdc_Fs_Perms_kUnknown
   );
 }
 
-struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitFromTypeAndPerms(
-    struct Mdc_Fs_FileStatus* file_status,
+struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitFromTypeAndPerms(
     enum Mdc_Fs_FileType type,
     enum Mdc_Fs_Perms permissions
 ) {
-  file_status->type_ = type;
-  file_status->permissions_ = permissions;
+  struct Mdc_Fs_FileStatus file_status;
+
+  file_status.type_ = type;
+  file_status.permissions_ = permissions;
 
   return file_status;
 }
 
-struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitCopy(
-    struct Mdc_Fs_FileStatus* dest,
+struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitCopy(
     const struct Mdc_Fs_FileStatus* src
 ) {
-  *dest = *src;
+  struct Mdc_Fs_FileStatus file_status;
 
-  return dest;
+  file_status = *src;
+
+  return file_status;
 }
 
-struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_InitMove(
-    struct Mdc_Fs_FileStatus* dest,
+struct Mdc_Fs_FileStatus Mdc_Fs_FileStatus_InitMove(
     struct Mdc_Fs_FileStatus* src
 ) {
-  return Mdc_Fs_FileStatus_InitCopy(dest, src);
+  return Mdc_Fs_FileStatus_InitCopy(src);
 }
 
 void Mdc_Fs_FileStatus_Deinit(
@@ -98,47 +95,16 @@ struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_AssignCopy(
     struct Mdc_Fs_FileStatus* dest,
     const struct Mdc_Fs_FileStatus* src
 ) {
-  struct Mdc_Fs_FileStatus temp_file_status;
-  struct Mdc_Fs_FileStatus* init_temp_file_status;
-
-  struct Mdc_Fs_FileStatus* assign_dest;
-
-  init_temp_file_status = Mdc_Fs_FileStatus_InitCopy(
-      &temp_file_status,
-      src
-  );
-
-  if (init_temp_file_status != &temp_file_status) {
-    goto return_bad;
-  }
-
-  assign_dest = Mdc_Fs_FileStatus_AssignMove(
-      dest,
-      &temp_file_status
-  );
-
-  if (assign_dest != dest) {
-    goto deinit_temp_file_status;
-  }
-
-  Mdc_Fs_FileStatus_Deinit(&temp_file_status);
+  *dest = *src;
 
   return dest;
-
-deinit_temp_file_status:
-  Mdc_Fs_FileStatus_Deinit(&temp_file_status);
-
-return_bad:
-  return NULL;
 }
 
 struct Mdc_Fs_FileStatus* Mdc_Fs_FileStatus_AssignMove(
     struct Mdc_Fs_FileStatus* dest,
     struct Mdc_Fs_FileStatus* src
 ) {
-  *dest = *src;
-
-  return dest;
+  return Mdc_Fs_FileStatus_AssignCopy(dest, src);
 }
 
 /**

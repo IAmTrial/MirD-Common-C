@@ -34,9 +34,7 @@
 
 #include "../../../dllexport_define.inc"
 
-DLLEXPORT struct Mdc_Fs_Path* Mdc_Fs_GetCurrentExecutablePath(
-    struct Mdc_Fs_Path* current_executable_path
-);
+DLLEXPORT struct Mdc_Fs_Path Mdc_Fs_GetCurrentExecutablePath(void);
 
 #include "../../../dllexport_undefine.inc"
 #endif /* MDC_C_FILESYSTEM_CURRENT_EXECUTABLE_PATH_H_ */

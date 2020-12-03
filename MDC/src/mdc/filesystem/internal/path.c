@@ -37,8 +37,7 @@ const struct Mdc_Fs_Path Mdc_Fs_Path_kUninit = MDC_PATH_UNINIT;
  * Static functions
  */
 
-typedef struct Mdc_Fs_Path* (*Mdc_Fs_Path_GetPathElementFunc)(
-    struct Mdc_Fs_Path*,
+typedef struct Mdc_Fs_Path (*Mdc_Fs_Path_GetPathElementFunc)(
     const struct Mdc_Fs_Path*
 );
 
@@ -47,13 +46,9 @@ static bool Mdc_Fs_Path_HasPathElement(
     Mdc_Fs_Path_GetPathElementFunc get_element_func
 ) {
   struct Mdc_Fs_Path path_element;
-  struct Mdc_Fs_Path* init_path_element;
   bool is_empty;
 
-  init_path_element = get_element_func(&path_element, path);
-  if (init_path_element != &path_element) {
-    goto return_bad;
-  }
+  path_element = get_element_func(path);
 
   is_empty = Mdc_Fs_Path_Empty(&path_element);
 
@@ -78,22 +73,30 @@ bool Mdc_Fs_Path_IsSeparatorCh(Mdc_Fs_Path_ValueType ch) {
  * External functions
  */
 
-struct Mdc_Fs_Path* Mdc_Fs_Path_InitCopy(
-    struct Mdc_Fs_Path* dest,
+struct Mdc_Fs_Path Mdc_Fs_Path_InitEmpty(void) {
+  struct Mdc_Fs_Path path;
+
+  path.path_str_ = Mdc_BasicString_InitEmpty(Mdc_Fs_Path_ValueType)();
+
+  return path;
+}
+
+struct Mdc_Fs_Path Mdc_Fs_Path_InitCopy(
     const struct Mdc_Fs_Path* src
 ) {
-  dest->path_str_ = Mdc_BasicString_InitCopy(Mdc_Fs_Path_ValueType)(
+  struct Mdc_Fs_Path dest;
+  dest.path_str_ = Mdc_BasicString_InitCopy(Mdc_Fs_Path_ValueType)(
       &src->path_str_
   );
 
   return dest;
 }
 
-struct Mdc_Fs_Path* Mdc_Fs_Path_InitMove(
-    struct Mdc_Fs_Path* dest,
+struct Mdc_Fs_Path Mdc_Fs_Path_InitMove(
     struct Mdc_Fs_Path* src
 ) {
-  Mdc_BasicString_InitMove(Mdc_Fs_Path_ValueType)(
+  struct Mdc_Fs_Path dest;
+  dest.path_str_ = Mdc_BasicString_InitMove(Mdc_Fs_Path_ValueType)(
       &src->path_str_
   );
 
@@ -109,14 +112,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AssignCopy(
     const struct Mdc_Fs_Path* src
 ) {
   struct Mdc_Fs_Path temp_path;
-  struct Mdc_Fs_Path* init_temp_path;
 
   struct Mdc_Fs_Path* assign_dest;
 
-  init_temp_path = Mdc_Fs_Path_InitCopy(&temp_path, src);
-  if (init_temp_path != &temp_path) {
-    goto return_bad;
-  }
+  temp_path = Mdc_Fs_Path_InitCopy(src);
 
   assign_dest = Mdc_Fs_Path_AssignMove(dest, &temp_path);
   if (assign_dest != dest) {
@@ -130,7 +129,6 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AssignCopy(
 deinit_temp_path:
   Mdc_Fs_Path_Deinit(&temp_path);
 
-return_bad:
   return NULL;
 }
 
@@ -150,62 +148,52 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AssignMove(
  * Append functions
  */
 
-struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPathWithPath(
-    struct Mdc_Fs_Path* dest,
+struct Mdc_Fs_Path Mdc_Fs_Path_AppendPathWithPath(
     const struct Mdc_Fs_Path* src1,
     const struct Mdc_Fs_Path* src2
 ) {
-  struct Mdc_Fs_Path* init_dest;
+  struct Mdc_Fs_Path dest;
   struct Mdc_Fs_Path* append_path;
 
-  init_dest = Mdc_Fs_Path_InitCopy(dest, src1);
-  if (init_dest != dest) {
-    goto return_bad;
-  }
+  dest = Mdc_Fs_Path_InitCopy(src1);
 
-  append_path = Mdc_Fs_Path_AppendPath(dest, src2);
-  if (append_path != dest) {
+  append_path = Mdc_Fs_Path_AppendPath(&dest, src2);
+  if (append_path != &dest) {
     goto deinit_dest;
   }
 
   return dest;
 
 deinit_dest:
-  Mdc_Fs_Path_Deinit(dest);
+  Mdc_Fs_Path_Deinit(&dest);
 
-return_bad:
-  return NULL;
+  return Mdc_Fs_Path_kUninit;
 }
 
 /**
  * Concat functions
  */
 
-struct Mdc_Fs_Path* Mdc_Fs_Path_ConcatPathWithPath(
-    struct Mdc_Fs_Path* dest,
+struct Mdc_Fs_Path Mdc_Fs_Path_ConcatPathWithPath(
     const struct Mdc_Fs_Path* src1,
     const struct Mdc_Fs_Path* src2
 ) {
-  struct Mdc_Fs_Path* init_dest;
+  struct Mdc_Fs_Path dest;
   struct Mdc_Fs_Path* concat_path;
 
-  init_dest = Mdc_Fs_Path_InitCopy(dest, src1);
-  if (init_dest != dest) {
-    goto return_bad;
-  }
+  dest = Mdc_Fs_Path_InitCopy(src1);
 
-  concat_path = Mdc_Fs_Path_ConcatPath(dest, src2);
-  if (concat_path != dest) {
+  concat_path = Mdc_Fs_Path_ConcatPath(&dest, src2);
+  if (concat_path != &dest) {
     goto deinit_dest;
   }
 
   return dest;
 
 deinit_dest:
-  Mdc_Fs_Path_Deinit(dest);
+  Mdc_Fs_Path_Deinit(&dest);
 
-return_bad:
-  return NULL;
+  return Mdc_Fs_Path_kUninit;
 }
 
 /**
@@ -283,21 +271,15 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
   struct Mdc_Fs_Path* assign_dest;
 
   struct Mdc_Fs_Path dest_root_name;
-  struct Mdc_Fs_Path* init_dest_root_name;
-
   struct Mdc_Fs_Path path_root_name;
-  struct Mdc_Fs_Path* init_path_root_name;
 
   struct Mdc_Fs_Path path_separator;
-  struct Mdc_Fs_Path* init_path_separator;
   struct Mdc_Fs_Path* concat_path_separator;
 
   struct Mdc_Fs_Path path_root_directory;
-  struct Mdc_Fs_Path* init_path_root_directory;
   struct Mdc_Fs_Path* concat_path_root_directory;
 
   struct Mdc_Fs_Path path_relative_path;
-  struct Mdc_Fs_Path* init_path_relative_path;
   struct Mdc_Fs_Path* concat_path_relative_path;
 
   if (Mdc_Fs_Path_IsAbsolute(path)) {
@@ -312,16 +294,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
   }
 
   if (Mdc_Fs_Path_HasRootName(path)) {
-    init_dest_root_name = Mdc_Fs_Path_RootName(&dest_root_name, dest);
-    if (init_dest_root_name != &dest_root_name) {
-      goto return_bad;
-    }
-
-    init_path_root_name = Mdc_Fs_Path_RootName(&path_root_name, dest);
-    if (init_path_root_name != &path_root_name) {
-      Mdc_Fs_Path_Deinit(&dest_root_name);
-      goto return_bad;
-    }
+    dest_root_name = Mdc_Fs_Path_RootName(dest);
+    path_root_name = Mdc_Fs_Path_RootName(dest);
 
     if (!Mdc_Fs_Path_EqualPath(&dest_root_name, &path_root_name)) {
       /* Replace the entire dest with path. */
@@ -348,10 +322,7 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
     * Remove the dest's root directory and relative path, leaving only
     * the root name.
     */
-    init_dest_root_name = Mdc_Fs_Path_RootName(&dest_root_name, dest);
-    if (init_dest_root_name != &dest_root_name) {
-      goto return_bad;
-    }
+    dest_root_name = Mdc_Fs_Path_RootName(dest);
 
     assign_dest = Mdc_Fs_Path_AssignMove(dest, &dest_root_name);
     if (assign_dest != dest) {
@@ -364,16 +335,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
       || (!Mdc_Fs_Path_HasRootDirectory(dest)
           && Mdc_Fs_Path_IsAbsolute(dest))) {
     /* Append preferred path separator. */
-    init_path_separator = Mdc_Fs_Path_InitFromCWStrTop(
-        &path_separator,
+    path_separator = Mdc_Fs_Path_InitFromCWStrTop(
         &Mdc_Fs_Path_kPreferredSeparator,
         1
     );
-
-    if (init_path_separator != &path_separator) {
-      Mdc_Fs_Path_Deinit(&path_separator);
-      goto return_bad;
-    }
 
     concat_path_separator = Mdc_Fs_Path_ConcatPath(dest, &path_separator);
     if (concat_path_separator != dest) {
@@ -385,23 +350,8 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_AppendPath(
   }
 
   /* Concat path without root to dest. */
-  init_path_root_directory = Mdc_Fs_Path_RootDirectory(
-      &path_root_directory,
-      path
-  );
-
-  if (init_path_root_directory != &path_root_directory) {
-    goto return_bad;
-  }
-
-  init_path_relative_path = Mdc_Fs_Path_RelativePath(
-      &path_relative_path,
-      path
-  );
-
-  if (init_path_relative_path != &path_relative_path) {
-    goto deinit_path_nameless_root;
-  }
+  path_root_directory = Mdc_Fs_Path_RootDirectory(path);
+  path_relative_path = Mdc_Fs_Path_RelativePath(path);
 
   concat_path_root_directory = Mdc_Fs_Path_ConcatPath(
       dest,
@@ -542,23 +492,18 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RemoveFilename(
   size_t path_len;
 
   struct Mdc_Fs_Path filename;
-  struct Mdc_Fs_Path* init_filename;
   const struct Mdc_Fs_Path_StringType* filename_str;
   size_t filename_len;
   size_t i_filename;
 
   struct Mdc_Fs_Path filename_less_path;
-  struct Mdc_Fs_Path* init_filename_less_path;
 
   path_str = Mdc_Fs_Path_Native(path);
   path_cstr = Mdc_BasicString_DataConst(Mdc_Fs_Path_ValueType)(path_str);
   path_len = Mdc_BasicString_Length(Mdc_Fs_Path_ValueType)(path_str);
 
   /* Get the filename length, which will determine the string top. */
-  init_filename = Mdc_Fs_Path_Filename(&filename, path);
-  if (init_filename != &filename) {
-    goto return_bad;
-  }
+  filename = Mdc_Fs_Path_Filename(path);
 
   filename_str = Mdc_Fs_Path_Native(&filename);
   filename_len = Mdc_BasicString_Length(Mdc_Fs_Path_ValueType)(filename_str);
@@ -566,15 +511,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_RemoveFilename(
   i_filename = path_len - filename_len;
 
   /* Assign the path top to the path. */
-  init_filename_less_path = Mdc_Fs_Path_InitFromCWStrTop(
-      &filename_less_path,
+  filename_less_path = Mdc_Fs_Path_InitFromCWStrTop(
       path_cstr,
       i_filename
   );
-
-  if (init_filename_less_path != &filename_less_path) {
-    goto deinit_filename;
-  }
 
   assign_path = Mdc_Fs_Path_AssignMove(path, &filename_less_path);
   if (assign_path != path) {
@@ -606,23 +546,14 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceExtension(
   struct Mdc_Fs_Path* assign_path;
 
   struct Mdc_Fs_Path path_extension;
-  struct Mdc_Fs_Path* init_path_extension;
   const struct Mdc_Fs_Path_StringType* path_extension_str;
   size_t path_extension_len;
 
   struct Mdc_Fs_Path new_extension_path;
-  struct Mdc_Fs_Path* init_new_extension_path;
   struct Mdc_Fs_Path* concat_new_extension_path;
 
   /* Remove the extension from the path. */
-  init_path_extension = Mdc_Fs_Path_Extension(
-      &path_extension,
-      path
-  );
-
-  if (init_path_extension != &path_extension) {
-    goto return_bad;
-  }
+  path_extension = Mdc_Fs_Path_Extension(path);
 
   path_extension_str = Mdc_Fs_Path_Native(&path_extension);
   path_extension_len = Mdc_BasicString_Length(Mdc_Fs_Path_ValueType)(
@@ -633,15 +564,10 @@ struct Mdc_Fs_Path* Mdc_Fs_Path_ReplaceExtension(
   path_cstr = Mdc_BasicString_DataConst(Mdc_Fs_Path_ValueType)(path_str);
   path_len = Mdc_BasicString_Length(Mdc_Fs_Path_ValueType)(path_str);
 
-  init_new_extension_path = Mdc_Fs_Path_InitFromCWStrTop(
-      &new_extension_path,
+  new_extension_path = Mdc_Fs_Path_InitFromCWStrTop(
       path_cstr,
       path_len - path_extension_len
   );
-
-  if (init_new_extension_path != &new_extension_path) {
-    goto deinit_path_extension;
-  }
 
   /* Append the new extension onto the path. */
   concat_new_extension_path = Mdc_Fs_Path_ConcatPath(

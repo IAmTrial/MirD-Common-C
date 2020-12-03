@@ -30,6 +30,8 @@
 #ifndef MDC_C_FILESYSTEM_INTERNAL_PERMS_H_
 #define MDC_C_FILESYSTEM_INTERNAL_PERMS_H_
 
+#include "../../macro/template_macro.h"
+
 enum Mdc_Fs_Perms {
   Mdc_Fs_Perms_kNone = 0,
 
@@ -57,5 +59,7 @@ enum Mdc_Fs_Perms {
 
   Mdc_Fs_Perms_kUnknown = 0xFFFF
 };
+
+MDC_T_DECLARE_DATA_TYPE_TYPEDEFS(enum, Mdc_Fs_Perms)
 
 #endif /* MDC_C_FILESYSTEM_INTERNAL_PERMS_H_ */
