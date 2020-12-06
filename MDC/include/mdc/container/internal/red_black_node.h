@@ -27,26 +27,18 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_CONTAINER_MAP_H_
-#define MDC_C_CONTAINER_MAP_H_
+#ifndef MDC_C_CONTAINER_INTERNAL_RED_BLACK_NODE_H_
+#define MDC_C_CONTAINER_INTERNAL_RED_BLACK_NODE_H_
 
-#include "internal/map/map_declare_macro.h"
-#include "internal/map/map_define_macro.h"
-#include "internal/map/map_name_macro.h"
+#include "red_black_node/red_black_node_declare_macro.h"
+#include "red_black_node/red_black_node_define_macro.h"
+#include "red_black_node/red_black_node_name_macro.h"
 
-#define MDC_DECLARE_MAP(T_KeyT, T_ValueT) \
-    MDC_INTERNAL_DECLARE_MAP_PREREQUISITES(T_KeyT, T_ValueT) \
-    /*MDC_INTERNAL_DECLARE_MAP_STRUCT(T_KeyT, T_ValueT) \
-    MDC_INTERNAL_DECLARE_MAP_FUNCTIONS(T_KeyT, T_ValueT)*/
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_STRUCT(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_FUNCTIONS(T_DataT, F_CompareFunc)
 
-#define MDC_DECLARE_MAP_EMPLACE \
-    MDC_INTERNAL_DECLARE_MAP_EMPLACE \
+#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_FUNCTIONS(T_DataT, F_CompareFunc)
 
-#define MDC_DECLARE_MAP_EMPLACE_KEY_COPY \
-    MDC_INTERNAL_DECLARE_MAP_EMPLACE_KEY_COPY
-
-#define MDC_DEFINE_MAP(T_KeyT, T_ValueT) \
-    /*MDC_INTERNAL_DEFINE_MAP_PREREQUISITES(T_KeyT, T_ValueT) \
-    MDC_INTERNAL_DEFINE_MAP_FUNCTIONS(T_KeyT, T_ValueT) */
-
-#endif /* MDC_C_CONTAINER_MAP_H_ */
+#endif /* MDC_C_CONTAINER_INTERNAL_RED_BLACK_NODE_H_ */

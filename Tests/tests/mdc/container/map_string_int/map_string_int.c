@@ -29,32 +29,4 @@
 
 #include "map_string_int.h"
 
-#include <mdc/std/threads.h>
-#include "../pair_string_int/pair_string_int.h"
-
-/**
- * Static functions
- */
-
-static struct Mdc_MapMetadata global_map_metadata;
-static once_flag global_map_metadata_init_flag = ONCE_FLAG_INIT;
-
-static void Mdc_MapStringInt_InitGlobalMapMetadata(void) {
-  Mdc_MapMetadata_Init(
-      &global_map_metadata,
-      Mdc_PairStringInt_GetGlobalPairMetadata()
-  );
-}
-
-/**
- * External functions
- */
-
-const struct Mdc_MapMetadata* Mdc_MapStringInt_GetGlobalMapMetadata(void) {
-  call_once(
-      &global_map_metadata_init_flag,
-      &Mdc_MapStringInt_InitGlobalMapMetadata
-  );
-
-  return &global_map_metadata;
-}
+MDC_DEFINE_MAP(Mdc_String, Mdc_Int)
