@@ -34,6 +34,7 @@
 
 #include "../../../macro/template_macro.h"
 #include "../../../malloc/malloc.h"
+#include "../../../std/assert.h"
 #include "../../../std/stdbool.h"
 #include "red_black_node_name_macro.h"
 
@@ -45,7 +46,13 @@
 ) \
     MDC_T_C(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
     Mdc_Internal_RedBlackNode_kUninit(T_DataT, F_CompareFunc) = \
-        MDC_INTERNAL_RED_BLACK_NODE_UNINIT
+        MDC_INTERNAL_RED_BLACK_NODE_UNINIT;
+
+#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_CONSTANTS( \
+    T_DataT, \
+    F_CompareFunc \
+) \
+    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_K_UNINIT(T_DataT, F_CompareFunc)
 
 /**
  * Functions
@@ -65,15 +72,15 @@
     ) { \
       MDC_T(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node; \
 \
-      node.data_ = Mdc_malloc(sizeof(*node.data_)); \
-      if (node.data_ == NULL) { \
+      node.data = Mdc_malloc(sizeof(*node.data)); \
+      if (node.data == NULL) { \
         return Mdc_Internal_RedBlackNode_kUninit(T_DataT, F_CompareFunc); \
       } \
-      *node.data_ = Mdc_Object_InitMove(T_DataT)(data); \
-      node.color_ = Mdc_Internal_RedBlackColor_kRed; \
-      node.parent_ = NULL; \
-      node.left_ = NULL; \
-      node.right_ = NULL; \
+      *node.data = Mdc_Object_InitMove(T_DataT)(data); \
+      node.color = Mdc_Internal_RedBlackColor_kRed; \
+      node.parent = NULL; \
+      node.left = NULL; \
+      node.right = NULL; \
 \
       return node; \
     }
@@ -88,15 +95,87 @@
     ) { \
       MDC_T(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node; \
 \
-      node.data_ = Mdc_malloc(sizeof(*node.data_)); \
-      if (node.data_ == NULL) { \
+      node.data = Mdc_malloc(sizeof(*node.data)); \
+      if (node.data == NULL) { \
         return Mdc_Internal_RedBlackNode_kUninit(T_DataT, F_CompareFunc); \
       } \
-      *node.data_ = Mdc_Object_InitCopy(T_DataT)(data); \
-      node.color_ = Mdc_Internal_RedBlackColor_kRed; \
-      node.parent_ = NULL; \
-      node.left_ = NULL; \
-      node.right_ = NULL; \
+      *node.data = Mdc_Object_InitCopy(T_DataT)(data); \
+      node.color = Mdc_Internal_RedBlackColor_kRed; \
+      node.parent = NULL; \
+      node.left = NULL; \
+      node.right = NULL; \
+\
+      return node; \
+    }
+
+#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INIT_COPY( \
+    T_DataT, \
+    F_CompareFunc \
+) \
+    MDC_T(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
+    Mdc_Internal_RedBlackNode_InitCopy(T_DataT, F_CompareFunc)( \
+        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) src \
+    ) { \
+      MDC_T(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node; \
+\
+      node.data = Mdc_malloc(sizeof(*node.data)); \
+      if (node.data == NULL) { \
+        return Mdc_Internal_RedBlackNode_kUninit(T_DataT, F_CompareFunc); \
+      } \
+\
+      *node.data = Mdc_Object_InitCopy(T_DataT)(src->data); \
+\
+      node.color = src->color; \
+\
+      if (src->left != NULL) { \
+        node.left = Mdc_malloc(sizeof(*node.left)); \
+        if (node.left == NULL) { \
+          Mdc_Object_Deinit(T_DataT)(node.data); \
+          Mdc_free(node.data); \
+\
+          return Mdc_Internal_RedBlackNode_kUninit(T_DataT, F_CompareFunc); \
+        } \
+\
+        *node.left = Mdc_Internal_RedBlackNode_InitCopy( \
+            T_DataT, \
+            F_CompareFunc \
+        )(src->left); \
+      } \
+\
+      if (src->right != NULL) { \
+        node.right = Mdc_malloc(sizeof(*node.right)); \
+        if (node.right == NULL) { \
+          Mdc_Internal_RedBlackNode_Deinit(T_DataT, F_CompareFunc)( \
+              node.left \
+          ); \
+\
+          Mdc_Object_Deinit(T_DataT)(node.data); \
+          Mdc_free(node.data); \
+\
+          return Mdc_Internal_RedBlackNode_kUninit(T_DataT, F_CompareFunc); \
+        } \
+\
+        *node.right = Mdc_Internal_RedBlackNode_InitCopy( \
+            T_DataT, \
+            F_CompareFunc \
+        )(src->right); \
+      } \
+\
+      return node; \
+    }
+
+#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INIT_MOVE( \
+    T_DataT, \
+    F_CompareFunc \
+) \
+    MDC_T(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
+    Mdc_Internal_RedBlackNode_InitMove(T_DataT, F_CompareFunc)( \
+        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) src \
+    ) { \
+      MDC_T(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node;\
+\
+      node = *src; \
+      *src = Mdc_Internal_RedBlackNode_kUninit(T_DataT, F_CompareFunc); \
 \
       return node; \
     }
@@ -105,26 +184,26 @@
     void Mdc_Internal_RedBlackNode_Deinit(T_DataT, F_CompareFunc)( \
         MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     ) { \
-      if (node->left_ != NULL) { \
+      if (node->left != NULL) { \
         Mdc_Internal_RedBlackNode_Deinit(T_DataT, F_CompareFunc)( \
-            node->left_ \
+            node->left \
         ); \
-        Mdc_free(node->left_); \
+        Mdc_free(node->left); \
 \
-        node->left_ = NULL; \
+        node->left = NULL; \
       } \
 \
-      if (node->right_ != NULL) { \
+      if (node->right != NULL) { \
         Mdc_Internal_RedBlackNode_Deinit(T_DataT, F_CompareFunc)( \
-            node->right_ \
+            node->right \
         ); \
-        Mdc_free(node->right_); \
+        Mdc_free(node->right); \
 \
-        node->right_ = NULL; \
+        node->right = NULL; \
       } \
 \
-      Mdc_Object_Deinit(T_DataT)(&node->data_); \
-      Mdc_free(&node->data_); \
+      Mdc_Object_Deinit(T_DataT)(node->data); \
+      Mdc_free(node->data); \
     }
 
 /**
@@ -162,8 +241,8 @@
 \
       current_node = node; \
 \
-      while (current_node->right_ != NULL) { \
-        current_node = current_node->right_; \
+      while (current_node->right != NULL) { \
+        current_node = current_node->right; \
       } \
 \
       return current_node; \
@@ -191,73 +270,7 @@
     Mdc_Internal_RedBlackNode_DataConst(T_DataT, F_CompareFunc)( \
         MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     ) { \
-      return node->data_; \
-    }
-
-#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_ERASE( \
-    T_DataT, \
-    F_CompareFunc \
-) \
-    void Mdc_Internal_RedBlackNode_Erase(T_DataT, F_CompareFunc)( \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node, \
-        MDC_T_PC(T_DataT) data \
-    ) { \
-      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      lookup_result; \
-      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      replacement; \
-      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      replacement_child; \
-      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      next_node; \
-      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      parent; \
-      MDC_T_P(T_DataT) temp_data; \
-\
-      /* Locate the node to erase. */ \
-      lookup_result = Mdc_Internal_RedBlackNode_LookupNode( \
-          T_DataT, \
-          F_CompareFunc \
-      )(node, data); \
-\
-      if (lookup_result == NULL) { \
-        return; \
-      } \
-\
-      /* Locate the replacement node. */ \
-      if (lookup_result->right_ != NULL) { \
-        replacement = Mdc_Internal_RedBlackNode_Successor( \
-            T_DataT, \
-            F_CompareFunc \
-        )(lookup_result); \
-\
-        replacement_child = replacement->right_; \
-      } else if (lookup_result->left_ != NULL) { \
-        replacement = Mdc_Internal_RedBlackNode_Predecessor( \
-            T_DataT, \
-            F_CompareFunc \
-        )(lookup_result); \
-\
-        replacement_child = replacement->left_; \
-      } else { \
-        /* If there is no replacement, just delete. */ \
-        Mdc_Internal_RedBlackNode_Deinit(T_DataT, F_CompareFunc)( \
-            lookup_result \
-        ); \
-\
-        return; \
-      } \
-\
-      assert(replacement != NULL); \
-\
-      temp_data = lookup_node->data_; \
-      lookup_node->data_ = replacement->data_; \
-      replacement->data_ = temp_data; \
-\
-      Mdc_Internal_RedBlackNode_Deinit(T_DataT, F_CompareFunc)( \
-          replacement \
-      ); \
-      Mdc_free(replacement); \
+      return node->data; \
     }
 
 #define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_FRONT_NODE( \
@@ -291,8 +304,8 @@
 \
       current_node = node; \
 \
-      while (current_node->left_ != NULL) { \
-        current_node = current_node->left_; \
+      while (current_node->left != NULL) { \
+        current_node = current_node->left; \
       } \
 \
       return current_node; \
@@ -321,11 +334,11 @@
     Mdc_Internal_RedBlackNode_GrandparentConst(T_DataT, F_CompareFunc)( \
         MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     ) { \
-      if (node->parent_ == NULL) { \
+      if (node->parent == NULL) { \
         return NULL; \
       } \
 \
-      return node->parent_->parent_; \
+      return node->parent->parent; \
     }
 
 #define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INSERT( \
@@ -337,100 +350,6 @@
         MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) root, \
         MDC_T_P(T_DataT) data \
     ) { \
-      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      current_node; \
-      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      parent_node; \
-      int compare_result; \
-\
-      if (root == NULL) { \
-        node->color_ = Mdc_Internal_RedBlackColor_kBlack; \
-        return node; \
-      } \
-\
-      /* Look for the target node position with equal data. */ \
-      parent_node = NULL; \
-      current_node = root; \
-\
-      while (current_node != NULL) { \
-        parent_node = current_node; \
-\
-        compare_result = F_CompareFunc( \
-            node->data_, \
-            current_node->data_ \
-        ); \
-\
-        if (compare_result < 0) { \
-          current_node = current_node->right_; \
-        } else if (compare_result > 0) { \
-          current_node = current_node->left_; \
-        } else /* if (compare_result == 0) */ { \
-          return root; \
-        } \
-      } \
-\
-      /* Insert the new node into the correct location. */ \
-      if (compare_result < 0) { \
-        parent_node->left_ = node; \
-      } else /* if (compare_result > 0) */ { \
-        parent_node->right_ = node; \
-      } \
-\
-      node->parent_ = parent_node; \
-      node->color_ = Mdc_Internal_RedBlackColor_kRed; \
-\
-      /* TODO: Implement rebalancing. */ \
-\
-      return root; \
-    }
-
-#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_LOOKUP( \
-    T_DataT, \
-    F_CompareFunc \
-) \
-    MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-    Mdc_Internal_RedBlackNode_Lookup(T_DataT, F_CompareFunc)( \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node, \
-        MDC_T_PC(T_DataT) data \
-    ) { \
-      return (MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc))) \
-          Mdc_Internal_RedBlackNode_LookupNodeConst( \
-              T_DataT, \
-              F_CompareFunc \
-          )(node, data); \
-    }
-
-#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_LOOKUP_CONST( \
-    T_DataT, \
-    F_CompareFunc \
-) \
-    MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-    Mdc_Internal_RedBlackNode_LookupConst(T_DataT, F_CompareFunc)( \
-        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node, \
-        MDC_T_PC(T_DataT) data \
-    ) { \
-      MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-      current_node; \
-      int compare_result; \
-\
-      current_node = node; \
-\
-      while (current_node != NULL) { \
-        compare_result = F_CompareFunc( \
-            data, \
-            current_node->data_ \
-        ); \
-\
-        if (compare_result < 0) { \
-          current_node = current_node->right_; \
-        } else if (compare_result > 0) { \
-          current_node = current_node->left_; \
-        } else { \
-          return current_node; \
-        } \
-      } \
-\
-      return NULL; \
     }
 
 #define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_NEXT_NODE( \
@@ -462,20 +381,20 @@
 \
       /* Select the right, then go as far left as possible. */ \
       current_node = node; \
-      if (current_node->right_ != NULL) { \
-        next_node = current_node->right_; \
-        while (next_node->left_ != NULL) { \
-          next_node = next_node->left_; \
+      if (current_node->right != NULL) { \
+        next_node = current_node->right; \
+        while (next_node->left != NULL) { \
+          next_node = next_node->left; \
         } \
 \
         return next_node; \
       } \
 \
       /* Find the first greater ancestor. */ \
-      next_node = current_node->parent_; \
-      while (next_node != NULL && next_node->right_ == current_node) { \
+      next_node = current_node->parent; \
+      while (next_node != NULL && next_node->right == current_node) { \
         current_node = next_node; \
-        next_node = next_node->parent_; \
+        next_node = next_node->parent; \
       } \
 \
       if (next_node == NULL) { \
@@ -507,7 +426,7 @@
     Mdc_Internal_RedBlackNode_ParentConst(T_DataT, F_CompareFunc)( \
         MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     ) { \
-      return node->parent_; \
+      return node->parent; \
     }
 
 #define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_PREDECESSOR( \
@@ -518,10 +437,11 @@
     Mdc_Internal_RedBlackNode_Predecessor(T_DataT, F_CompareFunc)( \
         MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     ) { \
-      return MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-          Mdc_Internal_RedBlackNode_PredecessorConst(T_DataT, F_CompareFunc)( \
-              node \
-          ); \
+      return (MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc))) \
+          Mdc_Internal_RedBlackNode_PredecessorConst( \
+              T_DataT, \
+              F_CompareFunc \
+          )(node); \
     }
 
 #define MDC_INTERNAL_DEFINE_RED_BLACK_NODE_PREDECESSOR_CONST( \
@@ -535,13 +455,13 @@
       MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
       predecessor; \
 \
-      predecessor = node->left_; \
+      predecessor = node->left; \
       if (predecessor == NULL) { \
         return NULL; \
       } \
 \
-      while (predecessor->right_ != NULL) { \
-        predecessor = predecessor->right_; \
+      while (predecessor->right != NULL) { \
+        predecessor = predecessor->right; \
       } \
 \
       return predecessor; \
@@ -559,25 +479,25 @@
       MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
       parent; \
 \
-      parent = node->parent_; \
-      right_child = node->right_; \
+      parent = node->parent; \
+      right_child = node->right; \
 \
       if (right_child != NULL) { \
-        node->parent_ = right_child; \
-        node->right_ = right_child->left_; \
-        if (right_child->left_ != NULL) { \
-          right_child->left_->parent_ = node; \
+        node->parent = right_child; \
+        node->right = right_child->left; \
+        if (right_child->left != NULL) { \
+          right_child->left->parent = node; \
         } \
 \
-        right_child->parent_ = parent; \
-        right_child->left_ = node; \
+        right_child->parent = parent; \
+        right_child->left = node; \
       } \
 \
       if (parent != NULL) { \
-        if (parent->left_ == node) { \
-          parent->left_ = right_child; \
+        if (parent->left == node) { \
+          parent->left = right_child; \
         } else { \
-          parent->right_ = right_child; \
+          parent->right = right_child; \
         } \
       } \
     }
@@ -594,25 +514,25 @@
       MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
       parent; \
 \
-      parent = node->parent_; \
-      left_child = node->left_; \
+      parent = node->parent; \
+      left_child = node->left; \
 \
       if (left_child != NULL) { \
-        node->parent_ = left_child; \
-        node->left_ = left_child->right_; \
-        if (left_child->right_ != NULL) { \
-          left_child->right_->parent_ = node; \
+        node->parent = left_child; \
+        node->left = left_child->right; \
+        if (left_child->right != NULL) { \
+          left_child->right->parent = node; \
         } \
 \
-        left_child->parent_ = parent; \
-        left_child->right_ = node; \
+        left_child->parent = parent; \
+        left_child->right = node; \
       } \
 \
       if (parent != NULL) { \
-        if (parent->left_ == node) { \
-          parent->left_ = left_child; \
+        if (parent->left == node) { \
+          parent->left = left_child; \
         } else { \
-          parent->right_ = left_child; \
+          parent->right = left_child; \
         } \
       } \
     }
@@ -641,15 +561,15 @@
     ) { \
       MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) parent; \
 \
-      parent = node->parent_; \
+      parent = node->parent; \
       if (parent == NULL) { \
         return NULL; \
       } \
 \
-      if (parent->left_ == node) { \
-        return parent->right_; \
+      if (parent->left == node) { \
+        return parent->right; \
       } else /* if (parent->right == node) */ { \
-        return parent->left_; \
+        return parent->left; \
       } \
     }
 
@@ -661,7 +581,7 @@
     Mdc_Internal_RedBlackNode_Successor(T_DataT, F_CompareFunc)( \
         MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     ) { \
-      return MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
+      return (MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc))) \
           Mdc_Internal_RedBlackNode_SuccessorConst(T_DataT, F_CompareFunc)( \
               node \
           ); \
@@ -678,13 +598,13 @@
       MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
       successor; \
 \
-      successor = node->right_; \
+      successor = node->right; \
       if (successor == NULL) { \
         return NULL; \
       } \
 \
-      while (successor->left_ != NULL) { \
-        successor = successor->left_; \
+      while (successor->left != NULL) { \
+        successor = successor->left; \
       } \
 \
       return successor; \
@@ -714,7 +634,7 @@
     ) { \
       MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) parent; \
 \
-      parent = node->parent_; \
+      parent = node->parent; \
       if (parent == NULL) { \
         return NULL; \
       } \
@@ -729,7 +649,7 @@
     T_DataT, \
     F_CompareFunc \
 ) \
-    /*MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INIT_FROM_DATA( \
+    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INIT_FROM_DATA( \
         T_DataT, \
         F_CompareFunc \
     ) \
@@ -737,6 +657,8 @@
         T_DataT, \
         F_CompareFunc \
     ) \
+    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INIT_COPY(T_DataT, F_CompareFunc) \
+    /*MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INIT_MOVE(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DEFINE_RED_BLACK_NODE_DEINIT(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DEFINE_RED_BLACK_NODE_BACK_NODE(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DEFINE_RED_BLACK_NODE_BACK_NODE_CONST( \
@@ -748,7 +670,6 @@
         T_DataT, \
         F_CompareFunc \
     ) \
-    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_ERASE(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DEFINE_RED_BLACK_NODE_FRONT_NODE( \
         T_DataT, \
         F_CompareFunc \
@@ -763,6 +684,7 @@
         F_CompareFunc \
     ) \
     MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INSERT(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_INSERT_COPY(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DEFINE_RED_BLACK_NODE_LOOKUP(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DEFINE_RED_BLACK_NODE_LOOKUP_CONST( \
         T_DataT, \

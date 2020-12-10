@@ -27,19 +27,27 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_CONTAINER_INTERNAL_RED_BLACK_NODE_H_
-#define MDC_C_CONTAINER_INTERNAL_RED_BLACK_NODE_H_
+#ifndef MDC_C_CONTAINER_INTERNAL_RED_BLACK_TREE_H_
+#define MDC_C_CONTAINER_INTERNAL_RED_BLACK_TREE_H_
 
-#include "red_black_node/red_black_node_declare_macro.h"
-#include "red_black_node/red_black_node_define_macro.h"
-#include "red_black_node/red_black_node_name_macro.h"
+#include "red_black_tree/red_black_tree_declare_macro.h"
+#include "red_black_tree/red_black_tree_define_macro.h"
+#include "red_black_tree/red_black_tree_name_macro.h"
 
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_STRUCT(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_FUNCTIONS(T_DataT, F_CompareFunc)
+#define MDC_INTERNAL_DECLARE_RED_BLACK_TREE(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_TREE_PREREQUISITES( \
+        T_DataT, \
+        F_CompareFunc \
+    ) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_TREE_STRUCT(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_TREE_FUNCTIONS(T_DataT, F_CompareFunc)
 
-#define MDC_INTERNAL_DEFINE_RED_BLACK_NODE(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_CONSTANTS(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DEFINE_RED_BLACK_NODE_FUNCTIONS(T_DataT, F_CompareFunc)
+#define MDC_INTERNAL_DEFINE_RED_BLACK_TREE(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DEFINE_RED_BLACK_TREE_PREREQUISITES( \
+        T_DataT, \
+        F_CompareFunc \
+    ) \
+    /*MDC_INTERNAL_DEFINE_RED_BLACK_TREE_CONSTANTS(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DEFINE_RED_BLACK_TREE_FUNCTIONS(T_DataT, F_CompareFunc)*/
 
-#endif /* MDC_C_CONTAINER_INTERNAL_RED_BLACK_NODE_H_ */
+#endif /* MDC_C_CONTAINER_INTERNAL_RED_BLACK_TREE_H_ */

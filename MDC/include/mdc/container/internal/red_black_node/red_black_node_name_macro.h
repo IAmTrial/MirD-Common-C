@@ -66,6 +66,12 @@
         MDC_T_PC(T_DataT) \
     )
 
+#define Mdc_Internal_RedBlackNode_InitCopy(T_DataT, F_CompareFunc) \
+    Mdc_Object_InitCopy(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc))
+
+#define Mdc_Internal_RedBlackNode_InitMove(T_DataT, F_CompareFunc) \
+    Mdc_Object_InitCopy(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc))
+
 #define Mdc_Internal_RedBlackNode_Deinit(T_DataT, F_CompareFunc) \
     Mdc_Object_Deinit(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc))
 
@@ -97,12 +103,6 @@
         DataConst \
     )
 
-#define Mdc_Internal_RedBlackNode_Erase(T_DataT, F_CompareFunc) \
-    Mdc_Object_Member( \
-        Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
-        Erase \
-    )
-
 #define Mdc_Internal_RedBlackNode_FrontNode(T_DataT, F_CompareFunc) \
     Mdc_Object_Member( \
         Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
@@ -127,22 +127,16 @@
         GrandparentConst \
     )
 
-#define Mdc_Internal_RedBlackNode_Insert(T_DataT, F_CompareFunc) \
+#define Mdc_Internal_RedBlackNode_Left(T_DataT, F_CompareFunc) \
     Mdc_Object_Member( \
         Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
-        Insert \
+        Left \
     )
 
-#define Mdc_Internal_RedBlackNode_Lookup(T_DataT, F_CompareFunc) \
+#define Mdc_Internal_RedBlackNode_LeftConst(T_DataT, F_CompareFunc) \
     Mdc_Object_Member( \
         Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
-        Lookup \
-    )
-
-#define Mdc_Internal_RedBlackNode_LookupConst(T_DataT, F_CompareFunc) \
-    Mdc_Object_Member( \
-        Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
-        LookupConst \
+        LeftConst \
     )
 
 #define Mdc_Internal_RedBlackNode_NextNode(T_DataT, F_CompareFunc) \
@@ -191,6 +185,18 @@
     Mdc_Object_Member( \
         Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
         PreviousNodeConst \
+    )
+
+#define Mdc_Internal_RedBlackNode_Right(T_DataT, F_CompareFunc) \
+    Mdc_Object_Member( \
+        Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
+        Right \
+    )
+
+#define Mdc_Internal_RedBlackNode_RightConst(T_DataT, F_CompareFunc) \
+    Mdc_Object_Member( \
+        Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc), \
+        RightConst \
     )
 
 #define Mdc_Internal_RedBlackNode_RotateLeft(T_DataT, F_CompareFunc) \

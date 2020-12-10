@@ -37,6 +37,7 @@
 #include "../../../std/stdbool.h"
 #include "../../pair.h"
 #include "../red_black_node.h"
+#include "../red_black_tree.h"
 #include "map_name_macro.h"
 
 /**
@@ -52,7 +53,7 @@
 #define MDC_INTERNAL_DECLARE_MAP_PREREQUISITES(T_KeyT, T_ValueT) \
     MDC_DECLARE_PAIR(T_KeyT, T_ValueT) \
     MDC_INTERNAL_DECLARE_PAIR_COMPARE_FIRST(T_KeyT, T_ValueT) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE( \
+    MDC_INTERNAL_DECLARE_RED_BLACK_TREE( \
         Mdc_Pair(T_KeyT, T_ValueT), \
         Mdc_Pair_CompareFirst(T_KeyT, T_ValueT) \
     )
@@ -62,11 +63,15 @@
  */
 
 #define MDC_INTERNAL_DECLARE_MAP_STRUCT(T_KeyT, T_ValueT) \
+    struct Mdc_Map(T_KeyT, T_ValueT); \
+    MDC_T_DECLARE_DATA_TYPE_TYPEDEFS(struct, Mdc_Map(T_KeyT, T_ValueT)) \
     struct Mdc_Map(T_KeyT, T_ValueT) { \
-      struct Mdc_Internal_MapNode(T_KeyT, T_ValueT)* root_;\
+      MDC_T(Mdc_Internal_RedBlackTree( \
+          Mdc_Pair(T_KeyT, T_ValueT), \
+          Mdc_Pair_CompareFirst(T_KeyT, T_ValueT) \
+      )) root_;\
       size_t count_; \
-    }; \
-    MDC_T_DECLARE_DATA_TYPE_TYPEDEFS(struct, Mdc_Map(T_KeyT, T_ValueT))
+    };
 
 /**
  * Initialize / Deinitialize

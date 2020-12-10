@@ -47,23 +47,26 @@ enum Mdc_Internal_RedBlackColor {
   Mdc_Internal_RedBlackColor_kBlack = 2,
 };
 
+MDC_T_DECLARE_DATA_TYPE_TYPEDEFS(enum, Mdc_Internal_RedBlackColor)
+
 /**
  * Struct
  */
 
 #define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_STRUCT(T_DataT, F_CompareFunc) \
-    struct Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc) { \
-      enum Mdc_Internal_RedBlackColor color_; \
-      MDC_T_P(T_DataT) data_; \
-\
-      struct Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)* parent_; \
-      struct Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)* left_; \
-      struct Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)* right_; \
-    }; \
+    struct Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc); \
     MDC_T_DECLARE_DATA_TYPE_TYPEDEFS( \
         struct, \
         Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc) \
-    )
+    ) \
+    struct Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc) { \
+      MDC_T(Mdc_Internal_RedBlackColor) color; \
+      MDC_T_P(T_DataT) data; \
+\
+      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) parent; \
+      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) left; \
+      MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) right; \
+    };
 
 /**
  * Initialize / Deinitialize
@@ -87,6 +90,22 @@ enum Mdc_Internal_RedBlackColor {
         MDC_T_PC(T_DataT) data \
     );
 
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_INIT_COPY( \
+    T_DataT, \
+    F_CompareFunc \
+) \
+    MDC_DECLARE_OBJECT_INIT_COPY( \
+        Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc) \
+    )
+
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_INIT_MOVE( \
+    T_DataT, \
+    F_CompareFunc \
+) \
+    MDC_DECLARE_OBJECT_INIT_MOVE( \
+        Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc) \
+    )
+
 #define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_DEINIT(T_DataT, F_CompareFunc) \
     MDC_DECLARE_OBJECT_DEINIT( \
         Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc) \
@@ -96,31 +115,10 @@ enum Mdc_Internal_RedBlackColor {
  * General Functions
  */
 
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_BACK_NODE( \
-    T_DataT, \
-    F_CompareFunc \
-) \
-    MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-    Mdc_Internal_RedBlackNode_BackNode(T_DataT, F_CompareFunc)( \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
-    );
-
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_BACK_NODE_CONST( \
-    T_DataT, \
-    F_CompareFunc \
-) \
-    MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-    Mdc_Internal_RedBlackNode_BackNodeConst(T_DataT, F_CompareFunc)( \
-        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
-    );
-
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_DATA( \
-    T_DataT, \
-    F_CompareFunc \
-) \
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_DATA(T_DataT, F_CompareFunc) \
     MDC_T_P(T_DataT) \
     Mdc_Internal_RedBlackNode_Data(T_DataT, F_CompareFunc)( \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
+        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node\
     );
 
 #define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_DATA_CONST( \
@@ -129,16 +127,7 @@ enum Mdc_Internal_RedBlackColor {
 ) \
     MDC_T_PC(T_DataT) \
     Mdc_Internal_RedBlackNode_DataConst(T_DataT, F_CompareFunc)( \
-        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
-    );
-
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_ERASE_NODE( \
-    T_DataT, \
-    F_CompareFunc \
-) \
-    void Mdc_Internal_RedBlackNode_Erase(T_DataT, F_CompareFunc)( \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node, \
-        MDC_T_PC(T_DataT) data \
+        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node\
     );
 
 #define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_FRONT_NODE( \
@@ -177,34 +166,22 @@ enum Mdc_Internal_RedBlackColor {
         MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     );
 
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_INSERT( \
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LEFT( \
     T_DataT, \
     F_CompareFunc \
 ) \
     MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-    Mdc_Internal_RedBlackNode_Insert(T_DataT, F_CompareFunc)( \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) root, \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) data \
+    Mdc_Internal_RedBlackNode_Left(T_DataT, F_CompareFunc)( \
+        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     );
 
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LOOKUP( \
-    T_DataT, \
-    F_CompareFunc \
-) \
-    MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-    Mdc_Internal_RedBlackNode_Lookup(T_DataT, F_CompareFunc)( \
-        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node, \
-        MDC_T_PC(T_DataT) data \
-    );
-
-#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LOOKUP_CONST( \
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LEFT_CONST( \
     T_DataT, \
     F_CompareFunc \
 ) \
     MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
-    Mdc_Internal_RedBlackNode_LookupConst(T_DataT, F_CompareFunc)( \
-        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node, \
-        MDC_T_PC(T_DataT) data \
+    Mdc_Internal_RedBlackNode_LeftConst(T_DataT, F_CompareFunc)( \
+        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     );
 
 #define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_NEXT_NODE( \
@@ -276,6 +253,24 @@ enum Mdc_Internal_RedBlackColor {
 ) \
     MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
     Mdc_Internal_RedBlackNode_PreviousNodeConst(T_DataT, F_CompareFunc)( \
+        MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
+    );
+
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_RIGHT( \
+    T_DataT, \
+    F_CompareFunc \
+) \
+    MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
+    Mdc_Internal_RedBlackNode_Right(T_DataT, F_CompareFunc)( \
+        MDC_T_P(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
+    );
+
+#define MDC_INTERNAL_DECLARE_RED_BLACK_NODE_RIGHT_CONST( \
+    T_DataT, \
+    F_CompareFunc \
+) \
+    MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) \
+    Mdc_Internal_RedBlackNode_RightConst(T_DataT, F_CompareFunc)( \
         MDC_T_PC(Mdc_Internal_RedBlackNode(T_DataT, F_CompareFunc)) node \
     );
 
@@ -361,18 +356,14 @@ enum Mdc_Internal_RedBlackColor {
         T_DataT, \
         F_CompareFunc \
     ) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_INIT_COPY(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_INIT_MOVE(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DECLARE_RED_BLACK_NODE_DEINIT(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_BACK_NODE(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_BACK_NODE_CONST( \
-        T_DataT, \
-        F_CompareFunc \
-    ) \
     MDC_INTERNAL_DECLARE_RED_BLACK_NODE_DATA(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DECLARE_RED_BLACK_NODE_DATA_CONST( \
         T_DataT, \
         F_CompareFunc \
     ) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_ERASE_NODE(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DECLARE_RED_BLACK_NODE_FRONT_NODE( \
         T_DataT, \
         F_CompareFunc \
@@ -386,12 +377,8 @@ enum Mdc_Internal_RedBlackColor {
         T_DataT, \
         F_CompareFunc \
     ) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_INSERT(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LOOKUP(T_DataT, F_CompareFunc) \
-    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LOOKUP_CONST( \
-        T_DataT, \
-        F_CompareFunc \
-    ) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LEFT(T_DataT, F_CompareFunc) \
+    MDC_INTERNAL_DECLARE_RED_BLACK_NODE_LEFT_CONST(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DECLARE_RED_BLACK_NODE_NEXT_NODE(T_DataT, F_CompareFunc) \
     MDC_INTERNAL_DECLARE_RED_BLACK_NODE_NEXT_NODE_CONST( \
         T_DataT, \

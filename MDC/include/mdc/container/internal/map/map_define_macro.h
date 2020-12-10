@@ -55,8 +55,9 @@
     }
 
 #define MDC_INTERNAL_DEFINE_MAP_PREREQUISITES(T_KeyT, T_ValueT) \
+    MDC_DEFINE_PAIR(T_KeyT, T_ValueT) \
     MDC_INTERNAL_DEFINE_PAIR_COMPARE_FIRST(T_KeyT, T_ValueT) \
-    MDC_INTERNAL_DEFINE_RED_BLACK_NODE( \
+    MDC_INTERNAL_DEFINE_RED_BLACK_TREE( \
         Mdc_Pair(T_KeyT, T_ValueT), \
         Mdc_Pair_CompareFirst(T_KeyT, T_ValueT) \
     )
