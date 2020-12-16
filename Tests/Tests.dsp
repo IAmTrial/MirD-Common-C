@@ -91,70 +91,6 @@ LINK32=link.exe
 # Begin Group "mdc"
 
 # PROP Default_Filter ""
-# Begin Group "container"
-
-# PROP Default_Filter ""
-# Begin Group "map_string_int"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\map_string_int\map_string_int.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\map_string_int\map_string_int.h
-# End Source File
-# End Group
-# Begin Group "pair_string_int"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\pair_string_int\pair_string_int.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\pair_string_int\pair_string_int.h
-# End Source File
-# End Group
-# Begin Group "vector_int"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\vector_int\vector_int.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\vector_int\vector_int.h
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\map_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\map_tests.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\pair_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\pair_tests.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\vector_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container\vector_tests.h
-# End Source File
-# End Group
 # Begin Group "error"
 
 # PROP Default_Filter ""
@@ -223,18 +159,6 @@ SOURCE=.\tests\mdc\std\threads_tests.c
 SOURCE=.\tests\mdc\std\threads_tests.h
 # End Source File
 # End Group
-# Begin Group "string"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\string\basic_string_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\string\basic_string_tests.h
-# End Source File
-# End Group
 # Begin Group "wchar_t"
 
 # PROP Default_Filter ""
@@ -277,14 +201,6 @@ SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.h
 # End Group
 # Begin Source File
 
-SOURCE=.\tests\mdc\container_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\container_tests.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\tests\mdc\error_tests.c
 # End Source File
 # Begin Source File
@@ -310,14 +226,6 @@ SOURCE=.\tests\mdc\std_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\std_tests.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\string_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\string_tests.h
 # End Source File
 # Begin Source File
 

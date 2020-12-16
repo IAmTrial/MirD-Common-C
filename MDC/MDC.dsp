@@ -89,34 +89,6 @@ LIB32=link.exe -lib
 # Begin Group "mdc_c"
 
 # PROP Default_Filter ""
-# Begin Group "container_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\container\map.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\container\map_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\container\pair.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\container\pair_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\container\vector.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\container\vector_metadata.c
-# End Source File
-# End Group
 # Begin Group "error_c"
 
 # PROP Default_Filter ""
@@ -273,54 +245,6 @@ SOURCE=.\src\mdc\std\wchar\wchar.c
 # End Source File
 # End Group
 # End Group
-# Begin Group "string_c"
-
-# PROP Default_Filter ""
-# Begin Group "basic_string_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\string\basic_string\string.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\string\basic_string\string_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\string\basic_string\wstring.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\string\basic_string\wstring_metadata.c
-# End Source File
-# End Group
-# Begin Group "char_traits_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\string\char_traits\char_traits_char.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\string\char_traits\char_traits_wchar.c
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\src\mdc\string\basic_string.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\string\basic_string_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\string\char_traits.c
-# End Source File
-# End Group
 # Begin Group "wchar_t_c"
 
 # PROP Default_Filter ""
@@ -333,14 +257,6 @@ SOURCE=.\src\mdc\wchar_t\wide_decoding.c
 SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Source File
 # End Group
-# Begin Group "windows_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\windows\vs_fixed_file_info.c
-# End Source File
-# End Group
 # End Group
 # End Group
 # Begin Group "include"
@@ -349,22 +265,6 @@ SOURCE=.\src\mdc\windows\vs_fixed_file_info.c
 # Begin Group "mdc_h"
 
 # PROP Default_Filter ""
-# Begin Group "container_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\container\map.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\container\pair.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\container\vector.h
-# End Source File
-# End Group
 # Begin Group "error_h"
 
 # PROP Default_Filter ""
@@ -421,42 +321,6 @@ SOURCE=.\include\mdc\filesystem\filesystem.h
 SOURCE=.\include\mdc\malloc\malloc.h
 # End Source File
 # End Group
-# Begin Group "object_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\object\float_object.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\object\integer_object.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\object\string_literal_object.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\object\windows_float_object.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\object\windows_integer_object.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\object\windows_string_literal_object.h
-# End Source File
-# End Group
-# Begin Group "object_metadata_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\object_metadata\object_metadata.h
-# End Source File
-# End Group
 # Begin Group "std_h"
 
 # PROP Default_Filter ""
@@ -481,50 +345,6 @@ SOURCE=.\include\mdc\std\threads.h
 SOURCE=.\include\mdc\std\wchar.h
 # End Source File
 # End Group
-# Begin Group "string_h"
-
-# PROP Default_Filter ""
-# Begin Group "basic_string_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\string\basic_string\string.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\string\basic_string\tstring.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\string\basic_string\wstring.h
-# End Source File
-# End Group
-# Begin Group "char_traits_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\string\char_traits\char_traits_char.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\string\char_traits\char_traits_tchar.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\string\char_traits\char_traits_wchar.h
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\include\mdc\string\basic_string.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\string\char_traits.h
-# End Source File
-# End Group
 # Begin Group "wchar_t_h"
 
 # PROP Default_Filter ""
@@ -539,14 +359,6 @@ SOURCE=.\include\mdc\wchar_t\wide_decoding.h
 # Begin Source File
 
 SOURCE=.\include\mdc\wchar_t\wide_encoding.h
-# End Source File
-# End Group
-# Begin Group "windows_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\windows\vs_fixed_file_info.h
 # End Source File
 # End Group
 # End Group
