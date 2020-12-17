@@ -103,26 +103,6 @@ SOURCE=.\tests\mdc\error\exit_on_error_tests.c
 SOURCE=.\tests\mdc\error\exit_on_error_tests.h
 # End Source File
 # End Group
-# Begin Group "filesystem"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem\current_executable_path_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem\current_executable_path_tests.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem\path_windows_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem\path_windows_tests.h
-# End Source File
-# End Group
 # Begin Group "std"
 
 # PROP Default_Filter ""
@@ -206,14 +186,6 @@ SOURCE=.\tests\mdc\error_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\error_tests.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\filesystem_tests.h
 # End Source File
 # Begin Source File
 

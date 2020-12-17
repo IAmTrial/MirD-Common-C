@@ -97,120 +97,12 @@ LIB32=link.exe -lib
 SOURCE=.\src\mdc\error\exit_on_error.c
 # End Source File
 # End Group
-# Begin Group "filesystem_c"
-
-# PROP Default_Filter ""
-# Begin Group "filesystem_internal_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\file_status.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\file_status_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\filesystem_functions.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\filesystem_functions_windows.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path_internal.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\path_windows.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\internal\space_info.c
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\src\mdc\filesystem\current_executable_path.c
-# End Source File
-# End Group
 # Begin Group "malloc_c"
 
 # PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\mdc\malloc\malloc.c
-# End Source File
-# End Group
-# Begin Group "object_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\object\float_object.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\float_object_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\integer_object.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\integer_object_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\string_literal_object.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\string_literal_object_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\windows_float_object.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\windows_float_object_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\windows_integer_object.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\windows_integer_object_metadata.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\windows_string_literal_object.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\object\windows_string_literal_object_metadata.c
-# End Source File
-# End Group
-# Begin Group "object_metadata_c"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\object_metadata\object_metadata.c
 # End Source File
 # End Group
 # Begin Group "std_c"
@@ -271,46 +163,6 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # Begin Source File
 
 SOURCE=.\include\mdc\error\exit_on_error.h
-# End Source File
-# End Group
-# Begin Group "filesystem_h"
-
-# PROP Default_Filter ""
-# Begin Group "filesystem_internal_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\file_status.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\file_type.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\filesystem_functions.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\path.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\perms.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\internal\space_info.h
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\current_executable_path.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\filesystem\filesystem.h
 # End Source File
 # End Group
 # Begin Group "malloc_h"
