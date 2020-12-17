@@ -30,8 +30,9 @@
 #ifndef MDC_C_WCHAR_T_WIDE_DECODING_H_
 #define MDC_C_WCHAR_T_WIDE_DECODING_H_
 
+#include <stddef.h>
+
 #include "../std/wchar.h"
-#include "../string/basic_string.h"
 
 #include "../../../dllexport_define.inc"
 
@@ -40,17 +41,19 @@ extern "C" {
 #endif /* __cplusplus */
 
 /**
- * Creates a wide encoded copy of the specified 7-bit ASCII string.
- * The returned pointer must have free called on it by the client once
- * no longer in use.
+ * Decode the specified 7-bit ASCII string into a wide string.
  *
- * @param ascii_str the 7-bit ASCII to decode
+ * @param ascii_c_str the 7-bit ASCII to decode
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeAscii(
-    struct Mdc_BasicString* wide_str,
-    const char* ascii_str
+DLLEXPORT wchar_t* Mdc_Wide_DecodeAscii(
+    wchar_t* wide_c_str,
+    const char* ascii_c_str
+);
+
+DLLEXPORT size_t Mdc_Wide_DecodeAsciiLength(
+    const char* ascii_c_str
 );
 
 /**
@@ -59,13 +62,17 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeAscii(
  * launch. The returned pointer must have free called on it by the
  * client once no longer in use.
  *
- * @param multibyte_str the multibyte string to decode
+ * @param multibyte_c_str the multibyte string to decode
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeDefaultMultibyte(
-    struct Mdc_BasicString* wide_str,
-    const char* multibyte_str
+DLLEXPORT wchar_t* Mdc_Wide_DecodeDefaultMultibyte(
+    wchar_t* wide_c_str,
+    const char* multibyte_c_str
+);
+
+DLLEXPORT size_t Mdc_Wide_DecodeDefaultMultibyteLength(
+    const char* multibyte_c_str
 );
 
 /**
@@ -73,13 +80,17 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeDefaultMultibyte(
  * returned pointer must have free called on it by the client once no
  * longer in use.
  *
- * @param utf8_str the UTF-8 string to decode
+ * @param utf8_c_str the UTF-8 string to decode
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_DecodeUtf8(
-    struct Mdc_BasicString* wide_str,
-    const char* utf8_str
+DLLEXPORT wchar_t* Mdc_Wide_DecodeUtf8(
+    wchar_t* wide_c_str,
+    const char* utf8_c_str
+);
+
+DLLEXPORT size_t Mdc_Wide_DecodeUtf8Length(
+    const char* utf8_c_str
 );
 
 #ifdef __cplusplus

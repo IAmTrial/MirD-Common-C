@@ -35,55 +35,72 @@
 
 #include <mdc/malloc/malloc.h>
 #include <mdc/std/wchar.h>
-#include <mdc/string/basic_string.h>
 #include <mdc/wchar_t/wide_encoding.h>
 #include "example_text/example_text.h"
 
 static void Mdc_WideEncoding_AssertEncodeAscii(void) {
-  struct Mdc_BasicString ascii_str;
-  struct Mdc_BasicString* init_ascii_str;
+  char* ascii_c_str;
+  size_t ascii_c_str_len;
 
-  init_ascii_str = Mdc_Wide_EncodeAscii(&ascii_str, kAsciiExampleTextWide);
-  assert(init_ascii_str == &ascii_str);
-  assert(Mdc_BasicString_CompareCStr(&ascii_str, kAsciiExampleText) == 0);
+  char* encode_result;
 
-  Mdc_BasicString_Deinit(&ascii_str);
+  ascii_c_str_len = Mdc_Wide_EncodeAsciiLength(kAsciiExampleTextWide);
+
+  ascii_c_str = Mdc_malloc((ascii_c_str_len + 1) * sizeof(ascii_c_str[0]));
+  assert(ascii_c_str != NULL);
+
+  encode_result = Mdc_Wide_EncodeAscii(ascii_c_str, kAsciiExampleTextWide);
+  assert(encode_result == ascii_c_str);
+  assert(strcmp(ascii_c_str, kAsciiExampleText) == 0);
+
+  Mdc_free(ascii_c_str);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
-  struct Mdc_BasicString multibyte_ascii_str;
-  struct Mdc_BasicString* init_multibyte_ascii_str;
+  char* multibyte_ascii_c_str;
+  size_t multibyte_ascii_c_str_len;
 
-  int compare_result;
+  char* encode_result;
 
-  init_multibyte_ascii_str = Mdc_Wide_EncodeDefaultMultibyte(
-      &multibyte_ascii_str,
+  multibyte_ascii_c_str_len = Mdc_Wide_EncodeDefaultMultibyteLength(
       kAsciiExampleTextWide
   );
-  assert(init_multibyte_ascii_str == &multibyte_ascii_str);
 
-  compare_result = Mdc_BasicString_CompareCStr(
-      &multibyte_ascii_str,
-      kAsciiExampleText
+  multibyte_ascii_c_str = Mdc_malloc(
+      (multibyte_ascii_c_str_len + 1) * sizeof(multibyte_ascii_c_str[0])
   );
-  assert(compare_result == 0);
+  assert(multibyte_ascii_c_str != NULL);
 
-  Mdc_BasicString_Deinit(&multibyte_ascii_str);
+  encode_result = Mdc_Wide_EncodeDefaultMultibyte(
+      multibyte_ascii_c_str,
+      kAsciiExampleTextWide
+  );
+  assert(encode_result == multibyte_ascii_c_str);
+  assert(strcmp(multibyte_ascii_c_str, kAsciiExampleText) == 0);
+
+  Mdc_free(multibyte_ascii_c_str);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
 
 static void Mdc_WideEncoding_AssertEncodeUtf8(void) {
-  struct Mdc_BasicString utf8_str;
-  struct Mdc_BasicString* init_utf8_str;
+  char* utf8_c_str;
+  size_t utf8_c_str_len;
 
-  init_utf8_str = Mdc_Wide_EncodeUtf8(&utf8_str, kUtf8ExampleTextWide);
-  assert(init_utf8_str == &utf8_str);
-  assert(Mdc_BasicString_CompareCStr(&utf8_str, kUtf8ExampleText) == 0);
+  char* encode_result;
 
-  Mdc_BasicString_Deinit(&utf8_str);
+  utf8_c_str_len = Mdc_Wide_EncodeUtf8Length(kUtf8ExampleTextWide);
+
+  utf8_c_str = Mdc_malloc((utf8_c_str_len + 1) * sizeof(utf8_c_str[0]));
+  assert(utf8_c_str != NULL);
+
+  encode_result = Mdc_Wide_EncodeUtf8(utf8_c_str, kUtf8ExampleTextWide);
+  assert(encode_result == utf8_c_str);
+  assert(strcmp(utf8_c_str, kUtf8ExampleText) == 0);
+
+  Mdc_free(utf8_c_str);
 
   assert(Mdc_GetMallocDifference() == 0);
 }
