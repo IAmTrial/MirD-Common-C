@@ -30,8 +30,9 @@
 #ifndef MDC_C_WCHAR_T_WIDE_ENCODING_H_
 #define MDC_C_WCHAR_T_WIDE_ENCODING_H_
 
+#include <stddef.h>
+
 #include "../std/wchar.h"
-#include "../string/basic_string.h"
 
 #include "../../../dllexport_define.inc"
 
@@ -44,13 +45,17 @@ extern "C" {
  * The returned pointer must have free called on it by the client once
  * no longer in use.
  *
- * @param ascii_str the wide string to encode
+ * @param ascii_c_str the wide string to encode
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeAscii(
-    struct Mdc_BasicString* char_str,
-    const wchar_t* wide_str
+DLLEXPORT char* Mdc_Wide_EncodeAscii(
+    char* char_c_str,
+    const wchar_t* wide_c_str
+);
+
+DLLEXPORT size_t Mdc_Wide_EncodeAsciiLength(
+    const wchar_t* wide_c_str
 );
 
 /**
@@ -59,13 +64,17 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeAscii(
  * launch. The returned pointer must have free called on it by the
  * client once no longer in use.
  *
- * @param wide_str the wide string to encode
+ * @param wide_c_str the wide string to encode
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeDefaultMultibyte(
-    struct Mdc_BasicString* char_str,
-    const wchar_t* wide_str
+DLLEXPORT char* Mdc_Wide_EncodeDefaultMultibyte(
+    char* char_c_str,
+    const wchar_t* wide_c_str
+);
+
+DLLEXPORT size_t Mdc_Wide_EncodeDefaultMultibyteLength(
+    const wchar_t* wide_c_str
 );
 
 /**
@@ -73,13 +82,17 @@ DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeDefaultMultibyte(
  * returned pointer must have free called on it by the client once no
  * longer in use.
  *
- * @param wide_str the wide string to encode
+ * @param wide_c_str the wide string to encode
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLEXPORT struct Mdc_BasicString* Mdc_Wide_EncodeUtf8(
-    struct Mdc_BasicString* char_str,
-    const wchar_t* wide_str
+DLLEXPORT char* Mdc_Wide_EncodeUtf8(
+    char* char_c_str,
+    const wchar_t* wide_c_str
+);
+
+DLLEXPORT size_t Mdc_Wide_EncodeUtf8Length(
+    const wchar_t* wide_c_str
 );
 
 #ifdef __cplusplus

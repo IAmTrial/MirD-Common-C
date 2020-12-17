@@ -31,28 +31,19 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 
-#include <stddef.h>
 #include <windows.h>
 
-#include "../../../include/mdc/malloc/malloc.h"
-
-#include "../../../include/mdc/std/threads.h"
-
-static struct Mdc_BasicString* Mdc_Wide_EncodeChar(
-    struct Mdc_BasicString* char_str,
-    const wchar_t* wide_str,
+static size_t Mdc_Wide_EncodeCharLength(
+    const wchar_t* wide_c_str,
     UINT code_page
 ) {
-  struct Mdc_BasicString* init_char_str;
-  size_t char_str_len;
+  size_t char_c_str_capacity;
 
-  size_t converted_chars_with_null_count;
-
-  /* Determine the number of bytes needed. */
-  char_str_len = WideCharToMultiByte(
+  /* Determine the number of characters needed, minus null terminator. */
+  char_c_str_capacity = WideCharToMultiByte(
       code_page,
       0,
-      wide_str,
+      wide_c_str,
       -1,
       NULL,
       0,
@@ -60,20 +51,22 @@ static struct Mdc_BasicString* Mdc_Wide_EncodeChar(
       NULL
   );
 
-  if (char_str_len == 0) {
-    goto return_bad;
-  }
+  return char_c_str_capacity - 1;
+}
 
-  char_str_len -= 1;
+static char* Mdc_Wide_EncodeChar(
+    char* char_c_str,
+    const wchar_t* wide_c_str,
+    UINT code_page
+) {
+  size_t char_c_str_len;
 
-  /* Allocate the char string. */
-  init_char_str = Mdc_BasicString_InitFromChar(
-      char_str,
-      Mdc_CharTraitsChar_GetCharTraits(),
-      char_str_len,
-      '\0'
-  );
-  if (init_char_str != char_str) {
+  size_t converted_chars_with_null_count;
+
+  /* Determine the number of characters needed. */
+  char_c_str_len = Mdc_Wide_EncodeCharLength(wide_c_str, code_page);
+
+  if (char_c_str_len == 0) {
     goto return_bad;
   }
 
@@ -81,46 +74,61 @@ static struct Mdc_BasicString* Mdc_Wide_EncodeChar(
   converted_chars_with_null_count = WideCharToMultiByte(
       code_page,
       0,
-      wide_str,
+      wide_c_str,
       -1,
-      Mdc_BasicString_Data(char_str),
-      char_str_len + 1,
+      char_c_str,
+      char_c_str_len + 1,
       NULL,
       NULL
   );
 
-  if (converted_chars_with_null_count <= char_str_len) {
-    goto deinit_char_str;
+  if (converted_chars_with_null_count <= char_c_str_len) {
+    goto return_bad;
   }
 
-  return char_str;
-
-deinit_char_str:
-  Mdc_BasicString_Deinit(char_str);
+  return char_c_str;
 
 return_bad:
-  return char_str;
+  return NULL;
 }
 
-struct Mdc_BasicString* Mdc_Wide_EncodeAscii(
-    struct Mdc_BasicString* char_str,
-    const wchar_t* wide_str
+char* Mdc_Wide_EncodeAscii(
+    char* char_c_str,
+    const wchar_t* wide_c_str
 ) {
-  return Mdc_Wide_EncodeChar(char_str, wide_str, 20127);
+  return Mdc_Wide_EncodeChar(char_c_str, wide_c_str, 20127);
 }
 
-struct Mdc_BasicString* Mdc_Wide_EncodeDefaultMultibyte(
-    struct Mdc_BasicString* char_str,
-    const wchar_t* wide_str
+size_t Mdc_Wide_EncodeAsciiLength(
+    const wchar_t* wide_c_str
 ) {
-  return Mdc_Wide_EncodeChar(char_str, wide_str, CP_ACP);
+  return Mdc_Wide_EncodeCharLength(wide_c_str, 20127);
 }
 
-struct Mdc_BasicString* Mdc_Wide_EncodeUtf8(
-    struct Mdc_BasicString* char_str,
-    const wchar_t* wide_str
+char* Mdc_Wide_EncodeDefaultMultibyte(
+    char* char_c_str,
+    const wchar_t* wide_c_str
 ) {
-  return Mdc_Wide_EncodeChar(char_str, wide_str, CP_UTF8);
+  return Mdc_Wide_EncodeChar(char_c_str, wide_c_str, CP_ACP);
+}
+
+size_t Mdc_Wide_EncodeDefaultMultibyteLength(
+    const wchar_t* wide_c_str
+) {
+  return Mdc_Wide_EncodeCharLength(wide_c_str, CP_ACP);
+}
+
+char* Mdc_Wide_EncodeUtf8(
+    char* char_c_str,
+    const wchar_t* wide_c_str
+) {
+  return Mdc_Wide_EncodeChar(char_c_str, wide_c_str, CP_UTF8);
+}
+
+size_t Mdc_Wide_EncodeUtf8Length(
+    const wchar_t* wide_c_str
+) {
+  return Mdc_Wide_EncodeCharLength(wide_c_str, CP_UTF8);
 }
 
 #endif /* defined(_WIN32) || defined(_WIN64) */

@@ -35,7 +35,6 @@
 
 #include <mdc/malloc/malloc.h>
 #include "error_tests.h"
-#include "filesystem_tests.h"
 #include "std_tests.h"
 #include "wchar_t_tests.h"
 
@@ -49,8 +48,6 @@ int main(int argc, char** argv) {
 
   Mdc_Std_RunTests();
   Mdc_WChar_t_RunTests();
-
-  Mdc_Fs_RunTests();
 
   Mdc_PrintMallocLeaks();
 
