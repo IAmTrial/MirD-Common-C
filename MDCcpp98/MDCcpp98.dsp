@@ -131,11 +131,14 @@ SOURCE=.\include\mdc\wchar_t\wide_encoding.hpp
 # End Group
 # Begin Group "std_cpp"
 
+# Begin Group "threads_cpp"
+
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\src\mdc\std\threads.cpp
+SOURCE=.\src\mdc\std\threads\threads.cpp
 # End Source File
+# End Group
 # End Group
 # Begin Group "wchar_t_cpp"
 
