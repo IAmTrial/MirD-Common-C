@@ -30,6 +30,8 @@
 #ifndef MDC_CPP98_STD_MUTEX_HPP_
 #define MDC_CPP98_STD_MUTEX_HPP_
 
+#include <stddef.h>
+
 #include <mdc/std/threads.h>
 
 #include "../../../dllexport_define.inc"
@@ -106,6 +108,108 @@ class lock_guard {
   // Intentionally unimplemented to "delete" them.
   lock_guard(const lock_guard&);
   lock_guard& operator=(const lock_guard&);
+};
+
+template <class Mutex>
+class unique_lock {
+ public:
+  typedef Mutex mutex_type;
+
+  unique_lock() throw()
+      : mutex_(NULL),
+        is_owner_(false) {
+  }
+
+  explicit unique_lock(mutex_type& m) {
+    m.lock();
+
+    this->is_owner_ = true;
+    this->mutex_ = &m;
+  }
+
+  ~unique_lock() {
+    if (this->mutex_ != NULL && this->is_owner_) {
+      this->mutex_->unlock();
+    }
+  }
+
+  void lock() {
+    if (this->mutex_ == NULL) {
+      throw ::std::runtime_error("::std::unique_lock::lock failure");
+    }
+
+    if (this->is_owner_) {
+      throw ::std::runtime_error("::std::unique_lock::lock failure");
+    }
+
+    this->mutex_->lock();
+    this->is_owner_ = true;
+  }
+
+  bool try_lock() {
+    if (this->mutex_ == NULL) {
+      throw ::std::runtime_error("::std::unique_lock::try_lock failure");
+    }
+
+    if (this->is_owner_) {
+      throw ::std::runtime_error("::std::unique_lock::try_lock failure");
+    }
+
+    bool is_try_lock_success = this->mutex_->try_lock();
+
+    if (is_try_lock_success) {
+      this->is_owner_ = true;
+    }
+
+    return is_try_lock_success;
+  }
+
+  void unlock() {
+    if (this->mutex_ == NULL) {
+      throw ::std::runtime_error("::std::unique_lock::unlock failure");
+    }
+
+    if (this->is_owner_) {
+      throw ::std::runtime_error("::std::unique_lock::unlock failure");
+    }
+
+    this->mutex_->unlock();
+    this->is_owner_ = false;
+  }
+
+  void swap(unique_lock<Mutex>& other) throw() {
+    mutex_type* temp_mutex = this->mutex_;
+    bool temp_is_owner = this->is_owner_;
+
+    this->mutex_ = other.mutex_;
+    this->is_owner_ = other.is_owner_;
+
+    other.mutex_ = temp_mutex;
+    other.is_owner_ = temp_is_owner;
+  }
+
+  mutex_type* release() throw() {
+    mutex_type* release_mutex = this->mutex_;
+    this->mutex_ = NULL;
+
+    return release_mutex;
+  }
+
+  mutex_type* mutex() const throw() {
+    return this->mutex_;
+  }
+
+  bool owns_lock() const throw() {
+    return (this->mutex_ != NULL && this->is_owner_);
+  }
+
+ private:
+  mutex_type* mutex_;
+  bool is_owner_;
+
+  // Intentionally unimplemented to "delete" them.
+  unique_lock(const unique_lock&);
+  unique_lock& operator=(const unique_lock&);
 };
 
 /**
