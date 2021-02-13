@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "MDC"=.\MDC\MDC.dsp - Package Owner=<4>
+Project: "MDC"=".\MDC\MDC.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -15,7 +15,31 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Tests"=.\Tests\Tests.dsp - Package Owner=<4>
+Project: "MDCcpp98"=".\MDCcpp98\MDCcpp98.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Tests"=".\Tests\Tests.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "TestsCpp98"=".\TestsCpp98\TestsCpp98.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
