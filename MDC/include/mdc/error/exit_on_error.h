@@ -27,8 +27,8 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_EXIT_ON_ERROR_EXIT_ON_ERROR_H_
-#define MDC_C_EXIT_ON_ERROR_EXIT_ON_ERROR_H_
+#ifndef MDC_C_ERROR_EXIT_ON_ERROR_H_
+#define MDC_C_ERROR_EXIT_ON_ERROR_H_
 
 #include "../std/wchar.h"
 #include "../wchar_t/filew.h"
@@ -50,30 +50,38 @@ enum {
 DLLEXPORT void Mdc_Error_ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_cwstr,
+    const wchar_t* file_path_c_wstr,
     unsigned int line,
     ...
 );
 
+DLLEXPORT void Mdc_Error_ExitOnGeneralErrorV(
+    const wchar_t* caption_text,
+    const wchar_t* message_format,
+    const wchar_t* file_path_c_wstr,
+    unsigned int line,
+    va_list vlist
+);
+
 DLLEXPORT void Mdc_Error_ExitOnConstantMappingError(
-    const wchar_t* file_path_cwstr,
+    const wchar_t* file_path_c_wstr,
     unsigned int line,
     int value
 );
 
 DLLEXPORT void Mdc_Error_ExitOnMemoryAllocError(
-    const wchar_t* file_path_cwstr,
+    const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
 DLLEXPORT void Mdc_Error_ExitOnMdcFunctionError(
-    const wchar_t* file_path_cwstr,
+    const wchar_t* file_path_c_wstr,
     unsigned int line,
     const wchar_t* function_name
 );
 
 DLLEXPORT void Mdc_Error_ExitOnStaticInitError(
-    const wchar_t* file_path_cwstr,
+    const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
@@ -93,4 +101,4 @@ DLLEXPORT void Mdc_Error_ExitOnWindowsFunctionError(
 #endif /* __cplusplus */
 
 #include "../../../dllexport_undefine.inc"
-#endif /* MDC_C_EXIT_ON_ERROR_EXIT_ON_ERROR_H_ */
+#endif /* MDC_C_ERROR_EXIT_ON_ERROR_H_ */
