@@ -102,6 +102,10 @@ SOURCE=.\include\mdc\error\exit_on_error.hpp
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\include\mdc\std\mutex.hpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\mdc\std\threads.hpp
 # End Source File
 # End Group
@@ -131,6 +135,23 @@ SOURCE=.\include\mdc\wchar_t\wide_encoding.hpp
 # End Group
 # Begin Group "std_cpp"
 
+# PROP Default_Filter ""
+# Begin Group "mutex_cpp"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\std\mutex\call_once.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\mutex\mutex.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\mutex\recursive_mutex.cpp
+# End Source File
+# End Group
 # Begin Group "threads_cpp"
 
 # PROP Default_Filter ""
