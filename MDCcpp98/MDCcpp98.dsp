@@ -136,6 +136,10 @@ SOURCE=.\include\mdc\wchar_t\wide_encoding.hpp
 # Begin Group "error_cpp"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\error\exit_on_error.cpp
+# End Source File
 # End Group
 # Begin Group "std_cpp"
 

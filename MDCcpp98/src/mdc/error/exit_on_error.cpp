@@ -27,75 +27,114 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_
-#define MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_
+#include "../../../include/mdc/error/exit_on_error.hpp"
 
-#if defined(_WIN32) || defined(_WIN64)
-  #include <windows.h>
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#include <stdarg.h>
 
-#include <mdc/error/exit_on_error.h>
-
-#include "../../../dllexport_define.inc"
+#include <mdc/wchar_t/filew.h>
 
 namespace mdc {
 namespace error {
 
-enum {
-  kErrorMessageCapacity = Mdc_Error_kErrorMessageCapacity,
-};
-
-DLLEXPORT void ExitOnGeneralError(
+void ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     ...
-);
+) {
+  va_list args;
 
-DLLEXPORT void ExitOnGeneralErrorV(
+  va_start(args, line);
+
+  Mdc_Error_ExitOnGeneralErrorV(
+      caption_text,
+      message_format,
+      file_path_c_wstr,
+      line,
+      args
+  );
+
+  va_end(args);
+}
+
+void ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     va_list args
-);
+) {
+  Mdc_Error_ExitOnGeneralErrorV(
+      caption_text,
+      message_format,
+      file_path_c_wstr,
+      line,
+      args
+  );
+}
 
-DLLEXPORT void ExitOnConstantMappingError(
+void ExitOnConstantMappingError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     int value
-);
+) {
+  Mdc_Error_ExitOnConstantMappingError(
+      file_path_c_wstr,
+      line,
+      value
+  );
+}
 
-DLLEXPORT void ExitOnMemoryAllocError(
+void ExitOnMemoryAllocError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
-);
+) {
+  Mdc_Error_ExitOnMemoryAllocError(
+      file_path_c_wstr,
+      line
+  );
+}
 
-DLLEXPORT void ExitOnMdcFunctionError(
+void ExitOnMdcFunctionError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     const wchar_t* function_name
-);
+) {
+  Mdc_Error_ExitOnMdcFunctionError(
+      file_path_c_wstr,
+      line,
+      function_name
+  );
+}
 
-DLLEXPORT void ExitOnStaticInitError(
+void ExitOnStaticInitError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
-);
+) {
+  Mdc_Error_ExitOnStaticInitError(
+      file_path_c_wstr,
+      line
+  );
+}
 
 #if defined(_WIN32) || defined(_WIN64)
 
-DLLEXPORT void ExitOnWindowsFunctionError(
+void ExitOnWindowsFunctionError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     const wchar_t* function_name,
     DWORD last_error
-);
+) {
+  Mdc_Error_ExitOnWindowsFunctionError(
+      file_path_c_wstr,
+      line,
+      function_name,
+      last_error
+  );
+}
 
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
 } // namespace error
 } // namespace mdc
-
-#include "../../../dllexport_undefine.inc"
-#endif /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */
