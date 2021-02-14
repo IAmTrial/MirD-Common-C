@@ -27,23 +27,13 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#ifndef MDC_TESTS_CPP98_STD_TESTS_HPP_
+#define MDC_TESTS_CPP98_STD_TESTS_HPP_
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
+namespace mdc {
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+void Std_RunTests();
 
-  // Commented out to prevent exit.
-  // ::mdc::Error_RunTests();
+} // namespace mdc
 
-  ::mdc::Std_RunTests();
-
-  return 0;
-}
+#endif /* MDC_TESTS_CPP98_STD_TESTS_HPP_ */
