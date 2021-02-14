@@ -102,6 +102,10 @@ SOURCE=.\include\mdc\error\exit_on_error.hpp
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\include\mdc\std\condition_variable.hpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\include\mdc\std\mutex.hpp
 # End Source File
 # Begin Source File
@@ -136,6 +140,18 @@ SOURCE=.\include\mdc\wchar_t\wide_encoding.hpp
 # Begin Group "std_cpp"
 
 # PROP Default_Filter ""
+# Begin Group "condition_variable_cpp"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\src\mdc\std\condition_variable\condition_variable.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\condition_variable\condition_variable_any.cpp
+# End Source File
+# End Group
 # Begin Group "mutex_cpp"
 
 # PROP Default_Filter ""
