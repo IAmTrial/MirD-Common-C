@@ -29,6 +29,8 @@
 
 #include "../../../../include/mdc/std/condition_variable.hpp"
 
+#if __cplusplus < 201103L && _MSVC_LANG < 201103L
+
 #include <stdexcept>
 
 namespace std {
@@ -61,3 +63,5 @@ void condition_variable::wait(unique_lock<mutex>& lock) {
 }
 
 } // namespace std
+
+#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L

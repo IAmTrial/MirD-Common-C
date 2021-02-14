@@ -30,13 +30,17 @@
 #ifndef MDC_CPP98_STD_CONDITION_VARIABLE_HPP_
 #define MDC_CPP98_STD_CONDITION_VARIABLE_HPP_
 
+#if __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+
+#include <condition_variable>
+
+#else
+
 #include <mdc/std/threads.h>
 
 #include "mutex.hpp"
 
 #include "../../../dllexport_define.inc"
-
-#if __cplusplus < 201103L && _MSVC_LANG < 201103L
 
 namespace std {
 
@@ -73,7 +77,7 @@ class condition_variable {
 
 } // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
-
 #include "../../../dllexport_undefine.inc"
+#endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+
 #endif /* MDC_CPP98_STD_CONDITION_VARIABLE_HPP_ */
