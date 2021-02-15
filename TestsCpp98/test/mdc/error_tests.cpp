@@ -31,10 +31,12 @@
 
 #include "error/exit_on_error_tests.hpp"
 
-namespace mdc {
+namespace mdc_test {
+namespace error_test {
 
-void Error_RunTests() {
+void RunTests() {
   ExitOnError_RunTests();
 }
 
-} // namespace mdc
+} // namespace error_test
+} // namespace mdc_test

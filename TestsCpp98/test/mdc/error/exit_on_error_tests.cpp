@@ -31,7 +31,8 @@
 
 #include <mdc/error/exit_on_error.hpp>
 
-namespace mdc {
+namespace mdc_test {
+namespace error_test {
 namespace {
 
 static void AssertExitOnGeneralError() {
@@ -98,4 +99,5 @@ void ExitOnError_RunTests() {
 #endif /* defined(_WIN32) || defined(_WIN64) */
 }
 
-} // namespace mdc
+} // namespace error_test
+} // namespace mdc_test

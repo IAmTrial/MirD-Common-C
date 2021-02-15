@@ -30,10 +30,12 @@
 #ifndef MDC_TESTS_CPP98_ERROR_EXIT_ON_ERROR_TESTS_HPP_
 #define MDC_TESTS_CPP98_ERROR_EXIT_ON_ERROR_TESTS_HPP_
 
-namespace mdc {
+namespace mdc_test {
+namespace error_test {
 
 void ExitOnError_RunTests();
 
-} // namespace mdc
+} // namespace error_test
+} // namespace mdc_test
 
 #endif /* MDC_TESTS_CPP98_ERROR_EXIT_ON_ERROR_TESTS_HPP_ */

@@ -41,9 +41,9 @@ int main(int argc, char** argv) {
 #endif /* defined(NDEBUG) */
 
   // Commented out to prevent exit.
-  // ::mdc::Error_RunTests();
+  // ::mdc_test::error_test::RunTests();
 
-  ::mdc::Std_RunTests();
+  ::mdc_test::std_test::RunTests();
 
   return 0;
 }

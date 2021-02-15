@@ -29,9 +29,11 @@
 
 #include "std_tests.hpp"
 
-namespace mdc {
+namespace mdc_test {
+namespace std_test {
 
-void Std_RunTests() {
+void RunTests() {
 }
 
-} // namespace mdc
+} // namespace std_test
+} // namespace mdc_test
