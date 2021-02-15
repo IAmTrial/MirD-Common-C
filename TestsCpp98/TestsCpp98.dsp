@@ -128,6 +128,14 @@ SOURCE=.\test\mdc\std\mutex_tests.hpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\test\mdc\std\recursive_mutex_tests.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\std\recursive_mutex_tests.hpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\test\mdc\std\thread_tests.cpp
 # End Source File
 # Begin Source File
