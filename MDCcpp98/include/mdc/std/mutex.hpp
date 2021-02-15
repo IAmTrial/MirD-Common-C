@@ -246,7 +246,7 @@ class once_flag {
 
 } // namespace std
 
+#include "../../../dllexport_undefine.inc"
 #endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
-#include "../../../dllexport_undefine.inc"
 #endif /* MDC_CPP98_STD_MUTEX_HPP_ */

@@ -30,11 +30,15 @@
 #ifndef MDC_CPP98_STD_THREADS_HPP_
 #define MDC_CPP98_STD_THREADS_HPP_
 
+#if __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+
+#include <thread>
+
+#else
+
 #include <mdc/std/threads.h>
 
 #include "../../../dllexport_define.inc"
-
-#if __cplusplus < 201103L && _MSVC_LANG < 201103L
 
 namespace std {
 
@@ -59,7 +63,8 @@ class DLLEXPORT thread {
 
 } // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
 
 #include "../../../dllexport_undefine.inc"
+#endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+
 #endif /* MDC_CPP98_STD_THREADS_HPP_ */
