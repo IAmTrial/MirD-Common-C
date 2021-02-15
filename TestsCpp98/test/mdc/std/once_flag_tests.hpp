@@ -27,23 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include "std_tests.hpp"
-
-#include "std/mutex_tests.hpp"
-#include "std/once_flag_tests.hpp"
-#include "std/recursive_mutex_tests.hpp"
-#include "std/thread_tests.hpp"
+#ifndef MDC_TESTS_CPP98_STD_ONCE_FLAG_TESTS_HPP_
+#define MDC_TESTS_CPP98_STD_ONCE_FLAG_TESTS_HPP_
 
 namespace mdc_test {
 namespace std_test {
 
-void RunTests() {
-  Thread_RunTests();
-
-  Mutex_RunTests();
-  RecursiveMutex_RunTests();
-  OnceFlag_RunTests();
-}
+void OnceFlag_RunTests();
 
 } // namespace std_test
 } // namespace mdc_test
+
+#endif /* MDC_TESTS_CPP98_STD_ONCE_FLAG_TESTS_HPP_ */
