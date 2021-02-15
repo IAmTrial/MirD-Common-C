@@ -27,16 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include "std_tests.hpp"
-
-#include "std/threads_tests.hpp"
+#ifndef MDC_TESTS_CPP98_STD_THREADS_TESTS_HPP_
+#define MDC_TESTS_CPP98_STD_THREADS_TESTS_HPP_
 
 namespace mdc_test {
 namespace std_test {
 
-void RunTests() {
-  Threads_RunTests();
-}
+void Threads_RunTests();
 
 } // namespace std_test
 } // namespace mdc_test
+
+#endif /* MDC_TESTS_CPP98_STD_THREADS_TESTS_HPP_ */

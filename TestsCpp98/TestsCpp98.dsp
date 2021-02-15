@@ -106,6 +106,14 @@ SOURCE=.\test\mdc\error\exit_on_error_tests.hpp
 # Begin Group "std"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\test\mdc\std\threads_tests.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\std\threads_tests.hpp
+# End Source File
 # End Group
 # Begin Group "wchar_t"
 

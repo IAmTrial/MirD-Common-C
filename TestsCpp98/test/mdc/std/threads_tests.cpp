@@ -27,15 +27,61 @@
  *  to convey the resulting work.
  */
 
-#include "std_tests.hpp"
+#include "threads_tests.hpp"
 
-#include "std/threads_tests.hpp"
+#include <stddef.h>
+#include <stdio.h>
+
+#include <mdc/std/assert.h>
+#include <mdc/std/threads.hpp>
 
 namespace mdc_test {
 namespace std_test {
 
-void RunTests() {
-  Threads_RunTests();
+static int Increment(void* value) {
+  int* actual_value = (int*) value;
+  
+  // Separate operations on a copy forces a race condition.
+  int temp = *actual_value;
+  temp += 1;
+
+#if defined(_MSC_VER)
+  Sleep(1);
+#elif defined(__GNUC__)
+  usleep(1);
+#endif
+
+  *actual_value = temp;
+
+  return 0;
+}
+
+static void AssertRaceCondition() {
+  enum {
+    kThreadsCount = 256
+  };
+
+  size_t i;
+
+  ::std::thread* threads[kThreadsCount];
+
+  int value = 0;
+
+  for (i = 0; i < kThreadsCount; i += 1) {
+    threads[i] = new ::std::thread(&Increment, &value);
+  }
+
+  for (i = 0; i < kThreadsCount; i += 1) {
+    threads[i]->join();
+    delete threads[i];
+  }
+
+  assert(value > 0);
+  assert(value <= kThreadsCount);
+}
+
+void Threads_RunTests() {
+  AssertRaceCondition();
 }
 
 } // namespace std_test
