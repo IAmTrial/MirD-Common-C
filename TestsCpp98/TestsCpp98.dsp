@@ -120,11 +120,19 @@ SOURCE=.\test\mdc\std\std_example_funcs\std_increment.hpp
 # End Group
 # Begin Source File
 
-SOURCE=.\test\mdc\std\threads_tests.cpp
+SOURCE=.\test\mdc\std\mutex_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\threads_tests.hpp
+SOURCE=.\test\mdc\std\mutex_tests.hpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\std\thread_tests.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\std\thread_tests.hpp
 # End Source File
 # End Group
 # Begin Group "wchar_t"

@@ -27,48 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include "thread_tests.hpp"
-
-#include <stddef.h>
-#include <stdio.h>
-
-#include <mdc/std/assert.h>
-#include <mdc/std/threads.hpp>
-#include "std_example_funcs/std_increment.hpp"
+#ifndef MDC_TESTS_CPP98_STD_MUTEX_TESTS_HPP_
+#define MDC_TESTS_CPP98_STD_MUTEX_TESTS_HPP_
 
 namespace mdc_test {
 namespace std_test {
-namespace {
 
-static void AssertRaceCondition() {
-  enum {
-    kThreadsCount = 256
-  };
-
-  size_t i;
-
-  ::std::thread* threads[kThreadsCount];
-
-  int value = 0;
-
-  for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i] = new ::std::thread(&Increment_ThreadFunc, &value);
-  }
-
-  for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i]->join();
-    delete threads[i];
-  }
-
-  assert(value > 0);
-  assert(value <= kThreadsCount);
-}
-
-} // namespace
-
-void Thread_RunTests() {
-  AssertRaceCondition();
-}
+void Mutex_RunTests();
 
 } // namespace std_test
 } // namespace mdc_test
+
+#endif /* MDC_TESTS_CPP98_STD_THREADS_TESTS_HPP_ */

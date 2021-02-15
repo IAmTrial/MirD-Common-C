@@ -29,6 +29,7 @@
 
 #include "std_tests.hpp"
 
+#include "std/mutex_tests.hpp"
 #include "std/thread_tests.hpp"
 
 namespace mdc_test {
@@ -36,6 +37,7 @@ namespace std_test {
 
 void RunTests() {
   Thread_RunTests();
+  Mutex_RunTests();
 }
 
 } // namespace std_test

@@ -27,12 +27,10 @@
  *  to convey the resulting work.
  */
 
-#include "thread_tests.hpp"
-
-#include <stddef.h>
-#include <stdio.h>
+#include "mutex_tests.hpp"
 
 #include <mdc/std/assert.h>
+#include <mdc/std/mutex.hpp>
 #include <mdc/std/threads.hpp>
 #include "std_example_funcs/std_increment.hpp"
 
@@ -40,7 +38,33 @@ namespace mdc_test {
 namespace std_test {
 namespace {
 
-static void AssertRaceCondition() {
+struct MutexedValue {
+  ::std::mutex mutex;
+  int value;
+};
+
+static int MutexedIncrement(void* arg) {
+  MutexedValue* mutexed_value = reinterpret_cast<MutexedValue*>(arg);
+
+  mutexed_value->mutex.lock();
+
+  Increment(&mutexed_value->value);
+
+  mutexed_value->mutex.unlock();
+
+  return 0;
+}
+
+static void AssertMutexLockUnlockSingle() {
+  MutexedValue value;
+
+  value.value = 0;
+
+  MutexedIncrement(&value);
+  assert(value.value == 1);
+}
+
+static void AssertMutexLockUnlockMulti() {
   enum {
     kThreadsCount = 256
   };
@@ -48,11 +72,12 @@ static void AssertRaceCondition() {
   size_t i;
 
   ::std::thread* threads[kThreadsCount];
+  MutexedValue value;
 
-  int value = 0;
+  value.value = 0;
 
   for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i] = new ::std::thread(&Increment_ThreadFunc, &value);
+    threads[i] = new ::std::thread(&MutexedIncrement, &value);
   }
 
   for (i = 0; i < kThreadsCount; i += 1) {
@@ -60,14 +85,14 @@ static void AssertRaceCondition() {
     delete threads[i];
   }
 
-  assert(value > 0);
-  assert(value <= kThreadsCount);
+  assert(value.value == kThreadsCount);
 }
 
 } // namespace
 
-void Thread_RunTests() {
-  AssertRaceCondition();
+void Mutex_RunTests() {
+  AssertMutexLockUnlockSingle();
+  AssertMutexLockUnlockMulti();
 }
 
 } // namespace std_test
