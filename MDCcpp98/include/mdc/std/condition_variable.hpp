@@ -75,6 +75,36 @@ class condition_variable {
   condition_variable& operator=(const condition_variable&);
 };
 
+class condition_variable_any {
+ public:
+  condition_variable_any();
+
+  ~condition_variable_any();
+
+  void notify_one() throw();
+
+  void notify_all() throw();
+
+  template <class Lock>
+  void wait(Lock& lock) {
+    ::cnd_wait(&this->condition_variable_, &lock.mutex()->native_handle());
+  }
+
+  template <class Lock, class Predicate>
+  void wait(Lock& lock, Predicate pred) {
+    while (!pred()) {
+      wait(lock);
+    }
+  }
+
+ private:
+  cnd_t condition_variable_;
+
+  // Intentionally unimplemented to "delete" them.
+  condition_variable_any(const condition_variable_any&);
+  condition_variable_any& operator=(const condition_variable_any&);
+};
+
 } // namespace std
 
 #include "../../../dllexport_undefine.inc"
