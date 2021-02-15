@@ -59,6 +59,10 @@ void mutex::unlock() {
   ::mtx_unlock(&this->mutex_);
 }
 
+mutex::native_handle_type mutex::native_handle() {
+  return this->mutex_;
+}
+
 } // namespace std
 
 #endif // __cplusplus < 201103L && _MSVC_LANG < 201103L

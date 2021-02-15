@@ -59,6 +59,10 @@ void recursive_mutex::unlock() {
   ::mtx_unlock(&this->mutex_);
 }
 
+recursive_mutex::native_handle_type recursive_mutex::native_handle() {
+  return this->mutex_;
+}
+
 } // namespace std
 
 #endif // __cplusplus < 201103L && _MSVC_LANG < 201103L

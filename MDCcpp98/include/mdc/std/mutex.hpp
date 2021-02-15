@@ -50,6 +50,8 @@ namespace std {
 
 class mutex {
  public:
+  typedef ::mtx_t native_handle_type;
+
   mutex() throw();
 
   ~mutex();
@@ -60,8 +62,10 @@ class mutex {
 
   void unlock();
 
+  native_handle_type native_handle();
+
  private:
-  ::mtx_t mutex_;
+  native_handle_type mutex_;
 
   // Intentionally unimplemented to "delete" them.
   mutex(const mutex&);
@@ -70,6 +74,8 @@ class mutex {
 
 class recursive_mutex {
  public:
+  typedef ::mtx_t native_handle_type;
+
   recursive_mutex() throw();
 
   ~recursive_mutex();
@@ -80,8 +86,10 @@ class recursive_mutex {
 
   void unlock();
 
+  native_handle_type native_handle();
+
  private:
-  ::mtx_t mutex_;
+  native_handle_type mutex_;
 
   // Intentionally unimplemented to "delete" them.
   recursive_mutex(const recursive_mutex&);
