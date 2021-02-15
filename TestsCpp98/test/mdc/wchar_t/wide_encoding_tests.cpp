@@ -27,25 +27,42 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include "wide_encoding_tests.hpp"
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
+#include <mdc/std/assert.h>
+#include <mdc/wchar_t/wide_encoding.hpp>
+#include "example_text/example_text.hpp"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+namespace mdc_test {
+namespace wide_test {
 
-  // Commented out to prevent exit.
-  // ::mdc_test::error_test::RunTests();
+static void AssertEncodeAscii() {
+  ::std::string ascii_str = ::mdc::wide::EncodeAscii(kAsciiExampleTextWide);
 
-  ::mdc_test::std_test::RunTests();
-  ::mdc_test::wide_test::RunTests();
-
-  return 0;
+  assert(ascii_str == kAsciiExampleText);
 }
+
+static void AssertEncodeDefaultMultibyteAscii() {
+  ::std::string multibyte_ascii_str = ::mdc::wide::EncodeDefaultMultibyte(
+      kAsciiExampleTextWide
+  );
+
+  assert(multibyte_ascii_str == kAsciiExampleText);
+}
+
+static void AssertEncodeUtf8() {
+  ::std::string utf8_str = ::mdc::wide::EncodeUtf8(
+      kUtf8ExampleTextWide
+  );
+
+  assert(utf8_str == kUtf8ExampleText);
+}
+
+void WideEncoding_RunTests() {
+  AssertEncodeAscii();
+  AssertEncodeDefaultMultibyteAscii();
+  AssertEncodeUtf8();
+}
+
+} // namespace wide_test
+} // namespace mdc_test

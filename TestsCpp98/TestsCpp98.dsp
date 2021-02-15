@@ -110,6 +110,34 @@ SOURCE=.\test\mdc\error\exit_on_error_tests.hpp
 # Begin Group "wchar_t"
 
 # PROP Default_Filter ""
+# Begin Group "example_text"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\test\mdc\wchar_t\example_text\example_text.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\wchar_t\example_text\example_text.hpp
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\test\mdc\wchar_t\wide_decoding_tests.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\wchar_t\wide_decoding_tests.hpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\wchar_t\wide_encoding_tests.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\wchar_t\wide_encoding_tests.hpp
+# End Source File
 # End Group
 # Begin Source File
 

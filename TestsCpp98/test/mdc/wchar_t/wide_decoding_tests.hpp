@@ -27,25 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#ifndef MDC_TESTS_CPP98_WCHAR_T_WIDE_DECODING_TESTS_HPP_
+#define MDC_TESTS_CPP98_WCHAR_T_WIDE_DECODING_TESTS_HPP_
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
+namespace mdc_test {
+namespace wide_test {
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+void WideDecoding_RunTests();
 
-  // Commented out to prevent exit.
-  // ::mdc_test::error_test::RunTests();
+} // namespace wide_test
+} // namespace mdc_test
 
-  ::mdc_test::std_test::RunTests();
-  ::mdc_test::wide_test::RunTests();
-
-  return 0;
-}
+#endif /* MDC_TESTS_CPP98_WCHAR_T_WIDE_DECODING_TESTS_HPP_ */

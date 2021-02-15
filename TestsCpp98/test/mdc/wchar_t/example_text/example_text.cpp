@@ -27,25 +27,18 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include "example_text.hpp"
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
+namespace mdc_test {
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+const char* const kAsciiExampleText =
+    "The quick brown fox jumped over the lazy dog.";
 
-  // Commented out to prevent exit.
-  // ::mdc_test::error_test::RunTests();
+const wchar_t* const kAsciiExampleTextWide =
+    L"The quick brown fox jumped over the lazy dog.";
 
-  ::mdc_test::std_test::RunTests();
-  ::mdc_test::wide_test::RunTests();
+const char* const kUtf8ExampleText = "\xc3\xbf";
 
-  return 0;
-}
+const wchar_t* const kUtf8ExampleTextWide = L"\xff";
+
+} // namespace mdc_test

@@ -27,25 +27,42 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include "wide_decoding_tests.hpp"
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
+#include <mdc/std/assert.h>
+#include <mdc/wchar_t/wide_decoding.hpp>
+#include "example_text/example_text.hpp"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+namespace mdc_test {
+namespace wide_test {
 
-  // Commented out to prevent exit.
-  // ::mdc_test::error_test::RunTests();
+static void AssertDecodeAscii() {
+  ::std::wstring wide_str = ::mdc::wide::DecodeAscii(kAsciiExampleText);
 
-  ::mdc_test::std_test::RunTests();
-  ::mdc_test::wide_test::RunTests();
-
-  return 0;
+  assert(wide_str == kAsciiExampleTextWide);
 }
+
+static void AssertDecodeDefaultMultibyteAscii() {
+  ::std::wstring wide_str = ::mdc::wide::DecodeDefaultMultibyte(
+      kAsciiExampleText
+  );
+
+  assert(wide_str == kAsciiExampleTextWide);
+}
+
+static void AssertDecodeUtf8() {
+  ::std::wstring wide_str = ::mdc::wide::DecodeUtf8(
+      kUtf8ExampleText
+  );
+
+  assert(wide_str == kUtf8ExampleTextWide);
+}
+
+void WideDecoding_RunTests() {
+  AssertDecodeAscii();
+  AssertDecodeDefaultMultibyteAscii();
+  AssertDecodeUtf8();
+}
+
+} // namespace wide_test
+} // namespace mdc_test

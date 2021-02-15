@@ -27,25 +27,18 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#ifndef MDC_TESTS_CPP98_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_HPP_
+#define MDC_TESTS_CPP98_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_HPP_
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
+#include <mdc/std/wchar.h>
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+namespace mdc_test {
 
-  // Commented out to prevent exit.
-  // ::mdc_test::error_test::RunTests();
+extern const char* const kAsciiExampleText;
+extern const wchar_t* const kAsciiExampleTextWide;
+extern const char* const kUtf8ExampleText;
+extern const wchar_t* const kUtf8ExampleTextWide;
 
-  ::mdc_test::std_test::RunTests();
-  ::mdc_test::wide_test::RunTests();
+} // namespace mdc_test
 
-  return 0;
-}
+#endif /* MDC_TESTS_CPP98_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_HPP_ */
