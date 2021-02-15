@@ -31,7 +31,7 @@
 
 #include <mdc/std/assert.h>
 #include <mdc/wchar_t/wide_decoding.hpp>
-#include "example_text/example_text.hpp"
+#include "wide_example_text/wide_example_text.hpp"
 
 namespace mdc_test {
 namespace wide_test {

@@ -27,9 +27,10 @@
  *  to convey the resulting work.
  */
 
-#include "example_text.hpp"
+#include "wide_example_text.hpp"
 
 namespace mdc_test {
+namespace wide_test {
 
 const char* const kAsciiExampleText =
     "The quick brown fox jumped over the lazy dog.";
@@ -41,4 +42,5 @@ const char* const kUtf8ExampleText = "\xc3\xbf";
 
 const wchar_t* const kUtf8ExampleTextWide = L"\xff";
 
+} // namespace wide_test
 } // namespace mdc_test

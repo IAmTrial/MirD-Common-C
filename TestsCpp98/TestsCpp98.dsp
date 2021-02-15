@@ -118,16 +118,16 @@ SOURCE=.\test\mdc\std\threads_tests.hpp
 # Begin Group "wchar_t"
 
 # PROP Default_Filter ""
-# Begin Group "example_text"
+# Begin Group "wide_example_text"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\test\mdc\wchar_t\example_text\example_text.cpp
+SOURCE=.\test\mdc\wchar_t\wide_example_text\wide_example_text.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\wchar_t\example_text\example_text.hpp
+SOURCE=.\test\mdc\wchar_t\wide_example_text\wide_example_text.hpp
 # End Source File
 # End Group
 # Begin Source File

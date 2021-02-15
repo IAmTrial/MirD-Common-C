@@ -27,18 +27,20 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_TESTS_CPP98_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_HPP_
-#define MDC_TESTS_CPP98_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_HPP_
+#ifndef MDC_TESTS_CPP98_WCHAR_T_WIDE_EXAMPLE_TEXT_WIDE_EXAMPLE_TEXT_HPP_
+#define MDC_TESTS_CPP98_WCHAR_T_WIDE_EXAMPLE_TEXT_WIDE_EXAMPLE_TEXT_HPP_
 
 #include <mdc/std/wchar.h>
 
 namespace mdc_test {
+namespace wide_test {
 
 extern const char* const kAsciiExampleText;
 extern const wchar_t* const kAsciiExampleTextWide;
 extern const char* const kUtf8ExampleText;
 extern const wchar_t* const kUtf8ExampleTextWide;
 
+} // namespace wide_test
 } // namespace mdc_test
 
-#endif /* MDC_TESTS_CPP98_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_HPP_ */
+#endif /* MDC_TESTS_CPP98_WCHAR_T_WIDE_EXAMPLE_TEXT_WIDE_EXAMPLE_TEXT_HPP_ */
