@@ -68,7 +68,7 @@ class condition_variable {
   }
 
  private:
-  cnd_t condition_variable_;
+  ::cnd_t condition_variable_;
 
   // Intentionally unimplemented to "delete" them.
   condition_variable(const condition_variable&);
@@ -98,7 +98,7 @@ class condition_variable_any {
   }
 
  private:
-  cnd_t condition_variable_;
+  ::cnd_t condition_variable_;
 
   // Intentionally unimplemented to "delete" them.
   condition_variable_any(const condition_variable_any&);
