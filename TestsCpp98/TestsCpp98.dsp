@@ -106,6 +106,18 @@ SOURCE=.\test\mdc\error\exit_on_error_tests.hpp
 # Begin Group "std"
 
 # PROP Default_Filter ""
+# Begin Group "std_example_funcs"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\test\mdc\std\std_example_funcs\std_increment.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\test\mdc\std\std_example_funcs\std_increment.hpp
+# End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\test\mdc\std\threads_tests.cpp

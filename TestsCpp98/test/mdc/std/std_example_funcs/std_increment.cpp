@@ -27,15 +27,35 @@
  *  to convey the resulting work.
  */
 
-#include "std_tests.hpp"
+#include "std_increment.hpp"
 
-#include "std/thread_tests.hpp"
+#if defined(_MSC_VER)
+  #include <windows.h>
+#elif defined(__GNUC__)
+  #include <unistd.h>
+#endif
 
 namespace mdc_test {
 namespace std_test {
 
-void RunTests() {
-  Thread_RunTests();
+void Increment(int* value) {
+  // Separate operations on a copy forces a race condition.
+  int temp = *value;
+  temp += 1;
+
+#if defined(_MSC_VER)
+  Sleep(1);
+#elif defined(__GNUC__)
+  usleep(1);
+#endif
+
+  *value = temp;
+}
+
+int Increment_ThreadFunc(void* value) {
+  Increment(reinterpret_cast<int*>(value));
+
+  return 0;
 }
 
 } // namespace std_test

@@ -27,62 +27,17 @@
  *  to convey the resulting work.
  */
 
-#include "threads_tests.hpp"
-
-#include <stddef.h>
-#include <stdio.h>
-
-#include <mdc/std/assert.h>
-#include <mdc/std/threads.hpp>
+#ifndef MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_
+#define MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_
 
 namespace mdc_test {
 namespace std_test {
 
-static int Increment(void* value) {
-  int* actual_value = (int*) value;
-  
-  // Separate operations on a copy forces a race condition.
-  int temp = *actual_value;
-  temp += 1;
+void Increment(int* value);
 
-#if defined(_MSC_VER)
-  Sleep(1);
-#elif defined(__GNUC__)
-  usleep(1);
-#endif
-
-  *actual_value = temp;
-
-  return 0;
-}
-
-static void AssertRaceCondition() {
-  enum {
-    kThreadsCount = 256
-  };
-
-  size_t i;
-
-  ::std::thread* threads[kThreadsCount];
-
-  int value = 0;
-
-  for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i] = new ::std::thread(&Increment, &value);
-  }
-
-  for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i]->join();
-    delete threads[i];
-  }
-
-  assert(value > 0);
-  assert(value <= kThreadsCount);
-}
-
-void Threads_RunTests() {
-  AssertRaceCondition();
-}
+int Increment_ThreadFunc(void* value);
 
 } // namespace std_test
 } // namespace mdc_test
+
+#endif /* MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_ */
