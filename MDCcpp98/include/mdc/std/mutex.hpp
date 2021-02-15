@@ -30,13 +30,17 @@
 #ifndef MDC_CPP98_STD_MUTEX_HPP_
 #define MDC_CPP98_STD_MUTEX_HPP_
 
+#if __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+
+#include <mutex>
+
+#else
+
 #include <stddef.h>
 
 #include <mdc/std/threads.h>
 
 #include "../../../dllexport_define.inc"
-
-#if __cplusplus < 201103L && _MSVC_LANG < 201103L
 
 namespace std {
 
@@ -234,7 +238,7 @@ class once_flag {
 
 } // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
+#endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #include "../../../dllexport_undefine.inc"
 #endif /* MDC_CPP98_STD_MUTEX_HPP_ */
