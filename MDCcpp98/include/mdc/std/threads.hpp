@@ -52,8 +52,8 @@ class DLLEXPORT thread {
  private:
   thrd_t thread_;
 
+  // Intentionally unimplemented to "delete" them.
   thread();
-
   thread(const thread&);
 };
 
