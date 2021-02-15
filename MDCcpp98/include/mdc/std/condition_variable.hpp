@@ -48,7 +48,7 @@ namespace std {
  * Condition variables
  */
 
-class condition_variable {
+class DLLEXPORT condition_variable {
  public:
   condition_variable();
 
@@ -75,7 +75,7 @@ class condition_variable {
   condition_variable& operator=(const condition_variable&);
 };
 
-class condition_variable_any {
+class DLLEXPORT condition_variable_any {
  public:
   condition_variable_any();
 

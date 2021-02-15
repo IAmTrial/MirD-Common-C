@@ -48,7 +48,7 @@ namespace std {
  * Mutual exclusion
  */
 
-class mutex {
+class DLLEXPORT mutex {
  public:
   typedef ::mtx_t native_handle_type;
 
@@ -72,7 +72,7 @@ class mutex {
   mutex& operator=(const mutex&);
 };
 
-class recursive_mutex {
+class DLLEXPORT recursive_mutex {
  public:
   typedef ::mtx_t native_handle_type;
 
@@ -228,7 +228,7 @@ class unique_lock {
  * Call once
  */
 
-class once_flag {
+class DLLEXPORT once_flag {
  public:
   once_flag() throw();
 
