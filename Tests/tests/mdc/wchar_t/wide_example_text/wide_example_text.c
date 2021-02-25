@@ -27,14 +27,14 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
-#define MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
+#include "wide_example_text.h"
 
-#include <mdc/std/wchar.h>
+const char* const kAsciiExampleText =
+    "The quick brown fox jumped over the lazy dog.";
 
-extern const char* const kAsciiExampleText;
-extern const wchar_t* const kAsciiExampleTextWide;
-extern const char* const kUtf8ExampleText;
-extern const wchar_t* const kUtf8ExampleTextWide;
+const wchar_t* const kAsciiExampleTextWide =
+    L"The quick brown fox jumped over the lazy dog.";
 
-#endif /* MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_ */
+const char* const kUtf8ExampleText = "\xc3\xbf";
+
+const wchar_t* const kUtf8ExampleTextWide = L"\xff";

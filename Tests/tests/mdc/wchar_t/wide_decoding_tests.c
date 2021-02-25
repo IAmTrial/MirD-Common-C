@@ -36,7 +36,7 @@
 #include <mdc/malloc/malloc.h>
 #include <mdc/std/wchar.h>
 #include <mdc/wchar_t/wide_decoding.h>
-#include "example_text/example_text.h"
+#include "wide_example_text/wide_example_text.h"
 
 static void Mdc_WideDecoding_AssertDecodeAscii(void) {
   wchar_t* wide_c_str;
