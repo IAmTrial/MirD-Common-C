@@ -1,8 +1,8 @@
 /**
- * Mir Drualga Common For C
- * Copyright (C) 2020  Mir Drualga
+ * Mir Drualga Common For C++98
+ * Copyright (C) 2021  Mir Drualga
  *
- * This file is part of Mir Drualga Common For C.
+ * This file is part of Mir Drualga Common For C++98.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -27,14 +27,17 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
-#define MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_
+#ifndef MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_
+#define MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_
 
-#include <mdc/std/wchar.h>
+namespace mdc_test {
+namespace std_test {
 
-extern const char* const kAsciiExampleText;
-extern const wchar_t* const kAsciiExampleTextWide;
-extern const char* const kUtf8ExampleText;
-extern const wchar_t* const kUtf8ExampleTextWide;
+void Increment(int* value);
 
-#endif /* MDC_TESTS_C_WCHAR_T_EXAMPLE_TEXT_EXAMPLE_TEXT_H_ */
+int Increment_ThreadFunc(void* value);
+
+} // namespace std_test
+} // namespace mdc_test
+
+#endif /* MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_ */

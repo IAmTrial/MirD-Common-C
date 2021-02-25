@@ -1,6 +1,6 @@
 /**
  * Mir Drualga Common For C
- * Copyright (C) 2020  Mir Drualga
+ * Copyright (C) 2020-2021  Mir Drualga
  *
  * This file is part of Mir Drualga Common For C.
  *
@@ -37,15 +37,17 @@
 
 #if !defined(static_assert) && \
     (__STDC_VERSION__ < 201112L \
-      || __cpluplus < 201103L \
-      || _MSC_VER < 1600)
+        && __cpluplus < 201103L \
+        && _MSVC_LANG < 201103L) \
+    || _MSC_VER < 1600
 
 /* Assert hackarounds fail to work with VC++ 6. */
 #define static_assert(expression, message)
 
-#endif /* !defined(static_assert) && \
+#endif /*  !defined(static_assert) && \
     (__STDC_VERSION__ < 201112L \
-      || __cpluplus < 201103L \
-      || _MSC_VER < 1600) */
+        && __cpluplus < 201103L \
+        && _MSVC_LANG < 201103L) \
+    || _MSC_VER < 1600 */
 
 #endif /* MDC_C_STD_ASSERT_H_ */

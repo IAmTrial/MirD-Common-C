@@ -1,6 +1,6 @@
 /**
  * Mir Drualga Common For C
- * Copyright (C) 2020  Mir Drualga
+ * Copyright (C) 2020-2021  Mir Drualga
  *
  * This file is part of Mir Drualga Common For C.
  *
@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "example_text.h"
+#include "wide_example_text.h"
 
 const char* const kAsciiExampleText =
     "The quick brown fox jumped over the lazy dog.";
