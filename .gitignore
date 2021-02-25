@@ -24,6 +24,9 @@
 *.recipe
 *.vcxproj.FileListAbsolute.txt
 
+# Linker / Executable Secondary Files
+*.exp
+
 # Resource Files
 *.aps
 *.res
