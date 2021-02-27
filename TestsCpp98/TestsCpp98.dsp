@@ -96,11 +96,11 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\test\mdc\error\exit_on_error_tests.cpp
+SOURCE=.\tests\mdc\error\exit_on_error_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\error\exit_on_error_tests.hpp
+SOURCE=.\tests\mdc\error\exit_on_error_tests.hpp
 # End Source File
 # End Group
 # Begin Group "std"
@@ -111,44 +111,44 @@ SOURCE=.\test\mdc\error\exit_on_error_tests.hpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\test\mdc\std\std_example_funcs\std_increment.cpp
+SOURCE=.\tests\mdc\std\std_example_funcs\std_increment.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\std_example_funcs\std_increment.hpp
+SOURCE=.\tests\mdc\std\std_example_funcs\std_increment.hpp
 # End Source File
 # End Group
 # Begin Source File
 
-SOURCE=.\test\mdc\std\mutex_tests.cpp
+SOURCE=.\tests\mdc\std\mutex_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\mutex_tests.hpp
+SOURCE=.\tests\mdc\std\mutex_tests.hpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\once_flag_tests.cpp
+SOURCE=.\tests\mdc\std\once_flag_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\once_flag_tests.hpp
+SOURCE=.\tests\mdc\std\once_flag_tests.hpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\recursive_mutex_tests.cpp
+SOURCE=.\tests\mdc\std\recursive_mutex_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\recursive_mutex_tests.hpp
+SOURCE=.\tests\mdc\std\recursive_mutex_tests.hpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\thread_tests.cpp
+SOURCE=.\tests\mdc\std\thread_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std\thread_tests.hpp
+SOURCE=.\tests\mdc\std\thread_tests.hpp
 # End Source File
 # End Group
 # Begin Group "wchar_t"
@@ -159,57 +159,57 @@ SOURCE=.\test\mdc\std\thread_tests.hpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\test\mdc\wchar_t\wide_example_text\wide_example_text.cpp
+SOURCE=.\tests\mdc\wchar_t\wide_example_text\wide_example_text.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\wchar_t\wide_example_text\wide_example_text.hpp
-# End Source File
-# End Group
-# Begin Source File
-
-SOURCE=.\test\mdc\wchar_t\wide_decoding_tests.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\test\mdc\wchar_t\wide_decoding_tests.hpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\test\mdc\wchar_t\wide_encoding_tests.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\test\mdc\wchar_t\wide_encoding_tests.hpp
+SOURCE=.\tests\mdc\wchar_t\wide_example_text\wide_example_text.hpp
 # End Source File
 # End Group
 # Begin Source File
 
-SOURCE=.\test\mdc\error_tests.cpp
+SOURCE=.\tests\mdc\wchar_t\wide_decoding_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\error_tests.hpp
+SOURCE=.\tests\mdc\wchar_t\wide_decoding_tests.hpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\main.cpp
+SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std_tests.cpp
+SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.hpp
+# End Source File
+# End Group
+# Begin Source File
+
+SOURCE=.\tests\mdc\error_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\std_tests.hpp
+SOURCE=.\tests\mdc\error_tests.hpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\wchar_t_tests.cpp
+SOURCE=.\tests\mdc\main.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\test\mdc\wchar_t_tests.hpp
+SOURCE=.\tests\mdc\std_tests.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\std_tests.hpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t_tests.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\tests\mdc\wchar_t_tests.hpp
 # End Source File
 # End Group
 # End Group
