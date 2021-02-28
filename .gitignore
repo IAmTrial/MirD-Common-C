@@ -24,6 +24,13 @@
 *.recipe
 *.vcxproj.FileListAbsolute.txt
 
+# Linker / Executable Secondary Files
+*.exp
+
+# Resource Files
+*.aps
+*.res
+
 # Logs
 *.log
 *.plg
@@ -33,10 +40,18 @@
 *.DS_STORE
 *.db
 
-# Visual Studio Solution / Project Files
+# Visual Studio 2005 Solution / Project Files
+*.vcproj
+
+# Visual Studio 2010 Solution / Project Files
 .vs
 
 *.sln
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+
+# Compression Formats
+*.7z
+*.rar
+*.zip

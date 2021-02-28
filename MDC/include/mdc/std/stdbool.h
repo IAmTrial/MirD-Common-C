@@ -1,6 +1,6 @@
 /**
  * Mir Drualga Common For C
- * Copyright (C) 2020  Mir Drualga
+ * Copyright (C) 2020-2021  Mir Drualga
  *
  * This file is part of Mir Drualga Common For C.
  *
@@ -30,7 +30,8 @@
 #ifndef MDC_C_STD_STDBOOL_H_
 #define MDC_C_STD_STDBOOL_H_
 
-#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#if __STDC_VERSION__ >= 199901L \
+    || _MSC_VER >= 1600
 
 #include <stdbool.h>
 

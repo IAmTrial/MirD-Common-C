@@ -1,6 +1,6 @@
 /**
  * Mir Drualga Common For C
- * Copyright (C) 2020  Mir Drualga
+ * Copyright (C) 2020-2021  Mir Drualga
  *
  * This file is part of Mir Drualga Common For C.
  *
@@ -34,9 +34,8 @@
 #include <windows.h>
 
 #include <mdc/malloc/malloc.h>
-#include "container_tests.h"
+#include "error_tests.h"
 #include "std_tests.h"
-#include "string_tests.h"
 #include "wchar_t_tests.h"
 
 int main(int argc, char** argv) {
@@ -45,9 +44,9 @@ int main(int argc, char** argv) {
   exit(EXIT_FAILURE);
 #endif /* defined(NDEBUG) */
 
+  /* Mdc_Error_RunTests(); */
+
   Mdc_Std_RunTests();
-  Mdc_Container_RunTests();
-  Mdc_String_RunTests();
   Mdc_WChar_t_RunTests();
 
   Mdc_PrintMallocLeaks();
