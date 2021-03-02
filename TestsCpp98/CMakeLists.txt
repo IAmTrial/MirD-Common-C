@@ -40,7 +40,7 @@ add_src_header(SRC_HEADER std/std_example_funcs/std_increment.hpp)
 add_src_header(SRC_HEADER std/mutex_tests.hpp)
 add_src_header(SRC_HEADER std/once_flag_tests.hpp)
 add_src_header(SRC_HEADER std/recursive_mutex_tests.hpp)
-add_src_header(SRC_HEADER std/threads_tests.hpp)
+add_src_header(SRC_HEADER std/thread_tests.hpp)
 add_src_header(SRC_HEADER wchar_t/wide_example_text/wide_example_text.hpp)
 add_src_header(SRC_HEADER wchar_t/wide_decoding_tests.hpp)
 add_src_header(SRC_HEADER wchar_t/wide_encoding_tests.hpp)
@@ -48,7 +48,7 @@ add_src_header(SRC_HEADER error_tests.hpp)
 add_src_header(SRC_HEADER std_tests.hpp)
 add_src_header(SRC_HEADER wchar_t_tests.hpp)
 
-add_executable(TestsCpp98 ${SRC_C} ${INCLUDE_HEADERS})
+add_executable(TestsCpp98 ${SRC_C} ${SRC_HEADER})
 
 target_include_directories(
     TestsCpp98

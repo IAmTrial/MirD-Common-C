@@ -48,7 +48,7 @@ add_src_header(SRC_HEADER error_tests.h)
 add_src_header(SRC_HEADER std_tests.h)
 add_src_header(SRC_HEADER wchar_t_tests.h)
 
-add_executable(Tests ${SRC_C} ${INCLUDE_HEADERS})
+add_executable(Tests ${SRC_C} ${SRC_HEADER})
 
 target_include_directories(
     Tests
