@@ -59,3 +59,5 @@ target_include_directories(
 target_link_libraries(Tests MDCc90)
 
 add_dependencies(Tests MDCc90)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${SRC_HEADER})

@@ -62,3 +62,5 @@ target_link_libraries(TestsCpp98 MDCcpp98)
 
 add_dependencies(TestsCpp98 MDCc90)
 add_dependencies(TestsCpp98 MDCcpp98)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${SRC_HEADER})
