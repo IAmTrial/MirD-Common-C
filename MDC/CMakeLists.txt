@@ -64,3 +64,5 @@ target_include_directories(
     MDCc90Dll
     PUBLIC "${PROJECT_BINARY_DIR}"
 )
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})

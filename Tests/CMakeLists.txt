@@ -48,7 +48,7 @@ add_src_header(SRC_HEADER error_tests.h)
 add_src_header(SRC_HEADER std_tests.h)
 add_src_header(SRC_HEADER wchar_t_tests.h)
 
-add_executable(Tests ${SRC_C} ${INCLUDE_HEADERS})
+add_executable(Tests ${SRC_C} ${SRC_HEADER})
 
 target_include_directories(
     Tests
@@ -59,3 +59,5 @@ target_include_directories(
 target_link_libraries(Tests MDCc90)
 
 add_dependencies(Tests MDCc90)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${SRC_HEADER})

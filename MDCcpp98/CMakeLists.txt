@@ -70,3 +70,5 @@ target_include_directories(
 target_link_libraries(MDCcpp98Dll MDCc90)
 
 add_dependencies(MDCcpp98Dll MDCc90)
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})
