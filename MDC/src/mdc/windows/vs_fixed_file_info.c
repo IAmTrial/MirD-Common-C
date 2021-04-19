@@ -190,8 +190,8 @@ struct Mdc_Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetFileVersion(
 
   version.major_high = HIWORD(fixed_file_info->dwFileVersionMS);
   version.major_low = LOWORD(fixed_file_info->dwFileVersionMS);
-  version.major_high = HIWORD(fixed_file_info->dwFileVersionLS);
-  version.major_high = LOWORD(fixed_file_info->dwFileVersionLS);
+  version.minor_high = HIWORD(fixed_file_info->dwFileVersionLS);
+  version.minor_low = LOWORD(fixed_file_info->dwFileVersionLS);
 
   return version;
 }
@@ -203,8 +203,8 @@ struct Mdc_Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetProductVersion(
 
   version.major_high = HIWORD(fixed_file_info->dwProductVersionMS);
   version.major_low = LOWORD(fixed_file_info->dwProductVersionMS);
-  version.major_high = HIWORD(fixed_file_info->dwProductVersionLS);
-  version.major_high = LOWORD(fixed_file_info->dwProductVersionLS);
+  version.minor_high = HIWORD(fixed_file_info->dwProductVersionLS);
+  version.minor_low = LOWORD(fixed_file_info->dwProductVersionLS);
 
   return version;
 }
