@@ -38,27 +38,28 @@
 
 #include "../../../dllexport_define.inc"
 
-struct Vs_FixedMajorMinorVersion {
+struct Mdc_Vs_FixedMajorMinorVersion {
   unsigned short major_high;
   unsigned short major_low;
   unsigned short minor_high;
   unsigned short minor_low;
 };
 
-DLLEXPORT int Vs_FixedMajorMinorVersion_Compare(
-    const struct Vs_FixedMajorMinorVersion* version1,
-    const struct Vs_FixedMajorMinorVersion* version2
+DLLEXPORT int Mdc_Vs_FixedMajorMinorVersion_Compare(
+    const struct Mdc_Vs_FixedMajorMinorVersion* version1,
+    const struct Mdc_Vs_FixedMajorMinorVersion* version2
 );
 
 DLLEXPORT VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
     const wchar_t* file_path
 );
 
-DLLEXPORT struct Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetFileVersion(
+DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
+VS_FIXEDFILEINFO_GetFileVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 );
 
-DLLEXPORT struct Vs_FixedMajorMinorVersion
+DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
 VS_FIXEDFILEINFO_GetProductVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 );

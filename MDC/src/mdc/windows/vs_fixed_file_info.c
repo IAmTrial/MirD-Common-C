@@ -40,8 +40,8 @@
 const VS_FIXEDFILEINFO VS_FIXEDFILEINFO_kUninit = VS_FIXEDFILEINFO_UNINIT;
 
 int Vs_FixedMajorMinorVersion_Compare(
-    const struct Vs_FixedMajorMinorVersion* version1,
-    const struct Vs_FixedMajorMinorVersion* version2
+    const struct Mdc_Vs_FixedMajorMinorVersion* version1,
+    const struct Mdc_Vs_FixedMajorMinorVersion* version2
 ) {
   if (version1 == version2) {
     return 0;
@@ -183,30 +183,30 @@ return_bad:
   return VS_FIXEDFILEINFO_kUninit;
 }
 
-struct Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetFileVersion(
+struct Mdc_Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetFileVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 ) {
-  struct Vs_FixedMajorMinorVersion file_version;
+  struct Mdc_Vs_FixedMajorMinorVersion version;
 
-  file_version.major_high = HIWORD(fixed_file_info->dwFileVersionMS);
-  file_version.major_low = LOWORD(fixed_file_info->dwFileVersionMS);
-  file_version.major_high = HIWORD(fixed_file_info->dwFileVersionLS);
-  file_version.major_high = LOWORD(fixed_file_info->dwFileVersionLS);
+  version.major_high = HIWORD(fixed_file_info->dwFileVersionMS);
+  version.major_low = LOWORD(fixed_file_info->dwFileVersionMS);
+  version.major_high = HIWORD(fixed_file_info->dwFileVersionLS);
+  version.major_high = LOWORD(fixed_file_info->dwFileVersionLS);
 
-  return file_version;
+  return version;
 }
 
-struct Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetProductVersion(
+struct Mdc_Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetProductVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 ) {
-  struct Vs_FixedMajorMinorVersion file_version;
+  struct Mdc_Vs_FixedMajorMinorVersion version;
 
-  file_version.major_high = HIWORD(fixed_file_info->dwProductVersionMS);
-  file_version.major_low = LOWORD(fixed_file_info->dwProductVersionMS);
-  file_version.major_high = HIWORD(fixed_file_info->dwProductVersionLS);
-  file_version.major_high = LOWORD(fixed_file_info->dwProductVersionLS);
+  version.major_high = HIWORD(fixed_file_info->dwProductVersionMS);
+  version.major_low = LOWORD(fixed_file_info->dwProductVersionMS);
+  version.major_high = HIWORD(fixed_file_info->dwProductVersionLS);
+  version.major_high = LOWORD(fixed_file_info->dwProductVersionLS);
 
-  return file_version;
+  return version;
 }
 
 #endif /* defined(_MSC_VER) */
