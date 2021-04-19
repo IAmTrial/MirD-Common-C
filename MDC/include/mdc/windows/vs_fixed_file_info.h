@@ -27,31 +27,53 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_C_WINDOWS_VS_FIXED_FILE_INFO_H_
+#define MDC_C_WINDOWS_VS_FIXED_FILE_INFO_H_
 
-#include <stdio.h>
-#include <stddef.h>
+#if defined(_MSC_VER)
+
 #include <windows.h>
 
-#include <mdc/malloc/malloc.h>
-#include "error_tests.h"
-#include "std_tests.h"
-#include "wchar_t_tests.h"
-#include "windows_tests.h"
+#include "../std/wchar.h"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+#include "../../../dllexport_define.inc"
 
-  /* Mdc_Error_RunTests(); */
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
-  Mdc_Std_RunTests();
-  Mdc_WChar_t_RunTests();
-  Mdc_Windows_RunTests();
+struct Mdc_Vs_FixedMajorMinorVersion {
+  unsigned short major_high;
+  unsigned short major_low;
+  unsigned short minor_high;
+  unsigned short minor_low;
+};
 
-  Mdc_PrintMallocLeaks();
+DLLEXPORT int Mdc_Vs_FixedMajorMinorVersion_Compare(
+    const struct Mdc_Vs_FixedMajorMinorVersion* version1,
+    const struct Mdc_Vs_FixedMajorMinorVersion* version2
+);
 
-  return 0;
-}
+DLLEXPORT VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
+    const wchar_t* file_path
+);
+
+DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
+VS_FIXEDFILEINFO_GetFileVersion(
+    const VS_FIXEDFILEINFO* fixed_file_info
+);
+
+DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
+VS_FIXEDFILEINFO_GetProductVersion(
+    const VS_FIXEDFILEINFO* fixed_file_info
+);
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
+
+#include "../../../dllexport_undefine.inc"
+
+#endif /* defined(_MSC_VER) */
+
+#endif /* MDC_C_WINDOWS_VS_FIXED_FILE_INFO_H_ */

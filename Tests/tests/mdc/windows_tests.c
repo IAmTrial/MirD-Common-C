@@ -1,8 +1,8 @@
 /**
- * Mir Drualga Common For C++98
- * Copyright (C) 2021  Mir Drualga
+ * Mir Drualga Common For C
+ * Copyright (C) 2020-2021  Mir Drualga
  *
- * This file is part of Mir Drualga Common For C++98.
+ * This file is part of Mir Drualga Common For C.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -27,27 +27,12 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#include "windows_tests.h"
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
-#include "windows_tests.hpp"
+#include "windows/vs_fixed_file_info_tests.h"
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
-
-  // Commented out to prevent exit.
-  // ::mdc_test::error_test::RunTests();
-
-  ::mdc_test::std_test::RunTests();
-  ::mdc_test::wide_test::RunTests();
-  ::mdc_test::windows_test::RunTests();
-
-  return 0;
+void Mdc_Windows_RunTests(void) {
+  Mdc_Vs_FixedFileInfo_RunTests();
+  Mdc_WideDecoding_RunTests();
+  Mdc_WideEncoding_RunTests();
 }

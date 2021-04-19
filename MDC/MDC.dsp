@@ -83,6 +83,78 @@ LIB32=link.exe -lib
 # Begin Group "Files"
 
 # PROP Default_Filter ""
+# Begin Group "include"
+
+# PROP Default_Filter ""
+# Begin Group "mdc_h"
+
+# PROP Default_Filter ""
+# Begin Group "error_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\error\exit_on_error.h
+# End Source File
+# End Group
+# Begin Group "malloc_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\malloc\malloc.h
+# End Source File
+# End Group
+# Begin Group "std_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\std\assert.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\std\stdbool.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\std\stdint.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\std\threads.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\std\wchar.h
+# End Source File
+# End Group
+# Begin Group "wchar_t_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\wchar_t\filew.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\wchar_t\wide_decoding.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\include\mdc\wchar_t\wide_encoding.h
+# End Source File
+# End Group
+# Begin Group "windows_h"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\include\mdc\windows\vs_fixed_file_info.h
+# End Source File
+# End Group
+# End Group
+# End Group
 # Begin Group "src"
 
 # PROP Default_Filter ""
@@ -149,68 +221,12 @@ SOURCE=.\src\mdc\wchar_t\wide_decoding.c
 SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Source File
 # End Group
-# End Group
-# End Group
-# Begin Group "include"
-
-# PROP Default_Filter ""
-# Begin Group "mdc_h"
-
-# PROP Default_Filter ""
-# Begin Group "error_h"
+# Begin Group "windows_c"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\include\mdc\error\exit_on_error.h
-# End Source File
-# End Group
-# Begin Group "malloc_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\malloc\malloc.h
-# End Source File
-# End Group
-# Begin Group "std_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\std\assert.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\stdbool.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\stdint.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\threads.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\wchar.h
-# End Source File
-# End Group
-# Begin Group "wchar_t_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\filew.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\wide_decoding.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\wide_encoding.h
+SOURCE=.\src\mdc\windows\vs_fixed_file_info.c
 # End Source File
 # End Group
 # End Group

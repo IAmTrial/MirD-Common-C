@@ -27,27 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+#ifndef MDC_TESTS_CPP98_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
+#define MDC_TESTS_CPP98_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
-#include "windows_tests.hpp"
+namespace mdc_test {
+namespace windows_test {
 
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+void Vs_FixedFileInfo_RunTests();
 
-  // Commented out to prevent exit.
-  // ::mdc_test::error_test::RunTests();
+} // namespace windows_test
+} // namespace mdc_test
 
-  ::mdc_test::std_test::RunTests();
-  ::mdc_test::wide_test::RunTests();
-  ::mdc_test::windows_test::RunTests();
-
-  return 0;
-}
+#endif /* MDC_TESTS_CPP98_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_ */
