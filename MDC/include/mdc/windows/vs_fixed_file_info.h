@@ -38,6 +38,10 @@
 
 #include "../../../dllexport_define.inc"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 struct Mdc_Vs_FixedMajorMinorVersion {
   unsigned short major_high;
   unsigned short major_low;
@@ -63,6 +67,10 @@ DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
 VS_FIXEDFILEINFO_GetProductVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 );
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif /* __cplusplus */
 
 #include "../../../dllexport_undefine.inc"
 
