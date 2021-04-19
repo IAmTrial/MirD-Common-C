@@ -27,31 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
+#ifndef MDC_TESTS_C_WINDOWS_TESTS_H_
+#define MDC_TESTS_C_WINDOWS_TESTS_H_
 
-#include <stdio.h>
-#include <stddef.h>
-#include <windows.h>
+void Mdc_Windows_RunTests(void);
 
-#include <mdc/malloc/malloc.h>
-#include "error_tests.h"
-#include "std_tests.h"
-#include "wchar_t_tests.h"
-#include "windows_tests.h"
-
-int main(int argc, char** argv) {
-#if defined(NDEBUG)
-  MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
-  exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
-
-  /* Mdc_Error_RunTests(); */
-
-  Mdc_Std_RunTests();
-  Mdc_WChar_t_RunTests();
-  Mdc_Windows_RunTests();
-
-  Mdc_PrintMallocLeaks();
-
-  return 0;
-}
+#endif /* MDC_TESTS_C_WINDOWS_TESTS_H_ */
