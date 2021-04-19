@@ -39,7 +39,7 @@
 
 const VS_FIXEDFILEINFO VS_FIXEDFILEINFO_kUninit = VS_FIXEDFILEINFO_UNINIT;
 
-int Vs_FixedMajorMinorVersion_Compare(
+int Mdc_Vs_FixedMajorMinorVersion_Compare(
     const struct Mdc_Vs_FixedMajorMinorVersion* version1,
     const struct Mdc_Vs_FixedMajorMinorVersion* version2
 ) {
