@@ -37,7 +37,8 @@
 
 #define VS_FIXEDFILEINFO_UNINIT { 0 }
 
-const VS_FIXEDFILEINFO VS_FIXEDFILEINFO_kUninit = VS_FIXEDFILEINFO_UNINIT;
+static const VS_FIXEDFILEINFO VS_FIXEDFILEINFO_kUninit =
+    VS_FIXEDFILEINFO_UNINIT;
 
 int Mdc_Vs_FixedMajorMinorVersion_Compare(
     const struct Mdc_Vs_FixedMajorMinorVersion* version1,
