@@ -48,7 +48,7 @@ static void Vs_FixedFileInfo_AssertFromFileVersion() {
   fixed_file_info.dwFileVersionLS = 0x1CABECEA;
 
   ::mdc::vs::FixedMajorMinorVersion actual_file_version =
-      ::mdc::vs::FixedMajorMinorVersion::FromFileVerison(fixed_file_info);
+      ::mdc::vs::FixedMajorMinorVersion::FromFileVersion(fixed_file_info);
 
   assert(kExpectedFileVersion == actual_file_version);
 }
@@ -62,8 +62,8 @@ static void Vs_FixedFileInfo_AssertFromProductVersion() {
   fixed_file_info.dwProductVersionMS = 0x1FACADE1;
   fixed_file_info.dwProductVersionLS = 0x2D1AB102;
 
-  ::mdc::vs::FixedMajorMinorVersion actual_product_version /*=
-      ::mdc::vs::FixedMajorMinorVersion::FromProductVerison(fixed_file_info)*/;
+  ::mdc::vs::FixedMajorMinorVersion actual_product_version =
+      ::mdc::vs::FixedMajorMinorVersion::FromProductVersion(fixed_file_info);
 
   assert(kExpectedProductVersion == actual_product_version);
 }

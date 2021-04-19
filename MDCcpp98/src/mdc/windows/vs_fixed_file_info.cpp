@@ -51,7 +51,7 @@ FixedMajorMinorVersion::FixedMajorMinorVersion(
   this->version_.minor_low = minor_low;
 }
 
-FixedMajorMinorVersion FixedMajorMinorVersion::FromFileVerison(
+FixedMajorMinorVersion FixedMajorMinorVersion::FromFileVersion(
     const VS_FIXEDFILEINFO& fixed_file_info
 ) {
   FixedMajorMinorVersion version;

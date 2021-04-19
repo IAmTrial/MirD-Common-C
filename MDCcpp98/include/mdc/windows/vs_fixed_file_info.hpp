@@ -53,7 +53,7 @@ class DLLEXPORT FixedMajorMinorVersion {
       unsigned short minor_low
   );
 
-  static FixedMajorMinorVersion FromFileVerison(
+  static FixedMajorMinorVersion FromFileVersion(
       const VS_FIXEDFILEINFO& fixed_file_info
   );
 
