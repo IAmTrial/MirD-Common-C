@@ -157,7 +157,7 @@ return_bad:
   return NULL;
 }
 
-UINT Mdc_Windows_VerQueryValueLength(
+size_t Mdc_Windows_VerQueryValueCapacity(
     const wchar_t* file_path,
     const wchar_t* sub_block
 ) {
@@ -205,6 +205,13 @@ deinit_file_version_info:
 
 return_bad:
   return 0;
+}
+
+size_t Mdc_Windows_VerQueryValueSize(
+    const wchar_t* file_path,
+    const wchar_t* sub_block
+) {
+  return Mdc_Windows_VerQueryValueCapacity(file_path, sub_block);
 }
 
 #endif /* defined(_MSC_VER) */

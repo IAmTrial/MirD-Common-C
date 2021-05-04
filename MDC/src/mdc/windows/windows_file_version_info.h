@@ -42,6 +42,13 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/**
+ * Wrapper for Windows' VerQueryValue, storing the requested value
+ * from the specified sub block into the buffer. If the function
+ * fails, the function returns NULL and GetLastError will contain
+ * the error code. The buffer size represents the size of the buffer
+ * in bytes and not the length or character capacity of strings.
+ */
 void* Mdc_Windows_VerQueryValue(
     void* buffer,
     size_t buffer_size,
@@ -49,7 +56,22 @@ void* Mdc_Windows_VerQueryValue(
     const wchar_t* sub_block
 );
 
-size_t Mdc_Windows_VerQueryValueLength(
+/**
+ * Wrapper for Windows' VerQueryValue, used to retrieve the character
+ * length or size of the value at the specified sub block. If the
+ * function fails, the function returns NULL and GetLastError contains
+ * contain the error code.
+ */
+size_t Mdc_Windows_VerQueryValueCapacity(
+    const wchar_t* file_path,
+    const wchar_t* sub_block
+);
+
+/**
+ * Same function as Mdc_Windows_VerQueryValueLength, can be called
+ * instead for self-documenting purposes.
+ */
+size_t Mdc_Windows_VerQueryValueSize(
     const wchar_t* file_path,
     const wchar_t* sub_block
 );
