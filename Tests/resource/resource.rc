@@ -66,7 +66,7 @@ VS_VERSION_INFO    VERSIONINFO
       VALUE "LegalCopyright",   "Copyright (C) 2020 - 2021  Mir Drualga\0"
       VALUE "LegalTrademarks",  "All rights reserved.\0"
       VALUE "PrivateBuild",     "\0"
-      VALUE "ProductName",      "Diablo II Free Resolution\0"
+      VALUE "ProductName",      "Mir Drualga Common For C Tests\0"
       VALUE "ProductVersion",   "4z.3y.2x.1w\0"
       VALUE "SpecialBuild",     "\0"
       VALUE "Support",          "Mir Drualga\0"
