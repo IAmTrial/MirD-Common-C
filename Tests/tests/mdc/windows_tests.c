@@ -33,6 +33,4 @@
 
 void Mdc_Windows_RunTests(void) {
   Mdc_Vs_FixedFileInfo_RunTests();
-  Mdc_WideDecoding_RunTests();
-  Mdc_WideEncoding_RunTests();
 }
