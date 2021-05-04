@@ -38,7 +38,7 @@
 
 #define VS_FIXEDFILEINFO_UNINIT { 0 }
 
-static const VS_FIXEDFILEINFO VS_FIXEDFILEINFO_kUninit =
+static const VS_FIXEDFILEINFO Mdc_Vs_FixedFileInfo_kUninit =
     VS_FIXEDFILEINFO_UNINIT;
 
 int Mdc_Vs_FixedMajorMinorVersion_Compare(
@@ -84,7 +84,7 @@ int Mdc_Vs_FixedMajorMinorVersion_Compare(
   return 0;
 }
 
-VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
+VS_FIXEDFILEINFO Mdc_Vs_FixedFileInfo_Read(
     const wchar_t* file_path
 ) {
   VS_FIXEDFILEINFO fixed_file_info;
@@ -104,10 +104,10 @@ VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
   return fixed_file_info;
 
 return_bad:
-  return VS_FIXEDFILEINFO_kUninit;
+  return Mdc_Vs_FixedFileInfo_kUninit;
 }
 
-struct Mdc_Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetFileVersion(
+struct Mdc_Vs_FixedMajorMinorVersion Mdc_Vs_FixedFileInfo_GetFileVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 ) {
   struct Mdc_Vs_FixedMajorMinorVersion version;
@@ -120,7 +120,7 @@ struct Mdc_Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetFileVersion(
   return version;
 }
 
-struct Mdc_Vs_FixedMajorMinorVersion VS_FIXEDFILEINFO_GetProductVersion(
+struct Mdc_Vs_FixedMajorMinorVersion Mdc_Vs_FixedFileInfo_GetProductVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 ) {
   struct Mdc_Vs_FixedMajorMinorVersion version;

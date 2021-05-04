@@ -54,17 +54,17 @@ DLLEXPORT int Mdc_Vs_FixedMajorMinorVersion_Compare(
     const struct Mdc_Vs_FixedMajorMinorVersion* version2
 );
 
-DLLEXPORT VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
+DLLEXPORT VS_FIXEDFILEINFO Mdc_Vs_FixedFileInfo_Read(
     const wchar_t* file_path
 );
 
 DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
-VS_FIXEDFILEINFO_GetFileVersion(
+Mdc_Vs_FixedFileInfo_GetFileVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 );
 
 DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
-VS_FIXEDFILEINFO_GetProductVersion(
+Mdc_Vs_FixedFileInfo_GetProductVersion(
     const VS_FIXEDFILEINFO* fixed_file_info
 );
 

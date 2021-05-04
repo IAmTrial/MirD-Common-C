@@ -48,7 +48,10 @@ static void Mdc_Windows_Vs_FixedFileInfo_AssertGetFileVersion(void) {
   fixed_file_info.dwFileVersionMS = 0xDEADBEEF;
   fixed_file_info.dwFileVersionLS = 0x1CABECEA;
 
-  actual_file_version = VS_FIXEDFILEINFO_GetFileVersion(&fixed_file_info);
+  actual_file_version = Mdc_Vs_FixedFileInfo_GetFileVersion(
+      &fixed_file_info
+  );
+
   compare_result = Mdc_Vs_FixedMajorMinorVersion_Compare(
       &kExpectedFileVersion,
       &actual_file_version
@@ -73,7 +76,7 @@ static void Mdc_Windows_Vs_FixedFileInfo_AssertGetProductVersion(void) {
   fixed_file_info.dwProductVersionMS = 0x1FACADE1;
   fixed_file_info.dwProductVersionLS = 0x2D1AB102;
 
-  actual_product_version = VS_FIXEDFILEINFO_GetProductVersion(
+  actual_product_version = Mdc_Vs_FixedFileInfo_GetProductVersion(
       &fixed_file_info
   );
 
@@ -101,7 +104,7 @@ static void Mdc_Windows_Vs_FixedFileInfo_AssertRead(void) {
 
   assert(is_get_module_file_name_success);
 
-  fixed_file_info = VS_FIXEDFILEINFO_Read(current_executable_path);
+  fixed_file_info = Mdc_Vs_FixedFileInfo_Read(current_executable_path);
 
   assert(HIWORD(fixed_file_info.dwFileVersionMS) == 1);
   assert(LOWORD(fixed_file_info.dwFileVersionMS) == 2);
