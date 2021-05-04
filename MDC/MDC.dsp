@@ -228,6 +228,14 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 
 SOURCE=.\src\mdc\windows\vs_fixed_file_info.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\windows\windows_file_version_info.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\windows\windows_file_version_info.h
+# End Source File
 # End Group
 # End Group
 # End Group

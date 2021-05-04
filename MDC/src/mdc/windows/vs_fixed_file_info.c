@@ -34,6 +34,7 @@
 #include "../../../include/mdc/error/exit_on_error.h"
 #include "../../../include/mdc/malloc/malloc.h"
 #include "../../../include/mdc/std/assert.h"
+#include "windows_file_version_info.h"
 
 #define VS_FIXEDFILEINFO_UNINIT { 0 }
 
@@ -86,99 +87,21 @@ int Mdc_Vs_FixedMajorMinorVersion_Compare(
 VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
     const wchar_t* file_path
 ) {
-  /*
-  * All the code for this function originated from StackOverflow user
-  * crashmstr. Some parts were refactored and altered for clarity and
-  * correctness.
-  */
-
   VS_FIXEDFILEINFO fixed_file_info;
+  void* result;
 
-  DWORD ignored;
-
-  BOOL is_get_file_version_info_success;
-  BOOL is_ver_query_value_success;
-
-  void* file_version_info;
-  DWORD file_version_info_size;
-
-  UINT fixed_file_info_size;
-  VS_FIXEDFILEINFO* fixed_file_info_src;
-
-  /* Check version size. */
-  file_version_info_size = GetFileVersionInfoSizeW(
+  result = Mdc_Windows_VerQueryValue(
+      &fixed_file_info,
+      sizeof(fixed_file_info),
       file_path,
-      &ignored
+      L"\\"
   );
 
-  if (file_version_info_size == 0) {
-    Mdc_Error_ExitOnWindowsFunctionError(
-        __FILEW__,
-        __LINE__,
-        L"GetFileVersionInfoSizeW",
-        GetLastError()
-    );
-
+  if (result != &fixed_file_info) {
     goto return_bad;
   }
-
-  /* Get the file version info. */
-  file_version_info = Mdc_malloc(file_version_info_size);
-  if (file_version_info == NULL) {
-    Mdc_Error_ExitOnMemoryAllocError(__FILEW__, __LINE__);
-    goto return_bad;
-  }
-
-  ignored = 0;
-  is_get_file_version_info_success = GetFileVersionInfoW(
-      file_path,
-      ignored,
-      file_version_info_size,
-      file_version_info
-  );
-
-  if (!is_get_file_version_info_success) {
-    Mdc_Error_ExitOnWindowsFunctionError(
-        __FILEW__,
-        __LINE__,
-        L"GetFileVersionInfoW",
-        GetLastError()
-    );
-
-    goto free_file_version_info;
-  }
-
-  /*
-  * Gather all of the information into the specified buffer, then
-  * check version info signature.
-  */
-
-  is_ver_query_value_success = VerQueryValueW(
-      file_version_info,
-      L"\\",
-      &fixed_file_info_src,
-      &fixed_file_info_size
-  );
-
-  if (!is_ver_query_value_success) {
-    Mdc_Error_ExitOnWindowsFunctionError(
-        __FILEW__,
-        __LINE__,
-        L"VerQueryValueW",
-        GetLastError()
-    );
-
-    goto free_file_version_info;
-  }
-
-  fixed_file_info = *fixed_file_info_src;
-
-  Mdc_free(file_version_info);
 
   return fixed_file_info;
-
-free_file_version_info:
-  Mdc_free(file_version_info);
 
 return_bad:
   return VS_FIXEDFILEINFO_kUninit;
