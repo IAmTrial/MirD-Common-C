@@ -229,6 +229,14 @@ SOURCE=.\tests\mdc\windows_tests.h
 # End Source File
 # End Group
 # End Group
+# Begin Group "resource"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\resource\resource.rc
+# End Source File
+# End Group
 # End Group
 # End Target
 # End Project

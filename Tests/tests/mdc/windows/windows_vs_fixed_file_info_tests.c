@@ -87,7 +87,37 @@ static void Mdc_Windows_Vs_FixedFileInfo_AssertGetProductVersion(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
+static void Mdc_Windows_Vs_FixedFileInfo_AssertRead(void) {
+  BOOL is_get_module_file_name_success;
+
+  wchar_t current_executable_path[MAX_PATH + 2];
+  VS_FIXEDFILEINFO fixed_file_info;
+
+  is_get_module_file_name_success = GetModuleFileNameW(
+      NULL,
+      current_executable_path,
+      MAX_PATH
+  );
+
+  assert(is_get_module_file_name_success);
+
+  fixed_file_info = VS_FIXEDFILEINFO_Read(current_executable_path);
+
+  assert(HIWORD(fixed_file_info.dwFileVersionMS) == 1);
+  assert(LOWORD(fixed_file_info.dwFileVersionMS) == 2);
+  assert(HIWORD(fixed_file_info.dwFileVersionLS) == 3);
+  assert(LOWORD(fixed_file_info.dwFileVersionLS) == 4);
+
+  assert(HIWORD(fixed_file_info.dwProductVersionMS) == 5);
+  assert(LOWORD(fixed_file_info.dwProductVersionMS) == 6);
+  assert(HIWORD(fixed_file_info.dwProductVersionLS) == 7);
+  assert(LOWORD(fixed_file_info.dwProductVersionLS) == 8);
+
+  assert(Mdc_GetMallocDifference() == 0);
+}
+
 void Mdc_Windows_Vs_FixedFileInfo_RunTests(void) {
   Mdc_Windows_Vs_FixedFileInfo_AssertGetFileVersion();
   Mdc_Windows_Vs_FixedFileInfo_AssertGetProductVersion();
+  Mdc_Windows_Vs_FixedFileInfo_AssertRead();
 }
