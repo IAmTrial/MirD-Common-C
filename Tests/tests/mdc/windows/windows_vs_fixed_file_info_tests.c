@@ -27,15 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include "vs_fixed_file_info_tests.h"
+#include "windows_vs_fixed_file_info_tests.h"
 
 #include <assert.h>
 #include <windows.h>
 
 #include <mdc/malloc/malloc.h>
-#include <mdc/windows/vs_fixed_file_info.h>
+#include <mdc/windows/windows_vs_fixed_file_info.h>
 
-static void Mdc_Vs_FixedFileInfo_AssertGetFileVersion(void) {
+static void Mdc_Windows_Vs_FixedFileInfo_AssertGetFileVersion(void) {
   static const struct Mdc_Vs_FixedMajorMinorVersion kExpectedFileVersion = {
       0xDEAD, 0xBEEF, 0x1CAB, 0xECEA
   };
@@ -59,7 +59,7 @@ static void Mdc_Vs_FixedFileInfo_AssertGetFileVersion(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
-static void Mdc_Vs_FixedFileInfo_AssertGetProductVersion(void) {
+static void Mdc_Windows_Vs_FixedFileInfo_AssertGetProductVersion(void) {
   static const struct Mdc_Vs_FixedMajorMinorVersion
   kExpectedProductVersion = {
       0x1FAC, 0xADE1, 0x2D1A, 0xB102
@@ -87,7 +87,7 @@ static void Mdc_Vs_FixedFileInfo_AssertGetProductVersion(void) {
   assert(Mdc_GetMallocDifference() == 0);
 }
 
-void Mdc_Vs_FixedFileInfo_RunTests(void) {
-  Mdc_Vs_FixedFileInfo_AssertGetFileVersion();
-  Mdc_Vs_FixedFileInfo_AssertGetProductVersion();
+void Mdc_Windows_Vs_FixedFileInfo_RunTests(void) {
+  Mdc_Windows_Vs_FixedFileInfo_AssertGetFileVersion();
+  Mdc_Windows_Vs_FixedFileInfo_AssertGetProductVersion();
 }

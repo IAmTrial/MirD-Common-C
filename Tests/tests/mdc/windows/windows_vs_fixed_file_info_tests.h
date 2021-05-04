@@ -27,53 +27,9 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_WINDOWS_VS_FIXED_FILE_INFO_H_
-#define MDC_C_WINDOWS_VS_FIXED_FILE_INFO_H_
+#ifndef MDC_TESTS_C_WINDOWS_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
+#define MDC_TESTS_C_WINDOWS_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
 
-#if defined(_MSC_VER)
+void Mdc_Windows_Vs_FixedFileInfo_RunTests(void);
 
-#include <windows.h>
-
-#include "../std/wchar.h"
-
-#include "../../../dllexport_define.inc"
-
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
-struct Mdc_Vs_FixedMajorMinorVersion {
-  unsigned short major_high;
-  unsigned short major_low;
-  unsigned short minor_high;
-  unsigned short minor_low;
-};
-
-DLLEXPORT int Mdc_Vs_FixedMajorMinorVersion_Compare(
-    const struct Mdc_Vs_FixedMajorMinorVersion* version1,
-    const struct Mdc_Vs_FixedMajorMinorVersion* version2
-);
-
-DLLEXPORT VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
-    const wchar_t* file_path
-);
-
-DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
-VS_FIXEDFILEINFO_GetFileVersion(
-    const VS_FIXEDFILEINFO* fixed_file_info
-);
-
-DLLEXPORT struct Mdc_Vs_FixedMajorMinorVersion
-VS_FIXEDFILEINFO_GetProductVersion(
-    const VS_FIXEDFILEINFO* fixed_file_info
-);
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
-
-#include "../../../dllexport_undefine.inc"
-
-#endif /* defined(_MSC_VER) */
-
-#endif /* MDC_C_WINDOWS_VS_FIXED_FILE_INFO_H_ */
+#endif /* MDC_TESTS_C_WINDOWS_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_ */

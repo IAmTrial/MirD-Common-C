@@ -150,7 +150,7 @@ SOURCE=.\include\mdc\wchar_t\wide_encoding.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\include\mdc\windows\vs_fixed_file_info.h
+SOURCE=.\include\mdc\windows\windows_vs_fixed_file_info.h
 # End Source File
 # End Group
 # End Group
@@ -226,15 +226,15 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\src\mdc\windows\vs_fixed_file_info.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\src\mdc\windows\windows_file_version_info.c
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\mdc\windows\windows_file_version_info.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\windows\windows_vs_fixed_file_info.c
 # End Source File
 # End Group
 # End Group
