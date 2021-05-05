@@ -85,6 +85,14 @@ LINK32=link.exe
 # Begin Group "Files"
 
 # PROP Default_Filter ""
+# Begin Group "resource"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\resource\resource.rc
+# End Source File
+# End Group
 # Begin Group "tests"
 
 # PROP Default_Filter ""
