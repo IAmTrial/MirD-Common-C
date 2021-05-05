@@ -56,7 +56,9 @@ FixedMajorMinorVersion FixedMajorMinorVersion::FromFileVersion(
 ) {
   FixedMajorMinorVersion version;
 
-  version.version_ = VS_FIXEDFILEINFO_GetFileVersion(&fixed_file_info);
+  version.version_ = Mdc_Vs_FixedFileInfo_GetFileVersion(
+      &fixed_file_info
+  );
 
   return version;
 }
@@ -66,7 +68,9 @@ FixedMajorMinorVersion FixedMajorMinorVersion::FromProductVersion(
 ) {
   FixedMajorMinorVersion version;
 
-  version.version_ = VS_FIXEDFILEINFO_GetProductVersion(&fixed_file_info);
+  version.version_ = Mdc_Vs_FixedFileInfo_GetProductVersion(
+      &fixed_file_info
+  );
 
   return version;
 }
@@ -129,10 +133,10 @@ unsigned short FixedMajorMinorVersion::minor_low() const {
 
 } // namespace vs
 
-VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
+VS_FIXEDFILEINFO Vs_FixedFileInfo_Read(
     const wchar_t* file_path
 ) {
-  return ::VS_FIXEDFILEINFO_Read(file_path);
+  return ::Mdc_Vs_FixedFileInfo_Read(file_path);
 }
 
 } // namespace mdc
