@@ -29,7 +29,7 @@
 
 #include "windows_tests.hpp"
 
-#include "windows/vs_fixed_file_info_tests.hpp"
+#include "windows/windows_vs_fixed_file_info_tests.hpp"
 
 namespace mdc_test {
 namespace windows_test {
