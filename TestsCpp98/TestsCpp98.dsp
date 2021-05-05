@@ -196,11 +196,11 @@ SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.hpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\tests\mdc\windows\vs_fixed_file_info_tests.cpp
+SOURCE=.\tests\mdc\windows\windows_vs_fixed_file_info_tests.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\tests\mdc\windows\vs_fixed_file_info_tests.hpp
+SOURCE=.\tests\mdc\windows\windows_vs_fixed_file_info_tests.hpp
 # End Source File
 # End Group
 # Begin Source File

@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../include/mdc/windows/vs_fixed_file_info.hpp"
+#include "../../../include/mdc/windows/windows_vs_fixed_file_info.hpp"
 
 #if defined(_MSC_VER)
 

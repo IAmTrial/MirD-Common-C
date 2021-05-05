@@ -27,12 +27,12 @@
  *  to convey the resulting work.
  */
 
-#include "vs_fixed_file_info_tests.hpp"
+#include "windows_vs_fixed_file_info_tests.hpp"
 
 #include <windows.h>
 
 #include <mdc/std/assert.h>
-#include <mdc/windows/vs_fixed_file_info.hpp>
+#include <mdc/windows/windows_vs_fixed_file_info.hpp>
 
 namespace mdc_test {
 namespace windows_test {

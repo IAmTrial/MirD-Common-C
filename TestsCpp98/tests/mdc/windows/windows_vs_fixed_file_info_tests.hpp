@@ -27,8 +27,8 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_TESTS_CPP98_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
-#define MDC_TESTS_CPP98_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
+#ifndef MDC_TESTS_CPP98_WINDOWS_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
+#define MDC_TESTS_CPP98_WINDOWS_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_
 
 namespace mdc_test {
 namespace windows_test {
@@ -38,4 +38,4 @@ void Vs_FixedFileInfo_RunTests();
 } // namespace windows_test
 } // namespace mdc_test
 
-#endif /* MDC_TESTS_CPP98_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_ */
+#endif /* MDC_TESTS_CPP98_WINDOWS_WINDOWS_VS_FIXED_FILE_INFO_TESTS_H_ */

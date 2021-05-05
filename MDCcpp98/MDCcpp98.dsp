@@ -130,7 +130,7 @@ SOURCE=.\include\mdc\wchar_t\wide_encoding.hpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\include\mdc\windows\vs_fixed_file_info.hpp
+SOURCE=.\include\mdc\windows\windows_vs_fixed_file_info.hpp
 # End Source File
 # End Group
 # End Group
@@ -206,7 +206,7 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.cpp
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\src\mdc\windows\vs_fixed_file_info.cpp
+SOURCE=.\src\mdc\windows\windows_vs_fixed_file_info.cpp
 # End Source File
 # End Group
 # End Group
