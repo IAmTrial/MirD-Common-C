@@ -68,11 +68,39 @@ static void Vs_FixedFileInfo_AssertFromProductVersion() {
   assert(kExpectedProductVersion == actual_product_version);
 }
 
+static void Vs_FixedFileInfo_AssertRead(void) {
+  BOOL is_get_module_file_name_success;
+
+  wchar_t current_executable_path[MAX_PATH + 2];
+  VS_FIXEDFILEINFO fixed_file_info;
+
+  is_get_module_file_name_success = GetModuleFileNameW(
+      NULL,
+      current_executable_path,
+      MAX_PATH
+  );
+
+  assert(is_get_module_file_name_success);
+
+  fixed_file_info = ::mdc::Vs_FixedFileInfo_Read(current_executable_path);
+
+  assert(HIWORD(fixed_file_info.dwFileVersionMS) == 1);
+  assert(LOWORD(fixed_file_info.dwFileVersionMS) == 2);
+  assert(HIWORD(fixed_file_info.dwFileVersionLS) == 3);
+  assert(LOWORD(fixed_file_info.dwFileVersionLS) == 4);
+
+  assert(HIWORD(fixed_file_info.dwProductVersionMS) == 5);
+  assert(LOWORD(fixed_file_info.dwProductVersionMS) == 6);
+  assert(HIWORD(fixed_file_info.dwProductVersionLS) == 7);
+  assert(LOWORD(fixed_file_info.dwProductVersionLS) == 8);
+}
+
 } // namespace
 
 void Vs_FixedFileInfo_RunTests() {
   Vs_FixedFileInfo_AssertFromFileVersion();
   Vs_FixedFileInfo_AssertFromProductVersion();
+  Vs_FixedFileInfo_AssertRead();
 }
 
 } // namespace windows_test

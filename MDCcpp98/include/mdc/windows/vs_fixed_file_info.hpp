@@ -35,7 +35,7 @@
 #include <windows.h>
 
 #include <mdc/std/wchar.h>
-#include <mdc/windows/vs_fixed_file_info.h>
+#include <mdc/windows/windows_vs_fixed_file_info.h>
 
 #include "../../../dllexport_define.inc"
 
@@ -92,7 +92,7 @@ class DLLEXPORT FixedMajorMinorVersion {
 
 } // namespace vs
 
-DLLEXPORT VS_FIXEDFILEINFO VS_FIXEDFILEINFO_Read(
+DLLEXPORT VS_FIXEDFILEINFO Vs_FixedFileInfo_Read(
     const wchar_t* file_path
 );
 
