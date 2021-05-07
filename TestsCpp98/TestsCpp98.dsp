@@ -191,18 +191,6 @@ SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.cpp
 SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.hpp
 # End Source File
 # End Group
-# Begin Group "windows"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows\windows_vs_fixed_file_info_tests.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows\windows_vs_fixed_file_info_tests.hpp
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=.\tests\mdc\error_tests.cpp
@@ -230,14 +218,6 @@ SOURCE=.\tests\mdc\wchar_t_tests.cpp
 # Begin Source File
 
 SOURCE=.\tests\mdc\wchar_t_tests.hpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows_tests.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows_tests.hpp
 # End Source File
 # End Group
 # End Group

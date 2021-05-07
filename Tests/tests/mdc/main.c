@@ -37,7 +37,6 @@
 #include "error_tests.h"
 #include "std_tests.h"
 #include "wchar_t_tests.h"
-#include "windows_tests.h"
 
 int main(int argc, char** argv) {
 #if defined(NDEBUG)
@@ -49,7 +48,6 @@ int main(int argc, char** argv) {
 
   Mdc_Std_RunTests();
   Mdc_WChar_t_RunTests();
-  Mdc_Windows_RunTests();
 
   Mdc_PrintMallocLeaks();
 
