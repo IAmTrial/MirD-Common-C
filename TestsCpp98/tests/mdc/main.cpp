@@ -34,7 +34,6 @@
 #include "error_tests.hpp"
 #include "std_tests.hpp"
 #include "wchar_t_tests.hpp"
-#include "windows_tests.hpp"
 
 int main(int argc, char** argv) {
 #if defined(NDEBUG)
@@ -47,7 +46,6 @@ int main(int argc, char** argv) {
 
   ::mdc_test::std_test::RunTests();
   ::mdc_test::wide_test::RunTests();
-  ::mdc_test::windows_test::RunTests();
 
   return 0;
 }

@@ -85,14 +85,6 @@ LINK32=link.exe
 # Begin Group "Files"
 
 # PROP Default_Filter ""
-# Begin Group "resource"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\resource\resource.rc
-# End Source File
-# End Group
 # Begin Group "tests"
 
 # PROP Default_Filter ""
@@ -187,18 +179,6 @@ SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.c
 SOURCE=.\tests\mdc\wchar_t\wide_encoding_tests.h
 # End Source File
 # End Group
-# Begin Group "windows"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows\windows_vs_fixed_file_info_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows\windows_vs_fixed_file_info_tests.h
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=.\tests\mdc\error_tests.c
@@ -226,14 +206,6 @@ SOURCE=.\tests\mdc\wchar_t_tests.c
 # Begin Source File
 
 SOURCE=.\tests\mdc\wchar_t_tests.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows_tests.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\tests\mdc\windows_tests.h
 # End Source File
 # End Group
 # End Group

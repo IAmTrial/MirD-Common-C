@@ -125,14 +125,6 @@ SOURCE=.\include\mdc\wchar_t\wide_decoding.hpp
 SOURCE=.\include\mdc\wchar_t\wide_encoding.hpp
 # End Source File
 # End Group
-# Begin Group "windows_hpp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\windows\windows_vs_fixed_file_info.hpp
-# End Source File
-# End Group
 # End Group
 # End Group
 # Begin Group "src"
@@ -199,14 +191,6 @@ SOURCE=.\src\mdc\wchar_t\wide_decoding.cpp
 # Begin Source File
 
 SOURCE=.\src\mdc\wchar_t\wide_encoding.cpp
-# End Source File
-# End Group
-# Begin Group "windows_cpp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\src\mdc\windows\windows_vs_fixed_file_info.cpp
 # End Source File
 # End Group
 # End Group
