@@ -46,10 +46,10 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
+# ADD BSC32 /nologo /o"Release/libMDC.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"Release\MDCc.lib"
+# ADD LIB32 /nologo /out:"Release\libMDCc.lib"
 
 !ELSEIF  "$(CFG)" == "MDC - Win32 Debug"
 
@@ -69,10 +69,10 @@ LIB32=link.exe -lib
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
+# ADD BSC32 /nologo /o"Debug/libMDC.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"Debug\MDCcD.lib"
+# ADD LIB32 /nologo /out:"Debug\libMDCcD.lib"
 
 !ENDIF 
 
