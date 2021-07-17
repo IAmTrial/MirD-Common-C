@@ -46,10 +46,10 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
+# ADD BSC32 /nologo /o"Release/libMDCcpp98.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo
+# ADD LIB32 /nologo /out:"Release\libMDCcpp98.lib"
 
 !ELSEIF  "$(CFG)" == "MDCcpp98 - Win32 Debug"
 
@@ -69,10 +69,10 @@ LIB32=link.exe -lib
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
+# ADD BSC32 /nologo /o"Debug/libMDCcpp98.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
-# ADD LIB32 /nologo /out:"Debug\MDCcpp98D.lib"
+# ADD LIB32 /nologo /out:"Debug\libMDCcpp98D.lib"
 
 !ENDIF 
 
