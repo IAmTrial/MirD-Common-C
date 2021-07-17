@@ -39,20 +39,12 @@
 namespace mdc {
 namespace wide {
 
-DLLEXPORT ::std::string EncodeAscii(
-    const wchar_t* wide_c_str
-);
-
 DLLEXPORT char* EncodeAscii(
     char* char_c_str,
     const wchar_t* wide_c_str
 );
 
 DLLEXPORT size_t EncodeAsciiLength(
-    const wchar_t* wide_c_str
-);
-
-DLLEXPORT ::std::string EncodeDefaultMultibyte(
     const wchar_t* wide_c_str
 );
 
@@ -65,10 +57,6 @@ DLLEXPORT size_t EncodeDefaultMultibyteLength(
     const wchar_t* wide_c_str
 );
 
-DLLEXPORT ::std::string EncodeUtf8(
-    const wchar_t* wide_c_str
-);
-
 DLLEXPORT char* EncodeUtf8(
     char* char_c_str,
     const wchar_t* wide_c_str
@@ -77,6 +65,42 @@ DLLEXPORT char* EncodeUtf8(
 DLLEXPORT size_t EncodeUtf8Length(
     const wchar_t* wide_c_str
 );
+
+inline ::std::string EncodeAscii(
+    const wchar_t* wide_c_str
+) {
+  size_t ascii_c_str_length = EncodeUtf8Length(wide_c_str);
+
+  ::std::string ascii_str(ascii_c_str_length, '\0');
+
+  EncodeUtf8(&ascii_str[0], wide_c_str);
+
+  return ascii_str;
+}
+
+inline ::std::string EncodeDefaultMultibyte(
+    const wchar_t* wide_c_str
+) {
+  size_t multibyte_c_str_length = EncodeDefaultMultibyteLength(wide_c_str);
+
+  ::std::string multibyte_str(multibyte_c_str_length, '\0');
+
+  EncodeDefaultMultibyte(&multibyte_str[0], wide_c_str);
+
+  return multibyte_str;
+}
+
+inline ::std::string EncodeUtf8(
+    const wchar_t* wide_c_str
+) {
+  size_t utf8_c_str_length = EncodeUtf8Length(wide_c_str);
+
+  ::std::string utf8_str(utf8_c_str_length, '\0');
+
+  EncodeUtf8(&utf8_str[0], wide_c_str);
+
+  return utf8_str;
+}
 
 } // namespace wide
 } // namespace mdc

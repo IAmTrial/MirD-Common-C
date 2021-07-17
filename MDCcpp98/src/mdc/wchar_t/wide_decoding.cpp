@@ -33,33 +33,6 @@
 
 namespace mdc {
 namespace wide {
-namespace {
-
-static ::std::wstring DecodeChar(
-    const char* char_c_str,
-    wchar_t* (*decode_func)(wchar_t*, const char*),
-    size_t (*length_func)(const char*)
-) {
-  size_t wide_c_str_length = length_func(char_c_str);
-
-  ::std::wstring wide_str(wide_c_str_length, '\0');
-
-  decode_func(&wide_str[0], char_c_str);
-
-  return wide_str;
-}
-
-} // namespace
-
-::std::wstring DecodeAscii(
-    const char* ascii_c_str
-) {
-  return DecodeChar(
-      ascii_c_str,
-      &DecodeAscii,
-      &DecodeAsciiLength
-  );
-}
 
 wchar_t* DecodeAscii(
     wchar_t* wide_c_str,
@@ -74,16 +47,6 @@ size_t DecodeAsciiLength(
   return Mdc_Wide_DecodeAsciiLength(ascii_c_str);
 }
 
-::std::wstring DecodeDefaultMultibyte(
-    const char* multibyte_c_str
-) {
-  return DecodeChar(
-      multibyte_c_str,
-      &DecodeDefaultMultibyte,
-      &DecodeDefaultMultibyteLength
-  );
-}
-
 wchar_t* DecodeDefaultMultibyte(
     wchar_t* wide_c_str,
     const char* multibyte_c_str
@@ -95,16 +58,6 @@ size_t DecodeDefaultMultibyteLength(
     const char* multibyte_c_str
 ) {
   return Mdc_Wide_DecodeDefaultMultibyteLength(multibyte_c_str);
-}
-
-::std::wstring DecodeUtf8(
-    const char* utf8_c_str
-) {
-  return DecodeChar(
-      utf8_c_str,
-      &DecodeUtf8,
-      &DecodeUtf8Length
-  );
 }
 
 wchar_t* DecodeUtf8(
