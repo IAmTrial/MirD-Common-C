@@ -39,10 +39,6 @@
 namespace mdc {
 namespace wide {
 
-DLLEXPORT ::std::wstring DecodeAscii(
-    const char* ascii_c_str
-);
-
 DLLEXPORT wchar_t* DecodeAscii(
     wchar_t* wide_c_str,
     const char* ascii_c_str
@@ -50,10 +46,6 @@ DLLEXPORT wchar_t* DecodeAscii(
 
 DLLEXPORT size_t DecodeAsciiLength(
     const char* ascii_c_str
-);
-
-DLLEXPORT ::std::wstring DecodeDefaultMultibyte(
-    const char* multibyte_c_str
 );
 
 DLLEXPORT wchar_t* DecodeDefaultMultibyte(
@@ -65,10 +57,6 @@ DLLEXPORT size_t DecodeDefaultMultibyteLength(
     const char* multibyte_c_str
 );
 
-DLLEXPORT ::std::wstring DecodeUtf8(
-    const char* utf8_c_str
-);
-
 DLLEXPORT wchar_t* DecodeUtf8(
     wchar_t* wide_c_str,
     const char* utf8_c_str
@@ -77,6 +65,36 @@ DLLEXPORT wchar_t* DecodeUtf8(
 DLLEXPORT size_t DecodeUtf8Length(
     const char* utf8_c_str
 );
+
+inline ::std::wstring DecodeAscii(const char* ascii_c_str) {
+  size_t wide_c_str_length = DecodeAsciiLength(ascii_c_str);
+
+  ::std::wstring wide_str(wide_c_str_length, '\0');
+
+  DecodeAscii(&wide_str[0], ascii_c_str);
+
+  return wide_str;
+}
+
+inline ::std::wstring DecodeDefaultMultibyte(const char* multibyte_c_str) {
+  size_t wide_c_str_length = DecodeDefaultMultibyteLength(multibyte_c_str);
+
+  ::std::wstring wide_str(wide_c_str_length, '\0');
+
+  DecodeDefaultMultibyte(&wide_str[0], multibyte_c_str);
+
+  return wide_str;
+}
+
+inline ::std::wstring DecodeUtf8(const char* utf8_c_str) {
+  size_t wide_c_str_length = DecodeUtf8Length(utf8_c_str);
+
+  ::std::wstring wide_str(wide_c_str_length, '\0');
+
+  DecodeUtf8(&wide_str[0], utf8_c_str);
+
+  return wide_str;
+}
 
 } // namespace wide
 } // namespace mdc
