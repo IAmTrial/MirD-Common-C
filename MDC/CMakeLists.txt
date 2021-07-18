@@ -38,10 +38,7 @@ set(SRC_HEADERS)
 # Output static LIB
 add_library(libMDCc STATIC ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
 
-target_include_directories(
-    libMDCc
-    PUBLIC "include"
-)
+target_include_directories(libMDCc PUBLIC "include")
 
 # Output DLL
 add_library(MDCc SHARED ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
@@ -49,10 +46,7 @@ add_library(MDCc SHARED ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
 target_compile_definitions(MDCc PRIVATE MDC_DLLEXPORT)
 target_compile_definitions(MDCc INTERFACE MDC_DLLIMPORT)
 
-target_include_directories(
-    MDCc
-    PUBLIC "include"
-)
+target_include_directories(MDCc PUBLIC "include")
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})
 
