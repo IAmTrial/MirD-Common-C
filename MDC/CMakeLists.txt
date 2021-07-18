@@ -5,9 +5,6 @@ project(MDC)
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED true)
 
-set(CMAKE_CXX_STANDARD 98)
-set(CMAKE_CXX_STANDARD_REQUIRED true)
-
 # Header and source files
 set(INCLUDE_HEADERS
     "dllexport_define.inc"
