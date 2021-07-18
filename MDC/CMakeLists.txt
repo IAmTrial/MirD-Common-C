@@ -56,4 +56,4 @@ target_include_directories(
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})
 
-install(TARGETS MDCc)
+install(TARGETS MDCc libMDCc)

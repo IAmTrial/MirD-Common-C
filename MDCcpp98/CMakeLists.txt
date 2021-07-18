@@ -64,4 +64,4 @@ add_dependencies(MDCcpp98 libMDCc)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})
 
-install(TARGETS MDCcpp98)
+install(TARGETS MDCcpp98 libMDCcpp98)
