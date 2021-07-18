@@ -39,8 +39,7 @@ add_library(libMDCcpp98 STATIC ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
 
 target_include_directories(
     libMDCcpp98
-    PUBLIC "${PROJECT_BINARY_DIR}"
-    PUBLIC "../MDC/include/"
+    PUBLIC "include"
 )
 
 target_link_libraries(libMDCcpp98 libMDCc)
@@ -55,8 +54,7 @@ target_compile_definitions(MDCcpp98 INTERFACE MDC_CPP98_DLLEXPORT)
 
 target_include_directories(
     MDCcpp98
-    PUBLIC "${PROJECT_BINARY_DIR}"
-    PUBLIC "../MDC/include/"
+    PUBLIC "include"
 )
 
 target_link_libraries(MDCcpp98 libMDCc)
