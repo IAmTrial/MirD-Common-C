@@ -43,13 +43,6 @@ set(SRC_HEADER
 # Output test EXE
 add_executable(TestsCpp98 ${SRC_C} ${SRC_HEADER})
 
-target_include_directories(
-    TestsCpp98
-    PUBLIC "${PROJECT_BINARY_DIR}"
-    PUBLIC "../MDCcpp98/include/"
-    PUBLIC "../MDC/include/"
-)
-
 target_link_libraries(TestsCpp98 MDCc MDCcpp98)
 add_dependencies(TestsCpp98 MDCc MDCcpp98)
 

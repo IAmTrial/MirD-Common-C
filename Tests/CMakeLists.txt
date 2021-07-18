@@ -40,12 +40,6 @@ set(SRC_HEADER
 # Output test EXE
 add_executable(Tests ${SRC_C} ${SRC_HEADER})
 
-target_include_directories(
-    Tests
-    PUBLIC "${PROJECT_BINARY_DIR}"
-    PUBLIC "../MDC/include/"
-)
-
 target_link_libraries(Tests MDCc)
 add_dependencies(Tests MDCc)
 

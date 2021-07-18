@@ -43,7 +43,6 @@ target_include_directories(
 )
 
 target_link_libraries(libMDCcpp98 libMDCc)
-
 add_dependencies(libMDCcpp98 libMDCc)
 
 # Output DLL
@@ -57,8 +56,8 @@ target_include_directories(
     PUBLIC "include"
 )
 
-target_link_libraries(MDCcpp98 libMDCc)
-add_dependencies(MDCcpp98 libMDCc)
+target_link_libraries(MDCcpp98 MDCc)
+add_dependencies(MDCcpp98 MDCc)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})
 
