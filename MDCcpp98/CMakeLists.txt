@@ -37,14 +37,9 @@ set(SRC_HEADERS)
 # Output static LIB
 add_library(libMDCcpp98 STATIC ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
 
-target_include_directories(
-    libMDCcpp98
-    PUBLIC "${PROJECT_BINARY_DIR}"
-    PUBLIC "../MDC/include/"
-)
+target_include_directories(libMDCcpp98 PUBLIC "include")
 
 target_link_libraries(libMDCcpp98 libMDCc)
-
 add_dependencies(libMDCcpp98 libMDCc)
 
 # Output DLL
@@ -53,14 +48,10 @@ add_library(MDCcpp98 SHARED ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
 target_compile_definitions(MDCcpp98 PRIVATE MDC_CPP98_DLLEXPORT)
 target_compile_definitions(MDCcpp98 INTERFACE MDC_CPP98_DLLEXPORT)
 
-target_include_directories(
-    MDCcpp98
-    PUBLIC "${PROJECT_BINARY_DIR}"
-    PUBLIC "../MDC/include/"
-)
+target_include_directories(MDCcpp98 PUBLIC "include")
 
-target_link_libraries(MDCcpp98 libMDCc)
-add_dependencies(MDCcpp98 libMDCc)
+target_link_libraries(MDCcpp98 MDCc)
+add_dependencies(MDCcpp98 MDCc)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})
 
