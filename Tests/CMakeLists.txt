@@ -5,49 +5,39 @@ project(Tests)
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED true)
 
-set(CMAKE_CXX_STANDARD 98)
-set(CMAKE_CXX_STANDARD_REQUIRED true)
-
 # Header and source files
-set(SRC_DIR tests/mdc)
+set(SRC_C
+    "tests/mdc/error/exit_on_error_tests.c"
+    "tests/mdc/std/assert_tests.c"
+    "tests/mdc/std/stdbool_tests.c"
+    "tests/mdc/std/stdint_tests.c"
+    "tests/mdc/std/threads_tests.c"
+    "tests/mdc/wchar_t/wide_example_text/wide_example_text.c"
+    "tests/mdc/wchar_t/filew_tests.c"
+    "tests/mdc/wchar_t/wide_decoding_tests.c"
+    "tests/mdc/wchar_t/wide_encoding_tests.c"
+    "tests/mdc/error_tests.c"
+    "tests/mdc/main.c"
+    "tests/mdc/std_tests.c"
+    "tests/mdc/wchar_t_tests.c"
+)
 
-function(add_src_c_source VAR FILE)
-    set(${VAR} ${${VAR}} ${SRC_DIR}/${FILE} PARENT_SCOPE)
-endfunction()
+set(SRC_HEADER
+    "tests/mdc/error/exit_on_error_tests.h"
+    "tests/mdc/std/assert_tests.h"
+    "tests/mdc/std/stdbool_tests.h"
+    "tests/mdc/std/stdint_tests.h"
+    "tests/mdc/std/threads_tests.h"
+    "tests/mdc/wchar_t/wide_example_text/wide_example_text.h"
+    "tests/mdc/wchar_t/filew_tests.h"
+    "tests/mdc/wchar_t/wide_decoding_tests.h"
+    "tests/mdc/wchar_t/wide_encoding_tests.h"
+    "tests/mdc/error_tests.h"
+    "tests/mdc/std_tests.h"
+    "tests/mdc/wchar_t_tests.h"
+)
 
-set(SRC_C "")
-add_src_c_source(SRC_C error/exit_on_error_tests.c)
-add_src_c_source(SRC_C std/assert_tests.c)
-add_src_c_source(SRC_C std/stdbool_tests.c)
-add_src_c_source(SRC_C std/stdint_tests.c)
-add_src_c_source(SRC_C std/threads_tests.c)
-add_src_c_source(SRC_C wchar_t/wide_example_text/wide_example_text.c)
-add_src_c_source(SRC_C wchar_t/filew_tests.c)
-add_src_c_source(SRC_C wchar_t/wide_decoding_tests.c)
-add_src_c_source(SRC_C wchar_t/wide_encoding_tests.c)
-add_src_c_source(SRC_C error_tests.c)
-add_src_c_source(SRC_C main.c)
-add_src_c_source(SRC_C std_tests.c)
-add_src_c_source(SRC_C wchar_t_tests.c)
-
-function(add_src_header VAR FILE)
-    set(${VAR} ${${VAR}} ${SRC_DIR}/${FILE} PARENT_SCOPE)
-endfunction()
-
-set(SRC_HEADER "")
-add_src_header(SRC_HEADER error/exit_on_error_tests.h)
-add_src_header(SRC_HEADER std/assert_tests.h)
-add_src_header(SRC_HEADER std/stdbool_tests.h)
-add_src_header(SRC_HEADER std/stdint_tests.h)
-add_src_header(SRC_HEADER std/threads_tests.h)
-add_src_header(SRC_HEADER wchar_t/wide_example_text/wide_example_text.h)
-add_src_header(SRC_HEADER wchar_t/filew_tests.h)
-add_src_header(SRC_HEADER wchar_t/wide_decoding_tests.h)
-add_src_header(SRC_HEADER wchar_t/wide_encoding_tests.h)
-add_src_header(SRC_HEADER error_tests.h)
-add_src_header(SRC_HEADER std_tests.h)
-add_src_header(SRC_HEADER wchar_t_tests.h)
-
+# Output test EXE
 add_executable(Tests ${SRC_C} ${SRC_HEADER})
 
 target_include_directories(
@@ -56,8 +46,9 @@ target_include_directories(
     PUBLIC "../MDC/include/"
 )
 
-target_link_libraries(Tests MDCc90)
-
-add_dependencies(Tests MDCc90)
+target_link_libraries(Tests MDCc)
+add_dependencies(Tests MDCc)
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${SRC_HEADER})
+
+install(TARGETS Tests)
