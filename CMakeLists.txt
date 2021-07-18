@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 
 project(MDC)
 
-add_definitions("-D_CRT_SECURE_NO_WARNINGS")
+if (MSVC)
+    add_definitions("-D_CRT_SECURE_NO_WARNINGS")
+endif (MSVC)
 
 add_subdirectory(MDC)
 add_subdirectory(Tests)
