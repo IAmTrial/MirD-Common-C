@@ -13,6 +13,10 @@
 *.obj
 *.so
 
+# CMake
+out/
+CMakeSettings.json
+
 # Debug / Intermediate Files
 *.ipch
 *.idb
