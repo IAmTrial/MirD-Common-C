@@ -57,6 +57,15 @@ if (MSVC)
 endif (MSVC)
 
 add_subdirectory(MDC)
-add_subdirectory(Tests)
+
+option(ENABLE_MDC_C_TESTS "Enable tests for MDCc.")
+if (ENABLE_MDC_C_TESTS)
+    add_subdirectory(Tests)
+endif (ENABLE_MDC_C_TESTS)
+
 add_subdirectory(MDCcpp98)
-add_subdirectory(TestsCpp98)
+
+option(ENABLE_MDC_CPP98_TESTS "Enable tests for MDCc.")
+if (ENABLE_MDC_CPP98_TESTS)
+    add_subdirectory(TestsCpp98)
+endif (ENABLE_MDC_CPP98_TESTS)
