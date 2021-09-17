@@ -38,6 +38,8 @@
 
 #include <stddef.h>
 
+#include <stdexcept>
+
 #include <mdc/std/threads.h>
 
 #include "../../../dllexport_define.inc"

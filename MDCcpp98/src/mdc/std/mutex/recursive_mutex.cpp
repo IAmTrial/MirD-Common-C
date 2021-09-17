@@ -29,9 +29,9 @@
 
 #include "../../../../include/mdc/std/mutex.hpp"
 
-#include <stdexcept>
-
 #if __cplusplus < 201103L && _MSVC_LANG < 201103L
+
+#include <stdexcept>
 
 namespace std {
 
