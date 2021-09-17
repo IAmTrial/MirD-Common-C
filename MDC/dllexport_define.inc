@@ -28,13 +28,13 @@
  */
 
 #if defined(MDC_DLLEXPORT)
-  #if defined(_MSC_VER)
+  #if defined(_MSC_VER) || defined(__MINGW32__)
     #define DLLEXPORT __declspec(dllexport)
   #elif defined(__GNUC__)
     #define DLLEXPORT __attribute__((visibility("default")))
   #endif
 #elif defined(MDC_DLLIMPORT)
-  #if defined(_MSC_VER)
+  #if defined(_MSC_VER) || defined(__MINGW32__)
     #define DLLEXPORT __declspec(dllimport)
   #elif defined(__GNUC__)
     #define DLLEXPORT

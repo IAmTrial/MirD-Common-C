@@ -36,7 +36,7 @@
 
 #else
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
   #include <windows.h>
 #elif defined(__GNUC__)
   #include <pthread.h>
@@ -62,7 +62,7 @@ enum {
 
 typedef int (*thrd_start_t)(void*);
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
 
 typedef HANDLE thrd_t;
 
@@ -90,7 +90,7 @@ enum {
   mtx_timed = 0x3
 };
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
 
 typedef struct {
   HANDLE mutex_;
@@ -111,7 +111,7 @@ DLLEXPORT int mtx_lock(mtx_t* mutex);
 DLLEXPORT int mtx_trylock(mtx_t *mutex);
 DLLEXPORT int mtx_unlock(mtx_t *mutex);
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
 
 typedef struct {
   LONG has_active_thread_;
@@ -140,7 +140,7 @@ DLLEXPORT void call_once(once_flag* flag, void (*func)(void));
  * Conditional variables
  */
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
 
 typedef struct {
   HANDLE waiter_event_;

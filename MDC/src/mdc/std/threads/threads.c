@@ -31,7 +31,7 @@
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
 
 #include <process.h>
 
