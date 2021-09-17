@@ -35,7 +35,7 @@
 
 namespace std {
 
-mutex::mutex() {
+mutex::mutex() throw() {
   ::mtx_init(&this->mutex_, mtx_plain);
 }
 

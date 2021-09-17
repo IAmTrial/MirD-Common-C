@@ -61,7 +61,7 @@ void thread::detach() {
   int detach_result = thrd_detach(this->thread_);
 }
 
-void thread::swap(thread& other) {
+void thread::swap(thread& other) throw() {
   thrd_t temp = this->thread_;
   this->thread_ = other.thread_;
   other.thread_ = temp;
