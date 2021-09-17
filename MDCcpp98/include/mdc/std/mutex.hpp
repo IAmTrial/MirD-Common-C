@@ -252,6 +252,8 @@ class DLLEXPORT once_flag {
   once_flag& operator=(const once_flag&);
 };
 
+DLLEXPORT void call_once(once_flag& flag, void (*func)(void));
+
 } // namespace std
 
 #include "../../../dllexport_undefine.inc"
