@@ -51,8 +51,11 @@ namespace std {
  */
 
 class DLLEXPORT mutex {
+ private:
+  typedef ::mtx_t native_type;
+
  public:
-  typedef ::mtx_t native_handle_type;
+  typedef native_type* native_handle_type;
 
   mutex() throw();
 
@@ -67,7 +70,7 @@ class DLLEXPORT mutex {
   native_handle_type native_handle();
 
  private:
-  native_handle_type mutex_;
+  native_type mutex_;
 
   // Intentionally unimplemented to "delete" them.
   mutex(const mutex&);
@@ -75,8 +78,11 @@ class DLLEXPORT mutex {
 };
 
 class DLLEXPORT recursive_mutex {
+ private:
+  typedef ::mtx_t native_type;
+
  public:
-  typedef ::mtx_t native_handle_type;
+  typedef native_type* native_handle_type;
 
   recursive_mutex() throw();
 
@@ -91,7 +97,7 @@ class DLLEXPORT recursive_mutex {
   native_handle_type native_handle();
 
  private:
-  native_handle_type mutex_;
+  native_type mutex_;
 
   // Intentionally unimplemented to "delete" them.
   recursive_mutex(const recursive_mutex&);

@@ -60,7 +60,7 @@ void recursive_mutex::unlock() {
 }
 
 recursive_mutex::native_handle_type recursive_mutex::native_handle() {
-  return this->mutex_;
+  return &this->mutex_;
 }
 
 } // namespace std

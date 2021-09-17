@@ -60,7 +60,7 @@ void mutex::unlock() {
 }
 
 mutex::native_handle_type mutex::native_handle() {
-  return this->mutex_;
+  return &this->mutex_;
 }
 
 } // namespace std
