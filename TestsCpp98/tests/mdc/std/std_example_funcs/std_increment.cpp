@@ -29,7 +29,7 @@
 
 #include "std_increment.hpp"
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
   #include <windows.h>
 #elif defined(__GNUC__)
   #include <unistd.h>
@@ -43,7 +43,7 @@ void Increment(int* value) {
   int temp = *value;
   temp += 1;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
   Sleep(1);
 #elif defined(__GNUC__)
   usleep(1);

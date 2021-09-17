@@ -29,13 +29,13 @@
 
 #include "../../../../include/mdc/std/mutex.hpp"
 
-#include <stdexcept>
-
 #if __cplusplus < 201103L && _MSVC_LANG < 201103L
+
+#include <stdexcept>
 
 namespace std {
 
-mutex::mutex() {
+mutex::mutex() throw() {
   ::mtx_init(&this->mutex_, mtx_plain);
 }
 
@@ -60,7 +60,7 @@ void mutex::unlock() {
 }
 
 mutex::native_handle_type mutex::native_handle() {
-  return this->mutex_;
+  return &this->mutex_;
 }
 
 } // namespace std

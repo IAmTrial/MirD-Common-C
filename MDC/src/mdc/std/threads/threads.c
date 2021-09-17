@@ -31,7 +31,7 @@
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) || defined(__MINGW32__)
 
 #include <process.h>
 
@@ -120,6 +120,7 @@ int thrd_join(thrd_t thr, int *res) {
   DWORD wait_result;
   BOOL is_get_exit_code_success;
   BOOL is_close_handle_success;
+  DWORD exit_code;
 
   wait_result = WaitForSingleObject(thr, INFINITE);
   if (wait_result == WAIT_FAILED) {
@@ -127,7 +128,8 @@ int thrd_join(thrd_t thr, int *res) {
   }
 
   if (res != NULL) {
-    is_get_exit_code_success = GetExitCodeThread(thr, res);
+    exit_code = *res;
+    is_get_exit_code_success = GetExitCodeThread(thr, &exit_code);
     if (!is_get_exit_code_success) {
       goto return_bad;
     }

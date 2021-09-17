@@ -59,7 +59,7 @@ static int Increment(void* value) {
   temp = *actual_value;
   temp += 1;
 
-  #if defined(_MSC_VER)
+  #if defined(_MSC_VER) || defined(__MINGW32__)
   Sleep(1);
   #elif defined(__GNUC__)
   usleep(1);

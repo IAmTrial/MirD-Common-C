@@ -29,9 +29,9 @@
 
 #include "../../../../include/mdc/std/threads.hpp"
 
-#include <stdexcept>
-
 #if __cplusplus < 201103L && _MSVC_LANG < 201103L
+
+#include <stdexcept>
 
 namespace std {
 
@@ -61,7 +61,7 @@ void thread::detach() {
   int detach_result = thrd_detach(this->thread_);
 }
 
-void thread::swap(thread& other) {
+void thread::swap(thread& other) throw() {
   thrd_t temp = this->thread_;
   this->thread_ = other.thread_;
   other.thread_ = temp;

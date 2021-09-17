@@ -58,7 +58,7 @@ void condition_variable::notify_all() throw() {
 }
 
 void condition_variable::wait(unique_lock<mutex>& lock) {
-  ::cnd_wait(&this->condition_variable_, &lock.mutex()->native_handle());
+  ::cnd_wait(&this->condition_variable_, lock.mutex()->native_handle());
 }
 
 } // namespace std

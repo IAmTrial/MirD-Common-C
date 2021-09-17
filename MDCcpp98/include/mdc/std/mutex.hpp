@@ -38,6 +38,8 @@
 
 #include <stddef.h>
 
+#include <stdexcept>
+
 #include <mdc/std/threads.h>
 
 #include "../../../dllexport_define.inc"
@@ -49,8 +51,11 @@ namespace std {
  */
 
 class DLLEXPORT mutex {
+ private:
+  typedef ::mtx_t native_type;
+
  public:
-  typedef ::mtx_t native_handle_type;
+  typedef native_type* native_handle_type;
 
   mutex() throw();
 
@@ -65,7 +70,7 @@ class DLLEXPORT mutex {
   native_handle_type native_handle();
 
  private:
-  native_handle_type mutex_;
+  native_type mutex_;
 
   // Intentionally unimplemented to "delete" them.
   mutex(const mutex&);
@@ -73,8 +78,11 @@ class DLLEXPORT mutex {
 };
 
 class DLLEXPORT recursive_mutex {
+ private:
+  typedef ::mtx_t native_type;
+
  public:
-  typedef ::mtx_t native_handle_type;
+  typedef native_type* native_handle_type;
 
   recursive_mutex() throw();
 
@@ -89,7 +97,7 @@ class DLLEXPORT recursive_mutex {
   native_handle_type native_handle();
 
  private:
-  native_handle_type mutex_;
+  native_type mutex_;
 
   // Intentionally unimplemented to "delete" them.
   recursive_mutex(const recursive_mutex&);
@@ -243,6 +251,8 @@ class DLLEXPORT once_flag {
   once_flag(const once_flag&);
   once_flag& operator=(const once_flag&);
 };
+
+DLLEXPORT void call_once(once_flag& flag, void (*func)(void));
 
 } // namespace std
 

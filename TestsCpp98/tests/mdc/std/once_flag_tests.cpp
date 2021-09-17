@@ -63,7 +63,7 @@ static int SetOnceTargetMultithread(void* arg) {
 
   size_t i;
 
-  ::std::once_flag* flag = reinterpret_cast<::std::once_flag*>(arg);
+  ::std::once_flag* flag = reinterpret_cast< ::std::once_flag*>(arg);
 
   for (i = 0; i < kIterationCount; i += 1) {
     ::std::call_once(*flag, &SetOnceTarget);

@@ -33,6 +33,12 @@ set(CMAKE_C_STANDARD_REQUIRED true)
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
+if (MINGW)
+    set(CMAKE_IMPORT_LIBRARY_PREFIX "")
+    set(CMAKE_SHARED_LIBRARY_PREFIX "")
+    set(CMAKE_STATIC_LIBRARY_PREFIX "")
+endif (MINGW)
+
 # Header and source files
 set(INCLUDE_HEADERS
     "dllexport_define.inc"
