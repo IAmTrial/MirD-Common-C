@@ -42,10 +42,21 @@
  * Types
  */
 
+#if defined(_MSC_VER)
+
 typedef __int8 int8_t;
 typedef __int16 int16_t;
 typedef __int32 int32_t;
 typedef __int64 int64_t;
+
+#else
+
+typedef signed char int8_t;
+typedef signed short int16_t;
+typedef signed int int32_t;
+typedef signed long long int64_t;
+
+#endif /* defined(_MSC_VER) */
 
 typedef int8_t int_least8_t;
 typedef int16_t int_least16_t;
@@ -54,10 +65,21 @@ typedef int64_t int_least64_t;
 
 typedef int64_t intmax_t;
 
+#if defined(_MSC_VER)
+
 typedef unsigned __int8 uint8_t;
 typedef unsigned __int16 uint16_t;
 typedef unsigned __int32 uint32_t;
 typedef unsigned __int64 uint64_t;
+
+#else
+
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+
+#endif /* defined(_MSC_VER) */
 
 typedef uint8_t uint_least8_t;
 typedef uint16_t uint_least16_t;
@@ -68,13 +90,13 @@ typedef uint64_t uintmax_t;
 
 #if defined(_WIN64)
 
-typedef __int64 intptr_t;
-typedef unsigned __int64 uintptr_t;
+typedef int64_t intptr_t;
+typedef uint64_t uintptr_t;
 
 #elif defined(_WIN32)
 
-typedef __int32 intptr_t;
-typedef unsigned __int32 uintptr_t;
+typedef int32_t intptr_t;
+typedef uint32_t uintptr_t;
 
 #endif
 
