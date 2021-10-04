@@ -236,6 +236,10 @@ class unique_lock {
  * Call once
  */
 
+class DLLEXPORT once_flag;
+
+DLLEXPORT void call_once(once_flag& flag, void (*func)(void));
+
 class DLLEXPORT once_flag {
  public:
   once_flag() throw();
@@ -251,8 +255,6 @@ class DLLEXPORT once_flag {
   once_flag(const once_flag&);
   once_flag& operator=(const once_flag&);
 };
-
-DLLEXPORT void call_once(once_flag& flag, void (*func)(void));
 
 } // namespace std
 
