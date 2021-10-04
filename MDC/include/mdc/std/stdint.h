@@ -166,6 +166,8 @@ typedef uint32_t uintptr_t;
 
 #define UINTMAX_MAX UINT64_MAX
 
-#endif /* __STDC_VERSION__ >= 199901L */
+#endif /* __cplusplus >= 201103L \
+    ||  __STDC_VERSION__ >= 199901L \
+    || _MSC_VER >= 1600 */
 
 #endif /* MDC_C_STD_STDINT_H_ */

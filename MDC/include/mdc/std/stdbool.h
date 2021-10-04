@@ -42,6 +42,7 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 
-#endif
+#endif /* __STDC_VERSION__ >= 199901L \
+    || _MSC_VER > 1700 */
 
 #endif /* MDC_C_STD_STDBOOL_H_ */
