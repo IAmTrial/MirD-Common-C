@@ -35,19 +35,21 @@
 
 #include <assert.h>
 
-#if !defined(static_assert) && \
-    (__STDC_VERSION__ < 201112L \
-        && __cpluplus < 201103L \
-        && _MSVC_LANG < 201103L) \
-    || _MSC_VER < 1600
+#if defined(static_assert) \
+    || (!defined(__cplusplus) && __STDC_VERSION__ < 201112L && !defined(_MSC_VER)) \
+    || (defined(__cplusplus) && __cplusplus < 201103L && !defined(_MSC_VER)) \
+    || (!defined(__cplusplus) && defined(_MSC_VER) && _MSC_VER < 1600) \
+    || (defined(__cplusplus) && defined(_MSC_VER) && _MSC_VER < 1600) \
+    || (defined(__cplusplus) && defined(_MSC_VER) && defined(_MSVC_LANG) && _MSVC_LANG < 201103L)
 
 /* Assert hackarounds fail to work with VC++ 6. */
 #define static_assert(expression, message)
 
-#endif /*  !defined(static_assert) && \
-    (__STDC_VERSION__ < 201112L \
-        && __cpluplus < 201103L \
-        && _MSVC_LANG < 201103L) \
-    || _MSC_VER < 1600 */
+#endif /* defined(static_assert) \
+    || (!defined(__cplusplus) && __STDC_VERSION__ < 201112L) \
+    || (defined(__cplusplus) && __cplusplus < 201103L) \
+    || (!defined(__cplusplus) && _MSC_VER < 1600) \
+    || (defined(__cplusplus) && _MSC_VER < 1600) \
+    || (defined(__cplusplus) && defined(_MSVC_LANG) && _MSVC_LANG < 201103L) */
 
 #endif /* MDC_C_STD_ASSERT_H_ */

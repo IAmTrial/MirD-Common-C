@@ -32,7 +32,7 @@
 
 #if __cplusplus >= 201103L \
     ||  __STDC_VERSION__ >= 199901L \
-    || _MSC_VER > 1200
+    || _MSC_VER >= 1600
 
 #include <stdint.h>
 

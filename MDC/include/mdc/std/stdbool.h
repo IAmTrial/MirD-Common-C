@@ -31,7 +31,7 @@
 #define MDC_C_STD_STDBOOL_H_
 
 #if __STDC_VERSION__ >= 199901L \
-    || _MSC_VER >= 1600
+    || _MSC_VER > 1700
 
 #include <stdbool.h>
 
