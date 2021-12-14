@@ -19,6 +19,7 @@ _deps/
 CMakeSettings.json
 *.dll.embed.manifest
 *.dll.intermediate.manifest
+*.exe.embed.manifest
 *.exe.intermediate.manifest
 *.lastbuildstate
 *.vcxprojResolveAssemblyReference.cache
