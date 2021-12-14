@@ -76,7 +76,7 @@ RSC=rc.exe
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"Debug/libMDCcpp98.bsc"
+# ADD BSC32 /nologo /o"Debug/libMDCcpp98D.bsc"
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"Debug\libMDCcpp98D.lib"
