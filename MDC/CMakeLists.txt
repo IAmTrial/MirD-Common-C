@@ -28,7 +28,7 @@ cmake_minimum_required(VERSION 3.10)
 project(MDC)
 
 set(CMAKE_C_STANDARD 90)
-set(CMAKE_C_STANDARD_REQUIRED true)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 if (MINGW)
     set(CMAKE_IMPORT_LIBRARY_PREFIX "")
