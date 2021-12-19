@@ -23,20 +23,23 @@
 # license, the licensors of this Program grant you additional permission
 # to convey the resulting work.
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.11)
 
+# Name of the project, also is the name of the file
 project(MDCc)
 
+# Define requirements for C
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
+# Remove MinGW compiled binary "lib" prefix
 if (MINGW)
     set(CMAKE_IMPORT_LIBRARY_PREFIX "")
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
     set(CMAKE_STATIC_LIBRARY_PREFIX "")
 endif (MINGW)
 
-# Header and source files
+# List all of the source files here
 set(INCLUDE_HEADERS
     "dllexport_define.inc"
     "dllexport_define.inc"
@@ -66,19 +69,26 @@ set(SRC_C
 
 set(SRC_HEADERS)
 
-# Output static LIB
-add_library(libMDCc STATIC ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
+set(SOURCE_FILES
+    "${INCLUDE_HEADERS}"
+    "${SRC_C}"
+    "${SRC_HEADERS}"
+)
 
-target_include_directories(libMDCc PUBLIC "include")
+# Output static LIB
+add_library(lib${PROJECT_NAME} STATIC ${SOURCE_FILES})
+
+target_include_directories(lib${PROJECT_NAME} PUBLIC "include")
 
 # Output DLL
-add_library(MDCc SHARED ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
+add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
 
-target_compile_definitions(MDCc PRIVATE MDC_C_DLLEXPORT)
-target_compile_definitions(MDCc INTERFACE MDC_C_DLLIMPORT)
+target_compile_definitions(${PROJECT_NAME} PRIVATE MDC_C_DLLEXPORT)
+target_compile_definitions(${PROJECT_NAME} INTERFACE MDC_C_DLLIMPORT)
 
-target_include_directories(MDCc PUBLIC "include")
+target_include_directories(${PROJECT_NAME} PUBLIC "include")
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${INCLUDE_HEADERS})
+# Project source listing
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
 
-install(TARGETS MDCc libMDCc)
+install(TARGETS ${PROJECT_NAME} lib${PROJECT_NAME})

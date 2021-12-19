@@ -23,14 +23,16 @@
 # license, the licensors of this Program grant you additional permission
 # to convey the resulting work.
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.11)
 
+# Name of the project, also is the name of the file
 project(Tests)
 
+# Define requirements for C
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Header and source files
+# Remove MinGW compiled binary "lib" prefix
 set(SRC_C
     "tests/mdc/error/exit_on_error_tests.c"
     "tests/mdc/std/assert_tests.c"
@@ -62,12 +64,24 @@ set(SRC_HEADER
     "tests/mdc/wchar_t_tests.h"
 )
 
+set(SOURCE_FILES
+    "${SRC_C}"
+    "${SRC_HEADERS}"
+)
+
 # Output test EXE
-add_executable(Tests ${SRC_C} ${SRC_HEADER})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_link_libraries(Tests MDCc)
-add_dependencies(Tests MDCc)
+target_link_libraries(${PROJECT_NAME} MDCc)
+add_dependencies(${PROJECT_NAME} MDCc)
 
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SRC_C} ${SRC_HEADER})
+# Output test EXE (static)
+add_executable(${PROJECT_NAME}.static ${SOURCE_FILES})
 
-install(TARGETS Tests)
+target_link_libraries(${PROJECT_NAME}.static libMDCc)
+add_dependencies(${PROJECT_NAME}.static libMDCc)
+
+# Project source listing
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
+
+install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}.static)

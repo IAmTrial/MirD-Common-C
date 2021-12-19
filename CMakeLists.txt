@@ -48,7 +48,7 @@
 # license, the licensors of this Program grant you additional permission
 # to convey the resulting work.
 
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.11)
 
 project(MDC)
 
