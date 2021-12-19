@@ -28,10 +28,10 @@ cmake_minimum_required(VERSION 3.10)
 project(TestsCpp98)
 
 set(CMAKE_C_STANDARD 90)
-set(CMAKE_C_STANDARD_REQUIRED true)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_CXX_STANDARD 98)
-set(CMAKE_CXX_STANDARD_REQUIRED true)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Header and source files
 set(SRC_C
