@@ -56,7 +56,7 @@ if (MSVC)
     add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 endif (MSVC)
 
-add_subdirectory(MDC)
+add_subdirectory(MDCc)
 
 option(ENABLE_MDC_C_TESTS "Enable tests for MDCc.")
 if (ENABLE_MDC_C_TESTS)
