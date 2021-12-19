@@ -74,8 +74,8 @@ target_include_directories(libMDCc PUBLIC "include")
 # Output DLL
 add_library(MDCc SHARED ${SRC_C} ${SRC_HEADERS} ${INCLUDE_HEADERS})
 
-target_compile_definitions(MDCc PRIVATE MDC_DLLEXPORT)
-target_compile_definitions(MDCc INTERFACE MDC_DLLIMPORT)
+target_compile_definitions(MDCc PRIVATE MDC_C_DLLEXPORT)
+target_compile_definitions(MDCc INTERFACE MDC_C_DLLIMPORT)
 
 target_include_directories(MDCc PUBLIC "include")
 
