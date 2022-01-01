@@ -1,6 +1,6 @@
 /**
  * Mir Drualga Common For C++98
- * Copyright (C) 2021  Mir Drualga
+ * Copyright (C) 2021-2022  Mir Drualga
  *
  * This file is part of Mir Drualga Common For C++98.
  *
