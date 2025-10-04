@@ -30,24 +30,8 @@ set(INCLUDE_HEADERS
     "include/mdc/wchar_t/wide_encoding.hpp"
 )
 
-set(SRC_C
-    "src/mdc/error/exit_on_error.cpp"
-    "src/mdc/std/condition_variable/condition_variable.cpp"
-    "src/mdc/std/condition_variable/condition_variable_any.cpp"
-    "src/mdc/std/mutex/call_once.cpp"
-    "src/mdc/std/mutex/mutex.cpp"
-    "src/mdc/std/mutex/recursive_mutex.cpp"
-    "src/mdc/std/threads/threads.cpp"
-    "src/mdc/wchar_t/wide_decoding.cpp"
-    "src/mdc/wchar_t/wide_encoding.cpp"
-)
-
-set(SRC_HEADERS)
-
 set(SOURCE_FILES
     "${INCLUDE_HEADERS}"
-    "${SRC_C}"
-    "${SRC_HEADERS}"
 )
 
 option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Build using shared libraries" OFF)
@@ -63,6 +47,8 @@ else()
     target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCcpp98/include")
     target_link_libraries(${PROJECT_NAME} PRIVATE MDCc)
 endif()
+
+add_subdirectory("src")
 
 # Project source listing
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})

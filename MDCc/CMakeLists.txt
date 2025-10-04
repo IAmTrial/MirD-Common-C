@@ -30,24 +30,8 @@ set(INCLUDE_HEADERS
     "include/mdc/wchar_t/wide_encoding.h"
 )
 
-set(SRC_C
-    "src/mdc/error/exit_on_error.c"
-    "src/mdc/malloc/malloc.c"
-    "src/mdc/std/threads/call_once.c"
-    "src/mdc/std/threads/cond.c"
-    "src/mdc/std/threads/mutex.c"
-    "src/mdc/std/threads/threads.c"
-    "src/mdc/std/wchar/wchar.c"
-    "src/mdc/wchar_t/wide_decoding.c"
-    "src/mdc/wchar_t/wide_encoding.c"
-)
-
-set(SRC_HEADERS)
-
 set(SOURCE_FILES
     "${INCLUDE_HEADERS}"
-    "${SRC_C}"
-    "${SRC_HEADERS}"
 )
 
 option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Build using shared libraries" OFF)
@@ -61,6 +45,8 @@ else()
     add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
     target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/include")
 endif()
+
+add_subdirectory("src")
 
 # Project source listing
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
