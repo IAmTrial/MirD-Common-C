@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../include/mdc/malloc/malloc.h"
+#include "mdc/malloc/malloc.h"
 
 #if !defined(NDEBUG)
 

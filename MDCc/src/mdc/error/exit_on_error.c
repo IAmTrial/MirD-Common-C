@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../include/mdc/error/exit_on_error.h"
+#include "mdc/error/exit_on_error.h"
 
 #include <stdarg.h>
 #include <stdlib.h>

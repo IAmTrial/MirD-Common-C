@@ -14,39 +14,20 @@ if (MINGW)
     set(CMAKE_STATIC_LIBRARY_PREFIX "")
 endif (MINGW)
 
-# List all of the source files here
-set(INCLUDE_HEADERS
-    "dllexport_define.inc"
-    "dllexport_define.inc"
-    "include/mdc/error/exit_on_error.h"
-    "include/mdc/malloc/malloc.h"
-    "include/mdc/std/assert.h"
-    "include/mdc/std/stdbool.h"
-    "include/mdc/std/stdint.h"
-    "include/mdc/std/threads.h"
-    "include/mdc/std/wchar.h"
-    "include/mdc/wchar_t/filew.h"
-    "include/mdc/wchar_t/wide_decoding.h"
-    "include/mdc/wchar_t/wide_encoding.h"
-)
-
-set(SOURCE_FILES
-    "${INCLUDE_HEADERS}"
-)
-
+# Build output
 option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 if (${PROJECT_NAME}_BUILD_SHARED_LIBS)
-    add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+    add_library(${PROJECT_NAME} SHARED)
     target_compile_definitions(${PROJECT_NAME}
         INTERFACE MDC_C_DLLIMPORT
         PRIVATE MDC_C_DLLEXPORT)
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/include")
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/src")
 else()
-    add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/include")
+    add_library(${PROJECT_NAME} STATIC)
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/src")
 endif()
 
 add_subdirectory("src")
 
 # Project source listing
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES)
