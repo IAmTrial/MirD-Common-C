@@ -31,9 +31,9 @@
 #include <stddef.h>
 #include <windows.h>
 
-#include "error_tests.hpp"
-#include "std_tests.hpp"
-#include "wchar_t_tests.hpp"
+#include "mdc/error_tests.hpp"
+#include "mdc/std_tests.hpp"
+#include "mdc/wchar_t_tests.hpp"
 
 int main(int argc, char** argv) {
 #if defined(NDEBUG)

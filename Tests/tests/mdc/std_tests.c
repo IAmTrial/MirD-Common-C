@@ -27,14 +27,14 @@
  *  to convey the resulting work.
  */
 
-#include "std_tests.h"
+#include "mdc/std_tests.h"
 
 #include <stdio.h>
 
-#include "std/assert_tests.h"
-#include "std/stdbool_tests.h"
-#include "std/stdint_tests.h"
-#include "std/threads_tests.h"
+#include "mdc/std/assert_tests.h"
+#include "mdc/std/stdbool_tests.h"
+#include "mdc/std/stdint_tests.h"
+#include "mdc/std/threads_tests.h"
 
 void Mdc_Std_RunTests(void) {
   Mdc_Assert_RunTests();

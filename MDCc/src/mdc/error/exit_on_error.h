@@ -30,8 +30,8 @@
 #ifndef MDC_C_ERROR_EXIT_ON_ERROR_H_
 #define MDC_C_ERROR_EXIT_ON_ERROR_H_
 
-#include "../std/wchar.h"
-#include "../wchar_t/filew.h"
+#include "mdc/std/wchar.h"
+#include "mdc/wchar_t/filew.h"
 
 #if defined(_WIN32) || defined(_WIN64)
   #include <windows.h>

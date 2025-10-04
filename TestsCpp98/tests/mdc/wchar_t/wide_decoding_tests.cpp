@@ -27,11 +27,13 @@
  *  to convey the resulting work.
  */
 
-#include "wide_decoding_tests.hpp"
+#include "mdc/wchar_t/wide_decoding_tests.hpp"
 
-#include <mdc/std/assert.h>
-#include <mdc/wchar_t/wide_decoding.hpp>
-#include "wide_example_text/wide_example_text.hpp"
+#include "mdc/std/assert.h"
+
+#include "mdc/wchar_t/wide_decoding.hpp"
+
+#include "mdc/wchar_t/wide_example_text/wide_example_text.hpp"
 
 namespace mdc_test {
 namespace wide_test {

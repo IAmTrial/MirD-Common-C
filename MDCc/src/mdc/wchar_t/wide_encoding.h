@@ -32,7 +32,7 @@
 
 #include <stddef.h>
 
-#include "../std/wchar.h"
+#include "mdc/std/wchar.h"
 
 #include "../../../dllexport_define.inc"
 

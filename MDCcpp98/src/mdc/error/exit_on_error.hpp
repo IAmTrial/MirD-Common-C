@@ -34,7 +34,7 @@
   #include <windows.h>
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
-#include <mdc/error/exit_on_error.h>
+#include "mdc/error/exit_on_error.h"
 
 #include "../../../dllexport_define.inc"
 

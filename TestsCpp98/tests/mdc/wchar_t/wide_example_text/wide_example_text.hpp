@@ -30,7 +30,7 @@
 #ifndef MDC_TESTS_CPP98_WCHAR_T_WIDE_EXAMPLE_TEXT_WIDE_EXAMPLE_TEXT_HPP_
 #define MDC_TESTS_CPP98_WCHAR_T_WIDE_EXAMPLE_TEXT_WIDE_EXAMPLE_TEXT_HPP_
 
-#include <mdc/std/wchar.h>
+#include "mdc/std/wchar.h"
 
 namespace mdc_test {
 namespace wide_test {

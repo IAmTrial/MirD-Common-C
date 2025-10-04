@@ -29,7 +29,7 @@
 
 #include "mdc/wchar_t/wide_encoding.hpp"
 
-#include <mdc/wchar_t/wide_encoding.h>
+#include "mdc/wchar_t/wide_encoding.h"
 
 namespace mdc {
 namespace wide {

@@ -40,7 +40,7 @@
 
 #include <stdexcept>
 
-#include <mdc/std/threads.h>
+#include "mdc/std/threads.h"
 
 #include "../../../dllexport_define.inc"
 

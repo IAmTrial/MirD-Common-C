@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "stdint_tests.h"
+#include "mdc/std/stdint_tests.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -37,7 +37,7 @@
 #include <unistd.h>
 #endif
 
-#include <mdc/std/threads.h>
+#include "mdc/std/threads.h"
 
 struct MutexedValue {
   mtx_t mutex;

@@ -27,11 +27,11 @@
  *  to convey the resulting work.
  */
 
-#include "error_tests.h"
+#include "mdc/error_tests.h"
 
 #include <stdio.h>
 
-#include "error/exit_on_error_tests.h"
+#include "mdc/error/exit_on_error_tests.h"
 
 void Mdc_Error_RunTests(void) {
   Mdc_ExitOnError_RunTests();

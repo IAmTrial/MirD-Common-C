@@ -27,14 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include "wide_encoding_tests.h"
+#include "mdc/wchar_t/filew_tests.h"
 
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
-#include <mdc/malloc/malloc.h>
-#include <mdc/std/wchar.h>
-#include <mdc/wchar_t/filew.h>
+
+#include "mdc/malloc/malloc.h"
+#include "mdc/std/wchar.h"
+#include "mdc/wchar_t/filew.h"
 
 void Mdc_FileW_AssertFileW(void) {
   enum {
