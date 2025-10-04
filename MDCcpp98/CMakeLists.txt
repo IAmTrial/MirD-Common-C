@@ -50,26 +50,19 @@ set(SOURCE_FILES
     "${SRC_HEADERS}"
 )
 
-# Output static LIB
-add_library(lib${PROJECT_NAME} STATIC ${SOURCE_FILES})
-
-target_include_directories(lib${PROJECT_NAME} PUBLIC "include")
-
-target_link_libraries(lib${PROJECT_NAME} libMDCc)
-add_dependencies(lib${PROJECT_NAME} libMDCc)
-
-# Output DLL
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE MDC_CPP98_DLLEXPORT)
-target_compile_definitions(${PROJECT_NAME} INTERFACE MDC_CPP98_DLLEXPORT)
-
-target_include_directories(${PROJECT_NAME} PUBLIC "include")
-
-target_link_libraries(${PROJECT_NAME} MDCc)
-add_dependencies(${PROJECT_NAME} MDCc)
+option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+if (${PROJECT_NAME}_BUILD_SHARED_LIBS)
+    add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+    target_compile_definitions(${PROJECT_NAME}
+        INTERFACE MDC_CPP98_DLLIMPORT
+        PRIVATE MDC_CPP98_DLLEXPORT)
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCcpp98/include")
+    target_link_libraries(${PROJECT_NAME} PRIVATE MDCc)
+else()
+    add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCcpp98/include")
+    target_link_libraries(${PROJECT_NAME} PRIVATE MDCc)
+endif()
 
 # Project source listing
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
-
-install(TARGETS ${PROJECT_NAME} lib${PROJECT_NAME})

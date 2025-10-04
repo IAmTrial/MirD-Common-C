@@ -50,20 +50,17 @@ set(SOURCE_FILES
     "${SRC_HEADERS}"
 )
 
-# Output static LIB
-add_library(lib${PROJECT_NAME} STATIC ${SOURCE_FILES})
-
-target_include_directories(lib${PROJECT_NAME} PUBLIC "include")
-
-# Output DLL
-add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE MDC_C_DLLEXPORT)
-target_compile_definitions(${PROJECT_NAME} INTERFACE MDC_C_DLLIMPORT)
-
-target_include_directories(${PROJECT_NAME} PUBLIC "include")
+option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+if (${PROJECT_NAME}_BUILD_SHARED_LIBS)
+    add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES})
+    target_compile_definitions(${PROJECT_NAME}
+        INTERFACE MDC_C_DLLIMPORT
+        PRIVATE MDC_C_DLLEXPORT)
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/include")
+else()
+    add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
+    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/include")
+endif()
 
 # Project source listing
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCE_FILES})
-
-install(TARGETS ${PROJECT_NAME} lib${PROJECT_NAME})
