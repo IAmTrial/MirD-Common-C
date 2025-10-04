@@ -1,6 +1,6 @@
 /**
  * Mir Drualga Common For C
- * Copyright (C) 2020-2022  Mir Drualga
+ * Copyright (C) 2020-2025  Mir Drualga
  *
  * This file is part of Mir Drualga Common For C.
  *
