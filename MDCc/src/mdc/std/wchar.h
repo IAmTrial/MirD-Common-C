@@ -33,7 +33,7 @@
 #include <stddef.h>
 #include <wchar.h>
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 #if !defined(__cplusplus) && __STDC_VERSION__ < 199409L
 
@@ -88,5 +88,5 @@ DLLEXPORT wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
 
 #endif /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */
 
-#include "../../../dllexport_undefine.inc"
+#include "dllexport_undefine.inc"
 #endif /* MDC_C_STD_WCHAR_H_ */

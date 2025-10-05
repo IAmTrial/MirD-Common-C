@@ -249,6 +249,14 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Source File
 # End Group
 # End Group
+# Begin Source File
+
+SOURCE=.\src\dllexport_define.inc
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dllexport_undefine.inc
+# End Source File
 # End Group
 # End Group
 # End Target

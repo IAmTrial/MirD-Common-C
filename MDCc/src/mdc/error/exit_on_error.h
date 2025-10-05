@@ -37,7 +37,7 @@
   #include <windows.h>
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -100,5 +100,5 @@ DLLEXPORT void Mdc_Error_ExitOnWindowsFunctionError(
 } /* extern "C" { */
 #endif /* __cplusplus */
 
-#include "../../../dllexport_undefine.inc"
+#include "dllexport_undefine.inc"
 #endif /* MDC_C_ERROR_EXIT_ON_ERROR_H_ */

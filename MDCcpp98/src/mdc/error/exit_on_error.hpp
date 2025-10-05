@@ -36,7 +36,7 @@
 
 #include "mdc/error/exit_on_error.h"
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 namespace mdc {
 namespace error {
@@ -97,5 +97,5 @@ DLLEXPORT void ExitOnWindowsFunctionError(
 } // namespace error
 } // namespace mdc
 
-#include "../../../dllexport_undefine.inc"
+#include "dllexport_undefine.inc"
 #endif /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */

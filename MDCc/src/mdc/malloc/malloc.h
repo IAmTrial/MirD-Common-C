@@ -33,7 +33,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,5 +65,5 @@ DLLEXPORT void Mdc_PrintMallocLeaks(void);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "../../../dllexport_undefine.inc"
+#include "dllexport_undefine.inc"
 #endif /* MDC_C_MALLOC_MALLOC_H_ */

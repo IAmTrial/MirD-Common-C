@@ -34,7 +34,7 @@
 
 #include "mdc/std/wchar.h"
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -99,5 +99,5 @@ DLLEXPORT size_t Mdc_Wide_EncodeUtf8Length(
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "../../../dllexport_undefine.inc"
+#include "dllexport_undefine.inc"
 #endif /* MDC_C_WCHAR_T_WIDE_ENCODING_H_ */

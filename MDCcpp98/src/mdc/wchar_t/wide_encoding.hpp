@@ -34,7 +34,7 @@
 
 #include <string>
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 namespace mdc {
 namespace wide {
@@ -105,5 +105,5 @@ inline ::std::string EncodeUtf8(
 } // namespace wide
 } // namespace mdc
 
-#include "../../../dllexport_undefine.inc"
+#include "dllexport_undefine.inc"
 #endif /* MDC_CPP98_WCHAR_T_WIDE_ENCODING_HPP_ */
