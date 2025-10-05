@@ -27,4 +27,4 @@
  *  to convey the resulting work.
  */
 
-#undef DLLEXPORT
+#undef DLLAPI

@@ -42,7 +42,7 @@
   #include <pthread.h>
 #endif
 
-#include "dllexport_define.inc"
+#include "mdc/dllapi_c_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -72,13 +72,13 @@ typedef pthread_t thrd_t;
 
 #endif
 
-DLLEXPORT int thrd_create(thrd_t* thr, thrd_start_t func, void* arg);
-DLLEXPORT int thrd_equal(thrd_t lhs, thrd_t rhs);
-DLLEXPORT thrd_t thrd_current(void);
-DLLEXPORT void thrd_yield(void);
-DLLEXPORT void thrd_exit(int res);
-DLLEXPORT int thrd_detach(thrd_t thr);
-DLLEXPORT int thrd_join(thrd_t thr, int *res);
+DLLAPI int thrd_create(thrd_t* thr, thrd_start_t func, void* arg);
+DLLAPI int thrd_equal(thrd_t lhs, thrd_t rhs);
+DLLAPI thrd_t thrd_current(void);
+DLLAPI void thrd_yield(void);
+DLLAPI void thrd_exit(int res);
+DLLAPI int thrd_detach(thrd_t thr);
+DLLAPI int thrd_join(thrd_t thr, int *res);
 
 /**
  * Mutual exclusion
@@ -105,11 +105,11 @@ typedef pthread_mutex_t mtx_t;
 
 #endif
 
-DLLEXPORT int mtx_init(mtx_t* mutex, int type);
-DLLEXPORT void mtx_destroy(mtx_t* mutex);
-DLLEXPORT int mtx_lock(mtx_t* mutex);
-DLLEXPORT int mtx_trylock(mtx_t *mutex);
-DLLEXPORT int mtx_unlock(mtx_t *mutex);
+DLLAPI int mtx_init(mtx_t* mutex, int type);
+DLLAPI void mtx_destroy(mtx_t* mutex);
+DLLAPI int mtx_lock(mtx_t* mutex);
+DLLAPI int mtx_trylock(mtx_t *mutex);
+DLLAPI int mtx_unlock(mtx_t *mutex);
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 
@@ -134,7 +134,7 @@ typedef pthread_once_t once_flag;
 
 #endif
 
-DLLEXPORT void call_once(once_flag* flag, void (*func)(void));
+DLLAPI void call_once(once_flag* flag, void (*func)(void));
 
 /**
  * Conditional variables
@@ -155,17 +155,17 @@ typedef pthread_cond_t cnd_t;
 
 #endif
 
-DLLEXPORT int cnd_init(cnd_t* cond);
-DLLEXPORT void cnd_destroy(cnd_t* cond);
-DLLEXPORT int cnd_signal(cnd_t* cond);
-DLLEXPORT int cnd_broadcast(cnd_t* cond);
-DLLEXPORT int cnd_wait(cnd_t* cond, mtx_t* mutex);
+DLLAPI int cnd_init(cnd_t* cond);
+DLLAPI void cnd_destroy(cnd_t* cond);
+DLLAPI int cnd_signal(cnd_t* cond);
+DLLAPI int cnd_broadcast(cnd_t* cond);
+DLLAPI int cnd_wait(cnd_t* cond, mtx_t* mutex);
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "dllexport_undefine.inc"
+#include "mdc/dllapi_c_undef.inc"
 #endif
 
 #endif /* MDC_C_STD_THREADS_H_ */

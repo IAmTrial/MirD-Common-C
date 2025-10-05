@@ -42,7 +42,7 @@
 
 #include "mdc/std/threads.h"
 
-#include "dllexport_define.inc"
+#include "mdc/dllapi_cpp98_define.inc"
 
 namespace std {
 
@@ -50,7 +50,7 @@ namespace std {
  * Mutual exclusion
  */
 
-class DLLEXPORT mutex {
+class DLLAPI mutex {
  private:
   typedef ::mtx_t native_type;
 
@@ -77,7 +77,7 @@ class DLLEXPORT mutex {
   mutex& operator=(const mutex&);
 };
 
-class DLLEXPORT recursive_mutex {
+class DLLAPI recursive_mutex {
  private:
   typedef ::mtx_t native_type;
 
@@ -236,15 +236,15 @@ class unique_lock {
  * Call once
  */
 
-class DLLEXPORT once_flag;
+class DLLAPI once_flag;
 
-DLLEXPORT void call_once(once_flag& flag, void (*func)(void));
+DLLAPI void call_once(once_flag& flag, void (*func)(void));
 
-class DLLEXPORT once_flag {
+class DLLAPI once_flag {
  public:
   once_flag() throw();
 
-  DLLEXPORT friend void call_once(once_flag& flag, void (*func)(void));
+  DLLAPI friend void call_once(once_flag& flag, void (*func)(void));
 
  private:
   static const ::once_flag kDefaultInit;
@@ -258,7 +258,7 @@ class DLLEXPORT once_flag {
 
 } // namespace std
 
-#include "dllexport_undefine.inc"
+#include "mdc/dllapi_cpp98_undef.inc"
 #endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif /* MDC_CPP98_STD_MUTEX_HPP_ */
