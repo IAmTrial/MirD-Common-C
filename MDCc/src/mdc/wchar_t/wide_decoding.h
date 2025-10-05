@@ -34,7 +34,7 @@
 
 #include "mdc/std/wchar.h"
 
-#include "dllapi_define.inc"
+#include "mdc/dllapi_c_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -97,5 +97,5 @@ DLLAPI size_t Mdc_Wide_DecodeUtf8Length(
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "dllapi_undef.inc"
+#include "mdc/dllapi_c_undef.inc"
 #endif /* MDC_C_WCHAR_T_WIDE_DECODING_H_ */

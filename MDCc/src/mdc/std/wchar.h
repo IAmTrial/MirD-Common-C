@@ -33,7 +33,7 @@
 #include <stddef.h>
 #include <wchar.h>
 
-#include "dllapi_define.inc"
+#include "mdc/dllapi_c_define.inc"
 
 #if !defined(__cplusplus) && __STDC_VERSION__ < 199409L
 
@@ -88,5 +88,5 @@ DLLAPI wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
 
 #endif /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */
 
-#include "dllapi_undef.inc"
+#include "mdc/dllapi_c_undef.inc"
 #endif /* MDC_C_STD_WCHAR_H_ */

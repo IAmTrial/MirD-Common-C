@@ -251,11 +251,11 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Group
 # Begin Source File
 
-SOURCE=.\src\dllapi_define.inc
+SOURCE=.\src\mdc\dllapi_c_define.inc
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\dllapi_undef.inc
+SOURCE=.\src\mdc\dllapi_c_undef.inc
 # End Source File
 # End Group
 # End Group

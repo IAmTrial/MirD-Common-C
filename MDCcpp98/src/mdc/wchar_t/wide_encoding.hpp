@@ -34,7 +34,7 @@
 
 #include <string>
 
-#include "dllapi_define.inc"
+#include "mdc/dllapi_cpp98_define.inc"
 
 namespace mdc {
 namespace wide {
@@ -105,5 +105,5 @@ inline ::std::string EncodeUtf8(
 } // namespace wide
 } // namespace mdc
 
-#include "dllapi_undef.inc"
+#include "mdc/dllapi_cpp98_undef.inc"
 #endif /* MDC_CPP98_WCHAR_T_WIDE_ENCODING_HPP_ */

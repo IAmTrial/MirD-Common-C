@@ -42,7 +42,7 @@
   #include <pthread.h>
 #endif
 
-#include "dllapi_define.inc"
+#include "mdc/dllapi_c_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -165,7 +165,7 @@ DLLAPI int cnd_wait(cnd_t* cond, mtx_t* mutex);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "dllapi_undef.inc"
+#include "mdc/dllapi_c_undef.inc"
 #endif
 
 #endif /* MDC_C_STD_THREADS_H_ */

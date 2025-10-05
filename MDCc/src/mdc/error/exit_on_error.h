@@ -37,7 +37,7 @@
   #include <windows.h>
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
-#include "dllapi_define.inc"
+#include "mdc/dllapi_c_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -100,5 +100,5 @@ DLLAPI void Mdc_Error_ExitOnWindowsFunctionError(
 } /* extern "C" { */
 #endif /* __cplusplus */
 
-#include "dllapi_undef.inc"
+#include "mdc/dllapi_c_undef.inc"
 #endif /* MDC_C_ERROR_EXIT_ON_ERROR_H_ */

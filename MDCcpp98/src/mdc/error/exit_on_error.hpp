@@ -36,7 +36,7 @@
 
 #include "mdc/error/exit_on_error.h"
 
-#include "dllapi_define.inc"
+#include "mdc/dllapi_cpp98_define.inc"
 
 namespace mdc {
 namespace error {
@@ -97,5 +97,5 @@ DLLAPI void ExitOnWindowsFunctionError(
 } // namespace error
 } // namespace mdc
 
-#include "dllapi_undef.inc"
+#include "mdc/dllapi_cpp98_undef.inc"
 #endif /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */

@@ -42,7 +42,7 @@
 
 #include "mdc/std/threads.h"
 
-#include "dllapi_define.inc"
+#include "mdc/dllapi_cpp98_define.inc"
 
 namespace std {
 
@@ -258,7 +258,7 @@ class DLLAPI once_flag {
 
 } // namespace std
 
-#include "dllapi_undef.inc"
+#include "mdc/dllapi_cpp98_undef.inc"
 #endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif /* MDC_CPP98_STD_MUTEX_HPP_ */
