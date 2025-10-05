@@ -33,7 +33,7 @@
 #include <stddef.h>
 #include <wchar.h>
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 #if !defined(__cplusplus) && __STDC_VERSION__ < 199409L
 
@@ -48,25 +48,25 @@ extern "C" {
  * String manipulation
  */
 
-DLLEXPORT wchar_t* wcscpy(wchar_t* dest, const wchar_t* src);
-DLLEXPORT wchar_t* wcsncpy(wchar_t* dest, const wchar_t* src, size_t count);
-DLLEXPORT wchar_t* wcscat(wchar_t* dest, const wchar_t* src);
-DLLEXPORT wchar_t* wcsncat(wchar_t* dest, const wchar_t* src, size_t count);
+DLLAPI wchar_t* wcscpy(wchar_t* dest, const wchar_t* src);
+DLLAPI wchar_t* wcsncpy(wchar_t* dest, const wchar_t* src, size_t count);
+DLLAPI wchar_t* wcscat(wchar_t* dest, const wchar_t* src);
+DLLAPI wchar_t* wcsncat(wchar_t* dest, const wchar_t* src, size_t count);
 
 /**
  * String examination
  */
 
-DLLEXPORT size_t wcslen(const wchar_t* str);
-DLLEXPORT int wcscmp(const wchar_t* lhs, const wchar_t* rhs);
-DLLEXPORT int wcsncmp(const wchar_t* lhs, const wchar_t* rhs, size_t count);
-DLLEXPORT int wcscoll(const wchar_t* lhs, const wchar_t* rhs);
-DLLEXPORT wchar_t* wcschr(const wchar_t* str, wchar_t ch);
-DLLEXPORT wchar_t* wcsrchr(const wchar_t* str, wchar_t ch);
-DLLEXPORT size_t wcsspn(const wchar_t* dest, const wchar_t* src);
-DLLEXPORT size_t wcscspn(const wchar_t* dest, const wchar_t* src);
-DLLEXPORT wchar_t* wcspbrk(const wchar_t* dest, const wchar_t* str);
-DLLEXPORT wchar_t* wcsstr(const wchar_t* dest, const wchar_t* src);
+DLLAPI size_t wcslen(const wchar_t* str);
+DLLAPI int wcscmp(const wchar_t* lhs, const wchar_t* rhs);
+DLLAPI int wcsncmp(const wchar_t* lhs, const wchar_t* rhs, size_t count);
+DLLAPI int wcscoll(const wchar_t* lhs, const wchar_t* rhs);
+DLLAPI wchar_t* wcschr(const wchar_t* str, wchar_t ch);
+DLLAPI wchar_t* wcsrchr(const wchar_t* str, wchar_t ch);
+DLLAPI size_t wcsspn(const wchar_t* dest, const wchar_t* src);
+DLLAPI size_t wcscspn(const wchar_t* dest, const wchar_t* src);
+DLLAPI wchar_t* wcspbrk(const wchar_t* dest, const wchar_t* str);
+DLLAPI wchar_t* wcsstr(const wchar_t* dest, const wchar_t* src);
 
 #endif /* _MSC_VER < 1200 */
 
@@ -74,11 +74,11 @@ DLLEXPORT wchar_t* wcsstr(const wchar_t* dest, const wchar_t* src);
  * Wide character array manipulation
  */
 
-DLLEXPORT wchar_t* wmemcpy(wchar_t* dest, const wchar_t* src, size_t count);
-DLLEXPORT wchar_t* wmemmove(wchar_t* dest, const wchar_t* src, size_t count);
-DLLEXPORT int wmemcmp(const wchar_t* lhs, const wchar_t* rhs, size_t count);
-DLLEXPORT wchar_t* wmemchr(const wchar_t* ptr, wchar_t ch, size_t count);
-DLLEXPORT wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
+DLLAPI wchar_t* wmemcpy(wchar_t* dest, const wchar_t* src, size_t count);
+DLLAPI wchar_t* wmemmove(wchar_t* dest, const wchar_t* src, size_t count);
+DLLAPI int wmemcmp(const wchar_t* lhs, const wchar_t* rhs, size_t count);
+DLLAPI wchar_t* wmemchr(const wchar_t* ptr, wchar_t ch, size_t count);
+DLLAPI wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
 
 #endif /* _MSC_VER <= 1200 */
 
@@ -88,5 +88,5 @@ DLLEXPORT wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
 
 #endif /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif /* MDC_C_STD_WCHAR_H_ */

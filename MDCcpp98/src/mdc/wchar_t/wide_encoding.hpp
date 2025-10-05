@@ -34,35 +34,35 @@
 
 #include <string>
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 namespace mdc {
 namespace wide {
 
-DLLEXPORT char* EncodeAscii(
+DLLAPI char* EncodeAscii(
     char* char_c_str,
     const wchar_t* wide_c_str
 );
 
-DLLEXPORT size_t EncodeAsciiLength(
+DLLAPI size_t EncodeAsciiLength(
     const wchar_t* wide_c_str
 );
 
-DLLEXPORT char* EncodeDefaultMultibyte(
+DLLAPI char* EncodeDefaultMultibyte(
     char* char_c_str,
     const wchar_t* wide_c_str
 );
 
-DLLEXPORT size_t EncodeDefaultMultibyteLength(
+DLLAPI size_t EncodeDefaultMultibyteLength(
     const wchar_t* wide_c_str
 );
 
-DLLEXPORT char* EncodeUtf8(
+DLLAPI char* EncodeUtf8(
     char* char_c_str,
     const wchar_t* wide_c_str
 );
 
-DLLEXPORT size_t EncodeUtf8Length(
+DLLAPI size_t EncodeUtf8Length(
     const wchar_t* wide_c_str
 );
 
@@ -105,5 +105,5 @@ inline ::std::string EncodeUtf8(
 } // namespace wide
 } // namespace mdc
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif /* MDC_CPP98_WCHAR_T_WIDE_ENCODING_HPP_ */

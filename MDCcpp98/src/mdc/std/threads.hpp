@@ -38,11 +38,11 @@
 
 #include "mdc/std/threads.h"
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 namespace std {
 
-class DLLEXPORT thread {
+class DLLAPI thread {
  public:
 
   explicit thread(int (*func)(void*), void* arg);
@@ -64,7 +64,7 @@ class DLLEXPORT thread {
 } // namespace std
 
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif /* MDC_CPP98_STD_THREADS_HPP_ */

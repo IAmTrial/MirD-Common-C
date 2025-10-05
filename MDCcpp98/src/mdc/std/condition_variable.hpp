@@ -40,7 +40,7 @@
 
 #include "mutex.hpp"
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 namespace std {
 
@@ -48,7 +48,7 @@ namespace std {
  * Condition variables
  */
 
-class DLLEXPORT condition_variable {
+class DLLAPI condition_variable {
  public:
   condition_variable();
 
@@ -75,7 +75,7 @@ class DLLEXPORT condition_variable {
   condition_variable& operator=(const condition_variable&);
 };
 
-class DLLEXPORT condition_variable_any {
+class DLLAPI condition_variable_any {
  public:
   condition_variable_any();
 
@@ -107,7 +107,7 @@ class DLLEXPORT condition_variable_any {
 
 } // namespace std
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif /* MDC_CPP98_STD_CONDITION_VARIABLE_HPP_ */

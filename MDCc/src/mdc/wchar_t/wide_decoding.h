@@ -34,7 +34,7 @@
 
 #include "mdc/std/wchar.h"
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,12 +47,12 @@ extern "C" {
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT wchar_t* Mdc_Wide_DecodeAscii(
+DLLAPI wchar_t* Mdc_Wide_DecodeAscii(
     wchar_t* wide_c_str,
     const char* ascii_c_str
 );
 
-DLLEXPORT size_t Mdc_Wide_DecodeAsciiLength(
+DLLAPI size_t Mdc_Wide_DecodeAsciiLength(
     const char* ascii_c_str
 );
 
@@ -66,12 +66,12 @@ DLLEXPORT size_t Mdc_Wide_DecodeAsciiLength(
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT wchar_t* Mdc_Wide_DecodeDefaultMultibyte(
+DLLAPI wchar_t* Mdc_Wide_DecodeDefaultMultibyte(
     wchar_t* wide_c_str,
     const char* multibyte_c_str
 );
 
-DLLEXPORT size_t Mdc_Wide_DecodeDefaultMultibyteLength(
+DLLAPI size_t Mdc_Wide_DecodeDefaultMultibyteLength(
     const char* multibyte_c_str
 );
 
@@ -84,12 +84,12 @@ DLLEXPORT size_t Mdc_Wide_DecodeDefaultMultibyteLength(
  * @return pointer to the converted string in wide characters, or NULL
  *    if failure
  */
-DLLEXPORT wchar_t* Mdc_Wide_DecodeUtf8(
+DLLAPI wchar_t* Mdc_Wide_DecodeUtf8(
     wchar_t* wide_c_str,
     const char* utf8_c_str
 );
 
-DLLEXPORT size_t Mdc_Wide_DecodeUtf8Length(
+DLLAPI size_t Mdc_Wide_DecodeUtf8Length(
     const char* utf8_c_str
 );
 
@@ -97,5 +97,5 @@ DLLEXPORT size_t Mdc_Wide_DecodeUtf8Length(
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif /* MDC_C_WCHAR_T_WIDE_DECODING_H_ */

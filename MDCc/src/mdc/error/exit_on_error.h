@@ -37,7 +37,7 @@
   #include <windows.h>
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,7 +47,7 @@ enum {
   Mdc_Error_kErrorMessageCapacity = 1024
 };
 
-DLLEXPORT void Mdc_Error_ExitOnGeneralError(
+DLLAPI void Mdc_Error_ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
@@ -55,7 +55,7 @@ DLLEXPORT void Mdc_Error_ExitOnGeneralError(
     ...
 );
 
-DLLEXPORT void Mdc_Error_ExitOnGeneralErrorV(
+DLLAPI void Mdc_Error_ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
@@ -63,31 +63,31 @@ DLLEXPORT void Mdc_Error_ExitOnGeneralErrorV(
     va_list vlist
 );
 
-DLLEXPORT void Mdc_Error_ExitOnConstantMappingError(
+DLLAPI void Mdc_Error_ExitOnConstantMappingError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     int value
 );
 
-DLLEXPORT void Mdc_Error_ExitOnMemoryAllocError(
+DLLAPI void Mdc_Error_ExitOnMemoryAllocError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
-DLLEXPORT void Mdc_Error_ExitOnMdcFunctionError(
+DLLAPI void Mdc_Error_ExitOnMdcFunctionError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     const wchar_t* function_name
 );
 
-DLLEXPORT void Mdc_Error_ExitOnStaticInitError(
+DLLAPI void Mdc_Error_ExitOnStaticInitError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
 #if defined(_WIN32) || defined(_WIN64)
 
-DLLEXPORT void Mdc_Error_ExitOnWindowsFunctionError(
+DLLAPI void Mdc_Error_ExitOnWindowsFunctionError(
     const wchar_t* file_path_cwstr,
     unsigned int line,
     const wchar_t* function_name,
@@ -100,5 +100,5 @@ DLLEXPORT void Mdc_Error_ExitOnWindowsFunctionError(
 } /* extern "C" { */
 #endif /* __cplusplus */
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif /* MDC_C_ERROR_EXIT_ON_ERROR_H_ */

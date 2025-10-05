@@ -33,7 +33,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,13 +51,13 @@ extern "C" {
 
 #else
 
-DLLEXPORT void* Mdc_malloc(size_t size);
-DLLEXPORT void* Mdc_calloc(size_t num, size_t size);
-DLLEXPORT void* Mdc_realloc(void* ptr, size_t new_size);
-DLLEXPORT void Mdc_free(void* ptr);
+DLLAPI void* Mdc_malloc(size_t size);
+DLLAPI void* Mdc_calloc(size_t num, size_t size);
+DLLAPI void* Mdc_realloc(void* ptr, size_t new_size);
+DLLAPI void Mdc_free(void* ptr);
 
-DLLEXPORT int Mdc_GetMallocDifference(void);
-DLLEXPORT void Mdc_PrintMallocLeaks(void);
+DLLAPI int Mdc_GetMallocDifference(void);
+DLLAPI void Mdc_PrintMallocLeaks(void);
 
 #endif
 
@@ -65,5 +65,5 @@ DLLEXPORT void Mdc_PrintMallocLeaks(void);
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif /* MDC_C_MALLOC_MALLOC_H_ */

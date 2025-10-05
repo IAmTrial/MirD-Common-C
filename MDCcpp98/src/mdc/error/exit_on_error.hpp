@@ -36,7 +36,7 @@
 
 #include "mdc/error/exit_on_error.h"
 
-#include "dllexport_define.inc"
+#include "dllapi_define.inc"
 
 namespace mdc {
 namespace error {
@@ -45,7 +45,7 @@ enum {
   kErrorMessageCapacity = Mdc_Error_kErrorMessageCapacity,
 };
 
-DLLEXPORT void ExitOnGeneralError(
+DLLAPI void ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
@@ -53,7 +53,7 @@ DLLEXPORT void ExitOnGeneralError(
     ...
 );
 
-DLLEXPORT void ExitOnGeneralErrorV(
+DLLAPI void ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
@@ -61,31 +61,31 @@ DLLEXPORT void ExitOnGeneralErrorV(
     va_list args
 );
 
-DLLEXPORT void ExitOnConstantMappingError(
+DLLAPI void ExitOnConstantMappingError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     int value
 );
 
-DLLEXPORT void ExitOnMemoryAllocError(
+DLLAPI void ExitOnMemoryAllocError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
-DLLEXPORT void ExitOnMdcFunctionError(
+DLLAPI void ExitOnMdcFunctionError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     const wchar_t* function_name
 );
 
-DLLEXPORT void ExitOnStaticInitError(
+DLLAPI void ExitOnStaticInitError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
 #if defined(_WIN32) || defined(_WIN64)
 
-DLLEXPORT void ExitOnWindowsFunctionError(
+DLLAPI void ExitOnWindowsFunctionError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     const wchar_t* function_name,
@@ -97,5 +97,5 @@ DLLEXPORT void ExitOnWindowsFunctionError(
 } // namespace error
 } // namespace mdc
 
-#include "dllexport_undefine.inc"
+#include "dllapi_undef.inc"
 #endif /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */
