@@ -44,7 +44,7 @@ CFG=MDCcpp98 - Win32 Debug
 MTL=midl.exe
 CPP=cl.exe
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "../MDCc/include" /D "WIN32" /D "NDEBUG" /D "_LIB" /D "_UNICODE" /D "UNICODE" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "../MDCc/src" /I "src" /D "WIN32" /D "NDEBUG" /D "_LIB" /D "_UNICODE" /D "UNICODE" /FD /c
 # SUBTRACT CPP /YX
 RSC=rc.exe
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -71,7 +71,7 @@ LIB32=link.exe -lib
 MTL=midl.exe
 CPP=cl.exe
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../MDCc/include" /D "WIN32" /D "_DEBUG" /D "_LIB" /D "_UNICODE" /D "UNICODE" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../MDCc/src" /I "src" /D "WIN32" /D "_DEBUG" /D "_LIB" /D "_UNICODE" /D "UNICODE" /FD /GZ /c
 # SUBTRACT CPP /YX
 RSC=rc.exe
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -98,7 +98,7 @@ LIB32=link.exe -lib
 # PROP Target_Dir ""
 CPP=cl.exe
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "DLLMDCCPP98_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "../MDCc/include" /D "WIN32" /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLIMPORT" /D "MDC_CPP98_DLLEXPORT" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "../MDCc/src" /I "src" /D "WIN32" /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLIMPORT" /D "MDC_CPP98_DLLEXPORT" /FD /c
 # SUBTRACT CPP /YX
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -128,7 +128,7 @@ LINK32=link.exe
 # PROP Target_Dir ""
 CPP=cl.exe
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "DLLMDCCPP98_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../MDCc/include" /D "WIN32" /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLIMPORT" /D "MDC_CPP98_DLLEXPORT" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "../MDCc/src" /I "src" /D "WIN32" /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLIMPORT" /D "MDC_CPP98_DLLEXPORT" /FD /GZ /c
 # SUBTRACT CPP /YX
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -154,68 +154,28 @@ LINK32=link.exe
 # Begin Group "Files"
 
 # PROP Default_Filter ""
-# Begin Group "include"
-
-# PROP Default_Filter ""
-# Begin Group "mdc_hpp"
-
-# PROP Default_Filter ""
-# Begin Group "error_hpp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\error\exit_on_error.hpp
-# End Source File
-# End Group
-# Begin Group "std_hpp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\std\condition_variable.hpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\mutex.hpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\threads.hpp
-# End Source File
-# End Group
-# Begin Group "wchar_t_hpp"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\wide_decoding.hpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\wide_encoding.hpp
-# End Source File
-# End Group
-# End Group
-# End Group
 # Begin Group "src"
 
 # PROP Default_Filter ""
-# Begin Group "mdc_cpp"
+# Begin Group "mdc"
 
 # PROP Default_Filter ""
-# Begin Group "error_cpp"
+# Begin Group "error"
 
 # PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\mdc\error\exit_on_error.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\error\exit_on_error.hpp
+# End Source File
 # End Group
-# Begin Group "std_cpp"
+# Begin Group "std"
 
 # PROP Default_Filter ""
-# Begin Group "condition_variable_cpp"
+# Begin Group "condition_variable"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -227,7 +187,7 @@ SOURCE=.\src\mdc\std\condition_variable\condition_variable.cpp
 SOURCE=.\src\mdc\std\condition_variable\condition_variable_any.cpp
 # End Source File
 # End Group
-# Begin Group "mutex_cpp"
+# Begin Group "mutex"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -243,7 +203,7 @@ SOURCE=.\src\mdc\std\mutex\mutex.cpp
 SOURCE=.\src\mdc\std\mutex\recursive_mutex.cpp
 # End Source File
 # End Group
-# Begin Group "threads_cpp"
+# Begin Group "threads"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -251,8 +211,20 @@ SOURCE=.\src\mdc\std\mutex\recursive_mutex.cpp
 SOURCE=.\src\mdc\std\threads\threads.cpp
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\src\mdc\std\condition_variable.hpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\mutex.hpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\threads.hpp
+# End Source File
 # End Group
-# Begin Group "wchar_t_cpp"
+# Begin Group "wchar_t"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -261,10 +233,26 @@ SOURCE=.\src\mdc\wchar_t\wide_decoding.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\mdc\wchar_t\wide_decoding.hpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\mdc\wchar_t\wide_encoding.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\wchar_t\wide_encoding.hpp
 # End Source File
 # End Group
 # End Group
+# Begin Source File
+
+SOURCE=.\src\dllexport_define.inc
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dllexport_undefine.inc
+# End Source File
 # End Group
 # End Group
 # End Target

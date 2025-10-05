@@ -27,15 +27,16 @@
  *  to convey the resulting work.
  */
 
-#include "thread_tests.hpp"
+#include "mdc/std/once_flag_tests.hpp"
 
 #include <stddef.h>
 #include <stdio.h>
 
-#include <mdc/std/assert.h>
-#include <mdc/std/mutex.hpp>
-#include <mdc/std/threads.hpp>
-#include "std_example_funcs/std_increment.hpp"
+#include "mdc/std/assert.h"
+#include "mdc/std/mutex.hpp"
+#include "mdc/std/threads.hpp"
+
+#include "mdc/std/std_example_funcs/std_increment.hpp"
 
 namespace mdc_test {
 namespace std_test {

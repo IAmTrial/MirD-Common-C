@@ -27,10 +27,10 @@
  *  to convey the resulting work.
  */
 
-#include "wchar_t_tests.hpp"
+#include "mdc/wchar_t_tests.hpp"
 
-#include "wchar_t/wide_decoding_tests.hpp"
-#include "wchar_t/wide_encoding_tests.hpp"
+#include "mdc/wchar_t/wide_decoding_tests.hpp"
+#include "mdc/wchar_t/wide_encoding_tests.hpp"
 
 namespace mdc_test {
 namespace wide_test {

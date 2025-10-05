@@ -27,16 +27,17 @@
  *  to convey the resulting work.
  */
 
-#include "wide_encoding_tests.h"
+#include "mdc/wchar_t/wide_encoding_tests.h"
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include <mdc/malloc/malloc.h>
-#include <mdc/std/wchar.h>
-#include <mdc/wchar_t/wide_encoding.h>
-#include "wide_example_text/wide_example_text.h"
+#include "mdc/malloc/malloc.h"
+#include "mdc/std/wchar.h"
+#include "mdc/wchar_t/wide_encoding.h"
+
+#include "mdc/wchar_t/wide_example_text/wide_example_text.h"
 
 static void Mdc_WideEncoding_AssertEncodeAscii(void) {
   char* ascii_c_str;

@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/std/condition_variable.hpp"
+#include "mdc/std/condition_variable.hpp"
 
 #if __cplusplus < 201103L && _MSVC_LANG < 201103L
 

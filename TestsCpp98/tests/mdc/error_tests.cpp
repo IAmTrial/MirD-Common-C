@@ -27,9 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "error_tests.hpp"
+#include "mdc/error_tests.hpp"
 
-#include "error/exit_on_error_tests.hpp"
+#include "mdc/error/exit_on_error_tests.hpp"
 
 namespace mdc_test {
 namespace error_test {

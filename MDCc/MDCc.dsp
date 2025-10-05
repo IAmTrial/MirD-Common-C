@@ -44,7 +44,7 @@ CFG=MDCc - Win32 Debug
 MTL=midl.exe
 CPP=cl.exe
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "src" /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /FD /c
 # SUBTRACT CPP /YX
 RSC=rc.exe
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
@@ -71,7 +71,7 @@ LIB32=link.exe -lib
 MTL=midl.exe
 CPP=cl.exe
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "src" /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "_LIB" /FD /GZ /c
 # SUBTRACT CPP /YX
 RSC=rc.exe
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
@@ -98,7 +98,7 @@ LIB32=link.exe -lib
 # PROP Target_Dir ""
 CPP=cl.exe
 # ADD BASE CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MDC_EXPORTS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLEXPORT" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "src" /D "WIN32" /D "NDEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLEXPORT" /FD /c
 # SUBTRACT CPP /YX
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -128,7 +128,7 @@ LINK32=link.exe
 # PROP Target_Dir ""
 CPP=cl.exe
 # ADD BASE CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "MDC_EXPORTS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLEXPORT" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "src" /D "WIN32" /D "_DEBUG" /D "_UNICODE" /D "UNICODE" /D "MDC_C_DLLEXPORT" /FD /GZ /c
 # SUBTRACT CPP /YX
 MTL=midl.exe
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
@@ -154,96 +154,40 @@ LINK32=link.exe
 # Begin Group "Files"
 
 # PROP Default_Filter ""
-# Begin Group "include"
-
-# PROP Default_Filter ""
-# Begin Group "mdc_h"
-
-# PROP Default_Filter ""
-# Begin Group "error_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\error\exit_on_error.h
-# End Source File
-# End Group
-# Begin Group "malloc_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\malloc\malloc.h
-# End Source File
-# End Group
-# Begin Group "std_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\std\assert.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\stdbool.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\stdint.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\threads.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\std\wchar.h
-# End Source File
-# End Group
-# Begin Group "wchar_t_h"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\filew.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\wide_decoding.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\include\mdc\wchar_t\wide_encoding.h
-# End Source File
-# End Group
-# End Group
-# End Group
 # Begin Group "src"
 
 # PROP Default_Filter ""
-# Begin Group "mdc_c"
+# Begin Group "mdc"
 
 # PROP Default_Filter ""
-# Begin Group "error_c"
+# Begin Group "error"
 
 # PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\mdc\error\exit_on_error.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\error\exit_on_error.h
+# End Source File
 # End Group
-# Begin Group "malloc_c"
+# Begin Group "malloc"
 
 # PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=.\src\mdc\malloc\malloc.c
 # End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\malloc\malloc.h
+# End Source File
 # End Group
-# Begin Group "std_c"
+# Begin Group "std"
 
 # PROP Default_Filter ""
-# Begin Group "threads_c"
+# Begin Group "threads"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -263,7 +207,7 @@ SOURCE=.\src\mdc\std\threads\mutex.c
 SOURCE=.\src\mdc\std\threads\threads.c
 # End Source File
 # End Group
-# Begin Group "wchar_c"
+# Begin Group "wchar"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -271,8 +215,28 @@ SOURCE=.\src\mdc\std\threads\threads.c
 SOURCE=.\src\mdc\std\wchar\wchar.c
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\src\mdc\std\assert.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\stdbool.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\stdint.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\threads.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\mdc\std\wchar.h
+# End Source File
 # End Group
-# Begin Group "wchar_t_c"
+# Begin Group "wchar_t"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -285,6 +249,14 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.c
 # End Source File
 # End Group
 # End Group
+# Begin Source File
+
+SOURCE=.\src\dllexport_define.inc
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\dllexport_undefine.inc
+# End Source File
 # End Group
 # End Group
 # End Target

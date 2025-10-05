@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/std/mutex.hpp"
+#include "mdc/std/mutex.hpp"
 
 #if __cplusplus < 201103L && _MSVC_LANG < 201103L
 

@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/std/wchar.h"
+#include "mdc/std/wchar.h"
 
 #include <stddef.h>
 

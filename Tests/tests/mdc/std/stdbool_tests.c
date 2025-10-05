@@ -27,11 +27,11 @@
  *  to convey the resulting work.
  */
 
-#include "stdbool_tests.h"
+#include "mdc/std/stdbool_tests.h"
 
 #include <assert.h>
 
-#include <mdc/std/stdbool.h>
+#include "mdc/std/stdbool.h"
 
 static void Mdc_Std_AssertFalseIsZero(void) {
   assert(false == 0);

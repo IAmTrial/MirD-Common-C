@@ -27,75 +27,77 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_WCHAR_T_WIDE_DECODING_H_
-#define MDC_C_WCHAR_T_WIDE_DECODING_H_
+#ifndef MDC_C_WCHAR_T_WIDE_ENCODING_H_
+#define MDC_C_WCHAR_T_WIDE_ENCODING_H_
 
 #include <stddef.h>
 
-#include "../std/wchar.h"
+#include "mdc/std/wchar.h"
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 /**
- * Decode the specified 7-bit ASCII string into a wide string.
+ * Creates a wide encoded copy of the specified 7-bit ASCII string.
+ * The returned pointer must have free called on it by the client once
+ * no longer in use.
  *
- * @param ascii_c_str the 7-bit ASCII to decode
- * @return pointer to the converted string in wide characters, or NULL
- *    if failure
+ * @param ascii_c_str the wide string to encode
+ * @return pointer to the re-encoded string in multibyte characters,
+ *    or NULL if failure
  */
-DLLEXPORT wchar_t* Mdc_Wide_DecodeAscii(
-    wchar_t* wide_c_str,
-    const char* ascii_c_str
+DLLEXPORT char* Mdc_Wide_EncodeAscii(
+    char* char_c_str,
+    const wchar_t* wide_c_str
 );
 
-DLLEXPORT size_t Mdc_Wide_DecodeAsciiLength(
-    const char* ascii_c_str
+DLLEXPORT size_t Mdc_Wide_EncodeAsciiLength(
+    const wchar_t* wide_c_str
 );
 
 /**
- * Creates a wide encoded copy of the specified multibyte string. The
+ * Creates a multibyte encoded copy of the specified wide string. The
  * multibyte encoding is dependent on the default locale on process
  * launch. The returned pointer must have free called on it by the
  * client once no longer in use.
  *
- * @param multibyte_c_str the multibyte string to decode
- * @return pointer to the converted string in wide characters, or NULL
- *    if failure
+ * @param wide_c_str the wide string to encode
+ * @return pointer to the re-encoded string in multibyte characters,
+ *    or NULL if failure
  */
-DLLEXPORT wchar_t* Mdc_Wide_DecodeDefaultMultibyte(
-    wchar_t* wide_c_str,
-    const char* multibyte_c_str
+DLLEXPORT char* Mdc_Wide_EncodeDefaultMultibyte(
+    char* char_c_str,
+    const wchar_t* wide_c_str
 );
 
-DLLEXPORT size_t Mdc_Wide_DecodeDefaultMultibyteLength(
-    const char* multibyte_c_str
+DLLEXPORT size_t Mdc_Wide_EncodeDefaultMultibyteLength(
+    const wchar_t* wide_c_str
 );
 
 /**
- * Creates a wide encoded copy of the specified UTF-8 string. The
+ * Creates a UTF-8 encoded copy of the specified wide string. The
  * returned pointer must have free called on it by the client once no
  * longer in use.
  *
- * @param utf8_c_str the UTF-8 string to decode
- * @return pointer to the converted string in wide characters, or NULL
- *    if failure
+ * @param wide_c_str the wide string to encode
+ * @return pointer to the re-encoded string in multibyte characters,
+ *    or NULL if failure
  */
-DLLEXPORT wchar_t* Mdc_Wide_DecodeUtf8(
-    wchar_t* wide_c_str,
-    const char* utf8_c_str
+DLLEXPORT char* Mdc_Wide_EncodeUtf8(
+    char* char_c_str,
+    const wchar_t* wide_c_str
 );
 
-DLLEXPORT size_t Mdc_Wide_DecodeUtf8Length(
-    const char* utf8_c_str
+DLLEXPORT size_t Mdc_Wide_EncodeUtf8Length(
+    const wchar_t* wide_c_str
 );
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif /* __cplusplus */
 
-#include "../../../dllexport_undefine.inc"
-#endif /* MDC_C_WCHAR_T_WIDE_DECODING_H_ */
+#include "dllexport_undefine.inc"
+#endif /* MDC_C_WCHAR_T_WIDE_ENCODING_H_ */

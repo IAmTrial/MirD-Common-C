@@ -36,9 +36,9 @@
 
 #else
 
-#include <mdc/std/threads.h>
+#include "mdc/std/threads.h"
 
-#include "../../../dllexport_define.inc"
+#include "dllexport_define.inc"
 
 namespace std {
 
@@ -64,7 +64,7 @@ class DLLEXPORT thread {
 } // namespace std
 
 
-#include "../../../dllexport_undefine.inc"
+#include "dllexport_undefine.inc"
 #endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif /* MDC_CPP98_STD_THREADS_HPP_ */

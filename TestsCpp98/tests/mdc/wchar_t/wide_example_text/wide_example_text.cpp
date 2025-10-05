@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "wide_example_text.hpp"
+#include "mdc/wchar_t/wide_example_text/wide_example_text.hpp"
 
 namespace mdc_test {
 namespace wide_test {

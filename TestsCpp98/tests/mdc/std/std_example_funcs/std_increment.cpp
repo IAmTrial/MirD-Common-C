@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "std_increment.hpp"
+#include "mdc/std/std_example_funcs/std_increment.hpp"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
   #include <windows.h>

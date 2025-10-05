@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/std/threads.h"
+#include "mdc/std/threads.h"
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 

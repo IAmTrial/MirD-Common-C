@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "wide_example_text.h"
+#include "mdc/wchar_t/wide_example_text/wide_example_text.h"
 
 const char* const kAsciiExampleText =
     "The quick brown fox jumped over the lazy dog.";

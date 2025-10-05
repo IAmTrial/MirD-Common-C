@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/std/threads.hpp"
+#include "mdc/std/threads.hpp"
 
 #if __cplusplus < 201103L && _MSVC_LANG < 201103L
 

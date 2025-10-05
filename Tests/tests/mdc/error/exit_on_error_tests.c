@@ -27,9 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "exit_on_error_tests.h"
+#include "mdc/error/exit_on_error_tests.h"
 
-#include <mdc/error/exit_on_error.h>
+#include "mdc/error/exit_on_error.h"
 
 static void Mdc_ExitOnError_AssertExitOnGeneralError(void) {
   Mdc_Error_ExitOnGeneralError(

@@ -27,11 +27,11 @@
  *  to convey the resulting work.
  */
 
-#include "stdint_tests.h"
+#include "mdc/std/stdint_tests.h"
 
 #include <assert.h>
 
-#include <mdc/std/stdint.h>
+#include "mdc/std/stdint.h"
 
 static void Mdc_Std_AssertInt8Size(void) {
   assert(sizeof(int8_t) == 1);

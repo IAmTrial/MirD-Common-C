@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../../include/mdc/std/threads.h"
+#include "mdc/std/threads.h"
 
 #if __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__)
 
@@ -35,7 +35,7 @@
 
 #include <process.h>
 
-#include "../../../../include/mdc/malloc/malloc.h"
+#include "mdc/malloc/malloc.h"
 
 struct ThreadArgsWrapper {
   thrd_start_t func_;
@@ -151,7 +151,7 @@ return_bad:
 #include <errno.h>
 #include <sched.h>
 
-#include "../../../../include/mdc/malloc/malloc.h"
+#include "mdc/malloc/malloc.h"
 
 struct ThreadArgsWrapper {
   thrd_start_t func_;

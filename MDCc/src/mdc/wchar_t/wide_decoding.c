@@ -27,7 +27,7 @@
  *  to convey the resulting work.
  */
 
-#include "../../../include/mdc/wchar_t/wide_decoding.h"
+#include "mdc/wchar_t/wide_decoding.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 

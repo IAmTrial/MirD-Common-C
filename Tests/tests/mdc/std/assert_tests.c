@@ -27,9 +27,9 @@
  *  to convey the resulting work.
  */
 
-#include "assert_tests.h"
+#include "mdc/std/assert_tests.h"
 
-#include <mdc/std/assert.h>
+#include "mdc/std/assert.h"
 
 static void Mdc_Assert_StaticAssert(void) {
   static_assert(0 == 0, "This cannot fail.");

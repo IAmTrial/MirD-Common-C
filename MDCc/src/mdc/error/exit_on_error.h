@@ -1,8 +1,8 @@
 /**
- * Mir Drualga Common For C++98
- * Copyright (C) 2021-2025  Mir Drualga
+ * Mir Drualga Common For C
+ * Copyright (C) 2020-2025  Mir Drualga
  *
- * This file is part of Mir Drualga Common For C++98.
+ * This file is part of Mir Drualga Common For C.
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as published
@@ -27,25 +27,27 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_
-#define MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_
+#ifndef MDC_C_ERROR_EXIT_ON_ERROR_H_
+#define MDC_C_ERROR_EXIT_ON_ERROR_H_
+
+#include "mdc/std/wchar.h"
+#include "mdc/wchar_t/filew.h"
 
 #if defined(_WIN32) || defined(_WIN64)
   #include <windows.h>
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
-#include <mdc/error/exit_on_error.h>
+#include "dllexport_define.inc"
 
-#include "../../../dllexport_define.inc"
-
-namespace mdc {
-namespace error {
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 enum {
-  kErrorMessageCapacity = Mdc_Error_kErrorMessageCapacity,
+  Mdc_Error_kErrorMessageCapacity = 1024
 };
 
-DLLEXPORT void ExitOnGeneralError(
+DLLEXPORT void Mdc_Error_ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
@@ -53,40 +55,40 @@ DLLEXPORT void ExitOnGeneralError(
     ...
 );
 
-DLLEXPORT void ExitOnGeneralErrorV(
+DLLEXPORT void Mdc_Error_ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path_c_wstr,
     unsigned int line,
-    va_list args
+    va_list vlist
 );
 
-DLLEXPORT void ExitOnConstantMappingError(
+DLLEXPORT void Mdc_Error_ExitOnConstantMappingError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     int value
 );
 
-DLLEXPORT void ExitOnMemoryAllocError(
+DLLEXPORT void Mdc_Error_ExitOnMemoryAllocError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
-DLLEXPORT void ExitOnMdcFunctionError(
+DLLEXPORT void Mdc_Error_ExitOnMdcFunctionError(
     const wchar_t* file_path_c_wstr,
     unsigned int line,
     const wchar_t* function_name
 );
 
-DLLEXPORT void ExitOnStaticInitError(
+DLLEXPORT void Mdc_Error_ExitOnStaticInitError(
     const wchar_t* file_path_c_wstr,
     unsigned int line
 );
 
 #if defined(_WIN32) || defined(_WIN64)
 
-DLLEXPORT void ExitOnWindowsFunctionError(
-    const wchar_t* file_path_c_wstr,
+DLLEXPORT void Mdc_Error_ExitOnWindowsFunctionError(
+    const wchar_t* file_path_cwstr,
     unsigned int line,
     const wchar_t* function_name,
     DWORD last_error
@@ -94,8 +96,9 @@ DLLEXPORT void ExitOnWindowsFunctionError(
 
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
-} // namespace error
-} // namespace mdc
+#ifdef __cplusplus
+} /* extern "C" { */
+#endif /* __cplusplus */
 
-#include "../../../dllexport_undefine.inc"
-#endif /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */
+#include "dllexport_undefine.inc"
+#endif /* MDC_C_ERROR_EXIT_ON_ERROR_H_ */

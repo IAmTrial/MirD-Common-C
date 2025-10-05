@@ -27,16 +27,15 @@
  *  to convey the resulting work.
  */
 
-#include "std/stdbool_tests.h"
-
 #include <stdio.h>
 #include <stddef.h>
 #include <windows.h>
 
-#include <mdc/malloc/malloc.h>
-#include "error_tests.h"
-#include "std_tests.h"
-#include "wchar_t_tests.h"
+#include "mdc/malloc/malloc.h"
+
+#include "mdc/error_tests.h"
+#include "mdc/std_tests.h"
+#include "mdc/wchar_t_tests.h"
 
 int main(int argc, char** argv) {
 #if defined(NDEBUG)
