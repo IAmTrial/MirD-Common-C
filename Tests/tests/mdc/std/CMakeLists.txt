@@ -1,0 +1,11 @@
+target_sources(${PROJECT_NAME}
+    PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/assert_tests.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/assert_tests.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/stdbool_tests.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/stdbool_tests.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/stdint_tests.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/stdint_tests.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/threads_tests.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/threads_tests.h"
+    PUBLIC)
