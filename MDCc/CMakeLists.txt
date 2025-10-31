@@ -21,11 +21,11 @@ if (${PROJECT_NAME}_BUILD_SHARED_LIBS)
     target_compile_definitions(${PROJECT_NAME}
         INTERFACE MDC_C_DLLIMPORT
         PRIVATE MDC_C_DLLEXPORT)
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/src")
 else()
     add_library(${PROJECT_NAME} STATIC)
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCc/src")
 endif()
+
+target_include_directories(${PROJECT_NAME} PUBLIC "${${PROJECT_NAME}_SOURCE_DIR}/src")
 
 add_subdirectory("src")
 

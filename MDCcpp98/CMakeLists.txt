@@ -25,13 +25,12 @@ if (${PROJECT_NAME}_BUILD_SHARED_LIBS)
     target_compile_definitions(${PROJECT_NAME}
         INTERFACE MDC_CPP98_DLLIMPORT
         PRIVATE MDC_CPP98_DLLEXPORT)
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCcpp98/src")
-    target_link_libraries(${PROJECT_NAME} PRIVATE MDCc)
 else()
     add_library(${PROJECT_NAME} STATIC)
-    target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_SOURCE_DIR}/MDCcpp98/src")
-    target_link_libraries(${PROJECT_NAME} PRIVATE MDCc)
 endif()
+
+target_include_directories(${PROJECT_NAME} PUBLIC "${${PROJECT_NAME}_SOURCE_DIR}/src")
+target_link_libraries(${PROJECT_NAME} PRIVATE MDCc)
 
 add_subdirectory("src")
 
