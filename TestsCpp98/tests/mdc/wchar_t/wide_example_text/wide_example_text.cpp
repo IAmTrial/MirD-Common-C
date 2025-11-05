@@ -42,5 +42,5 @@ const char* const kUtf8ExampleText = "\xc3\xbf";
 
 const wchar_t* const kUtf8ExampleTextWide = L"\xff";
 
-} // namespace wide_test
-} // namespace mdc_test
+}  // namespace wide_test
+}  // namespace mdc_test

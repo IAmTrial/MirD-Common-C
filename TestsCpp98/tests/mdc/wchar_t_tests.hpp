@@ -35,7 +35,7 @@ namespace wide_test {
 
 void RunTests();
 
-} // namespace wide_test
-} // namespace mdc_test
+}  // namespace wide_test
+}  // namespace mdc_test
 
-#endif /* MDC_TESTS_CPP98_WCHAR_T_TESTS_HPP_ */
+#endif  /* MDC_TESTS_CPP98_WCHAR_T_TESTS_HPP_ */

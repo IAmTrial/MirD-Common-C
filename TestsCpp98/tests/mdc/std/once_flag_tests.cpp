@@ -107,12 +107,12 @@ static void AssertCallOnceMulti(void) {
   assert(once_value == kOnceTargetValue);
 }
 
-} // namespace
+}  // namespace
 
 void OnceFlag_RunTests() {
   AssertCallOnceSingle();
   AssertCallOnceMulti();
 }
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test

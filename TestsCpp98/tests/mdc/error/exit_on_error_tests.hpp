@@ -35,7 +35,7 @@ namespace error_test {
 
 void ExitOnError_RunTests();
 
-} // namespace error_test
-} // namespace mdc_test
+}  // namespace error_test
+}  // namespace mdc_test
 
-#endif /* MDC_TESTS_CPP98_ERROR_EXIT_ON_ERROR_TESTS_HPP_ */
+#endif  /* MDC_TESTS_CPP98_ERROR_EXIT_ON_ERROR_TESTS_HPP_ */

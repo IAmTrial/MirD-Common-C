@@ -37,4 +37,4 @@ extern const wchar_t* const kAsciiExampleTextWide;
 extern const char* const kUtf8ExampleText;
 extern const wchar_t* const kUtf8ExampleTextWide;
 
-#endif /* MDC_TESTS_C_WCHAR_T_WIDE_EXAMPLE_TEXT_WIDE_EXAMPLE_TEXT_H_ */
+#endif  /* MDC_TESTS_C_WCHAR_T_WIDE_EXAMPLE_TEXT_WIDE_EXAMPLE_TEXT_H_ */

@@ -43,16 +43,11 @@ static void AssertExitOnGeneralError() {
       __LINE__,
       L"Twenty-five",
       25,
-      25
-  );
+      25);
 }
 
 static void AssertExitOnConstantMappingError() {
-  ::mdc::error::ExitOnConstantMappingError(
-      __FILEW__,
-      __LINE__,
-      128
-  );
+  ::mdc::error::ExitOnConstantMappingError(__FILEW__, __LINE__, 128);
 }
 
 static void AssertExitOnMemoryAllocError() {
@@ -61,10 +56,7 @@ static void AssertExitOnMemoryAllocError() {
 
 static void AssertExitOnMdcFunctionError(void) {
   ::mdc::error::ExitOnMdcFunctionError(
-      __FILEW__,
-      __LINE__,
-      L"Mdc_NotAFunction"
-  );
+      __FILEW__, __LINE__, L"Mdc_NotAFunction");
 }
 
 static void AssertExitOnStaticInitError() {
@@ -75,16 +67,12 @@ static void AssertExitOnStaticInitError() {
 
 static void AssertExitOnWindowsFunctionError() {
   ::mdc::error::ExitOnWindowsFunctionError(
-      __FILEW__,
-      __LINE__,
-      L"IsThisWindows9",
-      42
-  );
+      __FILEW__, __LINE__, L"IsThisWindows9", 42);
 }
 
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 
-} // namespace
+}  // namespace
 
 void ExitOnError_RunTests() {
   AssertExitOnGeneralError();
@@ -96,8 +84,8 @@ void ExitOnError_RunTests() {
 
 #if defined(_WIN32) || defined(_WIN64)
   AssertExitOnWindowsFunctionError();
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 }
 
-} // namespace error_test
-} // namespace mdc_test
+}  // namespace error_test
+}  // namespace mdc_test

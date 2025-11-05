@@ -32,4 +32,4 @@
 
 void Mdc_FileW_RunTests(void);
 
-#endif /* MDC_TESTS_C_WCHAR_T_FILEW_TESTS_H_ */
+#endif  /* MDC_TESTS_C_WCHAR_T_FILEW_TESTS_H_ */

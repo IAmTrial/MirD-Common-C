@@ -40,5 +40,5 @@ void RunTests() {
   WideEncoding_RunTests();
 }
 
-} // namespace wide_test
-} // namespace mdc_test
+}  // namespace wide_test
+}  // namespace mdc_test

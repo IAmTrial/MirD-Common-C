@@ -32,4 +32,4 @@
 
 void Mdc_Threads_RunTests(void);
 
-#endif /* MDC_TESTS_C_STD_THREADS_H_ */
+#endif  /* MDC_TESTS_C_STD_THREADS_H_ */

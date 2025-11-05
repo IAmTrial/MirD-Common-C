@@ -45,17 +45,15 @@ static void AssertEncodeAscii() {
 }
 
 static void AssertEncodeDefaultMultibyteAscii() {
-  ::std::string multibyte_ascii_str = ::mdc::wide::EncodeDefaultMultibyte(
-      kAsciiExampleTextWide
-  );
+  ::std::string multibyte_ascii_str =
+      ::mdc::wide::EncodeDefaultMultibyte(kAsciiExampleTextWide);
 
   assert(multibyte_ascii_str == kAsciiExampleText);
 }
 
 static void AssertEncodeUtf8() {
-  ::std::string utf8_str = ::mdc::wide::EncodeUtf8(
-      kUtf8ExampleTextWide
-  );
+  ::std::string utf8_str =
+      ::mdc::wide::EncodeUtf8(kUtf8ExampleTextWide);
 
   assert(utf8_str == kUtf8ExampleText);
 }
@@ -66,5 +64,5 @@ void WideEncoding_RunTests() {
   AssertEncodeUtf8();
 }
 
-} // namespace wide_test
-} // namespace mdc_test
+}  // namespace wide_test
+}  // namespace mdc_test

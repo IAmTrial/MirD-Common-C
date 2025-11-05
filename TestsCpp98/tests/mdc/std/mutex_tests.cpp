@@ -89,12 +89,12 @@ static void AssertMutexLockUnlockMulti() {
   assert(value.value == kThreadsCount);
 }
 
-} // namespace
+}  // namespace
 
 void Mutex_RunTests() {
   AssertMutexLockUnlockSingle();
   AssertMutexLockUnlockMulti();
 }
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test

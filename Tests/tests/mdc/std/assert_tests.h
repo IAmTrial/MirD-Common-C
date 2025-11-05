@@ -32,4 +32,4 @@
 
 void Mdc_Assert_RunTests(void);
 
-#endif /* MDC_TESTS_C_STD_ASSERT_H_ */
+#endif  /* MDC_TESTS_C_STD_ASSERT_H_ */

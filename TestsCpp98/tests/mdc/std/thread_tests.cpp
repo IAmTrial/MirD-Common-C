@@ -66,11 +66,11 @@ static void AssertRaceCondition() {
   assert(value <= kThreadsCount);
 }
 
-} // namespace
+}  // namespace
 
 void Thread_RunTests() {
   AssertRaceCondition();
 }
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test

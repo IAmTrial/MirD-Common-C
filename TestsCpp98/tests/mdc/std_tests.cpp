@@ -45,5 +45,5 @@ void RunTests() {
   OnceFlag_RunTests();
 }
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test
