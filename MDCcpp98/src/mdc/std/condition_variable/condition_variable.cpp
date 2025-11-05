@@ -40,8 +40,7 @@ condition_variable::condition_variable() {
 
   if (init_result != thrd_success) {
     throw ::std::runtime_error(
-        "::std::condition_variable::condition_variable failure"
-    );
+        "::std::condition_variable::condition_variable failure");
   }
 }
 
@@ -61,6 +60,6 @@ void condition_variable::wait(unique_lock<mutex>& lock) {
   ::cnd_wait(&this->condition_variable_, lock.mutex()->native_handle());
 }
 
-} // namespace std
+}  // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
+#endif  // __cplusplus < 201103L && _MSVC_LANG < 201103L

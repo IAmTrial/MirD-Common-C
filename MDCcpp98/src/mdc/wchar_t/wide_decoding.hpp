@@ -39,65 +39,50 @@
 namespace mdc {
 namespace wide {
 
-DLLAPI wchar_t* DecodeAscii(
-    wchar_t* wide_c_str,
-    const char* ascii_c_str
-);
+DLLAPI wchar_t* DecodeAscii(wchar_t* dest, const char* src);
 
-DLLAPI size_t DecodeAsciiLength(
-    const char* ascii_c_str
-);
+DLLAPI size_t DecodeAsciiLength(const char* str);
 
-DLLAPI wchar_t* DecodeDefaultMultibyte(
-    wchar_t* wide_c_str,
-    const char* multibyte_c_str
-);
+DLLAPI wchar_t* DecodeDefaultMultibyte(wchar_t* dest, const char* src);
 
-DLLAPI size_t DecodeDefaultMultibyteLength(
-    const char* multibyte_c_str
-);
+DLLAPI size_t DecodeDefaultMultibyteLength(const char* str);
 
-DLLAPI wchar_t* DecodeUtf8(
-    wchar_t* wide_c_str,
-    const char* utf8_c_str
-);
+DLLAPI wchar_t* DecodeUtf8(wchar_t* dest, const char* src);
 
-DLLAPI size_t DecodeUtf8Length(
-    const char* utf8_c_str
-);
+DLLAPI size_t DecodeUtf8Length(const char* str);
 
-inline ::std::wstring DecodeAscii(const char* ascii_c_str) {
-  size_t wide_c_str_length = DecodeAsciiLength(ascii_c_str);
+inline ::std::wstring DecodeAscii(const char* src) {
+  size_t length = DecodeAsciiLength(src);
 
-  ::std::wstring wide_str(wide_c_str_length, '\0');
+  ::std::wstring wide_str(length, '\0');
 
-  DecodeAscii(&wide_str[0], ascii_c_str);
+  DecodeAscii(&wide_str[0], src);
 
   return wide_str;
 }
 
-inline ::std::wstring DecodeDefaultMultibyte(const char* multibyte_c_str) {
-  size_t wide_c_str_length = DecodeDefaultMultibyteLength(multibyte_c_str);
+inline ::std::wstring DecodeDefaultMultibyte(const char* str) {
+  size_t length = DecodeDefaultMultibyteLength(str);
 
-  ::std::wstring wide_str(wide_c_str_length, '\0');
+  ::std::wstring wide_str(length, '\0');
 
-  DecodeDefaultMultibyte(&wide_str[0], multibyte_c_str);
-
-  return wide_str;
-}
-
-inline ::std::wstring DecodeUtf8(const char* utf8_c_str) {
-  size_t wide_c_str_length = DecodeUtf8Length(utf8_c_str);
-
-  ::std::wstring wide_str(wide_c_str_length, '\0');
-
-  DecodeUtf8(&wide_str[0], utf8_c_str);
+  DecodeDefaultMultibyte(&wide_str[0], str);
 
   return wide_str;
 }
 
-} // namespace wide
-} // namespace mdc
+inline ::std::wstring DecodeUtf8(const char* str) {
+  size_t length = DecodeUtf8Length(str);
+
+  ::std::wstring wide_str(length, '\0');
+
+  DecodeUtf8(&wide_str[0], str);
+
+  return wide_str;
+}
+
+}  // namespace wide
+}  // namespace mdc
 
 #include "mdc/dllapi_cpp98_undef.inc"
-#endif /* MDC_CPP98_WCHAR_T_WIDE_DECODING_HPP_ */
+#endif  /* MDC_CPP98_WCHAR_T_WIDE_DECODING_HPP_ */
