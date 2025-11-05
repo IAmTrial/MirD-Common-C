@@ -39,71 +39,50 @@
 namespace mdc {
 namespace wide {
 
-DLLAPI char* EncodeAscii(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-);
+DLLAPI char* EncodeAscii(char* dest, const wchar_t* src);
 
-DLLAPI size_t EncodeAsciiLength(
-    const wchar_t* wide_c_str
-);
+DLLAPI size_t EncodeAsciiLength(const wchar_t* str);
 
-DLLAPI char* EncodeDefaultMultibyte(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-);
+DLLAPI char* EncodeDefaultMultibyte(char* dest, const wchar_t* src);
 
-DLLAPI size_t EncodeDefaultMultibyteLength(
-    const wchar_t* wide_c_str
-);
+DLLAPI size_t EncodeDefaultMultibyteLength(const wchar_t* str);
 
-DLLAPI char* EncodeUtf8(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-);
+DLLAPI char* EncodeUtf8(char* dest, const wchar_t* src);
 
-DLLAPI size_t EncodeUtf8Length(
-    const wchar_t* wide_c_str
-);
+DLLAPI size_t EncodeUtf8Length(const wchar_t* str);
 
-inline ::std::string EncodeAscii(
-    const wchar_t* wide_c_str
-) {
-  size_t ascii_c_str_length = EncodeUtf8Length(wide_c_str);
+inline ::std::string EncodeAscii(const wchar_t* src) {
+  size_t length = EncodeUtf8Length(src);
 
-  ::std::string ascii_str(ascii_c_str_length, '\0');
+  ::std::string ascii_str(length, '\0');
 
-  EncodeUtf8(&ascii_str[0], wide_c_str);
+  EncodeUtf8(&ascii_str[0], src);
 
   return ascii_str;
 }
 
-inline ::std::string EncodeDefaultMultibyte(
-    const wchar_t* wide_c_str
-) {
-  size_t multibyte_c_str_length = EncodeDefaultMultibyteLength(wide_c_str);
+inline ::std::string EncodeDefaultMultibyte(const wchar_t* src) {
+  size_t length = EncodeDefaultMultibyteLength(src);
 
-  ::std::string multibyte_str(multibyte_c_str_length, '\0');
+  ::std::string multibyte_str(length, '\0');
 
-  EncodeDefaultMultibyte(&multibyte_str[0], wide_c_str);
+  EncodeDefaultMultibyte(&multibyte_str[0], src);
 
   return multibyte_str;
 }
 
-inline ::std::string EncodeUtf8(
-    const wchar_t* wide_c_str
-) {
-  size_t utf8_c_str_length = EncodeUtf8Length(wide_c_str);
+inline ::std::string EncodeUtf8(const wchar_t* src) {
+  size_t utf8_c_str_length = EncodeUtf8Length(src);
 
   ::std::string utf8_str(utf8_c_str_length, '\0');
 
-  EncodeUtf8(&utf8_str[0], wide_c_str);
+  EncodeUtf8(&utf8_str[0], src);
 
   return utf8_str;
 }
 
-} // namespace wide
-} // namespace mdc
+}  // namespace wide
+}  // namespace mdc
 
 #include "mdc/dllapi_cpp98_undef.inc"
-#endif /* MDC_CPP98_WCHAR_T_WIDE_ENCODING_HPP_ */
+#endif  /* MDC_CPP98_WCHAR_T_WIDE_ENCODING_HPP_ */

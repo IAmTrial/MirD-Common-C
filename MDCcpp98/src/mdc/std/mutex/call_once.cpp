@@ -37,14 +37,12 @@ namespace std {
 
 const ::once_flag once_flag::kDefaultInit = ONCE_FLAG_INIT;
 
-once_flag::once_flag() throw()
-    : once_flag_(kDefaultInit) {
-}
+once_flag::once_flag() throw() : once_flag_(kDefaultInit) {}
 
 void call_once(once_flag& flag, void (*func)(void)) {
   ::call_once(&flag.once_flag_, func);
 }
 
-} // namespace std
+}  // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
+#endif  // __cplusplus < 201103L && _MSVC_LANG < 201103L

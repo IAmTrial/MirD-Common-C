@@ -40,8 +40,7 @@ condition_variable_any::condition_variable_any() {
 
   if (init_result != thrd_success) {
     throw ::std::runtime_error(
-        "::std::condition_variable_any::condition_variable_any failure"
-    );
+        "::std::condition_variable_any::condition_variable_any failure");
   }
 }
 
@@ -57,6 +56,6 @@ void condition_variable_any::notify_all() throw() {
   ::cnd_broadcast(&this->condition_variable_);
 }
 
-} // namespace std
+}  // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
+#endif  // __cplusplus < 201103L && _MSVC_LANG < 201103L

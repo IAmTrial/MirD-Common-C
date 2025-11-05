@@ -39,21 +39,15 @@ namespace error {
 void ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    ...
-) {
+    ...) {
   va_list args;
 
   va_start(args, line);
 
   Mdc_Error_ExitOnGeneralErrorV(
-      caption_text,
-      message_format,
-      file_path_c_wstr,
-      line,
-      args
-  );
+      caption_text, message_format, file_path, line, args);
 
   va_end(args);
 }
@@ -61,77 +55,42 @@ void ExitOnGeneralError(
 void ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    va_list args
-) {
+    va_list args) {
   Mdc_Error_ExitOnGeneralErrorV(
-      caption_text,
-      message_format,
-      file_path_c_wstr,
-      line,
-      args
-  );
+      caption_text, message_format, file_path, line, args);
 }
 
 void ExitOnConstantMappingError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line,
-    int value
-) {
-  Mdc_Error_ExitOnConstantMappingError(
-      file_path_c_wstr,
-      line,
-      value
-  );
+    const wchar_t* file_path, unsigned int line, int value) {
+  Mdc_Error_ExitOnConstantMappingError(file_path, line, value);
 }
 
-void ExitOnMemoryAllocError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-) {
-  Mdc_Error_ExitOnMemoryAllocError(
-      file_path_c_wstr,
-      line
-  );
+void ExitOnMemoryAllocError(const wchar_t* file_path, unsigned int line) {
+  Mdc_Error_ExitOnMemoryAllocError(file_path, line);
 }
 
 void ExitOnMdcFunctionError(
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    const wchar_t* function_name
-) {
-  Mdc_Error_ExitOnMdcFunctionError(
-      file_path_c_wstr,
-      line,
-      function_name
-  );
+    const wchar_t* function_name) {
+  Mdc_Error_ExitOnMdcFunctionError(file_path, line, function_name);
 }
 
-void ExitOnStaticInitError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-) {
-  Mdc_Error_ExitOnStaticInitError(
-      file_path_c_wstr,
-      line
-  );
+void ExitOnStaticInitError(const wchar_t* file_path, unsigned int line) {
+  Mdc_Error_ExitOnStaticInitError(file_path, line);
 }
 
 #if defined(_WIN32) || defined(_WIN64)
 
 void ExitOnWindowsFunctionError(
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
     const wchar_t* function_name,
-    DWORD last_error
-) {
+    DWORD last_error) {
   Mdc_Error_ExitOnWindowsFunctionError(
-      file_path_c_wstr,
-      line,
-      function_name,
-      last_error
-  );
+      file_path, line, function_name, last_error);
 }
 
 #endif /* defined(_WIN32) || defined(_WIN64) */

@@ -63,6 +63,6 @@ recursive_mutex::native_handle_type recursive_mutex::native_handle() {
   return &this->mutex_;
 }
 
-} // namespace std
+}  // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
+#endif  // __cplusplus < 201103L && _MSVC_LANG < 201103L

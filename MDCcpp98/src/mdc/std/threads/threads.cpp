@@ -67,6 +67,6 @@ void thread::swap(thread& other) throw() {
   other.thread_ = temp;
 }
 
-} // namespace std
+}  // namespace std
 
-#endif // __cplusplus < 201103L && _MSVC_LANG < 201103L
+#endif  // __cplusplus < 201103L && _MSVC_LANG < 201103L

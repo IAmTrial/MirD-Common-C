@@ -32,9 +32,10 @@
 
 #if defined(_WIN32) || defined(_WIN64)
   #include <windows.h>
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 
 #include "mdc/error/exit_on_error.h"
+#include "mdc/wchar_t/filew.h"
 
 #include "mdc/dllapi_cpp98_define.inc"
 
@@ -48,54 +49,40 @@ enum {
 DLLAPI void ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    ...
-);
+    ...);
 
 DLLAPI void ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    va_list args
-);
+    va_list args);
 
 DLLAPI void ExitOnConstantMappingError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line,
-    int value
-);
+    const wchar_t* file_path, unsigned int line, int value);
 
 DLLAPI void ExitOnMemoryAllocError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-);
+    const wchar_t* file_path, unsigned int line);
 
 DLLAPI void ExitOnMdcFunctionError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line,
-    const wchar_t* function_name
-);
+    const wchar_t* file_path, unsigned int line, const wchar_t* function_name);
 
-DLLAPI void ExitOnStaticInitError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-);
+DLLAPI void ExitOnStaticInitError(const wchar_t* file_path, unsigned int line);
 
 #if defined(_WIN32) || defined(_WIN64)
 
 DLLAPI void ExitOnWindowsFunctionError(
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
     const wchar_t* function_name,
-    DWORD last_error
-);
+    DWORD last_error);
 
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 
-} // namespace error
-} // namespace mdc
+}  // namespace error
+}  // namespace mdc
 
 #include "mdc/dllapi_cpp98_undef.inc"
-#endif /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */
+#endif  /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */

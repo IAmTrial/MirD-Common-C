@@ -113,8 +113,7 @@ class lock_guard {
  public:
   typedef Mutex mutex_type;
 
-  explicit lock_guard(mutex_type& m) {
-    this->mutex_ = m;
+  explicit lock_guard(mutex_type& m) : mutex_(m) {
     m.lock();
   }
 
@@ -135,10 +134,7 @@ class unique_lock {
  public:
   typedef Mutex mutex_type;
 
-  unique_lock() throw()
-      : mutex_(NULL),
-        is_owner_(false) {
-  }
+  unique_lock() throw() : mutex_(NULL), is_owner_(false) {}
 
   explicit unique_lock(mutex_type& m) {
     m.lock();
@@ -256,9 +252,9 @@ class DLLAPI once_flag {
   once_flag& operator=(const once_flag&);
 };
 
-} // namespace std
+}  // namespace std
 
 #include "mdc/dllapi_cpp98_undef.inc"
-#endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+#endif  // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
-#endif /* MDC_CPP98_STD_MUTEX_HPP_ */
+#endif  /* MDC_CPP98_STD_MUTEX_HPP_ */

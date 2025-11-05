@@ -38,7 +38,7 @@
 
 #include "mdc/std/threads.h"
 
-#include "mutex.hpp"
+#include "mdc/std/mutex.hpp"
 
 #include "mdc/dllapi_cpp98_define.inc"
 
@@ -105,9 +105,9 @@ class DLLAPI condition_variable_any {
   condition_variable_any& operator=(const condition_variable_any&);
 };
 
-} // namespace std
+}  // namespace std
 
 #include "mdc/dllapi_cpp98_undef.inc"
-#endif // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
+#endif  // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
-#endif /* MDC_CPP98_STD_CONDITION_VARIABLE_HPP_ */
+#endif  /* MDC_CPP98_STD_CONDITION_VARIABLE_HPP_ */

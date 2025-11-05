@@ -34,44 +34,29 @@
 namespace mdc {
 namespace wide {
 
-char* EncodeAscii(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-) {
-  return Mdc_Wide_EncodeAscii(char_c_str, wide_c_str);
+char* EncodeAscii(char* dest, const wchar_t* src) {
+  return Mdc_Wide_EncodeAscii(dest, src);
 }
 
-size_t EncodeAsciiLength(
-    const wchar_t* wide_c_str
-) {
-  return Mdc_Wide_EncodeAsciiLength(wide_c_str);
+size_t EncodeAsciiLength(const wchar_t* str) {
+  return Mdc_Wide_EncodeAsciiLength(str);
 }
 
-char* EncodeDefaultMultibyte(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-) {
-  return Mdc_Wide_EncodeDefaultMultibyte(char_c_str, wide_c_str);
+char* EncodeDefaultMultibyte(char* dest, const wchar_t* src) {
+  return Mdc_Wide_EncodeDefaultMultibyte(dest, src);
 }
 
-size_t EncodeDefaultMultibyteLength(
-    const wchar_t* wide_c_str
-) {
-  return Mdc_Wide_EncodeDefaultMultibyteLength(wide_c_str);
+size_t EncodeDefaultMultibyteLength(const wchar_t* str) {
+  return Mdc_Wide_EncodeDefaultMultibyteLength(str);
 }
 
-char* EncodeUtf8(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-) {
-  return Mdc_Wide_EncodeUtf8(char_c_str, wide_c_str);
+char* EncodeUtf8(char* dest, const wchar_t* src) {
+  return Mdc_Wide_EncodeUtf8(dest, src);
 }
 
-size_t EncodeUtf8Length(
-    const wchar_t* wide_c_str
-) {
-  return Mdc_Wide_EncodeUtf8Length(wide_c_str);
+size_t EncodeUtf8Length(const wchar_t* str) {
+  return Mdc_Wide_EncodeUtf8Length(str);
 }
 
-} // namespace wide
-} // namespace mdc
+}  // namespace wide
+}  // namespace mdc

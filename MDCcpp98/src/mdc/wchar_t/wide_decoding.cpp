@@ -34,10 +34,7 @@
 namespace mdc {
 namespace wide {
 
-wchar_t* DecodeAscii(
-    wchar_t* wide_c_str,
-    const char* ascii_c_str
-) {
+wchar_t* DecodeAscii(wchar_t* wide_c_str, const char* ascii_c_str) {
   return Mdc_Wide_DecodeAscii(wide_c_str, ascii_c_str);
 }
 
@@ -73,5 +70,5 @@ size_t DecodeUtf8Length(
   return Mdc_Wide_DecodeUtf8Length(utf8_c_str);
 }
 
-} // namespace wide
-} // namespace mdc
+}  // namespace wide
+}  // namespace mdc
