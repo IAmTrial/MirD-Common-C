@@ -107,10 +107,7 @@ int cnd_wait(cnd_t* cond, mtx_t* mutex) {
       goto return_bad;
     }
 
-    wait_result = WaitForSingleObject(
-        cond->waiter_event_,
-        INFINITE
-    );
+    wait_result = WaitForSingleObject(cond->waiter_event_, INFINITE);
 
     if (wait_result == WAIT_FAILED) {
       goto return_bad;
@@ -178,4 +175,4 @@ int cnd_wait(cnd_t* cond, mtx_t* mutex) {
 
 #endif
 
-#endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */
+#endif  /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */

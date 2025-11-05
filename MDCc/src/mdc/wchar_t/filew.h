@@ -44,6 +44,6 @@
 
 #define __FILEW__ MDC_INTERNAL_EXPAND_MACRO(L, __FILE__)
 
-#endif /* _MSC_VER < 1600 */
+#endif  /* _MSC_VER < 1600 */
 
-#endif /* MDC_C_WCHAR_T_FILEW_H_ */
+#endif  /* MDC_C_WCHAR_T_FILEW_H_ */

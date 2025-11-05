@@ -38,25 +38,20 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif  /* __cplusplus */
 
 /**
  * Creates a wide encoded copy of the specified 7-bit ASCII string.
  * The returned pointer must have free called on it by the client once
  * no longer in use.
  *
- * @param ascii_c_str the wide string to encode
+ * @param src the wide string to encode
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLAPI char* Mdc_Wide_EncodeAscii(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-);
+DLLAPI char* Mdc_Wide_EncodeAscii(char* dest, const wchar_t* src);
 
-DLLAPI size_t Mdc_Wide_EncodeAsciiLength(
-    const wchar_t* wide_c_str
-);
+DLLAPI size_t Mdc_Wide_EncodeAsciiLength(const wchar_t* str);
 
 /**
  * Creates a multibyte encoded copy of the specified wide string. The
@@ -64,40 +59,30 @@ DLLAPI size_t Mdc_Wide_EncodeAsciiLength(
  * launch. The returned pointer must have free called on it by the
  * client once no longer in use.
  *
- * @param wide_c_str the wide string to encode
+ * @param src the wide string to encode
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLAPI char* Mdc_Wide_EncodeDefaultMultibyte(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-);
+DLLAPI char* Mdc_Wide_EncodeDefaultMultibyte(char* dest, const wchar_t* src);
 
-DLLAPI size_t Mdc_Wide_EncodeDefaultMultibyteLength(
-    const wchar_t* wide_c_str
-);
+DLLAPI size_t Mdc_Wide_EncodeDefaultMultibyteLength(const wchar_t* str);
 
 /**
  * Creates a UTF-8 encoded copy of the specified wide string. The
  * returned pointer must have free called on it by the client once no
  * longer in use.
  *
- * @param wide_c_str the wide string to encode
+ * @param src the wide string to encode
  * @return pointer to the re-encoded string in multibyte characters,
  *    or NULL if failure
  */
-DLLAPI char* Mdc_Wide_EncodeUtf8(
-    char* char_c_str,
-    const wchar_t* wide_c_str
-);
+DLLAPI char* Mdc_Wide_EncodeUtf8(char* dest, const wchar_t* src);
 
-DLLAPI size_t Mdc_Wide_EncodeUtf8Length(
-    const wchar_t* wide_c_str
-);
+DLLAPI size_t Mdc_Wide_EncodeUtf8Length(const wchar_t* str);
 
 #ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+}  /* extern "C" */
+#endif  /* __cplusplus */
 
 #include "mdc/dllapi_c_undef.inc"
-#endif /* MDC_C_WCHAR_T_WIDE_ENCODING_H_ */
+#endif  /* MDC_C_WCHAR_T_WIDE_ENCODING_H_ */

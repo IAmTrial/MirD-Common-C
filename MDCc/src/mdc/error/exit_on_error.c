@@ -32,6 +32,9 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#include "mdc/std/wchar.h"
+#include "mdc/wchar_t/filew.h"
+
 #if defined(_WIN32) || defined(_WIN64)
 
 static const wchar_t* const kErrorMessageFormat =
@@ -46,10 +49,9 @@ static wchar_t error_message[Mdc_Error_kErrorMessageCapacity];
 void Mdc_Error_ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    ...
-) {
+    ...) {
   va_list args;
 
   va_start(args, line);
@@ -57,10 +59,9 @@ void Mdc_Error_ExitOnGeneralError(
   Mdc_Error_ExitOnGeneralErrorV(
       caption_text,
       message_format,
-      file_path_c_wstr,
+      file_path,
       line,
-      args
-  );
+      args);
 
   va_end(args);
 }
@@ -68,18 +69,16 @@ void Mdc_Error_ExitOnGeneralError(
 void Mdc_Error_ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    va_list vlist
-) {
+    va_list vlist) {
   _snwprintf(
       error_message_format,
       Mdc_Error_kErrorMessageCapacity,
       kErrorMessageFormat,
-      file_path_c_wstr,
+      file_path,
       line,
-      message_format
-  );
+      message_format);
 
   error_message_format[Mdc_Error_kErrorMessageCapacity - 1] = L'\0';
 
@@ -87,8 +86,7 @@ void Mdc_Error_ExitOnGeneralErrorV(
       error_message,
       Mdc_Error_kErrorMessageCapacity,
       error_message_format,
-      vlist
-  );
+      vlist);
 
   error_message[Mdc_Error_kErrorMessageCapacity - 1] = L'\0';
 
@@ -96,78 +94,63 @@ void Mdc_Error_ExitOnGeneralErrorV(
       NULL,
       error_message,
       caption_text,
-      MB_OK | MB_ICONERROR
-  );
+      MB_OK | MB_ICONERROR);
 
   exit(EXIT_FAILURE);
 }
 
 void Mdc_Error_ExitOnConstantMappingError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line,
-    int value
-) {
+    const wchar_t* file_path, unsigned int line, int value) {
   Mdc_Error_ExitOnGeneralError(
       L"Error",
       L"Constant with value %d could not be mapped.",
-      file_path_c_wstr,
+      file_path,
       line,
-      value
-  );
+      value);
 }
 
 void Mdc_Error_ExitOnMemoryAllocError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-) {
+    const wchar_t* file_path, unsigned int line) {
   Mdc_Error_ExitOnGeneralError(
       L"Error",
       L"Memory allocation error.",
-      file_path_c_wstr,
-      line
-  );
+      file_path,
+      line);
 }
 
 void Mdc_Error_ExitOnMdcFunctionError(
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    const wchar_t* function_name
-) {
+    const wchar_t* function_name) {
   Mdc_Error_ExitOnGeneralError(
       L"Error",
       L"MDC function error on %ls.",
-      file_path_c_wstr,
+      file_path,
       line,
-      function_name
-  );
+      function_name);
 }
 
 void Mdc_Error_ExitOnStaticInitError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-) {
+    const wchar_t* file_path, unsigned int line) {
   Mdc_Error_ExitOnGeneralError(
       L"Error",
       L"Static init error.",
-      file_path_c_wstr,
-      line
-  );
+      file_path,
+      line);
 }
 
 void Mdc_Error_ExitOnWindowsFunctionError(
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
     const wchar_t* function_name,
-    DWORD last_error
-) {
+    DWORD last_error) {
   Mdc_Error_ExitOnGeneralError(
       L"Error",
       L"Windows function error on %ls with error code 0x%X.",
-      file_path_c_wstr,
+      file_path,
       line,
       function_name,
-      last_error
-  );
+      last_error);
 }
 
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */

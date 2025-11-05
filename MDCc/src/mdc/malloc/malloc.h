@@ -37,7 +37,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif  /* __cplusplus */
 
 #if defined(NDEBUG)
 
@@ -62,8 +62,8 @@ DLLAPI void Mdc_PrintMallocLeaks(void);
 #endif
 
 #ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+}  /* extern "C" */
+#endif  /* __cplusplus */
 
 #include "mdc/dllapi_c_undef.inc"
-#endif /* MDC_C_MALLOC_MALLOC_H_ */
+#endif  /* MDC_C_MALLOC_MALLOC_H_ */

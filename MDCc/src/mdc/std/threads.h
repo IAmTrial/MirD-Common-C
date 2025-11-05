@@ -46,7 +46,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif  /* __cplusplus */
 
 /**
  * Threads
@@ -162,10 +162,10 @@ DLLAPI int cnd_broadcast(cnd_t* cond);
 DLLAPI int cnd_wait(cnd_t* cond, mtx_t* mutex);
 
 #ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+}  /* extern "C" */
+#endif  /* __cplusplus */
 
 #include "mdc/dllapi_c_undef.inc"
 #endif
 
-#endif /* MDC_C_STD_THREADS_H_ */
+#endif  /* MDC_C_STD_THREADS_H_ */

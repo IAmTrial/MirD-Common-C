@@ -99,4 +99,4 @@ wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count) {
   return dest;
 }
 
-#endif /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */
+#endif  /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */

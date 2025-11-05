@@ -93,4 +93,4 @@ void Mdc_PrintMallocLeaks(void) {
   printf("Difference: %d \n", Mdc_GetMallocDifference());
 }
 
-#endif
+#endif  /* !defined(NDEBUG) */

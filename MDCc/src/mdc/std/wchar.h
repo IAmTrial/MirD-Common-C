@@ -39,7 +39,7 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif  /* __cplusplus */
 
 #if _MSC_VER <= 1200
 #if _MSC_VER < 1200
@@ -68,7 +68,7 @@ DLLAPI size_t wcscspn(const wchar_t* dest, const wchar_t* src);
 DLLAPI wchar_t* wcspbrk(const wchar_t* dest, const wchar_t* str);
 DLLAPI wchar_t* wcsstr(const wchar_t* dest, const wchar_t* src);
 
-#endif /* _MSC_VER < 1200 */
+#endif  /* _MSC_VER < 1200 */
 
 /**
  * Wide character array manipulation
@@ -80,13 +80,13 @@ DLLAPI int wmemcmp(const wchar_t* lhs, const wchar_t* rhs, size_t count);
 DLLAPI wchar_t* wmemchr(const wchar_t* ptr, wchar_t ch, size_t count);
 DLLAPI wchar_t* wmemset(wchar_t* dest, wchar_t ch, size_t count);
 
-#endif /* _MSC_VER <= 1200 */
+#endif  /* _MSC_VER <= 1200 */
 
 #ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+}  /* extern "C" */
+#endif  /* __cplusplus */
 
-#endif /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */
+#endif  /* !defined(__cplusplus) && __STDC_VERSION__ < 199409L */
 
 #include "mdc/dllapi_c_undef.inc"
-#endif /* MDC_C_STD_WCHAR_H_ */
+#endif  /* MDC_C_STD_WCHAR_H_ */
