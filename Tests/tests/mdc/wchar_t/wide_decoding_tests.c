@@ -70,10 +70,8 @@ static void Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii(void) {
   wide_c_str = Mdc_malloc((wide_c_str_len + 1) * sizeof(wide_c_str[0]));
   assert(wide_c_str != NULL);
 
-  decode_result = Mdc_Wide_DecodeDefaultMultibyte(
-      wide_c_str,
-      kAsciiExampleText
-  );
+  decode_result =
+      Mdc_Wide_DecodeDefaultMultibyte(wide_c_str, kAsciiExampleText);
   assert(decode_result == wide_c_str);
   assert(wcscmp(wide_c_str, kAsciiExampleTextWide) == 0);
 

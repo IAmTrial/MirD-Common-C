@@ -62,22 +62,21 @@ static void Mdc_WideEncoding_AssertEncodeAscii(void) {
 static void Mdc_WideEncoding_AssertEncodeDefaultMultibyteAscii(void) {
   char* multibyte_ascii_c_str;
   size_t multibyte_ascii_c_str_len;
+  size_t required_size;
 
   char* encode_result;
 
-  multibyte_ascii_c_str_len = Mdc_Wide_EncodeDefaultMultibyteLength(
-      kAsciiExampleTextWide
-  );
+  multibyte_ascii_c_str_len =
+      Mdc_Wide_EncodeDefaultMultibyteLength(kAsciiExampleTextWide);
 
-  multibyte_ascii_c_str = Mdc_malloc(
-      (multibyte_ascii_c_str_len + 1) * sizeof(multibyte_ascii_c_str[0])
-  );
+  required_size =
+      (multibyte_ascii_c_str_len + 1) * sizeof(multibyte_ascii_c_str[0]);
+  multibyte_ascii_c_str = Mdc_malloc(required_size);
   assert(multibyte_ascii_c_str != NULL);
 
-  encode_result = Mdc_Wide_EncodeDefaultMultibyte(
-      multibyte_ascii_c_str,
-      kAsciiExampleTextWide
-  );
+  encode_result =
+      Mdc_Wide_EncodeDefaultMultibyte(
+          multibyte_ascii_c_str, kAsciiExampleTextWide);
   assert(encode_result == multibyte_ascii_c_str);
   assert(strcmp(multibyte_ascii_c_str, kAsciiExampleText) == 0);
 

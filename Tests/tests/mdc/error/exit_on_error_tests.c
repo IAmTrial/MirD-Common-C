@@ -31,6 +31,8 @@
 
 #include "mdc/error/exit_on_error.h"
 
+#include "mdc/wchar_t/filew.h"
+
 static void Mdc_ExitOnError_AssertExitOnGeneralError(void) {
   Mdc_Error_ExitOnGeneralError(
       L"Error Test",
@@ -39,16 +41,11 @@ static void Mdc_ExitOnError_AssertExitOnGeneralError(void) {
       __LINE__,
       L"Twenty-five",
       25,
-      25
-  );
+      25);
 }
 
 static void Mdc_ExitOnError_AssertExitOnConstantMappingError(void) {
-  Mdc_Error_ExitOnConstantMappingError(
-      __FILEW__,
-      __LINE__,
-      128
-  );
+  Mdc_Error_ExitOnConstantMappingError(__FILEW__, __LINE__, 128);
 }
 
 static void Mdc_ExitOnError_AssertExitOnMemoryAllocError(void) {
@@ -56,11 +53,7 @@ static void Mdc_ExitOnError_AssertExitOnMemoryAllocError(void) {
 }
 
 static void Mdc_ExitOnError_AssertExitOnMdcFunctionError(void) {
-  Mdc_Error_ExitOnMdcFunctionError(
-      __FILEW__,
-      __LINE__,
-      L"Mdc_NotAFunction"
-  );
+  Mdc_Error_ExitOnMdcFunctionError(__FILEW__, __LINE__, L"Mdc_NotAFunction");
 }
 
 static void Mdc_ExitOnError_ExitOnStaticInitError(void) {
@@ -70,15 +63,10 @@ static void Mdc_ExitOnError_ExitOnStaticInitError(void) {
 #if defined(_WIN32) || defined(_WIN64)
 
 static void Mdc_ExitOnError_AssertExitOnWindowsFunctionError(void) {
-  Mdc_Error_ExitOnWindowsFunctionError(
-      __FILEW__,
-      __LINE__,
-      L"IsThisWindows9",
-      42
-  );
+  Mdc_Error_ExitOnWindowsFunctionError(__FILEW__, __LINE__, L"IsThisWindows9", 42);
 }
 
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 
 void Mdc_ExitOnError_RunTests(void) {
   Mdc_ExitOnError_AssertExitOnGeneralError();
@@ -87,8 +75,7 @@ void Mdc_ExitOnError_RunTests(void) {
   Mdc_ExitOnError_AssertExitOnMdcFunctionError();
   Mdc_ExitOnError_ExitOnStaticInitError();
 
-
 #if defined(_WIN32) || defined(_WIN64)
   Mdc_ExitOnError_AssertExitOnWindowsFunctionError();
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 }

@@ -32,4 +32,4 @@
 
 void Mdc_StdInt_RunTests(void);
 
-#endif /* MDC_TESTS_C_STD_STDINT_H_ */
+#endif  /* MDC_TESTS_C_STD_STDINT_H_ */

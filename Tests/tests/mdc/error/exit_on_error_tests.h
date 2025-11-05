@@ -32,4 +32,4 @@
 
 void Mdc_ExitOnError_RunTests(void);
 
-#endif /* MDC_TESTS_C_ERROR_EXIT_ON_ERROR_TESTS_H_ */
+#endif  /* MDC_TESTS_C_ERROR_EXIT_ON_ERROR_TESTS_H_ */

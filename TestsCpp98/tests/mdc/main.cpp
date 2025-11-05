@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 #if defined(NDEBUG)
   MessageBoxA(NULL, "Tests must run in debug mode!", "Error", MB_OK);
   exit(EXIT_FAILURE);
-#endif /* defined(NDEBUG) */
+#endif  /* defined(NDEBUG) */
 
   // Commented out to prevent exit.
   // ::mdc_test::error_test::RunTests();

@@ -32,4 +32,4 @@
 
 void Mdc_WideDecoding_RunTests(void);
 
-#endif /* MDC_TESTS_C_WCHAR_T_WIDE_DECODING_TESTS_H_ */
+#endif  /* MDC_TESTS_C_WCHAR_T_WIDE_DECODING_TESTS_H_ */

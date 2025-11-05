@@ -86,10 +86,7 @@ static void AssertMutexLockUnlockMulti() {
   value.value = 0;
 
   for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i] = new ::std::thread(
-        &RecursiveMutexedIncrement,
-        &value
-    );
+    threads[i] = new ::std::thread(&RecursiveMutexedIncrement, &value);
   }
 
   for (i = 0; i < kThreadsCount; i += 1) {
@@ -100,12 +97,12 @@ static void AssertMutexLockUnlockMulti() {
   assert(value.value == kThreadsCount);
 }
 
-} // namespace
+}  // namespace
 
 void RecursiveMutex_RunTests() {
   AssertMutexLockUnlockSingle();
   AssertMutexLockUnlockMulti();
 }
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test

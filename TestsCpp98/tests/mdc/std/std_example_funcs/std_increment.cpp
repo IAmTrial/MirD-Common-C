@@ -58,5 +58,5 @@ int Increment_ThreadFunc(void* value) {
   return 0;
 }
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test

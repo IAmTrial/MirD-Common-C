@@ -35,7 +35,7 @@ namespace std_test {
 
 void Thread_RunTests();
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test
 
-#endif /* MDC_TESTS_CPP98_STD_THREAD_TESTS_HPP_ */
+#endif  /* MDC_TESTS_CPP98_STD_THREAD_TESTS_HPP_ */

@@ -37,7 +37,7 @@ void Increment(int* value);
 
 int Increment_ThreadFunc(void* value);
 
-} // namespace std_test
-} // namespace mdc_test
+}  // namespace std_test
+}  // namespace mdc_test
 
-#endif /* MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_ */
+#endif  /* MDC_TESTS_CPP98_STD_STD_EXAMPLE_FUNCS_STD_INCREMENT_HPP_ */
