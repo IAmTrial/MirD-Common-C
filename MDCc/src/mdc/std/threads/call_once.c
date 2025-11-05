@@ -77,4 +77,4 @@ void call_once(once_flag* flag, void (*func)(void)) {
 
 #endif
 
-#endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */
+#endif  /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */

@@ -33,99 +33,66 @@
 
 #include <windows.h>
 
-static size_t Mdc_Wide_DecodeCharLength(
-    const char* char_c_str,
-    UINT code_page
-) {
-  size_t wide_c_str_capacity;
+static size_t Mdc_Wide_DecodeCharLength(const char* char_str, UINT code_page) {
+  size_t decoded_required_capacity;
 
   /* Determine the number of characters needed, minus null terminator. */
-  wide_c_str_capacity = MultiByteToWideChar(
-      code_page,
-      0,
-      char_c_str,
-      -1,
-      NULL,
-      0
-  );
+  decoded_required_capacity =
+      MultiByteToWideChar(code_page, 0, char_str, -1, NULL, 0);
 
-  return wide_c_str_capacity - 1;
+  return decoded_required_capacity - 1;
 }
 
 static wchar_t* Mdc_Wide_DecodeChar(
-    wchar_t* wide_c_str,
-    const char* char_c_str,
-    UINT code_page
-) {
-  size_t wide_c_str_len;
+    wchar_t* dest, const char* src, UINT code_page) {
+  size_t dest_len;
 
-  size_t converted_chars_with_null_count;
+  size_t decoded_with_null_count;
 
   /* Determine the number of characters needed. */
-  wide_c_str_len = Mdc_Wide_DecodeCharLength(char_c_str, code_page);
+  dest_len = Mdc_Wide_DecodeCharLength(src, code_page);
 
-  if (wide_c_str_len == 0) {
+  if (dest_len == 0) {
     goto return_bad;
   }
 
   /* Convert the char string to wide string. */
-  converted_chars_with_null_count = MultiByteToWideChar(
-      code_page,
-      0,
-      char_c_str,
-      -1,
-      wide_c_str,
-      wide_c_str_len + 1
-  );
+  decoded_with_null_count =
+      MultiByteToWideChar(code_page, 0, src, -1, dest, dest_len + 1);
 
-  if (converted_chars_with_null_count == 0
-      || converted_chars_with_null_count <= wide_c_str_len) {
+  if (decoded_with_null_count == 0
+      || decoded_with_null_count <= dest_len) {
     goto return_bad;
   }
 
-  return wide_c_str;
+  return dest;
 
 return_bad:
   return NULL;
 }
 
-wchar_t* Mdc_Wide_DecodeAscii(
-    wchar_t* wide_c_str,
-    const char* ascii_c_str
-) {
-  return Mdc_Wide_DecodeChar(wide_c_str, ascii_c_str, 20127);
+wchar_t* Mdc_Wide_DecodeAscii(wchar_t* dest, const char* src) {
+  return Mdc_Wide_DecodeChar(dest, src, 20127);
 }
 
-size_t Mdc_Wide_DecodeAsciiLength(
-    const char* ascii_c_str
-) {
-  return Mdc_Wide_DecodeCharLength(ascii_c_str, 20127);
+size_t Mdc_Wide_DecodeAsciiLength(const char* str) {
+  return Mdc_Wide_DecodeCharLength(str, 20127);
 }
 
-wchar_t* Mdc_Wide_DecodeDefaultMultibyte(
-    wchar_t* wide_c_str,
-    const char* multibyte_c_str
-) {
-  return Mdc_Wide_DecodeChar(wide_c_str, multibyte_c_str, CP_ACP);
+wchar_t* Mdc_Wide_DecodeDefaultMultibyte(wchar_t* dest, const char* src) {
+  return Mdc_Wide_DecodeChar(dest, src, CP_ACP);
 }
 
-size_t Mdc_Wide_DecodeDefaultMultibyteLength(
-    const char* ascii_c_str
-) {
-  return Mdc_Wide_DecodeCharLength(ascii_c_str, CP_ACP);
+size_t Mdc_Wide_DecodeDefaultMultibyteLength(const char* str) {
+  return Mdc_Wide_DecodeCharLength(str, CP_ACP);
 }
 
-wchar_t* Mdc_Wide_DecodeUtf8(
-    wchar_t* wide_c_str,
-    const char* utf8_c_str
-) {
-  return Mdc_Wide_DecodeChar(wide_c_str, utf8_c_str, CP_UTF8);
+wchar_t* Mdc_Wide_DecodeUtf8(wchar_t* dest, const char* src) {
+  return Mdc_Wide_DecodeChar(dest, src, CP_UTF8);
 }
 
-size_t Mdc_Wide_DecodeUtf8Length(
-    const char* utf8_c_str
-) {
-  return Mdc_Wide_DecodeCharLength(utf8_c_str, CP_UTF8);
+size_t Mdc_Wide_DecodeUtf8Length(const char* str) {
+  return Mdc_Wide_DecodeCharLength(str, CP_UTF8);
 }
 
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */

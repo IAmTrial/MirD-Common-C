@@ -66,14 +66,9 @@ int thrd_create(thrd_t* thrd, thrd_start_t func, void* arg) {
   args_wrapper->func_ = func;
   args_wrapper->arg_ = arg;
 
-  *thrd = (HANDLE) _beginthreadex(
-      NULL,
-      0,
-      &RunThreadFuncShim,
-      args_wrapper,
-      0,
-      NULL
-  );
+  *thrd =
+      (HANDLE)_beginthreadex(
+          NULL, 0, &RunThreadFuncShim, args_wrapper, 0, NULL);
 
   if (*thrd == NULL) {
     Mdc_free(args_wrapper);
@@ -224,4 +219,4 @@ int thrd_join(thrd_t thr, int *res) {
 
 #endif
 
-#endif /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */
+#endif  /* __STDC_VERSION__ < 201112L || defined(__STDC_NO_THREADS__) */

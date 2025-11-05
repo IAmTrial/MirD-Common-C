@@ -31,17 +31,16 @@
 #define MDC_C_ERROR_EXIT_ON_ERROR_H_
 
 #include "mdc/std/wchar.h"
-#include "mdc/wchar_t/filew.h"
 
 #if defined(_WIN32) || defined(_WIN64)
   #include <windows.h>
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 
 #include "mdc/dllapi_c_define.inc"
 
 #ifdef __cplusplus
 extern "C" {
-#endif /* __cplusplus */
+#endif  /* __cplusplus */
 
 enum {
   Mdc_Error_kErrorMessageCapacity = 1024
@@ -50,40 +49,30 @@ enum {
 DLLAPI void Mdc_Error_ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    ...
-);
+    ...);
 
 DLLAPI void Mdc_Error_ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    va_list vlist
-);
+    va_list vlist);
 
 DLLAPI void Mdc_Error_ExitOnConstantMappingError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line,
-    int value
-);
+    const wchar_t* file_path, unsigned int line, int value);
 
 DLLAPI void Mdc_Error_ExitOnMemoryAllocError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-);
+    const wchar_t* file_path, unsigned int line);
 
 DLLAPI void Mdc_Error_ExitOnMdcFunctionError(
-    const wchar_t* file_path_c_wstr,
+    const wchar_t* file_path,
     unsigned int line,
-    const wchar_t* function_name
-);
+    const wchar_t* function_name);
 
 DLLAPI void Mdc_Error_ExitOnStaticInitError(
-    const wchar_t* file_path_c_wstr,
-    unsigned int line
-);
+    const wchar_t* file_path, unsigned int line);
 
 #if defined(_WIN32) || defined(_WIN64)
 
@@ -91,14 +80,13 @@ DLLAPI void Mdc_Error_ExitOnWindowsFunctionError(
     const wchar_t* file_path_cwstr,
     unsigned int line,
     const wchar_t* function_name,
-    DWORD last_error
-);
+    DWORD last_error);
 
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#endif  /* defined(_WIN32) || defined(_WIN64) */
 
 #ifdef __cplusplus
 } /* extern "C" { */
-#endif /* __cplusplus */
+#endif  /* __cplusplus */
 
 #include "mdc/dllapi_c_undef.inc"
-#endif /* MDC_C_ERROR_EXIT_ON_ERROR_H_ */
+#endif  /* MDC_C_ERROR_EXIT_ON_ERROR_H_ */
