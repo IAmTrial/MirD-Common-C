@@ -34,10 +34,10 @@
   #include <windows.h>
 #endif  /* defined(_WIN32) || defined(_WIN64) */
 
+#include <stdarg.h>
+
 #include "mdc/error/exit_on_error.h"
 #include "mdc/wchar_t/filew.h"
-
-#include "mdc/dllapi_cpp98_define.inc"
 
 namespace mdc {
 namespace error {
@@ -46,43 +46,68 @@ enum {
   kErrorMessageCapacity = Mdc_Error_kErrorMessageCapacity,
 };
 
-DLLAPI void ExitOnGeneralError(
+inline void ExitOnGeneralError(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path,
     unsigned int line,
-    ...);
+    ...) {
+  va_list args;
 
-DLLAPI void ExitOnGeneralErrorV(
+  va_start(args, line);
+
+  Mdc_Error_ExitOnGeneralErrorV(
+      caption_text, message_format, file_path, line, args);
+
+  va_end(args);
+}
+
+inline void ExitOnGeneralErrorV(
     const wchar_t* caption_text,
     const wchar_t* message_format,
     const wchar_t* file_path,
     unsigned int line,
-    va_list args);
+    va_list args) {
+  Mdc_Error_ExitOnGeneralErrorV(
+      caption_text, message_format, file_path, line, args);
+}
 
-DLLAPI void ExitOnConstantMappingError(
-    const wchar_t* file_path, unsigned int line, int value);
+inline void ExitOnConstantMappingError(
+    const wchar_t* file_path, unsigned int line, int value) {
+  Mdc_Error_ExitOnConstantMappingError(file_path, line, value);
+}
 
-DLLAPI void ExitOnMemoryAllocError(
-    const wchar_t* file_path, unsigned int line);
+inline void ExitOnMemoryAllocError(
+    const wchar_t* file_path, unsigned int line) {
+  Mdc_Error_ExitOnMemoryAllocError(file_path, line);
+}
 
-DLLAPI void ExitOnMdcFunctionError(
-    const wchar_t* file_path, unsigned int line, const wchar_t* function_name);
+inline void ExitOnMdcFunctionError(
+    const wchar_t* file_path,
+    unsigned int line,
+    const wchar_t* function_name) {
+  Mdc_Error_ExitOnMdcFunctionError(file_path, line, function_name);
+}
 
-DLLAPI void ExitOnStaticInitError(const wchar_t* file_path, unsigned int line);
+inline void ExitOnStaticInitError(
+    const wchar_t* file_path, unsigned int line) {
+  Mdc_Error_ExitOnStaticInitError(file_path, line);
+}
 
 #if defined(_WIN32) || defined(_WIN64)
 
-DLLAPI void ExitOnWindowsFunctionError(
+inline void ExitOnWindowsFunctionError(
     const wchar_t* file_path,
     unsigned int line,
     const wchar_t* function_name,
-    DWORD last_error);
+    DWORD last_error) {
+  Mdc_Error_ExitOnWindowsFunctionError(
+      file_path, line, function_name, last_error);
+}
 
 #endif  /* defined(_WIN32) || defined(_WIN64) */
 
 }  // namespace error
 }  // namespace mdc
 
-#include "mdc/dllapi_cpp98_undef.inc"
 #endif  /* MDC_CPP98_ERROR_EXIT_ON_ERROR_HPP_ */

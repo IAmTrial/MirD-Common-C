@@ -36,11 +36,11 @@
 
 #else
 
+#include <stdexcept>
+
 #include "mdc/std/threads.h"
 
 #include "mdc/std/mutex.hpp"
-
-#include "mdc/dllapi_cpp98_define.inc"
 
 namespace std {
 
@@ -48,20 +48,35 @@ namespace std {
  * Condition variables
  */
 
-class DLLAPI condition_variable {
+class condition_variable {
  public:
-  condition_variable();
+  inline condition_variable() {
+    int init_result = ::cnd_init(&this->condition_variable_);
 
-  ~condition_variable();
+    if (init_result != thrd_success) {
+      throw ::std::runtime_error(
+          "::std::condition_variable::condition_variable failure");
+    }
+  }
 
-  void notify_one() throw();
+  inline ~condition_variable() {
+    ::cnd_destroy(&this->condition_variable_);
+  }
 
-  void notify_all() throw();
+  inline void notify_one() throw() {
+    ::cnd_signal(&this->condition_variable_);
+  }
 
-  void wait(unique_lock<mutex>& lock);
+  inline void notify_all() throw() {
+    ::cnd_broadcast(&this->condition_variable_);
+  }
+
+  inline void wait(unique_lock<mutex>& lock) {
+    ::cnd_wait(&this->condition_variable_, lock.mutex()->native_handle());
+  }
 
   template <class Predicate>
-  void wait(unique_lock<mutex>& lock, Predicate pred) {
+  inline void wait(unique_lock<mutex>& lock, Predicate pred) {
     while (!pred()) {
       wait(lock);
     }
@@ -75,23 +90,36 @@ class DLLAPI condition_variable {
   condition_variable& operator=(const condition_variable&);
 };
 
-class DLLAPI condition_variable_any {
+class condition_variable_any {
  public:
-  condition_variable_any();
+  inline condition_variable_any() {
+    int init_result = ::cnd_init(&this->condition_variable_);
 
-  ~condition_variable_any();
+    if (init_result != thrd_success) {
+      throw ::std::runtime_error(
+          "::std::condition_variable_any::condition_variable_any failure");
+    }
+  }
 
-  void notify_one() throw();
+  inline ~condition_variable_any() {
+    ::cnd_destroy(&this->condition_variable_);
+  }
 
-  void notify_all() throw();
+  inline void notify_one() throw() {
+    ::cnd_signal(&this->condition_variable_);
+  }
+
+  inline void notify_all() throw() {
+    ::cnd_broadcast(&this->condition_variable_);
+  }
 
   template <class Lock>
-  void wait(Lock& lock) {
+  inline void wait(Lock& lock) {
     ::cnd_wait(&this->condition_variable_, &lock.mutex()->native_handle());
   }
 
   template <class Lock, class Predicate>
-  void wait(Lock& lock, Predicate pred) {
+  inline void wait(Lock& lock, Predicate pred) {
     while (!pred()) {
       wait(lock);
     }
@@ -107,7 +135,6 @@ class DLLAPI condition_variable_any {
 
 }  // namespace std
 
-#include "mdc/dllapi_cpp98_undef.inc"
 #endif  // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif  /* MDC_CPP98_STD_CONDITION_VARIABLE_HPP_ */
