@@ -19,18 +19,20 @@ if (MINGW)
 endif (MINGW)
 
 # Build output
-option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Build using shared libraries" OFF)
-if (${PROJECT_NAME}_BUILD_SHARED_LIBS)
-    add_library(${PROJECT_NAME} SHARED)
-    target_compile_definitions(${PROJECT_NAME}
-        INTERFACE MDC_CPP98_DLLIMPORT
-        PRIVATE MDC_CPP98_DLLEXPORT)
-else()
-    add_library(${PROJECT_NAME} STATIC)
-endif()
+# option(${PROJECT_NAME}_BUILD_SHARED_LIBS "Build using shared libraries" OFF)
+# if (${PROJECT_NAME}_BUILD_SHARED_LIBS)
+#     add_library(${PROJECT_NAME} SHARED)
+#     target_compile_definitions(${PROJECT_NAME}
+#         INTERFACE MDC_CPP98_DLLIMPORT
+#         PRIVATE MDC_CPP98_DLLEXPORT)
+# else()
+#     add_library(${PROJECT_NAME} STATIC)
+# endif()
 
-target_include_directories(${PROJECT_NAME} PUBLIC "${${PROJECT_NAME}_SOURCE_DIR}/src")
-target_link_libraries(${PROJECT_NAME} PRIVATE MDCc)
+add_library(${PROJECT_NAME} INTERFACE)
+
+target_include_directories(${PROJECT_NAME} INTERFACE "${${PROJECT_NAME}_SOURCE_DIR}/src")
+target_link_libraries(${PROJECT_NAME} INTERFACE MDCc)
 
 add_subdirectory("src")
 

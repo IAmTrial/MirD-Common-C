@@ -42,32 +42,46 @@
 
 #include "mdc/std/threads.h"
 
-#include "mdc/dllapi_cpp98_define.inc"
-
 namespace std {
 
 /**
  * Mutual exclusion
  */
 
-class DLLAPI mutex {
+class mutex {
  private:
   typedef ::mtx_t native_type;
 
  public:
   typedef native_type* native_handle_type;
 
-  mutex() throw();
+  inline mutex() throw() {
+    ::mtx_init(&this->mutex_, mtx_plain);
+  }
 
-  ~mutex();
+  inline ~mutex() {
+    ::mtx_destroy(&this->mutex_);
+  }
 
-  void lock();
+  inline void lock() {
+    int lock_result = ::mtx_lock(&this->mutex_);
 
-  bool try_lock();
+    if (lock_result != thrd_success) {
+      throw ::std::runtime_error("::std::mutex::lock failure");
+    }
+  }
 
-  void unlock();
+  inline bool try_lock() {
+    return !!::mtx_trylock(&this->mutex_);
+  }
 
-  native_handle_type native_handle();
+  inline void unlock() {
+    ::mtx_unlock(&this->mutex_);
+  }
+
+  inline native_handle_type native_handle() {
+    return &this->mutex_;
+  }
 
  private:
   native_type mutex_;
@@ -77,24 +91,40 @@ class DLLAPI mutex {
   mutex& operator=(const mutex&);
 };
 
-class DLLAPI recursive_mutex {
+class recursive_mutex {
  private:
   typedef ::mtx_t native_type;
 
  public:
   typedef native_type* native_handle_type;
 
-  recursive_mutex() throw();
+  inline recursive_mutex() throw() {
+    ::mtx_init(&this->mutex_, mtx_plain | mtx_recursive);
+  }
 
-  ~recursive_mutex();
+  inline ~recursive_mutex() {
+    ::mtx_destroy(&this->mutex_);
+  }
 
-  void lock();
+  inline void lock() {
+    int lock_result = ::mtx_lock(&this->mutex_);
 
-  bool try_lock();
+    if (lock_result != thrd_success) {
+      throw ::std::runtime_error("::std::mutex::lock failure");
+    }
+  }
 
-  void unlock();
+  inline bool try_lock() {
+    return !!::mtx_trylock(&this->mutex_);
+  }
 
-  native_handle_type native_handle();
+  inline void unlock() {
+    ::mtx_unlock(&this->mutex_);
+  }
+
+  inline native_handle_type native_handle() {
+    return &this->mutex_;
+  }
 
  private:
   native_type mutex_;
@@ -113,11 +143,11 @@ class lock_guard {
  public:
   typedef Mutex mutex_type;
 
-  explicit lock_guard(mutex_type& m) : mutex_(m) {
+  inline explicit lock_guard(mutex_type& m) : mutex_(m) {
     m.lock();
   }
 
-  ~lock_guard() {
+  inline ~lock_guard() {
     mutex_.unlock();
   }
 
@@ -134,16 +164,16 @@ class unique_lock {
  public:
   typedef Mutex mutex_type;
 
-  unique_lock() throw() : mutex_(NULL), is_owner_(false) {}
+  inline unique_lock() throw() : mutex_(NULL), is_owner_(false) {}
 
-  explicit unique_lock(mutex_type& m) {
+  explicit inline unique_lock(mutex_type& m) {
     m.lock();
 
     this->is_owner_ = true;
     this->mutex_ = &m;
   }
 
-  ~unique_lock() {
+  inline ~unique_lock() {
     if (this->mutex_ != NULL && this->is_owner_) {
       this->mutex_->unlock();
     }
@@ -232,29 +262,31 @@ class unique_lock {
  * Call once
  */
 
-class DLLAPI once_flag;
-
-DLLAPI void call_once(once_flag& flag, void (*func)(void));
-
-class DLLAPI once_flag {
+class once_flag {
  public:
-  once_flag() throw();
+  inline once_flag() throw() : once_flag_(GetInitState()) {}
 
-  DLLAPI friend void call_once(once_flag& flag, void (*func)(void));
+  friend inline void call_once(once_flag& flag, void (*func)(void));
 
  private:
-  static const ::once_flag kDefaultInit;
-
   ::once_flag once_flag_;
+
+  static inline ::once_flag GetInitState() {
+    ::once_flag temp = ONCE_FLAG_INIT;
+    return temp;
+  }
 
   // Intentionally unimplemented to "delete" them.
   once_flag(const once_flag&);
   once_flag& operator=(const once_flag&);
 };
 
+inline void call_once(once_flag& flag, void (*func)(void)) {
+  ::call_once(&flag.once_flag_, func);
+}
+
 }  // namespace std
 
-#include "mdc/dllapi_cpp98_undef.inc"
 #endif  // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif  /* MDC_CPP98_STD_MUTEX_HPP_ */

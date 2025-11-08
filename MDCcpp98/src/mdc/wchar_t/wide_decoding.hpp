@@ -34,22 +34,35 @@
 
 #include <string>
 
-#include "mdc/dllapi_cpp98_define.inc"
+#include "mdc/std/wchar.h"
+#include "mdc/wchar_t/wide_decoding.h"
 
 namespace mdc {
 namespace wide {
 
-DLLAPI wchar_t* DecodeAscii(wchar_t* dest, const char* src);
+inline wchar_t* DecodeAscii(wchar_t* dest, const char* src) {
+  return Mdc_Wide_DecodeAscii(dest, src);
+}
 
-DLLAPI size_t DecodeAsciiLength(const char* str);
+inline size_t DecodeAsciiLength(const char* str) {
+  return Mdc_Wide_DecodeAsciiLength(str);
+}
 
-DLLAPI wchar_t* DecodeDefaultMultibyte(wchar_t* dest, const char* src);
+inline wchar_t* DecodeDefaultMultibyte(wchar_t* dest, const char* src) {
+  return Mdc_Wide_DecodeDefaultMultibyte(dest, src);
+}
 
-DLLAPI size_t DecodeDefaultMultibyteLength(const char* str);
+inline size_t DecodeDefaultMultibyteLength(const char* str) {
+  return Mdc_Wide_DecodeDefaultMultibyteLength(str);
+}
 
-DLLAPI wchar_t* DecodeUtf8(wchar_t* dest, const char* src);
+inline wchar_t* DecodeUtf8(wchar_t* dest, const char* src) {
+  return Mdc_Wide_DecodeUtf8(dest, src);
+}
 
-DLLAPI size_t DecodeUtf8Length(const char* str);
+inline size_t DecodeUtf8Length(const char* str) {
+  return Mdc_Wide_DecodeUtf8Length(str);
+}
 
 inline ::std::wstring DecodeAscii(const char* src) {
   size_t length = DecodeAsciiLength(src);
@@ -84,5 +97,4 @@ inline ::std::wstring DecodeUtf8(const char* str) {
 }  // namespace wide
 }  // namespace mdc
 
-#include "mdc/dllapi_cpp98_undef.inc"
 #endif  /* MDC_CPP98_WCHAR_T_WIDE_DECODING_HPP_ */

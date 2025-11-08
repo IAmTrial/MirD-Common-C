@@ -36,22 +36,42 @@
 
 #else
 
-#include "mdc/std/threads.h"
+#include <stdexcept>
 
-#include "mdc/dllapi_cpp98_define.inc"
+#include "mdc/std/threads.h"
 
 namespace std {
 
-class DLLAPI thread {
+class thread {
  public:
 
-  explicit thread(int (*func)(void*), void* arg);
+  explicit inline thread(int (*func)(void*), void* arg) {
+    int create_result = thrd_create(&this->thread_, func, arg);
 
-  void join();
+    if (create_result != thrd_success) {
+      throw ::std::runtime_error("::std::thread::thread failure");
+    }
+  }
 
-  void detach();
+  inline void join() {
+    int result_code;
 
-  void swap(thread& other) throw();
+    int join_result = thrd_join(this->thread_, &result_code);
+
+    if (join_result != thrd_success) {
+      throw ::std::runtime_error("::std::thread::join failure");
+    }
+  }
+
+  inline void detach() {
+    int detach_result = thrd_detach(this->thread_);
+  }
+
+  inline void swap(thread& other) throw() {
+    thrd_t temp = this->thread_;
+    this->thread_ = other.thread_;
+    other.thread_ = temp;
+  }
 
  private:
   thrd_t thread_;
@@ -63,7 +83,6 @@ class DLLAPI thread {
 
 }  // namespace std
 
-#include "mdc/dllapi_cpp98_undef.inc"
 #endif  // __cplusplus >= 201103L || _MSVC_LANG >= 201103L
 
 #endif  /* MDC_CPP98_STD_THREADS_HPP_ */
