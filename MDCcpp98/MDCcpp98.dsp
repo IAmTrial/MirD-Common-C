@@ -197,14 +197,6 @@ SOURCE=.\src\mdc\wchar_t\wide_encoding.hpp
 # End Source File
 # End Group
 # End Group
-# Begin Source File
-
-SOURCE=.\src\mdc\dllapi_cpp98_define.inc
-# End Source File
-# Begin Source File
-
-SOURCE=.\src\mdc\dllapi_cpp98_undef.inc
-# End Source File
 # End Group
 # End Group
 # End Target
