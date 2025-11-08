@@ -65,33 +65,33 @@ inline size_t EncodeUtf8Length(const wchar_t* str) {
 }
 
 inline ::std::string EncodeAscii(const wchar_t* src) {
-  size_t length = EncodeUtf8Length(src);
+  size_t dest_length = EncodeUtf8Length(src);
 
-  ::std::string ascii_str(length, '\0');
+  ::std::string dest(dest_length, '\0');
 
-  EncodeUtf8(&ascii_str[0], src);
+  EncodeUtf8(&dest[0], src);
 
-  return ascii_str;
+  return dest;
 }
 
 inline ::std::string EncodeDefaultMultibyte(const wchar_t* src) {
-  size_t length = EncodeDefaultMultibyteLength(src);
+  size_t dest_length = EncodeDefaultMultibyteLength(src);
 
-  ::std::string multibyte_str(length, '\0');
+  ::std::string dest(dest_length, '\0');
 
-  EncodeDefaultMultibyte(&multibyte_str[0], src);
+  EncodeDefaultMultibyte(&dest[0], src);
 
-  return multibyte_str;
+  return dest;
 }
 
 inline ::std::string EncodeUtf8(const wchar_t* src) {
-  size_t utf8_c_str_length = EncodeUtf8Length(src);
+  size_t dest_length = EncodeUtf8Length(src);
 
-  ::std::string utf8_str(utf8_c_str_length, '\0');
+  ::std::string dest(dest_length, '\0');
 
-  EncodeUtf8(&utf8_str[0], src);
+  EncodeUtf8(&dest[0], src);
 
-  return utf8_str;
+  return dest;
 }
 
 }  // namespace wide

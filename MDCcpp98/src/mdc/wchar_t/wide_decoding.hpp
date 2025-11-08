@@ -65,33 +65,33 @@ inline size_t DecodeUtf8Length(const char* str) {
 }
 
 inline ::std::wstring DecodeAscii(const char* src) {
-  size_t length = DecodeAsciiLength(src);
+  size_t dest_length = DecodeAsciiLength(src);
 
-  ::std::wstring wide_str(length, '\0');
+  ::std::wstring dest(dest_length, '\0');
 
-  DecodeAscii(&wide_str[0], src);
+  DecodeAscii(&dest[0], src);
 
-  return wide_str;
+  return dest;
 }
 
 inline ::std::wstring DecodeDefaultMultibyte(const char* str) {
-  size_t length = DecodeDefaultMultibyteLength(str);
+  size_t dest_length = DecodeDefaultMultibyteLength(str);
 
-  ::std::wstring wide_str(length, '\0');
+  ::std::wstring dest(dest_length, '\0');
 
-  DecodeDefaultMultibyte(&wide_str[0], str);
+  DecodeDefaultMultibyte(&dest[0], str);
 
-  return wide_str;
+  return dest;
 }
 
-inline ::std::wstring DecodeUtf8(const char* str) {
-  size_t length = DecodeUtf8Length(str);
+inline ::std::wstring DecodeUtf8(const char* src) {
+  size_t dest_length = DecodeUtf8Length(src);
 
-  ::std::wstring wide_str(length, '\0');
+  ::std::wstring dest(dest_length, '\0');
 
-  DecodeUtf8(&wide_str[0], str);
+  DecodeUtf8(&dest[0], src);
 
-  return wide_str;
+  return dest;
 }
 
 }  // namespace wide
