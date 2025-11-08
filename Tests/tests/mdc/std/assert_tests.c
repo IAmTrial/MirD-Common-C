@@ -31,12 +31,12 @@
 
 #include "mdc/std/assert.h"
 
-static void Mdc_Assert_StaticAssert(void) {
+static void StaticAssert_ChecksConditions(void) {
   static_assert(0 == 0, "This cannot fail.");
   static_assert(0 != 1, "This cannot fail.");
   /* static_assert(1 == 0, "This will fail."); */
 }
 
 void Mdc_Assert_RunTests(void) {
-  Mdc_Assert_StaticAssert();
+  StaticAssert_ChecksConditions();
 }

@@ -33,15 +33,15 @@
 
 #include "mdc/std/stdbool.h"
 
-static void Mdc_Std_AssertFalseIsZero(void) {
+static void AssertFalseIsZero(void) {
   assert(false == 0);
 }
 
-static void Mdc_Std_AssertTrueIsNonZero(void) {
+static void AssertTrueIsNonZero(void) {
   assert(true != 0);
 }
 
 void Mdc_StdBool_RunTests(void) {
-  Mdc_Std_AssertFalseIsZero();
-  Mdc_Std_AssertTrueIsNonZero();
+  AssertFalseIsZero();
+  AssertTrueIsNonZero();
 }

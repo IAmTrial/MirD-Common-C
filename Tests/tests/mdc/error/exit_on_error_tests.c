@@ -33,7 +33,7 @@
 
 #include "mdc/wchar_t/filew.h"
 
-static void Mdc_ExitOnError_AssertExitOnGeneralError(void) {
+static void ExitOnGeneralError_ExitsWithMessage(void) {
   Mdc_Error_ExitOnGeneralError(
       L"Error Test",
       L"%ls, %d, %X",
@@ -44,38 +44,38 @@ static void Mdc_ExitOnError_AssertExitOnGeneralError(void) {
       25);
 }
 
-static void Mdc_ExitOnError_AssertExitOnConstantMappingError(void) {
+static void ExitOnConstantMappingError_ExitsWithMessage(void) {
   Mdc_Error_ExitOnConstantMappingError(__FILEW__, __LINE__, 128);
 }
 
-static void Mdc_ExitOnError_AssertExitOnMemoryAllocError(void) {
+static void ExitOnMemoryAllocError_ExitsWithMessage(void) {
   Mdc_Error_ExitOnMemoryAllocError(__FILEW__, __LINE__);
 }
 
-static void Mdc_ExitOnError_AssertExitOnMdcFunctionError(void) {
+static void ExitOnMdcFunctionError_ExitsWithMessage(void) {
   Mdc_Error_ExitOnMdcFunctionError(__FILEW__, __LINE__, L"Mdc_NotAFunction");
 }
 
-static void Mdc_ExitOnError_ExitOnStaticInitError(void) {
+static void ExitOnStaticInitError_ExitsWithMessage(void) {
   Mdc_Error_ExitOnStaticInitError(__FILEW__, __LINE__);
 }
 
 #if defined(_WIN32) || defined(_WIN64)
 
-static void Mdc_ExitOnError_AssertExitOnWindowsFunctionError(void) {
+static void ExitOnWindowsFunctionError_ExitsWithMessage(void) {
   Mdc_Error_ExitOnWindowsFunctionError(__FILEW__, __LINE__, L"IsThisWindows9", 42);
 }
 
 #endif  /* defined(_WIN32) || defined(_WIN64) */
 
 void Mdc_ExitOnError_RunTests(void) {
-  Mdc_ExitOnError_AssertExitOnGeneralError();
-  Mdc_ExitOnError_AssertExitOnConstantMappingError();
-  Mdc_ExitOnError_AssertExitOnMemoryAllocError();
-  Mdc_ExitOnError_AssertExitOnMdcFunctionError();
-  Mdc_ExitOnError_ExitOnStaticInitError();
+  ExitOnGeneralError_ExitsWithMessage();
+  ExitOnConstantMappingError_ExitsWithMessage();
+  ExitOnMemoryAllocError_ExitsWithMessage();
+  ExitOnMdcFunctionError_ExitsWithMessage();
+  ExitOnStaticInitError_ExitsWithMessage();
 
 #if defined(_WIN32) || defined(_WIN64)
-  Mdc_ExitOnError_AssertExitOnWindowsFunctionError();
+  ExitOnWindowsFunctionError_ExitsWithMessage();
 #endif  /* defined(_WIN32) || defined(_WIN64) */
 }
