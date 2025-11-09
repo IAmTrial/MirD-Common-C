@@ -71,7 +71,7 @@ void Mdc_Error_ExitOnGeneralErrorV(
     const wchar_t* message_format,
     const wchar_t* file_path,
     unsigned int line,
-    va_list vlist) {
+    va_list args) {
   _snwprintf(
       error_message_format,
       Mdc_Error_kErrorMessageCapacity,
@@ -86,7 +86,7 @@ void Mdc_Error_ExitOnGeneralErrorV(
       error_message,
       Mdc_Error_kErrorMessageCapacity,
       error_message_format,
-      vlist);
+      args);
 
   error_message[Mdc_Error_kErrorMessageCapacity - 1] = L'\0';
 

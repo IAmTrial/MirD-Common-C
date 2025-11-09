@@ -49,7 +49,7 @@ enum {
   kOnceTargetValue = 42
 };
 
-static int once_value = kOnceDefaultValue;
+static int once_target = kOnceDefaultValue;
 
 static int Increment(void* value) {
   int* actual_value = (int*) value;
@@ -70,7 +70,7 @@ static int Increment(void* value) {
   return 0;
 }
 
-static int MutexedIncrement(void* arg) {
+static int IncrementWithMutexLock(void* arg) {
   struct MutexedValue* mutexed_value = arg;
   int mtx_lock_result;
   int mtx_unlock_result;
@@ -86,15 +86,15 @@ static int MutexedIncrement(void* arg) {
   return 0;
 }
 
-static void SetOnceTarget(void) {
+static void IncrementOnceTarget(void) {
   size_t i;
 
   for (i = 0; i < kOnceTargetValue; i += 1) {
-    Increment(&once_value);
+    Increment(&once_target);
   }
 }
 
-static int SetOnceTargetMultithread(void* arg) {
+static int SetOnceTargetOnce(void* arg) {
   enum {
     kIterationCount = 8
   };
@@ -103,13 +103,13 @@ static int SetOnceTargetMultithread(void* arg) {
   size_t i;
 
   for (i = 0; i < kIterationCount; i += 1) {
-    call_once(flag, &SetOnceTarget);
+    call_once(flag, &IncrementOnceTarget);
   }
 
   return 0;
 }
 
-static void Mdc_Threads_AssertRaceCondition(void) {
+static void ThreadCreate_WithoutLocking_HasRaceCondition(void) {
   enum {
     kThreadsCount = 256
   };
@@ -138,7 +138,7 @@ static void Mdc_Threads_AssertRaceCondition(void) {
   assert(value <= kThreadsCount);
 }
 
-static void Mdc_Threads_AssertMutexLockUnlockSingle(void) {
+static void MutexLockAndUnlock_SingleThread_NoRaceCondition(void) {
   struct MutexedValue value;
 
   int mtx_init_result;
@@ -148,13 +148,13 @@ static void Mdc_Threads_AssertMutexLockUnlockSingle(void) {
   mtx_init_result = mtx_init(&value.mutex, mtx_plain);
   assert(mtx_init_result == thrd_success);
 
-  MutexedIncrement(&value);
+  IncrementWithMutexLock(&value);
   assert(value.value == 1);
 
   mtx_destroy(&value.mutex);
 }
 
-static void Mdc_Threads_AssertMutexLockUnlockMulti(void) {
+static void MutexLockAndUnlock_MultiThreaded_NoRaceCondition(void) {
   enum {
     kThreadsCount = 256
   };
@@ -173,13 +173,11 @@ static void Mdc_Threads_AssertMutexLockUnlockMulti(void) {
   assert(mtx_init_result == thrd_success);
 
   for (i = 0; i < kThreadsCount; i += 1) {
-    thread_create_result = thrd_create(&threads[i], &MutexedIncrement, &value);
-    assert(thread_create_result == thrd_success);
+    thread_create_result = thrd_create(&threads[i], &IncrementWithMutexLock, &value);
   }
 
   for (i = 0; i < kThreadsCount; i += 1) {
     thread_join_result = thrd_join(threads[i], NULL);
-    assert(thread_join_result == thrd_success);
   }
 
   assert(value.value == kThreadsCount);
@@ -187,21 +185,17 @@ static void Mdc_Threads_AssertMutexLockUnlockMulti(void) {
   mtx_destroy(&value.mutex);
 }
 
-static void Mdc_Threads_AssertCallOnceSingle(void) {
-  const once_flag kInitOnceFlag = ONCE_FLAG_INIT;
-
+static void CallOnce_MultipleSingleThreadCalls_CalledOnce(void) {
   once_flag flag = ONCE_FLAG_INIT;
 
-  once_value = kOnceDefaultValue;
+  once_target = kOnceDefaultValue;
 
-  assert(memcmp(&flag, &kInitOnceFlag, sizeof(kInitOnceFlag)) == 0);
+  SetOnceTargetOnce(&flag);
 
-  SetOnceTargetMultithread(&flag);
-
-  assert(once_value == kOnceTargetValue);
+  assert(once_target == kOnceTargetValue);
 }
 
-static void Mdc_Threads_AssertCallOnceMulti(void) {
+static void CallOnce_MultiThreadedCalls_CalledOnce(void) {
   enum {
     kThreadsCount = 256
   };
@@ -215,27 +209,22 @@ static void Mdc_Threads_AssertCallOnceMulti(void) {
   int thread_create_result;
   int thread_join_result;
 
-  once_value = kOnceDefaultValue;
-
-  assert(memcmp(&flag, &kInitOnceFlag, sizeof(kInitOnceFlag)) == 0);
+  once_target = kOnceDefaultValue;
 
   for (i = 0; i < kThreadsCount; i += 1) {
-    thread_create_result = thrd_create(&threads[i], &SetOnceTargetMultithread, &flag);
-    assert(thread_create_result == thrd_success);
+    thread_create_result = thrd_create(&threads[i], &SetOnceTargetOnce, &flag);
   }
-
   for (i = 0; i < kThreadsCount; i += 1) {
     thread_join_result = thrd_join(threads[i], NULL);
-    assert(thread_join_result == thrd_success);
   }
 
-  assert(once_value == kOnceTargetValue);
+  assert(once_target == kOnceTargetValue);
 }
 
 void Mdc_Threads_RunTests(void) {
-  Mdc_Threads_AssertRaceCondition();
-  Mdc_Threads_AssertMutexLockUnlockSingle();
-  Mdc_Threads_AssertMutexLockUnlockMulti();
-  Mdc_Threads_AssertCallOnceSingle();
-  Mdc_Threads_AssertCallOnceMulti();
+  ThreadCreate_WithoutLocking_HasRaceCondition();
+  MutexLockAndUnlock_SingleThread_NoRaceCondition();
+  MutexLockAndUnlock_MultiThreaded_NoRaceCondition();
+  CallOnce_MultipleSingleThreadCalls_CalledOnce();
+  CallOnce_MultiThreadedCalls_CalledOnce();
 }

@@ -44,7 +44,7 @@ struct MutexedValue {
   int value;
 };
 
-static int MutexedIncrement(void* arg) {
+static int IncrementWithMutexLock(void* arg) {
   MutexedValue* mutexed_value = reinterpret_cast<MutexedValue*>(arg);
 
   mutexed_value->mutex.lock();
@@ -56,16 +56,16 @@ static int MutexedIncrement(void* arg) {
   return 0;
 }
 
-static void AssertMutexLockUnlockSingle() {
+static void LockAndUnlock_SingleThread_NoRaceCondition() {
   MutexedValue value;
-
   value.value = 0;
 
-  MutexedIncrement(&value);
+  IncrementWithMutexLock(&value);
+
   assert(value.value == 1);
 }
 
-static void AssertMutexLockUnlockMulti() {
+static void LockAndUnlock_MultiThreaded_NoRaceCondition() {
   enum {
     kThreadsCount = 256
   };
@@ -74,11 +74,9 @@ static void AssertMutexLockUnlockMulti() {
 
   ::std::thread* threads[kThreadsCount];
   MutexedValue value;
-
   value.value = 0;
-
   for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i] = new ::std::thread(&MutexedIncrement, &value);
+    threads[i] = new ::std::thread(&IncrementWithMutexLock, &value);
   }
 
   for (i = 0; i < kThreadsCount; i += 1) {
@@ -92,8 +90,8 @@ static void AssertMutexLockUnlockMulti() {
 }  // namespace
 
 void Mutex_RunTests() {
-  AssertMutexLockUnlockSingle();
-  AssertMutexLockUnlockMulti();
+  LockAndUnlock_SingleThread_NoRaceCondition();
+  LockAndUnlock_MultiThreaded_NoRaceCondition();
 }
 
 }  // namespace std_test

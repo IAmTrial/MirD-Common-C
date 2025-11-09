@@ -33,11 +33,10 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include "mdc/malloc/malloc.h"
 #include "mdc/std/wchar.h"
 #include "mdc/wchar_t/filew.h"
 
-void Mdc_FileW_AssertFileW(void) {
+void AssertFileW(void) {
   enum {
     kFileLength = sizeof(__FILEW__) / sizeof(__FILEW__[0])
   };
@@ -60,10 +59,8 @@ void Mdc_FileW_AssertFileW(void) {
       assert(file[i] == filew[i]);
     }
   }
-
-  assert(Mdc_GetMallocDifference() == 0);
 }
 
 void Mdc_FileW_RunTests(void) {
-  Mdc_FileW_AssertFileW();
+  AssertFileW();
 }

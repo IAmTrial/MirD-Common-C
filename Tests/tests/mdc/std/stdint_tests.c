@@ -33,47 +33,47 @@
 
 #include "mdc/std/stdint.h"
 
-static void Mdc_Std_AssertInt8Size(void) {
+static void AssertInt8Size(void) {
   assert(sizeof(int8_t) == 1);
 }
 
-static void Mdc_Std_AssertInt16Size(void) {
+static void AssertInt16Size(void) {
   assert(sizeof(int16_t) == 2);
 }
 
-static void Mdc_Std_AssertInt32Size(void) {
+static void AssertInt32Size(void) {
   assert(sizeof(int32_t) == 4);
 }
 
-static void Mdc_Std_AssertUInt8Size(void) {
+static void AssertUInt8Size(void) {
   assert(sizeof(uint8_t) == 1);
 }
 
-static void Mdc_Std_AssertUInt16Size(void) {
+static void AssertUInt16Size(void) {
   assert(sizeof(uint16_t) == 2);
 }
 
-static void Mdc_Std_AssertUInt32Size(void) {
+static void AssertUInt32Size(void) {
   assert(sizeof(uint32_t) == 4);
 }
 
-static void Mdc_Std_AssertIntptrSize(void) {
+static void AssertIntptrSize(void) {
   assert(sizeof(intptr_t) == sizeof(void*));
 }
 
-static void Mdc_Std_AssertUintptrSize(void) {
+static void AssertUintptrSize(void) {
   assert(sizeof(uintptr_t) == sizeof(void*));
 }
 
 void Mdc_StdInt_RunTests(void) {
-  Mdc_Std_AssertInt8Size();
-  Mdc_Std_AssertInt16Size();
-  Mdc_Std_AssertInt32Size();
+  AssertInt8Size();
+  AssertInt16Size();
+  AssertInt32Size();
 
-  Mdc_Std_AssertUInt8Size();
-  Mdc_Std_AssertUInt16Size();
-  Mdc_Std_AssertUInt32Size();
+  AssertUInt8Size();
+  AssertUInt16Size();
+  AssertUInt32Size();
 
-  Mdc_Std_AssertIntptrSize();
-  Mdc_Std_AssertUintptrSize();
+  AssertIntptrSize();
+  AssertUintptrSize();
 }

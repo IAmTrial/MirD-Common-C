@@ -44,7 +44,7 @@ struct MutexedValue {
   int value;
 };
 
-static int RecursiveMutexedIncrement(void* arg) {
+static int IncrementWithRecursiveMutexLock(void* arg) {
   MutexedValue* mutexed_value = reinterpret_cast<MutexedValue*>(arg);
 
   mutexed_value->mutex.lock();
@@ -64,16 +64,16 @@ static int RecursiveMutexedIncrement(void* arg) {
   return 0;
 }
 
-static void AssertMutexLockUnlockSingle() {
+static void LockAndUnlock_SingleThread_NoRaceCondition() {
   MutexedValue value;
 
   value.value = 0;
 
-  RecursiveMutexedIncrement(&value);
+  IncrementWithRecursiveMutexLock(&value);
   assert(value.value == 1);
 }
 
-static void AssertMutexLockUnlockMulti() {
+static void LockAndUnlock_MultiThreaded_NoRaceCondition() {
   enum {
     kThreadsCount = 256
   };
@@ -86,7 +86,7 @@ static void AssertMutexLockUnlockMulti() {
   value.value = 0;
 
   for (i = 0; i < kThreadsCount; i += 1) {
-    threads[i] = new ::std::thread(&RecursiveMutexedIncrement, &value);
+    threads[i] = new ::std::thread(&IncrementWithRecursiveMutexLock, &value);
   }
 
   for (i = 0; i < kThreadsCount; i += 1) {
@@ -100,8 +100,8 @@ static void AssertMutexLockUnlockMulti() {
 }  // namespace
 
 void RecursiveMutex_RunTests() {
-  AssertMutexLockUnlockSingle();
-  AssertMutexLockUnlockMulti();
+  LockAndUnlock_SingleThread_NoRaceCondition();
+  LockAndUnlock_MultiThreaded_NoRaceCondition();
 }
 
 }  // namespace std_test

@@ -58,7 +58,7 @@ DLLAPI void Mdc_Error_ExitOnGeneralErrorV(
     const wchar_t* message_format,
     const wchar_t* file_path,
     unsigned int line,
-    va_list vlist);
+    va_list args);
 
 DLLAPI void Mdc_Error_ExitOnConstantMappingError(
     const wchar_t* file_path, unsigned int line, int value);
@@ -77,7 +77,7 @@ DLLAPI void Mdc_Error_ExitOnStaticInitError(
 #if defined(_WIN32) || defined(_WIN64)
 
 DLLAPI void Mdc_Error_ExitOnWindowsFunctionError(
-    const wchar_t* file_path_cwstr,
+    const wchar_t* file_path,
     unsigned int line,
     const wchar_t* function_name,
     DWORD last_error);

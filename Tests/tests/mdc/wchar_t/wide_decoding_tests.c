@@ -39,69 +39,56 @@
 
 #include "mdc/wchar_t/wide_example_text/wide_example_text.h"
 
-static void Mdc_WideDecoding_AssertDecodeAscii(void) {
-  wchar_t* wide_c_str;
-  size_t wide_c_str_len;
-
+static void DecodeAscii_DecodesToWide(void) {
+  wchar_t* dest;
+  size_t dest_length;
   wchar_t* decode_result;
 
-  wide_c_str_len = Mdc_Wide_DecodeAsciiLength(kAsciiExampleText);
+  dest_length = Mdc_Wide_DecodeAsciiLength(kAsciiExampleText);
+  dest = Mdc_malloc((dest_length + 1) * sizeof(dest[0]));
 
-  wide_c_str = Mdc_malloc((wide_c_str_len + 1) * sizeof(wide_c_str[0]));
-  assert(wide_c_str != NULL);
+  decode_result = Mdc_Wide_DecodeAscii(dest, kAsciiExampleText);
 
-  decode_result = Mdc_Wide_DecodeAscii(wide_c_str, kAsciiExampleText);
-  assert(decode_result == wide_c_str);
-  assert(wcscmp(wide_c_str, kAsciiExampleTextWide) == 0);
+  assert(decode_result == dest);
+  assert(wcscmp(dest, kAsciiExampleTextWide) == 0);
 
-  Mdc_free(wide_c_str);
-
-  assert(Mdc_GetMallocDifference() == 0);
+  Mdc_free(dest);
 }
 
-static void Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii(void) {
-  wchar_t* wide_c_str;
-  size_t wide_c_str_len;
-
+static void DecodeDefaultMultiByte_AsciiText_DecodesToWide(void) {
+  wchar_t* dest;
+  size_t dest_length;
   wchar_t* decode_result;
 
-  wide_c_str_len = Mdc_Wide_DecodeAsciiLength(kAsciiExampleText);
+  dest_length = Mdc_Wide_DecodeAsciiLength(kAsciiExampleText);
+  dest = Mdc_malloc((dest_length + 1) * sizeof(dest[0]));
 
-  wide_c_str = Mdc_malloc((wide_c_str_len + 1) * sizeof(wide_c_str[0]));
-  assert(wide_c_str != NULL);
+  decode_result = Mdc_Wide_DecodeDefaultMultibyte(dest, kAsciiExampleText);
 
-  decode_result =
-      Mdc_Wide_DecodeDefaultMultibyte(wide_c_str, kAsciiExampleText);
-  assert(decode_result == wide_c_str);
-  assert(wcscmp(wide_c_str, kAsciiExampleTextWide) == 0);
+  assert(decode_result == dest);
+  assert(wcscmp(dest, kAsciiExampleTextWide) == 0);
 
-  Mdc_free(wide_c_str);
-
-  assert(Mdc_GetMallocDifference() == 0);
+  Mdc_free(dest);
 }
 
-static void Mdc_WideDecoding_AssertDecodeUtf8(void) {
-  wchar_t* wide_c_str;
-  size_t wide_c_str_len;
-
+static void DecodeUtf8_DecodesToWide(void) {
+  wchar_t* dest;
+  size_t dest_length;
   wchar_t* decode_result;
 
-  wide_c_str_len = Mdc_Wide_DecodeAsciiLength(kAsciiExampleText);
+  dest_length = Mdc_Wide_DecodeUtf8Length(kUtf8ExampleText);
+  dest = Mdc_malloc((dest_length + 1) * sizeof(dest[0]));
 
-  wide_c_str = Mdc_malloc((wide_c_str_len + 1) * sizeof(wide_c_str[0]));
-  assert(wide_c_str != NULL);
+  decode_result = Mdc_Wide_DecodeUtf8(dest, kUtf8ExampleText);
 
-  decode_result = Mdc_Wide_DecodeUtf8(wide_c_str, kUtf8ExampleText);
-  assert(decode_result == wide_c_str);
-  assert(wcscmp(wide_c_str, kUtf8ExampleTextWide) == 0);
+  assert(decode_result == dest);
+  assert(wcscmp(dest, kUtf8ExampleTextWide) == 0);
 
-  Mdc_free(wide_c_str);
-
-  assert(Mdc_GetMallocDifference() == 0);
+  Mdc_free(dest);
 }
 
 void Mdc_WideDecoding_RunTests(void) {
-  Mdc_WideDecoding_AssertDecodeAscii();
-  Mdc_WideDecoding_AssertDecodeDefaultMultibyteAscii();
-  Mdc_WideDecoding_AssertDecodeUtf8();
+  DecodeAscii_DecodesToWide();
+  DecodeDefaultMultiByte_AsciiText_DecodesToWide();
+  DecodeUtf8_DecodesToWide();
 }

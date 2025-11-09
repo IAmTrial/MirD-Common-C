@@ -73,7 +73,7 @@ static int SetOnceTargetMultithread(void* arg) {
   return 0;
 }
 
-static void AssertCallOnceSingle(void) {
+static void CallOnce_MultipleSingleThreadCalls_CalledOnce(void) {
   ::std::once_flag flag;
 
   once_value = kOnceDefaultValue;
@@ -83,7 +83,7 @@ static void AssertCallOnceSingle(void) {
   assert(once_value == kOnceTargetValue);
 }
 
-static void AssertCallOnceMulti(void) {
+static void CallOnce_MultiThreadedCalls_CalledOnce(void) {
   enum {
     kThreadsCount = 256
   };
@@ -110,8 +110,8 @@ static void AssertCallOnceMulti(void) {
 }  // namespace
 
 void OnceFlag_RunTests() {
-  AssertCallOnceSingle();
-  AssertCallOnceMulti();
+  CallOnce_MultipleSingleThreadCalls_CalledOnce();
+  CallOnce_MultiThreadedCalls_CalledOnce();
 }
 
 }  // namespace std_test
