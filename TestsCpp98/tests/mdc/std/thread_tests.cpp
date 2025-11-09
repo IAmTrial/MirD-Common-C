@@ -42,7 +42,7 @@ namespace mdc_test {
 namespace std_test {
 namespace {
 
-static void AssertRaceCondition() {
+static void ThreadCreate_WithoutLocking_HasRaceCondition() {
   enum {
     kThreadsCount = 256
   };
@@ -69,7 +69,7 @@ static void AssertRaceCondition() {
 }  // namespace
 
 void Thread_RunTests() {
-  AssertRaceCondition();
+  ThreadCreate_WithoutLocking_HasRaceCondition();
 }
 
 }  // namespace std_test

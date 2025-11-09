@@ -38,30 +38,29 @@
 namespace mdc_test {
 namespace wide_test {
 
-static void AssertEncodeAscii() {
-  ::std::string ascii_str = ::mdc::wide::EncodeAscii(kAsciiExampleTextWide);
+static void EncodeAscii_EncodesFromWide() {
+  ::std::string str = ::mdc::wide::EncodeAscii(kAsciiExampleTextWide);
 
-  assert(ascii_str == kAsciiExampleText);
+  assert(str == kAsciiExampleText);
 }
 
-static void AssertEncodeDefaultMultibyteAscii() {
-  ::std::string multibyte_ascii_str =
+static void EncodeDefaultMultibyte_AsciiText_EncodesFromWide() {
+  ::std::string str =
       ::mdc::wide::EncodeDefaultMultibyte(kAsciiExampleTextWide);
 
-  assert(multibyte_ascii_str == kAsciiExampleText);
+  assert(str == kAsciiExampleText);
 }
 
-static void AssertEncodeUtf8() {
-  ::std::string utf8_str =
-      ::mdc::wide::EncodeUtf8(kUtf8ExampleTextWide);
+static void EncodeUtf8_EncodesFromWide() {
+  ::std::string str = ::mdc::wide::EncodeUtf8(kUtf8ExampleTextWide);
 
-  assert(utf8_str == kUtf8ExampleText);
+  assert(str == kUtf8ExampleText);
 }
 
 void WideEncoding_RunTests() {
-  AssertEncodeAscii();
-  AssertEncodeDefaultMultibyteAscii();
-  AssertEncodeUtf8();
+  EncodeAscii_EncodesFromWide();
+  EncodeDefaultMultibyte_AsciiText_EncodesFromWide();
+  EncodeUtf8_EncodesFromWide();
 }
 
 }  // namespace wide_test

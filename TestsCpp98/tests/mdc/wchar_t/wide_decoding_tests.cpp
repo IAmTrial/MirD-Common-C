@@ -38,30 +38,28 @@
 namespace mdc_test {
 namespace wide_test {
 
-static void AssertDecodeAscii() {
-  ::std::wstring wide_str = ::mdc::wide::DecodeAscii(kAsciiExampleText);
+static void DecodeAscii_DecodesToWide() {
+  ::std::wstring str = ::mdc::wide::DecodeAscii(kAsciiExampleText);
 
-  assert(wide_str == kAsciiExampleTextWide);
+  assert(str == kAsciiExampleTextWide);
 }
 
-static void AssertDecodeDefaultMultibyteAscii() {
-  ::std::wstring wide_str =
-      ::mdc::wide::DecodeDefaultMultibyte(kAsciiExampleText);
+static void DecodeDefaultMultiByte_AsciiText_DecodesToWide() {
+  ::std::wstring str = ::mdc::wide::DecodeDefaultMultibyte(kAsciiExampleText);
 
-  assert(wide_str == kAsciiExampleTextWide);
+  assert(str == kAsciiExampleTextWide);
 }
 
-static void AssertDecodeUtf8() {
-  ::std::wstring wide_str =
-      ::mdc::wide::DecodeUtf8(kUtf8ExampleText);
+static void DecodeUtf8_DecodesToWide() {
+  ::std::wstring str = ::mdc::wide::DecodeUtf8(kUtf8ExampleText);
 
-  assert(wide_str == kUtf8ExampleTextWide);
+  assert(str == kUtf8ExampleTextWide);
 }
 
 void WideDecoding_RunTests() {
-  AssertDecodeAscii();
-  AssertDecodeDefaultMultibyteAscii();
-  AssertDecodeUtf8();
+  DecodeAscii_DecodesToWide();
+  DecodeDefaultMultiByte_AsciiText_DecodesToWide();
+  DecodeUtf8_DecodesToWide();
 }
 
 }  // namespace wide_test
