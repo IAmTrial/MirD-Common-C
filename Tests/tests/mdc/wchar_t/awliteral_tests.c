@@ -37,7 +37,7 @@
 #include "mdc/wchar_t/awliteral.h"
 
 void Create_HasBothCharAndWideStrings(void) {
-  struct Mdc_Wide_AwLiteral actual = MDC_AWLITERAL_CREATE("hello");
+  struct Mdc_Wide_AwLiteral actual = MDC_WIDE_AWLITERAL_CREATE("hello");
   struct Mdc_Wide_AwLiteral expected = { "hello", L"hello" };
 
   assert(strcmp(actual.char_literal, expected.char_literal));
