@@ -27,19 +27,9 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_WCHAR_T_FILEW_H_
-#define MDC_C_WCHAR_T_FILEW_H_
+#ifndef MDC_TESTS_C_WCHAR_T_AWLITERAL_TESTS_H_
+#define MDC_TESTS_C_WCHAR_T_AWLITERAL_TESTS_H_
 
-#if _MSC_VER < 1600
+void Mdc_AwLiteral_RunTests(void);
 
-#define MDC_WIDE_FILEW_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, lit) \
-    prefix ## lit
-
-#define MDC_WIDE_FILEW_INTERNAL_EXPAND_MACRO(prefix, x) \
-    MDC_WIDE_FILEW_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, x)
-
-#define __FILEW__ MDC_WIDE_FILEW_INTERNAL_EXPAND_MACRO(L, __FILE__)
-
-#endif  /* _MSC_VER < 1600 */
-
-#endif  /* MDC_C_WCHAR_T_FILEW_H_ */
+#endif  /* MDC_TESTS_C_WCHAR_T_AWLITERAL_TESTS_H_ */
