@@ -27,19 +27,23 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_WCHAR_T_FILEW_H_
-#define MDC_C_WCHAR_T_FILEW_H_
+#include "mdc/wchar_t/awliteral_tests.h"
 
-#if _MSC_VER < 1600
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
 
-#define MDC_WIDE_FILEW_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, lit) \
-    prefix ## lit
+#include "mdc/std/wchar.h"
+#include "mdc/wchar_t/awliteral.h"
 
-#define MDC_WIDE_FILEW_INTERNAL_EXPAND_MACRO(prefix, x) \
-    MDC_WIDE_FILEW_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, x)
+void Create_HasBothCharAndWideStrings(void) {
+  struct Mdc_Wide_AwLiteral actual = MDC_AWLITERAL_CREATE("hello");
+  struct Mdc_Wide_AwLiteral expected = { "hello", L"hello" };
 
-#define __FILEW__ MDC_WIDE_FILEW_INTERNAL_EXPAND_MACRO(L, __FILE__)
+  assert(strcmp(actual.char_literal, expected.char_literal));
+  assert(wcscmp(actual.wide_literal, expected.wide_literal));
+}
 
-#endif  /* _MSC_VER < 1600 */
-
-#endif  /* MDC_C_WCHAR_T_FILEW_H_ */
+void Mdc_AwLiteral_RunTests(void) {
+  Create_HasBothCharAndWideStrings();
+}

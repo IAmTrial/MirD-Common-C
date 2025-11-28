@@ -29,11 +29,13 @@
 
 #include "mdc/wchar_t_tests.h"
 
+#include "mdc/wchar_t/awliteral_tests.h"
 #include "mdc/wchar_t/filew_tests.h"
 #include "mdc/wchar_t/wide_decoding_tests.h"
 #include "mdc/wchar_t/wide_encoding_tests.h"
 
 void Mdc_WChar_t_RunTests(void) {
+  Mdc_AwLiteral_RunTests();
   Mdc_FileW_RunTests();
   Mdc_WideDecoding_RunTests();
   Mdc_WideEncoding_RunTests();

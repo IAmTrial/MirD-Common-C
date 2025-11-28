@@ -3,6 +3,7 @@ target_sources(${PROJECT_NAME}
         "${CMAKE_CURRENT_SOURCE_DIR}/wide_encoding.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/wide_decoding.c"
     PUBLIC
+        "${CMAKE_CURRENT_SOURCE_DIR}/awliteral.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/filew.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/wide_encoding.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/wide_decoding.h")

@@ -27,19 +27,25 @@
  *  to convey the resulting work.
  */
 
-#ifndef MDC_C_WCHAR_T_FILEW_H_
-#define MDC_C_WCHAR_T_FILEW_H_
+#ifndef MDC_C_WCHAR_T_AWLITERAL_H_
+#define MDC_C_WCHAR_T_AWLITERAL_H_
 
-#if _MSC_VER < 1600
-
-#define MDC_WIDE_FILEW_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, lit) \
+#define MDC_WIDE_AWLITERAL_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, lit) \
     prefix ## lit
 
-#define MDC_WIDE_FILEW_INTERNAL_EXPAND_MACRO(prefix, x) \
-    MDC_WIDE_FILEW_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, x)
+#define MDC_WIDE_AWLITERAL_INTERNAL_EXPAND_MACRO(prefix, x) \
+    MDC_WIDE_AWLITERAL_INTERNAL_CSTR_LIT_TO_CWSTR_LIT(prefix, x)
 
-#define __FILEW__ MDC_WIDE_FILEW_INTERNAL_EXPAND_MACRO(L, __FILE__)
+#define MDC_AWLITERAL_CREATE(lit) \
+    { lit, MDC_WIDE_AWLITERAL_INTERNAL_EXPAND_MACRO(L, lit) }
 
-#endif  /* _MSC_VER < 1600 */
+/**
+ * A structure to hold both char and wide string literals constructed by
+ * MDC_AWLITERAL_CREATE.
+ */
+struct Mdc_Wide_AwLiteral {
+  const char* char_literal;
+  const wchar_t* wide_literal;
+};
 
-#endif  /* MDC_C_WCHAR_T_FILEW_H_ */
+#endif  /* MDC_C_WCHAR_T_AWLITERAL_H_ */
